@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="SeleniumPLMTests" verbose="1" thread-count="${project.selenium-thread-count}" parallel="classes" allow-return-values="true" configfailurepolicy="continue">
+
+    <parameter name="maven-mode" value="true" />
+    <parameter name="selenium-grid-enabled" value="${project.selenium-grid-enabled}" />
+    <parameter name="selenium-hub-url" value="${project.selenium-hub-url}" />
+
+    <test name="All" allow-return-values="true">
+        <parameter name="browser-name" value="${project.browser}"/>
+        <parameter name="record-animation" value="${project.record-animation}"/>
+        <packages>
+            <package name="${project.ltf.package.name}.*" />
+             <package name="sanitycheck.*" />
+        </packages>
+    </test>
+    <groups>
+        <run>
+            <include name="GROUP_BASE"  />
+			<include name="${project.included.group}"  />
+            <exclude name="${project.excluded.group}" />
+        </run>
+    </groups>
+</suite>

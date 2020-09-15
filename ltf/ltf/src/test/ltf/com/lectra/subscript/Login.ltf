@@ -1,0 +1,23 @@
+﻿SCRIPT_DESCRIPTION
+Login subscript
+
+SCRIPT_AUTHOR
+c.stoykovitch
+
+SCRIPT_GROUPS
+
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> login
+	parameter1 -> password
+
+SCRIPT_START
+
+    comment1 -> Login with user ${parameter0} ( ${parameter1} )
+
+	enterText -> ${parameter0} -> input [ data-xlabel = signin-email ]
+
+	enterText -> ${parameter1} -> input [ data-xlabel = signin-password ]
+
+	click -> button [ data-xlabel = signin-submit ]

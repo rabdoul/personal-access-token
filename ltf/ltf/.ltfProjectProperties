@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+    <name>ltf-web-production-process</name>
+    <description>Tests for web app of Production Process tab of System Manager</description>
+    <ltfRootFolder>src/test/ltf/com/lectra</ltfRootFolder>
+    <javaSrcFolder>src/main/java/</javaSrcFolder>
+    <generatedJavaFolder>target/generated-test-sources/java</generatedJavaFolder>
+    <javaToolsSrcFolders>
+        <folder>src/main/java/</folder>
+    </javaToolsSrcFolders>
+
+    <testngGroups>
+        <group>TESTS</group>
+		<group>SANITYCHECK</group>
+    </testngGroups>
+
+</projectDescription>

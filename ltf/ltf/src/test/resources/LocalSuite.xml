@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite allow-return-values="true" name="LocalSuite" thread-count="1">
+
+	<parameter name="maven-mode" value="true" />
+	
+	<test name="${testName}">
+		<parameter name="browser-name" value="chrome"/>
+		<parameter name="record-animation" value="${project.record-animation}"/>
+       <classes>
+          <class name="${testName}"/>
+       </classes>
+	</test>
+</suite>

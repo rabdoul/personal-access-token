@@ -1,0 +1,242 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lectra.cloud.cuttingroom</groupId>
+    <artifactId>ltf-web-production-process</artifactId>
+    <version>1.0.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Web production process LTFTests</name>
+
+    <!-- ================================================================================ -->
+    <!-- PROPERTIES -->
+    <!-- ================================================================================ -->
+    <properties>
+
+        <java.version>1.8</java.version>
+        <!-- parameters used by SDK, set in testng-suite-all.xml -->
+        <project.browser>chrome</project.browser>
+        <project.record-animation>true</project.record-animation>
+        <project.selenium-thread-count>1</project.selenium-thread-count>
+        <project.ltf.package.name>functional</project.ltf.package.name>
+        <project.included.group>TEST</project.included.group>
+        <project.excluded.group>TOREVIEW</project.excluded.group>
+
+        <!-- Dependencies -->
+        <lib.selenium-sdk-rc.version>1.0.0.810</lib.selenium-sdk-rc.version>
+        <lib.auth0-client.version>1.1</lib.auth0-client.version>
+        <lib.spock-client.version>0.1.2</lib.spock-client.version>
+        <lib.http-request.version>6.0</lib.http-request.version>
+        <lib.jakarta.json.version>1.1.6</lib.jakarta.json.version>
+
+        <!-- Plugins -->
+        <plugin.maven-failsafe-plugin.version>2.15</plugin.maven-failsafe-plugin.version>
+        <plugin.maven-compiler-plugin.version>3.1</plugin.maven-compiler-plugin.version>
+
+        <maven-failsafe-plugin.suiteXmlFile>testng-suite-all.xml</maven-failsafe-plugin.suiteXmlFile>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- ================================================================================ -->
+    <!-- DEPENDENCIES -->
+    <!-- ================================================================================ -->
+    <dependencies>
+        <!-- ========== PDM ========== -->
+        <dependency>
+            <groupId>com.lectra.pdm</groupId>
+            <artifactId>selenium-sdk</artifactId>
+            <version>${lib.selenium-sdk-rc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lectra.cloud.product</groupId>
+            <artifactId>spock-client</artifactId>
+            <version>${lib.spock-client.version}</version>
+            <classifier>all</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.lectra</groupId>
+            <artifactId>auth0-client</artifactId>
+            <version>${lib.auth0-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.kevinsawicki</groupId>
+            <artifactId>http-request</artifactId>
+            <version>${lib.http-request.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>${lib.jakarta.json.version}</version>
+        </dependency>
+
+        <!-- There are tests in the src/main, not the convention !! -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.10.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${plugin.maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${project.build.testOutputDirectory}/${maven-failsafe-plugin.suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>write-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${project.build.directory}/pom.properties</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <profiles>
+        <profile>
+            <id>generate.ltf.code</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.3.2</version>
+                        <executions>
+                            <execution>
+                                <id>generate-ltf-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-cp </argument>
+                                <classpath />
+                                <argument>com.lectra.tools.generator.LtfGenerator</argument>
+                                <argument>${project.build.directory}/generated-test-sources/java</argument>
+                                <argument>${project.basedir}/src/test/ltf/com/lectra/functional</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.8</version>
+                        <configuration>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>${project.build.directory}/generated-test-sources</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>run-failed-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.gmaven</groupId>
+                        <artifactId>groovy-maven-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.codehaus.groovy</groupId>
+                                <artifactId>groovy-all</artifactId>
+                                <version>2.0.6</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <phase>generate-test-resources</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>${project.basedir}/src/test/script/generate-failed-test-suite.groovy</source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>grid</id>
+            <properties>
+                <project.selenium-grid-enabled>true</project.selenium-grid-enabled>
+                <project.selenium-thread-count>1</project.selenium-thread-count>
+                <browser.window.width>1920</browser.window.width>
+                <browser.window.height>1080</browser.window.height>
+            </properties>
+        </profile>
+    </profiles>
+</project>

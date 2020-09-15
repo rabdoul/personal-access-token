@@ -1,0 +1,16 @@
+target
+log
+*.log
+*.ldc
+*.html
+*.iml
+*.png
+.idea
+/bin/
+.classpath
+.metadata
+.project
+.pydevproject
+.settings
+!/src/main/resources/*.png
+!/readme/*.png
