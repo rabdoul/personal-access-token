@@ -1,0 +1,47 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{.Release.Name}}
+  labels:
+    app: {{.Chart.Name}}
+    release: {{.Release.Name}}
+    maintainer: {{.Values.maintainer}}
+spec:
+  entryPoints:
+  - https
+  routes:
+  - match: Host(`{{.Values.dnsPrefix}}{{if ne .Values.Env "prod"}}.{{.Values.Env}}{{end}}.mylectra.com`)
+    kind: Rule
+    services:
+    - name: {{.Release.Name}}
+      port: 80
+      passHostHeader: true
+  tls:
+    secretName: {{.Release.Name}}-tls
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{.Release.Name}}-maintenance
+  labels:
+    app: {{.Chart.Name}}
+    release: {{.Release.Name}}
+    maintainer: {{.Values.maintainer}}
+spec:
+  entryPoints:
+  - https
+  routes:
+  - match: Host(`{{.Values.dnsPrefix}}{{if ne .Values.Env "prod"}}.{{.Values.Env}}{{end}}.mylectra.com`)
+    kind: Rule
+    # priority of `{{.Release.Name}}-maintenance` rule should be higher than 1 and
+    # lower than the one of `{{.Release.Name}}` rule. If not provided the priority
+    # is equal to the length of the `match` field.
+    priority: 2
+    services:
+    - name: maintenance
+      namespace: maintenance
+      port: 80
+      passHostHeader: true
+  tls:
+    secretName: {{.Release.Name}}-tls

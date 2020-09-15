@@ -1,0 +1,25 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{.Release.Name}}
+  labels:
+    app: {{.Chart.Name}}
+    release: {{.Release.Name}}
+    env: {{.Values.Env}}
+    maintainer: {{.Values.maintainer}}
+spec:
+  maxReplicas: {{required "missing max Replica value" .Values.maxReplicas}}
+  minReplicas: {{required "missing min Replica value" .Values.minReplicas}}
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: {{.Release.Name}}
+  metrics:
+    - type: Object
+      object:
+        metricName: deployment_cpu_usage_limit_ratio
+        target:
+          apiVersion: extensions/v1beta1
+          kind: Deployment
+          name: {{.Release.Name}}
+        targetValue: {{.Values.deploymentCpuUsageLimitRatio}}

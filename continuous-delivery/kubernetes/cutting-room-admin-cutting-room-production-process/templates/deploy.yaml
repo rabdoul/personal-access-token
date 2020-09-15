@@ -1,0 +1,83 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}
+  annotations:
+    {{- include "__ciAnnotations" $ | nindent 4 }}
+spec:
+  revisionHistoryLimit: 1
+  replicas: {{ default "1" .Values.Replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{.Chart.Name}}
+        release: {{.Release.Name}}
+        env: {{.Values.Env}}
+        maintainer: {{.Values.maintainer}}
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: {{if .Values.prometheusScrape}} "true" {{else}} "false" {{end}}
+        prometheus.io/path: "/metrics"
+        {{- include "__ciAnnotations" $ | nindent 8 }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{.Chart.Name}}
+                - key: release
+                  operator: In
+                  values:
+                  - {{.Release.Name}}
+              topologyKey: kubernetes.io/hostname
+            weight: 25
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{.Chart.Name}}
+                  - key: release
+                    operator: In
+                    values:
+                    - {{.Release.Name}}
+              topologyKey: failure-domain.beta.kubernetes.io/zone
+            weight: 100
+      containers:
+      - name: {{.Release.Name}}
+        resources:
+          requests:
+            cpu: {{.Values.requestsCpu}}
+            memory: {{.Values.requestsMemory}}
+          limits:
+            memory: {{.Values.limitsMemory}}
+        image: {{required "missing docker image in .Values.DockerImage" .Values.DockerImage}}
+        ports:
+            - containerPort: 8080
+              protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: {{.Values.liveProbeInitialDelaySeconds}}
+          periodSeconds: {{.Values.livePeriodSeconds}}
+          failureThreshold: {{.Values.liveFailureThreshold}}
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: {{.Values.readyProbeInitialDelaySeconds}}
+          periodSeconds: {{.Values.readyPeriodSeconds}}
+          failureThreshold: {{.Values.readyFailureThreshold}}
+          timeoutSeconds: {{.Values.readyProbeTimeoutSeconds}}
+        envFrom:
+          - secretRef:
+              name: {{.Release.Name}}
+          - configMapRef:
+              name: {{.Release.Name}}

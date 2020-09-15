@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:  
+  name: {{.Release.Name}}-tls
+  labels:
+    app: {{.Chart.Name}}
+    release: {{.Release.Name}}
+    maintainer: {{.Values.maintainer}}
+data:
+  tls.crt: |-
+    {{required "missing TLS certificate (tls.crt)" (.Files.Get "tls.crt" | b64enc)}}
+  tls.key: |-
+    {{required "missing TLS key (tls.key)" (.Files.Get "tls.key" | b64enc)}}
