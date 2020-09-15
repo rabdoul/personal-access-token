@@ -1,5 +1,5 @@
 maintainer: team-framboise
-dnsPrefix: cutting-room-parameters
+dnsPrefix: cutting-room-production-process
 maxReplicas: 5
 minReplicas: 2
 minAvailable: 50%
