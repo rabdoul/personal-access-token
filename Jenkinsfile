@@ -91,7 +91,7 @@ pipeline {
                 }
             }
         }
-/*
+
         stage("ui-tests") {
             agent {
                 label 'ltf-unlocked-session||admin-jnlp-unlocked'
@@ -151,7 +151,7 @@ pipeline {
                 }
             }
         }
-*/
+
     }
 
     post {
