@@ -31,11 +31,12 @@
     "lint-staged": "10.3.0",
     "node-fetch": "2.6.0",
     "prettier": "2.1.1",
+    "react-intl-properties": "0.0.1",
     "react-test-renderer": "16.13.1",
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "gen-i18n": "node ./i18n2json.js",
+    "gen-i18n": "npx react-intl-properties ./i18n/properties ./src/generated",
     "prestart": "node ./generate-token.js",
     "start": "npm run gen-i18n && react-scripts start",
     "build": "npm run gen-i18n && react-scripts build",
