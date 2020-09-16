@@ -118,7 +118,7 @@ pipeline {
                 }
             }                  
         }
-/*
+
         stage("deploy test") {
             when { branch 'master' }
             steps {
@@ -151,7 +151,7 @@ pipeline {
                 }
             }
         }
-*/
+
     }
 
     post {
