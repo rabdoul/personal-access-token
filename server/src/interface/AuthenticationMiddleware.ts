@@ -16,7 +16,7 @@ export class AuthenticationMiddleware {
 
     if (this.authentication.getConfig().domain === 'localhost') {
       authNamespace.run(async () => {
-        authNamespace.set('principal', new Principal("sub|42", "123456789_A", "en", []));
+        authNamespace.set('principal', new Principal("sub|42", "123456789_A", "en", [{offer: "OD", market: "FA"}]));
         next();
       });
     } else if (!authorizationHeader) {
@@ -25,10 +25,14 @@ export class AuthenticationMiddleware {
       try {
         const token = this.extractToken(authorizationHeader);
         const principal = await this.authenticate(token);
-        authNamespace.run(async () => {
-          authNamespace.set('principal', principal);
-          next();
-        });
+        if (principal.authorizations.some(authorization => ['OD', 'MTO', 'MTC', 'MTM'].includes(authorization.offer))) {
+          authNamespace.run(async () => {
+            authNamespace.set('principal', principal);
+            next();
+          });
+        } else {
+          res.status(401).type('application/json').send({message: 'Access denied: insufficient authorizations'});
+        }
       } catch (error) {
         res.status(401).type('application/json').send({ message: error.message });
       }
@@ -41,7 +45,7 @@ export class AuthenticationMiddleware {
     else throw new Error('Malformed Authorization header');
   }
 
-  async authenticate(token: AccessToken): Promise<Principal> {
+  private async authenticate(token: AccessToken): Promise<Principal> {
     const result = await this.authentication.authenticate(token);
     if (result instanceof Principal) return result;
     else throw new Error('Invalid credentials');

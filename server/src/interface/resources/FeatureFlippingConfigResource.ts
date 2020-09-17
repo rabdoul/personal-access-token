@@ -12,7 +12,6 @@ export class FeatureFlippingConfigResource {
         res.contentType("application/json").send(
           {
               clientKey : this.featureFlippingConfig.clientKey,
-              isLocal : this.featureFlippingConfig.isLocal()
           }
         )
     }

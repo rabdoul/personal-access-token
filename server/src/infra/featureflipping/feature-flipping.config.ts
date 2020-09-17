@@ -6,7 +6,4 @@ const { FF_CLIENT_ID = LOCAL_FF_CLIENT_ID } = process.env;
 
 export class TheFeatureFlippingConfig implements FeatureFlippingConfig {
   readonly clientKey: string = FF_CLIENT_ID
-  isLocal(): boolean {
-    return FF_CLIENT_ID === LOCAL_FF_CLIENT_ID
-  }
 }

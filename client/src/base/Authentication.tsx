@@ -49,16 +49,18 @@ const UNAUTHENTICATED_USER_CONTEXT = {
 const LOCAL_AUTHENTICATION_CONTEXT = new AuthenticatedUserContext(process.env.REACT_APP_ACCESS_TOKEN!, '', {
   sub: 'auth0|666',
   'https://metadata.lectra.com/app_metadata': {
-    account_type: 'SUPPORT_OR_NOT'
-  },
-  authorizations: [{ offer: 'OD', market: 'FA' }]
+    account_type: 'SUPPORT_OR_NOT',
+    authorizations: [{ offer: 'OD', market: 'FA' }]
+  }
 });
 
-function checkUserIsGranted(user: User) {
-  const allGrantedOffers = ['OD', 'MTO', 'MTC', 'MTM'];
-  if (user.authorizations.filter((authorization: { offer: string }) => allGrantedOffers.includes(authorization.offer)).length === 0) {
-    throw new Error('Missing User Authorizations');
-  }
+function isGrantedAuthorisation(authorization: { offer: string }, index: number, array: { offer: string }[]) {
+  return ['OD', 'MTO', 'MTC', 'MTM'].includes(authorization.offer);
+}
+
+export function isGrantedUser(user: User) {
+  const userAuthorizations: { offer: string }[] = user['https://metadata.lectra.com/app_metadata'].authorizations;
+  return userAuthorizations.some(isGrantedAuthorisation);
 }
 
 export const AuthenticationContext = React.createContext<AuthContext>(UNAUTHENTICATED_USER_CONTEXT);
@@ -73,7 +75,9 @@ async function authenticate(authConfig: AuthConfig): Promise<AuthContext | undef
 
     const user = authenticationService.decodeToken(tokens.idToken);
 
-    //checkUserIsGranted(user);
+    if (!isGrantedUser(user)) {
+      throw new Error('Access denied');
+    }
 
     return new AuthenticatedUserContext(tokens.accessToken, tokens.idToken, user);
   } catch (error) {
