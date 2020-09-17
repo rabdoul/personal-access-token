@@ -14,6 +14,7 @@
     "lectra-locale": "0.0.2",
     "node-sass": "4.14.1",
     "query-string": "6.13.1",
+    "raspberry-fetch": "0.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-intl": "3.11.0",

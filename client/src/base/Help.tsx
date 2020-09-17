@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect, useContext, useState } from 'react';
 import Tooltip from '@lectra/tooltip';
+import { fetchData } from 'raspberry-fetch';
 
 import { AuthenticationContext } from './Authentication';
 import { UserPreferenceContext } from './UserPreference';
-import { fetchData } from './fetch';
 
 export type Help = {
   isActive: boolean;
