@@ -17,6 +17,7 @@ import { AuthenticationMiddleware } from "./AuthenticationMiddleware";
 import { FeatureFlippingConfig } from "../application/FeatureFlipping";
 import HelpResource from "./resources/HelpResource";
 import { FeatureFlippingConfigResource } from "./resources/FeatureFlippingConfigResource";
+import { ActivitiesResource } from "./resources/ActivitiesResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -70,6 +71,7 @@ export class ExpressServer {
     const authenticatedRouter = express.Router();
     authenticatedRouter.use(this.authenticationMiddleware());
     authenticatedRouter.use(new HelpResource().router);
+    authenticatedRouter.use(new ActivitiesResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }
 
