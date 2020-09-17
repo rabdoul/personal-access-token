@@ -24,12 +24,13 @@
   "devDependencies": {
     "@testing-library/react-hooks": "3.4.1",
     "@types/jest": "^24.0.0",
+    "@types/lectra-auth-js": "3.1.12",
     "@types/node": "12.12.55",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/styled-components": "5.1.3",
-    "@types/lectra-auth-js": "3.1.12",
     "husky": "4.3.0",
+    "lectra-auth-token": "0.0.1",
     "lint-staged": "10.3.0",
     "node-fetch": "2.6.0",
     "prettier": "2.1.1",
@@ -39,8 +40,7 @@
   },
   "scripts": {
     "gen-i18n": "npx react-intl-properties ./i18n/properties ./src/generated",
-    "prestart": "node ./generate-token.js",
-    "start": "npm run gen-i18n && react-scripts start",
+    "start": "npm run gen-i18n && sh generate-token.sh && react-scripts start",
     "build": "npm run gen-i18n && react-scripts build",
     "test": "npm run gen-i18n && react-scripts test",
     "eject": "react-scripts eject"

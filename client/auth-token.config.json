@@ -1,0 +1,7 @@
+{
+  "env": "dev",
+  "user": "framboise@lectra.com",
+  "password": "lectra",
+  "clientId": "LJiEVFKYyBMiDrKw4rCwUtOr7c7kr51P",
+  "audience": "https://gateway-cuttingroom.dev.mylectra.com"
+}

@@ -1,0 +1,1 @@
+echo "REACT_APP_ACCESS_TOKEN=$(npx lectra-auth-token)" > .env
