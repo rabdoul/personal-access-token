@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import LectraAuth from 'lectra-auth-js';
 import queryString from 'query-string';
 
@@ -105,6 +105,10 @@ const AuthenticationProvider: React.FC<{ authConfig?: AuthConfig; children: Reac
     </AuthenticationContext.Provider>
   );
 };
+
+export function useAccessToken() {
+  return useContext(AuthenticationContext).accessToken();
+}
 
 export function useAuthConfig(): AuthConfig | undefined {
   const [config, setConfig] = useState<AuthConfig>();

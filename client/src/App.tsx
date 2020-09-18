@@ -7,6 +7,7 @@ import FeatureFlippingProvider from './base/FeatureFlipping';
 import HelpProvider from './base/Help';
 import I18nProvider from './base/I18n';
 import UserPreferenceProvider from './base/UserPreference';
+import ProductionProcessScreen from './ProductionProcessScreen';
 
 import './App.scss';
 
@@ -17,7 +18,9 @@ function App() {
         <UserPreferenceProvider>
           <FeatureFlippingProvider>
             <I18nProvider>
-              <HelpProvider>Hello Production Process !</HelpProvider>
+              <HelpProvider>
+                <ProductionProcessScreen />
+              </HelpProvider>
             </I18nProvider>
           </FeatureFlippingProvider>
         </UserPreferenceProvider>
