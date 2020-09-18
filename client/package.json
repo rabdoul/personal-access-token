@@ -24,7 +24,6 @@
   "devDependencies": {
     "@testing-library/react-hooks": "3.4.1",
     "@types/jest": "^24.0.0",
-    "@types/lectra-auth-js": "3.1.12",
     "@types/node": "12.12.55",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
