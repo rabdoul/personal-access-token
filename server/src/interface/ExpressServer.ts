@@ -21,6 +21,7 @@ import { ActivitiesResource } from "./resources/ActivitiesResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
+const compression = require('compression')
 
 export class ExpressServer {
   private readonly app: express.Application;
@@ -54,6 +55,15 @@ export class ExpressServer {
     this.app.use(bodyParser.json());
     this.app.use(errorMiddleware);
 
+    this.app.use(compression({
+      filter: (req: express.Request, res: express.Response) => {
+        if (req.path.includes('api')) {
+          return false
+        }
+        return compression.filter(req, res)
+      }
+    }));
+    
     this.app.use(this.unauthenticatedRouter());
     this.app.use(this.staticResourcesRouter());
     this.app.use(this.authenticatedRouter());
