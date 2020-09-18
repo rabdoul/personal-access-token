@@ -1,9 +1,12 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 import { Activity } from '../model';
 
 const ActivityItem = (props: { activity: Activity }) => {
-  return <Item selected={false}>{props.activity.reference}</Item>;
+  const { formatMessage } = useIntl();
+  const i18nKey = `activity.${props.activity.reference.toLowerCase().split(' ').join('-')}`;
+  return <Item selected={false}>{formatMessage({ id: i18nKey })}</Item>;
 };
 
 export default ActivityItem;
