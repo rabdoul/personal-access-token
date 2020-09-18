@@ -10,7 +10,7 @@
     "@lectra/themes": "1.1.2",
     "@lectra/tooltip": "1.0.7",
     "cutting-room-notifier-client": "0.0.2",
-    "lectra-auth-js": "3.1.12",
+    "lectra-auth-js": "3.2.1",
     "lectra-locale": "0.0.2",
     "node-sass": "4.14.1",
     "query-string": "6.13.1",
