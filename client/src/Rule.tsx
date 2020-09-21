@@ -12,7 +12,7 @@ const Rule = () => {
   return (
     <Container>
       <Header>
-        <Title weight="normal">Step description :&nbsp;</Title>
+        <Title weight="normal">{formatMessage({ id: 'step.description' })}&nbsp;</Title>
         <ActivityName>{formatMessage({ id: `activity.${activityId}` })}</ActivityName>
       </Header>
     </Container>
