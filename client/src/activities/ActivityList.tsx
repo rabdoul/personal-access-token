@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 
-const ActivityList: React.FC<{ activities: Activity[] }> = ({ activities }) => {
+interface Props {
+  activities: Activity[];
+}
+
+const ActivityList: React.FC<Props> = ({ activities }) => {
   const { formatMessage } = useIntl();
   return (
     <List>
