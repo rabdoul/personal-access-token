@@ -4,7 +4,7 @@ import Ribbon from '@lectra/embed-ribbon';
 import { fetchData } from 'raspberry-fetch';
 
 import { Activity } from './model';
-import ActivityList from './activity-list/ActivityList';
+import ActivityList from './activities/ActivityList';
 import { useAccessToken } from './base/Authentication';
 import styled from 'styled-components';
 

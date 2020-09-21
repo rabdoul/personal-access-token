@@ -1,13 +1,15 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 
 const ActivityList = (props: { activities: Activity[] }) => {
+  const { formatMessage } = useIntl();
   return (
     <List>
-      <Title>Process</Title>
+      <Title>{formatMessage({ id: 'process' })}</Title>
       <ItemsContainer>
         {props.activities.map(activity => (
           <ActivityItem activity={activity} />
