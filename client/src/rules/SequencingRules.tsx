@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import CheckBox from '@lectra/checkbox';
+import Input from '@lectra/input';
 import { fetchData } from 'raspberry-fetch';
 import { useQuery } from 'react-query';
 
 import StepDescription from './StepDescription';
 import { useAccessToken } from '../base/Authentication';
 import { Sequencing } from '../model';
-import Input from '@lectra/input';
+import RuleContainer from './RuleContainer';
 
-const SequencingRule = () => {
+const SequencingRules = () => {
   const accessToken = useAccessToken();
   const { data: sequencing } = useQuery<Sequencing>('setup-sequencing', () => {
     return fetchData(accessToken, '/activities/setup-sequencing');
@@ -20,13 +21,15 @@ const SequencingRule = () => {
   return (
     <Container>
       <StepDescription />
-      <form>
-        <CheckBox disabled label="Split the selection of product orders" checked={sequencing.splitCommandProducts} />
-        <FormLine>
-          <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
-          <Input disabled id="orders-number" type="number" numberMaxDigits={0} value={sequencing.numberOfProductOrders} width={50} />
-        </FormLine>
-      </form>
+      <RuleContainer>
+        <form>
+          <CheckBox disabled label="Split the selection of product orders" checked={sequencing.splitCommandProducts} />
+          <FormLine>
+            <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
+            <Input disabled id="orders-number" type="number" numberMaxDigits={0} value={sequencing.numberOfProductOrders} width={50} />
+          </FormLine>
+        </form>
+      </RuleContainer>
     </Container>
   );
 };
@@ -48,4 +51,4 @@ const FormLine = styled.div`
   }
 `;
 
-export default SequencingRule;
+export default SequencingRules;

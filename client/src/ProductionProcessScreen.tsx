@@ -4,7 +4,7 @@ import Ribbon from '@lectra/embed-ribbon';
 import { Switch, Route } from 'react-router-dom';
 
 import ActivityList from './activities/ActivityList';
-import SequencingRule from './rules/SequencingRule';
+import SequencingRules from './rules/SequencingRules';
 import StepDescription from './rules/StepDescription';
 
 const ProductionProcessScreen = () => {
@@ -14,7 +14,7 @@ const ProductionProcessScreen = () => {
       <Content>
         <ActivityList />
         <Switch>
-          <Route exact path="/setup-sequencing" component={SequencingRule} />
+          <Route exact path="/setup-sequencing" component={SequencingRules} />
           <Route
             path="/:activityId"
             render={() => (
