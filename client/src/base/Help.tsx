@@ -4,6 +4,7 @@ import { fetchData } from 'raspberry-fetch';
 
 import { AuthenticationContext } from './Authentication';
 import { UserPreferenceContext } from './UserPreference';
+import styled from 'styled-components';
 
 export type Help = {
   isActive: boolean;
@@ -50,9 +51,9 @@ interface WithTooltipProps {
 export const withHelpTooltip = <P extends object>(Component: React.ComponentType<P>): React.FC<P & WithTooltipProps> => ({ alias, ...props }: WithTooltipProps) => {
   if (alias !== undefined) {
     return (
-      <Tooltip placement="bottom-start" duration={800} interactive={true} content={<iframe id="frame" title="frame" src={alias} frameBorder="0" />}>
+      <StyledTooltip placement="bottom-start" duration={800} interactive={true} content={<iframe id="frame" title="frame" src={alias} frameBorder="0" />}>
         <Component {...(props as P)} />
-      </Tooltip>
+      </StyledTooltip>
     );
   } else {
     return <Component {...(props as P)} />;
@@ -60,3 +61,8 @@ export const withHelpTooltip = <P extends object>(Component: React.ComponentType
 };
 
 export default HelpProvider;
+
+const StyledTooltip = styled(Tooltip)`
+  max-width: 500px !important;
+  width: 500px;
+`;
