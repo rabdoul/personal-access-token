@@ -4,7 +4,9 @@
   "proxy": "http://localhost:8080",
   "private": true,
   "dependencies": {
+    "@lectra/checkbox": "1.5.2",
     "@lectra/embed-ribbon": "0.1.1",
+    "@lectra/input": "1.4.5",
     "@lectra/ld-react-feature-flags": "1.0.38",
     "@lectra/loader": "1.0.7",
     "@lectra/themes": "1.1.2",
