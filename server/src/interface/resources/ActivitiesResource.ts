@@ -42,6 +42,6 @@ export class ActivitiesResource {
 
         return response.activities
             .filter(predicate)
-            .map(it => ({ reference: it.reference, order: it.order, enabled: it.enabled }));
+            .map(it => ({ id: it.reference.toLocaleLowerCase().replace(/ /gi, "-"), reference: it.reference, order: it.order, enabled: it.enabled }));
     }
 }

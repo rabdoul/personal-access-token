@@ -1,1 +1,1 @@
-export type Activity = { reference: string; order: number; enabled: boolean };
+export type Activity = { id: string; reference: string; order: number; enabled: boolean };

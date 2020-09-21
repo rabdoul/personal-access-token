@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
+import Title from '../common/Title';
 
 interface Props {
   activities: Activity[];
@@ -16,14 +17,12 @@ const ActivityList: React.FC<Props> = ({ activities }) => {
       <Title>{formatMessage({ id: 'process' })}</Title>
       <ItemsContainer>
         {activities.map((activity, index) => (
-          <ActivityItem key={activity.reference} activity={activity} first={index === 0} last={index === activities.length - 1} />
+          <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} />
         ))}
       </ItemsContainer>
     </List>
   );
 };
-
-export default ActivityList;
 
 const List = styled.div`
   border-right: 1px solid #ccc;
@@ -33,13 +32,6 @@ const List = styled.div`
   width: 380px;
 `;
 
-const Title = styled.div`
-  color: #16a085;
-  font-size: 24px;
-  font-weight: lighter;
-  margin-bottom: 20px;
-`;
-
 const ItemsContainer = styled.div`
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
@@ -47,3 +39,5 @@ const ItemsContainer = styled.div`
   max-height: calc(100% - 55px);
   overflow: auto;
 `;
+
+export default ActivityList;

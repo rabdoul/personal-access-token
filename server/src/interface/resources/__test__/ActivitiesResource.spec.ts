@@ -27,7 +27,7 @@ describe('ActivitiesResource', () => {
         await new ActivitiesResource(executor).get(req, res);
 
         expect(res.statusCode).toEqual(200);
-        expect(res._getData()).toEqual([{ reference: "Setup sequencing", order: 0, enabled: false }]);
+        expect(res._getData()).toEqual([{ id: "setup-sequencing", reference: "Setup sequencing", order: 0, enabled: false }]);
     });
 
     it('toActivities should return all activities when user is authorized for OD', async () => {
@@ -41,10 +41,10 @@ describe('ActivitiesResource', () => {
         });
 
         expect(activities).toEqual([
-            { reference: "Setup sequencing", order: 0, enabled: false },
-            { reference: "Analyse product order", order: 1, enabled: false },
-            { reference: "Validate MTM Product", order: 2, enabled: false },
-            { reference: "Generate batch", order: 3, enabled: false }
+            { id: "setup-sequencing", reference: "Setup sequencing", order: 0, enabled: false },
+            { id: "analyse-product-order", reference: "Analyse product order", order: 1, enabled: false },
+            { id: "validate-mtm-product", reference: "Validate MTM Product", order: 2, enabled: false },
+            { id: "generate-batch", reference: "Generate batch", order: 3, enabled: false }
         ]);
     });
 
@@ -74,10 +74,10 @@ describe('ActivitiesResource', () => {
         });
 
         expect(activities).toEqual([
-            { reference: "Setup sequencing", order: 0, enabled: false },
-            { reference: "Analyse product order", order: 1, enabled: false },
-            { reference: "Generate batch", order: 3, enabled: false }
-        ]);
+            { id: "setup-sequencing", reference: "Setup sequencing", order: 0, enabled: false },
+            { id: "analyse-product-order", reference: "Analyse product order", order: 1, enabled: false },
+            { id: "generate-batch", reference: "Generate batch", order: 3, enabled: false }
+        ])
     });
 
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Theme from '@lectra/themes';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import AuthenticationProvider, { useAuthConfig } from './base/Authentication';
 import FeatureFlippingProvider from './base/FeatureFlipping';
@@ -19,7 +20,9 @@ function App() {
           <FeatureFlippingProvider>
             <I18nProvider>
               <HelpProvider>
-                <ProductionProcessScreen />
+                <Router>
+                  <ProductionProcessScreen />
+                </Router>
               </HelpProvider>
             </I18nProvider>
           </FeatureFlippingProvider>

@@ -1,6 +1,8 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import styled from 'styled-components';
+import { useIntl } from 'react-intl';
+import { Link, useLocation } from 'react-router-dom';
+
 import { Activity } from '../model';
 import ActivityIndicator from './ActivityIndicator';
 
@@ -12,17 +14,17 @@ interface Props {
 
 const ActivityItem: React.FC<Props> = ({ activity, first, last }) => {
   const { formatMessage } = useIntl();
+  const path = useLocation().pathname;
+
   return (
-    <Item selected={false} disabled={!activity.enabled}>
+    <ActivityLink to={`${activity.id}`} selected={path === `/${activity.id}`} disabled={!activity.enabled}>
       <ActivityIndicator disabled={!activity.enabled} first={first} last={last} />
-      {formatMessage({ id: `activity.${activity.reference.toLowerCase().replace(/ /gi, '-')}` })}
-    </Item>
+      {formatMessage({ id: `activity.${activity.id}` })}
+    </ActivityLink>
   );
 };
 
-export default ActivityItem;
-
-const Item = styled.div<{ selected: boolean; disabled: boolean }>`
+const ActivityLink = styled(Link)<{ selected: boolean; disabled: boolean }>`
   align-items: center;
   background-color: ${props => (props.selected ? '#cceaff' : 'white')};
   border-top: 1px solid #ccc;
@@ -31,7 +33,12 @@ const Item = styled.div<{ selected: boolean; disabled: boolean }>`
   display: flex;
   min-height: 48px;
   padding: 0 10px 0 10px;
+  text-decoration: none;
+  pointer-events: ${props => props.disabled && 'none'};
+
   &:hover {
     background-color: ${props => (props.selected ? '#cceaff' : '#e6e6e6')};
   }
 `;
+
+export default ActivityItem;
