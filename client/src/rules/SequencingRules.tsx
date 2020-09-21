@@ -13,7 +13,7 @@ import RuleContainer from './RuleContainer';
 const SequencingRules = () => {
   const accessToken = useAccessToken();
   const { data: sequencing } = useQuery<Sequencing>('setup-sequencing', () => {
-    return fetchData(accessToken, '/activities/setup-sequencing');
+    return fetchData(accessToken, 'activities/setup-sequencing');
   });
 
   if (!sequencing) return null;
