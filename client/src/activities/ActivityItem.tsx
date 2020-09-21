@@ -14,11 +14,11 @@ interface Props {
 
 const ActivityItem: React.FC<Props> = ({ activity, first, last }) => {
   const { formatMessage } = useIntl();
-  const path = useLocation().pathname;
-
+  const currentActivityId = useLocation().pathname.substring(1);
+  const selected = currentActivityId === activity.id;
   return (
-    <ActivityLink to={`${activity.id}`} selected={path === `/${activity.id}`} disabled={!activity.enabled}>
-      <ActivityIndicator disabled={!activity.enabled} first={first} last={last} />
+    <ActivityLink to={`${activity.id}`} selected={selected} disabled={!activity.enabled}>
+      <ActivityIndicator selected={selected} disabled={!activity.enabled} first={first} last={last} />
       {formatMessage({ id: `activity.${activity.id}` })}
     </ActivityLink>
   );

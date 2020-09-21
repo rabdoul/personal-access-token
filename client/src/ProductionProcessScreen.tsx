@@ -8,7 +8,8 @@ import { Switch, Route } from 'react-router-dom';
 import { Activity } from './model';
 import ActivityList from './activities/ActivityList';
 import { useAccessToken } from './base/Authentication';
-import Rule from './Rule';
+import Sequencing from './rules/Sequencing';
+import StepDescription from './rules/StepDescription';
 
 const ProductionProcessScreen = () => {
   const accessToken = useAccessToken();
@@ -23,7 +24,15 @@ const ProductionProcessScreen = () => {
       <Content>
         <ActivityList activities={activities ?? []}></ActivityList>
         <Switch>
-          <Route path="/:activityId" component={Rule} />
+          <Route exact path="/setup-sequencing" component={Sequencing} />
+          <Route
+            path="/:activityId"
+            render={() => (
+              <div style={{ padding: '20px' }}>
+                <StepDescription />
+              </div>
+            )}
+          />
         </Switch>
       </Content>
     </Screen>
