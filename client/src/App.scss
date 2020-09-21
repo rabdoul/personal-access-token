@@ -95,3 +95,67 @@ html body {
   top: 0;
   height: 100vh;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(45, 49, 51, 0.1);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  border-radius: 25px;
+  background: black url('./assets/scroll.png') no-repeat center;
+  background-size: 4px;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover {
+  background: black url('./assets/scroll.png') no-repeat center;
+  background-size: 4px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  border-radius: 25px;
+  background: black url('./assets/scroll_horizontal.png') no-repeat center;
+  background-size: 4px;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: black url('./assets/scroll_horizontal.png') no-repeat center;
+  background-size: 4px;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+  height: 13px;
+  width: 7px;
+  display: block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+::-webkit-scrollbar-button:end:increment {
+  background-image: url('./assets/arrow_down.png');
+}
+
+::-webkit-scrollbar-button:start:decrement {
+  background-image: url('./assets/arrow_up.png');
+}
+
+::-webkit-scrollbar-button:end:horizontal:increment {
+  background-image: url('./assets/arrow_right.png');
+  background-position: right;
+}
+
+::-webkit-scrollbar-button:start:horizontal:decrement {
+  background-image: url('./assets/arrow_left.png');
+  background-position: left;
+}
