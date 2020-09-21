@@ -5,18 +5,23 @@ import styled from 'styled-components';
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 import Title from '../common/Title';
+import { useAccessToken } from '../base/Authentication';
+import { useQuery } from 'react-query';
+import { fetchData } from 'raspberry-fetch';
 
-interface Props {
-  activities: Activity[];
-}
-
-const ActivityList: React.FC<Props> = ({ activities }) => {
+const ActivityList = () => {
+  const accessToken = useAccessToken();
   const { formatMessage } = useIntl();
+
+  const { data: activities } = useQuery<Activity[]>('activities', () => {
+    return fetchData(accessToken, 'activities').then((activities: Activity[]) => activities.sort((a1, a2) => a1.order - a2.order));
+  });
+
   return (
     <List>
       <Title>{formatMessage({ id: 'process' })}</Title>
       <ItemsContainer>
-        {activities.map((activity, index) => (
+        {activities?.map((activity, index) => (
           <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} />
         ))}
       </ItemsContainer>
