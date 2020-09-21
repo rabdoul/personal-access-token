@@ -1,10 +1,15 @@
+import { fetchData } from 'raspberry-fetch';
 import React from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { useAccessToken } from '../base/Authentication';
 import StepDescription from './StepDescription';
 
 const Sequencing = () => {
-  useQuery('/api/activities/setup-sequencing');
+  const accessToken = useAccessToken();
+  const { isLoading, isError, data: sequencing } = useQuery('setup-sequencing', () => {
+    fetchData(accessToken, '/activities/setup-sequencing');
+  });
 
   return (
     <Container>
