@@ -15,7 +15,7 @@ describe('ActivitiesResource', () => {
     });
 
     it('GET should return 200 if query success', async () => {
-        const req = mockHttpRequest('/api/paramaters');
+        const req = mockHttpRequest('/api/activities');
         const [res] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
