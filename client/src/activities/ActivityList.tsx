@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 
-const ActivityList = (props: { activities: Activity[] }) => {
+const ActivityList: React.FC<{ activities: Activity[] }> = ({ activities }) => {
   const { formatMessage } = useIntl();
   return (
     <List>
       <Title>{formatMessage({ id: 'process' })}</Title>
       <ItemsContainer>
-        {props.activities.map(activity => (
-          <ActivityItem activity={activity} />
+        {activities.map((activity, index) => (
+          <ActivityItem key={activity.reference} activity={activity} first={index === 0} last={index === activities.length - 1} />
         ))}
       </ItemsContainer>
     </List>
@@ -24,7 +24,7 @@ export default ActivityList;
 const List = styled.div`
   border-right: 1px solid #ccc;
   box-shadow: rgba(0, 0, 0, 0.2) 1px 0 3px;
-  height: calc(100% - 100px);
+  height: calc(100% - 95px);
   padding: 20px;
   width: 380px;
 `;
