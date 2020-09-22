@@ -1,13 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
+import { fetchData } from 'raspberry-fetch';
 
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 import Title from '../common/Title';
 import { useAccessToken } from '../base/Authentication';
-import { useQuery } from 'react-query';
-import { fetchData } from 'raspberry-fetch';
 
 const ActivityList = () => {
   const accessToken = useAccessToken();

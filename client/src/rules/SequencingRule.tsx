@@ -25,10 +25,12 @@ const SequencingRule = () => {
       <ResultBlock>
         <form>
           <CheckBox disabled label="Split the selection of product orders" checked={sequencing.splitCommandProducts} />
-          <FormLine>
-            <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
-            <Input disabled id="orders-number" type="number" numberMaxDigits={0} value={sequencing.numberOfProductOrders} width={50} />
-          </FormLine>
+          {sequencing.splitCommandProducts && (
+            <FormLine>
+              <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
+              <Input disabled id="orders-number" type="number" numberMaxDigits={0} value={sequencing.numberOfProductOrders} width={50} />
+            </FormLine>
+          )}
         </form>
       </ResultBlock>
     </Container>
