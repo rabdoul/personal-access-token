@@ -45,7 +45,7 @@ const editConfig: RibbonConfig = {
           id: 'CANCEL_PRODUCTION_PROCESS_EDITION',
           type: 'default',
           description: 'command.cancel',
-          imageUrl: save,
+          imageUrl: cancel,
           primary: true,
           enable: false,
           action: "document.dispatchEvent(new CustomEvent('RIBBON_ACTION', { 'detail': { 'action': 'CANCEL_PRODUCTION_PROCESS_EDITION' } }))"

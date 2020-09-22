@@ -8,10 +8,11 @@ import { useQuery } from 'react-query';
 import StepDescription from './StepDescription';
 import { useAccessToken } from '../base/Authentication';
 import { Sequencing } from '../model';
-import RuleContainer from './RuleContainer';
+import ResultBlock from './ResultBlock';
 
-const SequencingRules = () => {
+const SequencingRule = () => {
   const accessToken = useAccessToken();
+
   const { data: sequencing } = useQuery<Sequencing>('setup-sequencing', () => {
     return fetchData(accessToken, 'activities/setup-sequencing');
   });
@@ -21,7 +22,7 @@ const SequencingRules = () => {
   return (
     <Container>
       <StepDescription />
-      <RuleContainer>
+      <ResultBlock>
         <form>
           <CheckBox disabled label="Split the selection of product orders" checked={sequencing.splitCommandProducts} />
           <FormLine>
@@ -29,7 +30,7 @@ const SequencingRules = () => {
             <Input disabled id="orders-number" type="number" numberMaxDigits={0} value={sequencing.numberOfProductOrders} width={50} />
           </FormLine>
         </form>
-      </RuleContainer>
+      </ResultBlock>
     </Container>
   );
 };
@@ -51,4 +52,4 @@ const FormLine = styled.div`
   }
 `;
 
-export default SequencingRules;
+export default SequencingRule;
