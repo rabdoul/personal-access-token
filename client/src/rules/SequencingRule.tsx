@@ -9,19 +9,18 @@ import StepDescription from './StepDescription';
 import { useAccessToken } from '../base/Authentication';
 import { Sequencing } from '../model';
 import ResultBlock from './ResultBlock';
-import { useUIState, useUIStateContext } from '../UIState';
+import { useUIStateContext } from '../UIState';
 
 const SequencingRule = () => {
   const accessToken = useAccessToken();
   const [{ editMode, 'setup-sequencing': setupSequencing }, dispatch] = useUIStateContext();
 
-  const { data: sequencing, refetch } = useQuery<Sequencing>(
-    'setup-sequencing',
+  const { data: sequencing } = useQuery<Sequencing>(
+    ['setup-sequencing', editMode],
     () => {
       return fetchData(accessToken, 'activities/setup-sequencing');
     },
     {
-      enabled: false,
       onSuccess: data => {
         if (editMode) {
           dispatch({ type: 'INIT_SEQUENCING', sequencing: data });
@@ -29,10 +28,6 @@ const SequencingRule = () => {
       }
     }
   );
-
-  useEffect(() => {
-    refetch();
-  }, [editMode]);
 
   const sequencingValues = editMode ? setupSequencing : sequencing;
 
