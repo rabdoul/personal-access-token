@@ -7,14 +7,38 @@ describe('App.reducer', () => {
       editMode: false
     };
 
-    expect(reducer(initialState, 'TOGGLE_EDIT_MODE').editMode).toBeTruthy();
+    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' }).editMode).toBeTruthy();
   });
 
   it('should toggle editMode to false', () => {
     const initialState = {
+      editMode: true,
+      'setup-sequencing': {
+        splitCommandProducts: true,
+        numberOfProductOrders: 5
+      }
+    };
+
+    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false });
+  });
+
+  it('should init setup sequencing', () => {
+    const initialState = {
       editMode: true
     };
 
-    expect(reducer(initialState, 'TOGGLE_EDIT_MODE').editMode).toBeFalsy();
+    const uiState = reducer(initialState, {
+      type: 'INIT_SEQUENCING',
+      sequencing: {
+        splitCommandProducts: true,
+        numberOfProductOrders: 5
+      }
+    });
+
+    expect(uiState.editMode).toBeTruthy();
+    expect(uiState['setup-sequencing']).toEqual({
+      splitCommandProducts: true,
+      numberOfProductOrders: 5
+    });
   });
 });

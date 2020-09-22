@@ -9,15 +9,15 @@ function useRibbonListener() {
     const ribbonActionListener = ((e: CustomEvent) => {
       switch (e.detail.action) {
         case 'EDIT_PRODUCTION_PROCESS': {
-          dispatch('TOGGLE_EDIT_MODE');
+          dispatch({ type: 'TOGGLE_EDIT_MODE' });
           break;
         }
         case 'SAVE_PRODUCTION_PROCESS': {
-          dispatch('TOGGLE_EDIT_MODE');
+          dispatch({ type: 'TOGGLE_EDIT_MODE' });
           break;
         }
         case 'CANCEL_PRODUCTION_PROCESS_EDITION': {
-          dispatch('TOGGLE_EDIT_MODE');
+          dispatch({ type: 'TOGGLE_EDIT_MODE' });
           break;
         }
         default:

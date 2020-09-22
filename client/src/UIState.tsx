@@ -1,17 +1,24 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
-
-const InitialState = {
-  editMode: false
-};
+import { Sequencing } from './model';
 
 type UIState = {
   editMode: boolean;
+  'setup-sequencing'?: Partial<Sequencing>;
 };
 
-export type Action = 'TOGGLE_EDIT_MODE';
+const InitialState: UIState = {
+  editMode: false
+};
 
-export const reducer = (state: UIState, action: Action) => {
-  return { editMode: !state.editMode };
+export type Action = { type: 'TOGGLE_EDIT_MODE' } | { type: 'INIT_SEQUENCING'; sequencing: Sequencing };
+
+export const reducer = (state: UIState, action: Action): UIState => {
+  switch (action.type) {
+    case 'TOGGLE_EDIT_MODE':
+      return { editMode: !state.editMode };
+    case 'INIT_SEQUENCING':
+      return { ...state, 'setup-sequencing': action.sequencing };
+  }
 };
 
 export const UIStateContext = createContext<[UIState, Dispatch<Action>]>([InitialState, (_: Action) => {}]);

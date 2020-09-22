@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
@@ -9,26 +9,44 @@ import StepDescription from './StepDescription';
 import { useAccessToken } from '../base/Authentication';
 import { Sequencing } from '../model';
 import ResultBlock from './ResultBlock';
+import { useUIState, useUIStateContext } from '../UIState';
 
 const SequencingRule = () => {
   const accessToken = useAccessToken();
+  const [{ editMode, 'setup-sequencing': setupSequencing }, dispatch] = useUIStateContext();
 
-  const { data: sequencing } = useQuery<Sequencing>('setup-sequencing', () => {
-    return fetchData(accessToken, 'activities/setup-sequencing');
-  });
+  const { data: sequencing, refetch } = useQuery<Sequencing>(
+    'setup-sequencing',
+    () => {
+      return fetchData(accessToken, 'activities/setup-sequencing');
+    },
+    {
+      enabled: false,
+      onSuccess: data => {
+        if (editMode) {
+          dispatch({ type: 'INIT_SEQUENCING', sequencing: data });
+        }
+      }
+    }
+  );
 
-  if (!sequencing) return null;
+  useEffect(() => {
+    refetch();
+  }, [editMode]);
 
+  const sequencingValues = editMode ? setupSequencing : sequencing;
+
+  if (!sequencingValues) return null;
   return (
     <Container>
       <StepDescription />
       <ResultBlock>
         <form>
-          <CheckBox disabled label="Split the selection of product orders" checked={sequencing.splitCommandProducts} />
-          {sequencing.splitCommandProducts && (
+          <CheckBox disabled={!editMode} label="Split the selection of product orders" checked={sequencingValues.splitCommandProducts!} />
+          {sequencingValues.splitCommandProducts && (
             <FormLine>
               <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
-              <Input disabled id="orders-number" type="number" numberMaxDigits={0} value={sequencing.numberOfProductOrders} width={50} />
+              <Input disabled={!editMode} id="orders-number" type="number" numberMaxDigits={0} value={sequencingValues.numberOfProductOrders} width={50} />
             </FormLine>
           )}
         </form>
