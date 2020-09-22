@@ -6,11 +6,13 @@ import { Switch, Route } from 'react-router-dom';
 import ActivityList from './activities/ActivityList';
 import SequencingRules from './rules/SequencingRules';
 import StepDescription from './rules/StepDescription';
+import useRibbonConfig from './ribbon/useRibbonConfig';
 
 const ProductionProcessScreen = () => {
+  let config = useRibbonConfig();
   return (
     <Screen>
-      <Ribbon config={{ id: '', groups: [] }} />
+      <Ribbon config={config} />
       <Content>
         <ActivityList />
         <Switch>
