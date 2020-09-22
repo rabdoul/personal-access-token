@@ -1,5 +1,5 @@
 import 'jest';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { IntlProvider } from 'react-intl';
 
@@ -8,7 +8,7 @@ import { UIStateContext } from '../../UIState';
 
 describe('useRibbonConfig', () => {
   it('ribbon should render default ribbon config', () => {
-    const Wrapper = ({ children }) => (
+    const Wrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
       <IntlProvider
         locale="en"
         messages={{
@@ -34,7 +34,7 @@ describe('useRibbonConfig', () => {
   });
 
   it('ribbon should render edit ribbon config', () => {
-    const Wrapper = ({ children }) => (
+    const Wrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
       <IntlProvider
         locale="en"
         messages={{
