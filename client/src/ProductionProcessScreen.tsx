@@ -7,9 +7,12 @@ import ActivityList from './activities/ActivityList';
 import SequencingRules from './rules/SequencingRules';
 import StepDescription from './rules/StepDescription';
 import useRibbonConfig from './ribbon/useRibbonConfig';
+import useRibbonListener from './ribbon/useRibbonListener';
 
 const ProductionProcessScreen = () => {
-  let config = useRibbonConfig();
+  useRibbonListener();
+  const config = useRibbonConfig();
+
   return (
     <Screen>
       <Ribbon config={config} />
