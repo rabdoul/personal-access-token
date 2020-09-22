@@ -11,6 +11,7 @@ import UserPreferenceProvider from './base/UserPreference';
 import ProductionProcessScreen from './ProductionProcessScreen';
 
 import './App.scss';
+import { UIStateProvider } from './UIState';
 
 function App() {
   return (
@@ -20,9 +21,11 @@ function App() {
           <FeatureFlippingProvider>
             <I18nProvider>
               <HelpProvider>
-                <Router>
-                  <ProductionProcessScreen />
-                </Router>
+                <UIStateProvider>
+                  <Router>
+                    <ProductionProcessScreen />
+                  </Router>
+                </UIStateProvider>
               </HelpProvider>
             </I18nProvider>
           </FeatureFlippingProvider>
