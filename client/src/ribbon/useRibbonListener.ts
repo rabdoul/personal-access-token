@@ -1,21 +1,23 @@
 import { useEffect, useContext } from 'react';
 import { AuthenticationContext } from '../base/Authentication';
+import { useUIDispatch } from '../UIState';
 
 function useRibbonListener() {
   const token = useContext(AuthenticationContext).accessToken();
+  const dispatch = useUIDispatch();
   useEffect(() => {
     const ribbonActionListener = ((e: CustomEvent) => {
       switch (e.detail.action) {
         case 'EDIT_PRODUCTION_PROCESS': {
-          console.log('TODO: edit process');
+          dispatch('TOGGLE_EDIT_MODE');
           break;
         }
         case 'SAVE_PRODUCTION_PROCESS': {
-          console.log('TODO: save process');
+          dispatch('TOGGLE_EDIT_MODE');
           break;
         }
         case 'CANCEL_PRODUCTION_PROCESS_EDITION': {
-          console.log('TODO: cancel process edition');
+          dispatch('TOGGLE_EDIT_MODE');
           break;
         }
         default:

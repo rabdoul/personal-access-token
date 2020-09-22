@@ -1,6 +1,7 @@
 import { RibbonConfig } from '@lectra/embed-ribbon';
 import produce from 'immer';
 import { useIntl } from 'react-intl';
+import { useUIState } from '../UIState';
 
 const edit = `${window.origin}/assets/Edit_v01.png`;
 const save = `${window.origin}/assets/Save_v01.png`;
@@ -30,7 +31,7 @@ const editConfig: RibbonConfig = {
   id: 'EDIT_PRODUCTION_PROCESS_CONFIG',
   groups: [
     {
-      description: 'group.edit',
+      description: 'group.save',
       commands: [
         {
           id: 'SAVE_PRODUCTION_PROCESS',
@@ -47,7 +48,7 @@ const editConfig: RibbonConfig = {
           description: 'command.cancel',
           imageUrl: cancel,
           primary: true,
-          enable: false,
+          enable: true,
           action: "document.dispatchEvent(new CustomEvent('RIBBON_ACTION', { 'detail': { 'action': 'CANCEL_PRODUCTION_PROCESS_EDITION' } }))"
         }
       ]
@@ -56,11 +57,17 @@ const editConfig: RibbonConfig = {
 };
 
 function useRibbonConfig() {
-  // TODO use mode to return the right config
   const { formatMessage } = useIntl();
-  return produce(displayConfig, draft => {
-    draft.groups[0].description = formatMessage({ id: displayConfig.groups[0].description });
-    draft.groups[0].commands[0].description = formatMessage({ id: displayConfig.groups[0].commands[0].description });
+  const { editMode } = useUIState();
+  return produce(editMode ? editConfig : displayConfig, draft => internationalizeConfig(formatMessage, draft));
+}
+
+function internationalizeConfig(formatMessage: (key: any) => string, config: RibbonConfig) {
+  config.groups.forEach(group => {
+    group.description = formatMessage({ id: group.description });
+    group.commands.forEach(command => {
+      command.description = formatMessage({ id: command.description });
+    });
   });
 }
 
