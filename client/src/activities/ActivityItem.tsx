@@ -17,7 +17,7 @@ const ActivityItem: React.FC<Props> = ({ activity, first, last }) => {
   const currentActivityId = useLocation().pathname.substring(1);
   const selected = currentActivityId === activity.id;
   return (
-    <ActivityLink to={`${activity.id}`} selected={selected} disabled={!activity.enabled}>
+    <ActivityLink to={`${activity.id}`} selected={selected} disabled={!activity.enabled} data-selected={selected} data-enabled={activity.enabled} data-xname={activity.id}>
       <ActivityIndicator selected={selected} disabled={!activity.enabled} first={first} last={last} />
       {formatMessage({ id: `activity.${activity.id}`, defaultMessage: activity.reference })}
     </ActivityLink>
