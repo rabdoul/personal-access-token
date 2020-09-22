@@ -1,9 +1,6 @@
 import { RibbonConfig } from '@lectra/embed-ribbon';
-import { useContext, useState } from 'react';
 import produce from 'immer';
 import { useIntl } from 'react-intl';
-
-import { UserPreferenceContext } from '../base/UserPreference';
 
 const edit = `${window.origin}/assets/Edit_v01.png`;
 const save = `${window.origin}/assets/Save_v01.png`;
