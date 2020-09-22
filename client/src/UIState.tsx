@@ -10,7 +10,7 @@ const InitialState: UIState = {
   editMode: false
 };
 
-export type Action = { type: 'TOGGLE_EDIT_MODE' } | { type: 'INIT_SEQUENCING'; sequencing: Sequencing };
+export type Action = { type: 'TOGGLE_EDIT_MODE' } | { type: 'INIT_SEQUENCING'; sequencing: Sequencing } | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any };
 
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
@@ -18,6 +18,14 @@ export const reducer = (state: UIState, action: Action): UIState => {
       return { editMode: !state.editMode };
     case 'INIT_SEQUENCING':
       return { ...state, 'setup-sequencing': action.sequencing };
+    case 'UPDATE_SEQUENCING':
+      return {
+        ...state,
+        'setup-sequencing': {
+          ...state['setup-sequencing'],
+          [action.attribute]: action.value
+        }
+      };
   }
 };
 

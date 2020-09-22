@@ -15,12 +15,13 @@ const SequencingRule = () => {
   const accessToken = useAccessToken();
   const [{ editMode, 'setup-sequencing': setupSequencing }, dispatch] = useUIStateContext();
 
-  const { data: sequencing } = useQuery<Sequencing>(
-    ['setup-sequencing', editMode],
+  const { data: sequencing, refetch } = useQuery<Sequencing>(
+    ['setup-sequencing'],
     () => {
       return fetchData(accessToken, 'activities/setup-sequencing');
     },
     {
+      enabled: false,
       onSuccess: data => {
         if (editMode) {
           dispatch({ type: 'INIT_SEQUENCING', sequencing: data });
@@ -28,6 +29,12 @@ const SequencingRule = () => {
       }
     }
   );
+
+  useEffect(() => {
+    if (!setupSequencing) {
+      refetch();
+    }
+  }, [editMode, setupSequencing]);
 
   const sequencingValues = editMode ? setupSequencing : sequencing;
 
@@ -37,11 +44,24 @@ const SequencingRule = () => {
       <StepDescription />
       <ResultBlock>
         <form>
-          <CheckBox disabled={!editMode} label="Split the selection of product orders" checked={sequencingValues.splitCommandProducts!} />
+          <CheckBox
+            disabled={!editMode}
+            label="Split the selection of product orders"
+            checked={sequencingValues.splitCommandProducts!}
+            onChange={value => dispatch({ type: 'UPDATE_SEQUENCING', attribute: 'splitCommandProducts', value })}
+          />
           {sequencingValues.splitCommandProducts && (
             <FormLine>
               <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
-              <Input disabled={!editMode} id="orders-number" type="number" numberMaxDigits={0} value={sequencingValues.numberOfProductOrders} width={50} />
+              <Input
+                disabled={!editMode}
+                id="orders-number"
+                type="number"
+                numberMaxDigits={0}
+                value={sequencingValues.numberOfProductOrders}
+                width={50}
+                onChange={evt => dispatch({ type: 'UPDATE_SEQUENCING', attribute: 'numberOfProductOrders', value: evt.target.value })}
+              />
             </FormLine>
           )}
         </form>

@@ -41,4 +41,48 @@ describe('App.reducer', () => {
       numberOfProductOrders: 5
     });
   });
+
+  it('should update setup-sequencing splitCommandProducts', () => {
+    const initialState = {
+      editMode: true,
+      'setup-sequencing': {
+        splitCommandProducts: false,
+        numberOfProductOrders: 5
+      }
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'UPDATE_SEQUENCING',
+      attribute: 'splitCommandProducts',
+      value: true
+    });
+
+    expect(uiState.editMode).toBeTruthy();
+    expect(uiState['setup-sequencing']).toEqual({
+      splitCommandProducts: true,
+      numberOfProductOrders: 5
+    });
+  });
+
+  it('should update setup-sequencing numberOfProductOrders', () => {
+    const initialState = {
+      editMode: true,
+      'setup-sequencing': {
+        splitCommandProducts: true,
+        numberOfProductOrders: 5
+      }
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'UPDATE_SEQUENCING',
+      attribute: 'numberOfProductOrders',
+      value: 10
+    });
+
+    expect(uiState.editMode).toBeTruthy();
+    expect(uiState['setup-sequencing']).toEqual({
+      splitCommandProducts: true,
+      numberOfProductOrders: 10
+    });
+  });
 });
