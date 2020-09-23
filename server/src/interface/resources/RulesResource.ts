@@ -19,6 +19,7 @@ export class RulesResource {
         const queryResponse = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules.query.get', parameters: {} })
         if (queryResponse.type == QueryResponseType.QUERY_SUCCESS) {
             const patchOperations = req.body as PatchOperation[]
+            console.log("patchOperations", patchOperations)
             const parameters = this.applyPatches(queryResponse.data, patchOperations);
             const commandResponse = await this.commandQueryExecutor.executeCommand('cutadmin', { type: 'production-rules.command.put', parameters })
             if (commandResponse.type == CommandResponseType.COMMAND_SUCCESS) {
@@ -32,7 +33,7 @@ export class RulesResource {
     }
 
     applyPatches(rules: any, patchOperations: PatchOperation[]): any {
-        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'Setup Sequencing')!
+        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'Setup sequencing')!
         rules['activities']['Setup sequencing']['conditionalBlocks'][0]['activityParameters']['splitList'] = sequencingPatchOp.value['splitCommandProducts']
         rules['activities']['Setup sequencing']['conditionalBlocks'][0]['activityParameters']['firstSubListSize'] = sequencingPatchOp.value['numberOfProductOrders']
         return rules;

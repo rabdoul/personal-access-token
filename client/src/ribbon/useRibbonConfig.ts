@@ -39,7 +39,7 @@ const editConfig: RibbonConfig = {
           description: 'command.save',
           imageUrl: save,
           primary: true,
-          enable: false,
+          enable: true,
           action: "document.dispatchEvent(new CustomEvent('RIBBON_ACTION', { 'detail': { 'action': 'SAVE_PRODUCTION_PROCESS' } }))"
         },
         {
