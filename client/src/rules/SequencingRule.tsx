@@ -9,6 +9,7 @@ import { Sequencing } from '../model';
 import ResultBlock from './ResultBlock';
 import { useUIStateContext } from '../UIState';
 import useRule from './useRule';
+import ErrorIcon from '../common/ErrorIcon';
 
 const SequencingRule = () => {
   const [{ editMode }, dispatch] = useUIStateContext();
@@ -16,7 +17,7 @@ const SequencingRule = () => {
   const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
 
   if (!sequencing) return null;
-
+  const error = sequencing.numberOfProductOrders?.toString() === '';
   return (
     <Container>
       <StepDescription />
@@ -38,6 +39,8 @@ const SequencingRule = () => {
                 numberMaxDigits={0}
                 value={sequencing.numberOfProductOrders}
                 width={50}
+                error={error}
+                icon={<ErrorIcon errorKey="toBeDefined" />}
                 min={0}
                 onChange={evt => dispatch({ type: 'UPDATE_SEQUENCING', attribute: 'numberOfProductOrders', value: evt.target.value })}
               />
