@@ -1,8 +1,8 @@
 import express = require('express');
+
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
-import {ACTIVITIES_MAPPING} from "./ActivitiesMapping";
-
+import { activityIdFromReference } from "./ActivitiesMapping";
 
 type GetActivitiesQueryResponse = {
     activities: (Activity & { reference: string, eligibleProcess: number[] })[];
@@ -39,10 +39,10 @@ export class ActivitiesResource {
         const predicate = offers.includes('OD')
             ? () => true
             : (activity: { eligibleProcess: number[] }) => offers.some(o => activity.eligibleProcess.includes(PROCESS_BY_OFFER[o]));
-            
+
         return response.activities
             .filter(predicate)
-            .map(it => ({ id: ACTIVITIES_MAPPING[it.reference], order: it.order, enabled: it.enabled }));
+            .map(it => ({ id: activityIdFromReference(it.reference), order: it.order, enabled: it.enabled }));
     }
 }
 

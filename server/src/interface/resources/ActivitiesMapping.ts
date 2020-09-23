@@ -1,4 +1,4 @@
-export const ACTIVITIES_MAPPING: Record<string, string> = {
+const ACTIVITIES_MAPPING: Record<string, string> = {
     "Analyse product order" : "analyse-product-order",
     "Personalize" : "personalize",
     "Setup sequencing" : "setup-sequencing",
@@ -15,4 +15,12 @@ export const ACTIVITIES_MAPPING: Record<string, string> = {
     "Affect cutting line" : "affect-cutting-line",
     "Publish" : "publish",
     "Assist offloading" : "assist-offloading"
+}
+
+export function activityIdFromReference(reference: string): string {
+    return ACTIVITIES_MAPPING[reference]
+}
+
+export function activityReferenceFromId(id: string): string {
+    return Object.entries(ACTIVITIES_MAPPING).find(it => it[1] === id)![0]
 }
