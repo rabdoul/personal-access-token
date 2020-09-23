@@ -1,9 +1,8 @@
 import 'jest';
-import { Principal } from 'lectra-auth-nodejs';
 import { mockHttpRequest, mockHttpResponse, CommandQueryExecutorMockBuilder } from '../../../__test__/Mocks';
-import { SequencingResource } from '../SequencingResource';
+import { SequencingRuleResource } from '../SequencingRuleResource';
 
-describe('SequencingResource', () => {
+describe('SequencingRuleResource', () => {
 
     it('GET should return 200 if query success', async () => {
         const req = mockHttpRequest('/api/setup-sequencing');
@@ -27,7 +26,7 @@ describe('SequencingResource', () => {
             }
         ).build();
 
-        await new SequencingResource(executor).get(req, res);
+        await new SequencingRuleResource(executor).get(req, res);
 
         expect(res.statusCode).toEqual(200);
         expect(res._getData()).toEqual({ splitCommandProducts: true, numberOfProductOrders: 7 });
@@ -42,7 +41,7 @@ describe('SequencingResource', () => {
             { type: 'production-rules.query.get', parameters: {} }
         ).build();
 
-        await new SequencingResource(executor).get(req, res);
+        await new SequencingRuleResource(executor).get(req, res);
 
         expect(res.statusCode).toEqual(500);
     });

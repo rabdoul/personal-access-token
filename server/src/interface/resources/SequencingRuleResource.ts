@@ -1,12 +1,12 @@
 import express = require('express');
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 
-export class SequencingResource {
+export class SequencingRuleResource {
 
     readonly router = express.Router();
 
     constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
-        this.router.get('/api/activities/setup-sequencing', this.get.bind(this))
+        this.router.get('/api/rules/setup-sequencing', this.get.bind(this))
     }
 
     async get(_: express.Request, res: express.Response) {
