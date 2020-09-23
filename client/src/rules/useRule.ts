@@ -7,7 +7,7 @@ import { useAccessToken } from '../base/Authentication';
 
 type RuleId = keyof Omit<UIState, 'editMode'>;
 
-export default function useRule<R_ID extends RuleId, R>(ruleId: R_ID, init: (rule: R) => void): UIState[R_ID] {
+export default function useRule<R_ID extends RuleId, R>(ruleId: R_ID, init: (rule: R) => void): UIState[R_ID] | undefined {
   const accessToken = useAccessToken();
 
   const { editMode, [ruleId]: editedRule } = useUIState();
