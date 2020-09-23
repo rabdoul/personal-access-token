@@ -8,11 +8,12 @@ import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 import Title from '../common/Title';
 import { useAccessToken } from '../base/Authentication';
+import { RuleId, useUIState } from '../UIState';
 
 const ActivityList = () => {
   const accessToken = useAccessToken();
   const { formatMessage } = useIntl();
-
+  const editedRules = useUIState().editedRules;
   const { data: activities } = useQuery<Activity[]>('activities', () => {
     return fetchData(accessToken, 'activities').then((activities: Activity[]) => activities.sort((a1, a2) => a1.order - a2.order));
   });
@@ -22,7 +23,7 @@ const ActivityList = () => {
       <Title>{formatMessage({ id: 'process' })}</Title>
       <ItemsContainer>
         {activities?.map((activity, index) => (
-          <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} />
+          <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} edited={editedRules.includes(activity.id as RuleId)} />
         ))}
       </ItemsContainer>
     </List>

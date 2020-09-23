@@ -10,16 +10,26 @@ interface Props {
   activity: Activity;
   first: boolean;
   last: boolean;
+  edited: boolean;
 }
 
-const ActivityItem: React.FC<Props> = ({ activity, first, last }) => {
+const ActivityItem: React.FC<Props> = ({ activity, first, last, edited }) => {
   const { formatMessage } = useIntl();
   const currentActivityId = useLocation().pathname.substring(1);
   const selected = currentActivityId === activity.id;
   return (
-    <ActivityLink to={`${activity.id}`} selected={selected} disabled={!activity.enabled} data-selected={selected} data-enabled={activity.enabled} data-xname={activity.id}>
+    <ActivityLink
+      to={`${activity.id}`}
+      selected={selected}
+      disabled={!activity.enabled}
+      data-selected={selected}
+      data-edited={edited}
+      data-enabled={activity.enabled}
+      data-xname={activity.id}
+    >
       <ActivityIndicator selected={selected} disabled={!activity.enabled} first={first} last={last} />
       {formatMessage({ id: `activity.${activity.id}` })}
+      {edited && '*'}
     </ActivityLink>
   );
 };
