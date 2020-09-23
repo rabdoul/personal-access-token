@@ -39,11 +39,7 @@ export class ActivitiesResource {
         const predicate = offers.includes('OD')
             ? () => true
             : (activity: { eligibleProcess: number[] }) => offers.some(o => activity.eligibleProcess.includes(PROCESS_BY_OFFER[o]));
-
-
-        response.activities.forEach(it => {
-            console.log(`"${it.reference}" : "${it.reference.toLocaleLowerCase().replace(/ /gi, "-")}",`)
-        })
+            
         return response.activities
             .filter(predicate)
             .map(it => ({ id: ACTIVITIES_MAPPING[it.reference], order: it.order, enabled: it.enabled }));
