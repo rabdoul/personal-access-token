@@ -16,10 +16,13 @@ export class RulesResource {
     }
 
     async patch(req: express.Request, res: express.Response) {
+        const patchOperations = req.body as PatchOperation[]
+        if (patchOperations.length === 0) {
+            res.status(200).send();
+            return;
+        }
         const queryResponse = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules.query.get', parameters: {} })
         if (queryResponse.type == QueryResponseType.QUERY_SUCCESS) {
-            const patchOperations = req.body as PatchOperation[]
-            console.log("patchOperations", patchOperations)
             const parameters = this.applyPatches(queryResponse.data, patchOperations);
             const commandResponse = await this.commandQueryExecutor.executeCommand('cutadmin', { type: 'production-rules.command.put', parameters })
             if (commandResponse.type == CommandResponseType.COMMAND_SUCCESS) {
