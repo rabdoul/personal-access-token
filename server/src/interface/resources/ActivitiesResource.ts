@@ -1,15 +1,15 @@
 import express = require('express');
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
+import {ACTIVITIES_MAPPING} from "./ActivitiesMapping";
 
 
 type GetActivitiesQueryResponse = {
-    activities: (Activity & { eligibleProcess: number[] })[];
+    activities: (Activity & { reference: string, eligibleProcess: number[] })[];
     [k: string]: any;
 }
 
 type Activity = {
-    reference: string,
     order: number,
     enabled: boolean
 }
@@ -40,8 +40,13 @@ export class ActivitiesResource {
             ? () => true
             : (activity: { eligibleProcess: number[] }) => offers.some(o => activity.eligibleProcess.includes(PROCESS_BY_OFFER[o]));
 
+
+        response.activities.forEach(it => {
+            console.log(`"${it.reference}" : "${it.reference.toLocaleLowerCase().replace(/ /gi, "-")}",`)
+        })
         return response.activities
             .filter(predicate)
-            .map(it => ({ id: it.reference.toLocaleLowerCase().replace(/ /gi, "-"), reference: it.reference, order: it.order, enabled: it.enabled }));
+            .map(it => ({ id: ACTIVITIES_MAPPING[it.reference], order: it.order, enabled: it.enabled }));
     }
 }
+

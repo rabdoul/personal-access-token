@@ -29,7 +29,7 @@ describe('RulesResource', () => {
 
     it('PATCH should return 200 if command success', async () => {
         const req = mockHttpRequest('/api/rules', {}, [
-            { "op": "replace", "path": "Setup sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }
+            { "op": "replace", "path": "setup-sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }
         ]);
         const [res] = mockHttpResponse();
 

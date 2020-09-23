@@ -14,7 +14,7 @@ function useRibbonListener() {
       const sequencing = uiState['setup-sequencing'];
       const patch = {
         op: 'replace',
-        path: 'Setup sequencing',
+        path: 'setup-sequencing',
         value: sequencing
       };
       return sendData(token, 'rules', 'PATCH', [patch]);

@@ -1,5 +1,6 @@
 import express = require('express');
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
+import {ACTIVITIES_MAPPING} from "./ActivitiesMapping";
 
 type PatchOperation = {
     op: 'replace' | 'add' | 'remove',
@@ -36,9 +37,10 @@ export class RulesResource {
     }
 
     applyPatches(rules: any, patchOperations: PatchOperation[]): any {
-        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'Setup sequencing')!
-        rules['activities']['Setup sequencing']['conditionalBlocks'][0]['activityParameters']['splitList'] = sequencingPatchOp.value['splitCommandProducts']
-        rules['activities']['Setup sequencing']['conditionalBlocks'][0]['activityParameters']['firstSubListSize'] = sequencingPatchOp.value['numberOfProductOrders']
+        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing')!
+        const activityReference = Object.entries(ACTIVITIES_MAPPING).find(it => it[1] === 'setup-sequencing')![0]
+        rules['activities'][activityReference]['conditionalBlocks'][0]['activityParameters']['splitList'] = sequencingPatchOp.value['splitCommandProducts']
+        rules['activities'][activityReference]['conditionalBlocks'][0]['activityParameters']['firstSubListSize'] = sequencingPatchOp.value['numberOfProductOrders']
         return rules;
     }
 
