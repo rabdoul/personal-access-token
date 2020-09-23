@@ -32,7 +32,7 @@ describe('SequencingRuleResource', () => {
         expect(res._getData()).toEqual({ splitCommandProducts: true, numberOfProductOrders: 7 });
     });
 
-    it('GET should return 500 if query success', async () => {
+    it('GET should return 500 if query failure', async () => {
         const req = mockHttpRequest('/api/setup-sequencing');
         const [res] = mockHttpResponse();
 

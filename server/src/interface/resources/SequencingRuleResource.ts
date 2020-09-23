@@ -15,7 +15,7 @@ export class SequencingRuleResource {
             const parameters = (response.data!! as any).activities["Setup sequencing"]?.conditionalBlocks[0]?.activityParameters;
             res.send({ splitCommandProducts: parameters?.splitList, numberOfProductOrders: parameters?.firstSubListSize });
         } else {
-            res.status(500).send(`Unexpected error when retrieving setup sequencing activity : ${response.data}`);
+            res.status(500).send(`Unexpected error when retrieving setup sequencing rule : ${response.data}`);
         }
     }
 
