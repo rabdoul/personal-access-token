@@ -18,11 +18,19 @@ describe('RulesResource', () => {
         expect(res.statusCode).toEqual(500);
     });
 
+    it('PATCH should return 200 if command success with empty patch', async () => {
+        const req = mockHttpRequest('/api/rules', {}, []);
+        const [res] = mockHttpResponse();
+
+        await new RulesResource(CommandQueryExecutorMockBuilder.newMock().build()).patch(req, res);
+
+        expect(res.statusCode).toEqual(200);
+    });
+
     it('PATCH should return 200 if command success', async () => {
-        const req = mockHttpRequest('/api/rules');
-        req.body = [
-            { "op": "replace", "path": "Setup Sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }
-        ]
+        const req = mockHttpRequest('/api/rules', {}, [
+            { "op": "replace", "path": "Setup sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }
+        ]);
         const [res] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock()
