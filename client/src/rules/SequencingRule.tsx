@@ -38,6 +38,7 @@ const SequencingRule = () => {
                 numberMaxDigits={0}
                 value={sequencing.numberOfProductOrders}
                 width={50}
+                min={0}
                 onChange={evt => dispatch({ type: 'UPDATE_SEQUENCING', attribute: 'numberOfProductOrders', value: evt.target.value })}
               />
             </FormLine>
