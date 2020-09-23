@@ -3,11 +3,15 @@ import { Sequencing } from './model';
 
 export type UIState = {
   editMode: boolean;
+  editedRules: RuleId[];
   'setup-sequencing'?: Partial<Sequencing>;
 };
 
+export type RuleId = keyof Omit<UIState, 'editedRules' | 'editMode'>;
+
 const InitialState: UIState = {
-  editMode: false
+  editMode: false,
+  editedRules: []
 };
 
 export type Action = { type: 'TOGGLE_EDIT_MODE' } | { type: 'INIT_SEQUENCING'; sequencing: Sequencing } | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any };
@@ -15,12 +19,13 @@ export type Action = { type: 'TOGGLE_EDIT_MODE' } | { type: 'INIT_SEQUENCING'; s
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
     case 'TOGGLE_EDIT_MODE':
-      return { editMode: !state.editMode };
+      return { editMode: !state.editMode, editedRules: [] };
     case 'INIT_SEQUENCING':
       return { ...state, 'setup-sequencing': action.sequencing };
     case 'UPDATE_SEQUENCING':
       return {
         ...state,
+        editedRules: ['setup-sequencing'],
         'setup-sequencing': {
           ...state['setup-sequencing'],
           [action.attribute]: action.value

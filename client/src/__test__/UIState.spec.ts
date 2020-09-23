@@ -1,30 +1,36 @@
 import 'jest';
-import { reducer } from '../UIState';
+import { reducer, UIState } from '../UIState';
 
 describe('App.reducer', () => {
   it('should toggle editMode to true', () => {
-    const initialState = {
-      editMode: false
+    const initialState: UIState = {
+      editMode: false,
+      editedRules: []
     };
 
-    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' }).editMode).toBeTruthy();
+    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({
+      editMode: true,
+      editedRules: []
+    });
   });
 
   it('should toggle editMode to false', () => {
-    const initialState = {
+    const initialState: UIState = {
       editMode: true,
+      editedRules: ['setup-sequencing'],
       'setup-sequencing': {
         splitCommandProducts: true,
         numberOfProductOrders: 5
       }
     };
 
-    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false });
+    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: [] });
   });
 
   it('should init setup sequencing', () => {
-    const initialState = {
-      editMode: true
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: []
     };
 
     const uiState = reducer(initialState, {
@@ -36,6 +42,7 @@ describe('App.reducer', () => {
     });
 
     expect(uiState.editMode).toBeTruthy();
+    expect(uiState.editedRules.length).toBe(0);
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 5
@@ -43,8 +50,9 @@ describe('App.reducer', () => {
   });
 
   it('should update setup-sequencing splitCommandProducts', () => {
-    const initialState = {
+    const initialState: UIState = {
       editMode: true,
+      editedRules: [],
       'setup-sequencing': {
         splitCommandProducts: false,
         numberOfProductOrders: 5
@@ -58,6 +66,7 @@ describe('App.reducer', () => {
     });
 
     expect(uiState.editMode).toBeTruthy();
+    expect(uiState.editedRules).toEqual(['setup-sequencing']);
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 5
@@ -65,8 +74,9 @@ describe('App.reducer', () => {
   });
 
   it('should update setup-sequencing numberOfProductOrders', () => {
-    const initialState = {
+    const initialState: UIState = {
       editMode: true,
+      editedRules: [],
       'setup-sequencing': {
         splitCommandProducts: true,
         numberOfProductOrders: 5
@@ -80,6 +90,7 @@ describe('App.reducer', () => {
     });
 
     expect(uiState.editMode).toBeTruthy();
+    expect(uiState.editedRules).toEqual(['setup-sequencing']);
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 10
