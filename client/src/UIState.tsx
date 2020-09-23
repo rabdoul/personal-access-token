@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { Sequencing } from './model';
 
-type UIState = {
+export type UIState = {
   editMode: boolean;
   'setup-sequencing'?: Partial<Sequencing>;
 };

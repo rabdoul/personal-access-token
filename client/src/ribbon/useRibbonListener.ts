@@ -1,9 +1,9 @@
-import { useEffect, useContext } from 'react';
-import { AuthenticationContext } from '../base/Authentication';
+import { useEffect } from 'react';
+import { useAccessToken } from '../base/Authentication';
 import { useUIDispatch } from '../UIState';
 
 function useRibbonListener() {
-  const token = useContext(AuthenticationContext).accessToken();
+  const token = useAccessToken();
   const dispatch = useUIDispatch();
   useEffect(() => {
     const ribbonActionListener = ((e: CustomEvent) => {
@@ -28,7 +28,7 @@ function useRibbonListener() {
     document.addEventListener('RIBBON_ACTION', ribbonActionListener);
 
     return () => document.removeEventListener('RIBBON_ACTION', ribbonActionListener);
-  }, [token]);
+  }, [token, dispatch]);
 }
 
 export default useRibbonListener;
