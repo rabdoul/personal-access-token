@@ -4,13 +4,13 @@ import { RulesResource } from '../RulesResource';
 
 describe('RulesResource', () => {
 
-    it('PATCH should return 500 if command failure', async () => {
+    it('PATCH should return 500 if query failure', async () => {
         const req = mockHttpRequest('/api/rules');
         const [res] = mockHttpResponse();
 
-        const executor = CommandQueryExecutorMockBuilder.newMock().withCommandFailure(
+        const executor = CommandQueryExecutorMockBuilder.newMock().withQueryFailure(
             'cutadmin',
-            { type: 'production-rules.command.put', parameters: {} }
+            { type: 'production-rules.query.get', parameters: {} }
         ).build();
 
         await new RulesResource(executor).patch(req, res);
