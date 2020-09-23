@@ -56,7 +56,7 @@ describe('useRibbonConfig', () => {
     expect(config.groups[0].description).toEqual('Save');
     expect(config.groups[0].commands.length).toEqual(2);
     expect(config.groups[0].commands[0].description).toEqual('Save');
-    expect(config.groups[0].commands[0].enable).toBeFalsy();
+    expect(config.groups[0].commands[0].enable).toBeTruthy();
     expect(config.groups[0].commands[1].description).toEqual('Cancel');
     expect(config.groups[0].commands[1].enable).toBeTruthy();
   });
