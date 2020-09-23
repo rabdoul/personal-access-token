@@ -1,0 +1,19 @@
+SCRIPT_DESCRIPTION
+Select an enabled activity in the left side list
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> Activity name
+
+SCRIPT_START
+
+	comment1 -> Select activity ${parameter0}
+
+   	click -> a [ data-xname = ${parameter0} , data-enabled = true ]
+
+   	check -> exists = true -> a [ data-xname = ${parameter0} , data-selected = true ]
