@@ -4,13 +4,13 @@ import { RulesResource } from '../RulesResource';
 
 describe('RulesResource', () => {
 
-    it.skip('PATCH should return 500 if command failure', async () => {
+    it('PATCH should return 500 if query failure', async () => {
         const req = mockHttpRequest('/api/rules');
         const [res] = mockHttpResponse();
 
-        const executor = CommandQueryExecutorMockBuilder.newMock().withCommandFailure(
+        const executor = CommandQueryExecutorMockBuilder.newMock().withQueryFailure(
             'cutadmin',
-            { type: 'production-rules.command.put', parameters: {} }
+            { type: 'production-rules.query.get', parameters: {} }
         ).build();
 
         await new RulesResource(executor).patch(req, res);
@@ -18,7 +18,7 @@ describe('RulesResource', () => {
         expect(res.statusCode).toEqual(500);
     });
 
-    it.skip('PATCH should return 200 if command success', async () => {
+    it('PATCH should return 200 if command success', async () => {
         const req = mockHttpRequest('/api/rules');
         req.body = [
             { "op": "replace", "path": "Setup Sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }

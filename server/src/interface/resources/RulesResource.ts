@@ -1,6 +1,12 @@
 import express = require('express');
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
 
+type PatchOperation = {
+    op: 'replace' | 'add' | 'remove',
+    path: string,
+    value: any
+}
+
 export class RulesResource {
 
     readonly router = express.Router();
@@ -9,11 +15,12 @@ export class RulesResource {
         this.router.patch('/api/rules', this.patch.bind(this))
     }
 
-    async patch(_: express.Request, res: express.Response) {
+    async patch(req: express.Request, res: express.Response) {
         const queryResponse = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules.query.get', parameters: {} })
         if (queryResponse.type == QueryResponseType.QUERY_SUCCESS) {
-            const patchData = queryResponse.data as any;
-            const commandResponse = await this.commandQueryExecutor.executeCommand('cutadmin', { type: 'production-rules.command.put', parameters: patchData })
+            const patchOperations = req.body as PatchOperation[]
+            const parameters = this.applyPatches(queryResponse.data, patchOperations);
+            const commandResponse = await this.commandQueryExecutor.executeCommand('cutadmin', { type: 'production-rules.command.put', parameters })
             if (commandResponse.type == CommandResponseType.COMMAND_SUCCESS) {
                 res.status(200)
             } else {
@@ -22,6 +29,13 @@ export class RulesResource {
         } else {
             res.status(500).send(`Unexpected error when gettting rules for patch : ${queryResponse.data}`);
         }
+    }
+
+    applyPatches(rules: any, patchOperations: PatchOperation[]): any {
+        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'Setup Sequencing')!
+        rules['activities']['Setup sequencing']['conditionalBlocks'][0]['activityParameters']['splitList'] = sequencingPatchOp.value['splitCommandProducts']
+        rules['activities']['Setup sequencing']['conditionalBlocks'][0]['activityParameters']['firstSubListSize'] = sequencingPatchOp.value['numberOfProductOrders']
+        return rules;
     }
 
 }
