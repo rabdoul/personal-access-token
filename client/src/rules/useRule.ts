@@ -15,7 +15,6 @@ export default function useRule<R_ID extends RuleId, R>(ruleId: R_ID, init: (rul
   const { data, isSuccess } = useQuery<R>(ruleId, () => fetchData(accessToken, `activities/${ruleId}`));
 
   useEffect(() => {
-    console.log('Effect executed');
     if (editMode && isSuccess && !editedRule) {
       init(data!);
     }
