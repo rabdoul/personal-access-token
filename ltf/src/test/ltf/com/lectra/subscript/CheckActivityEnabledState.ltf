@@ -1,0 +1,18 @@
+SCRIPT_DESCRIPTION
+Check if activity is enabled or disabled
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> Activity name
+    parameter1 -> true (enabled) or false
+
+SCRIPT_START
+
+	comment1 -> Check that activity ${parameter0} is ${parameter1}
+
+   	check -> exists = true -> a [ data-xname = ${parameter0} , data-enabled = ${parameter1} ]

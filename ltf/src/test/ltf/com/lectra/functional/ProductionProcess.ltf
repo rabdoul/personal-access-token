@@ -15,4 +15,48 @@ SCRIPT_START
 
 	callScript -> subscript.Login -> [ user_ltf_framboise_test-2@lectra.com , lectra ] -> 
 
+	paragraph -> Check initial state
+
+	callScript -> subscript.CheckActivityEnabledState -> [ analyse-product-order , false ] -> 
+
+	callScript -> subscript.CheckActivityEnabledState -> [ setup-sequencing , true ] -> 
+
+	comment1 -> Check that no activity is selected at start
+
+	check -> exists = false -> a [ data-selected = true ]
+
+	paragraph -> Test setup sequencing activity
+
+	callScript -> subscript.SelectActivity -> [ setup-sequencing ] -> 
+
+	comment1 -> Initial state : checkbox unclicked, input is not shown
+
+	check -> exists = false -> input [ id = orders-number ]
+
+	check -> exists = true -> div [ data-testid = CheckboxComponent ]
+
+	check -> exists = false -> div [ data-testid = CheckboxComponent ] -> svg [  =  ]
+
+	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	click -> div [ data-testid = CheckboxComponent ]
+
+	check -> exists = true -> input [ id = orders-number ]
+
+	callScript -> subscript.ClickCancel -> [  ] -> 
+
+	check -> exists = false -> input [ id = orders-number ]
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	click -> div [ data-testid = CheckboxComponent ]
+
+	enterText -> 3 -> input [ id = orders-number ]
+
+	callScript -> subscript.ClickSave -> [  ] -> 
+
+	check -> exists = true -> input [ id = orders-number , value = 3 ]
+
 	channel -> close -> prodprocess

@@ -1,0 +1,11 @@
+SCRIPT_DESCRIPTION
+Click on ribbon button cancel
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_START
+
+	click -> div [ data-xlabel = CANCEL_PRODUCTION_PROCESS_EDITION ]
