@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Theme from '@lectra/themes';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ReactQueryCacheProvider, QueryCache } from 'react-query';
 
 import AuthenticationProvider, { useAuthConfig } from './base/Authentication';
 import FeatureFlippingProvider from './base/FeatureFlipping';
@@ -13,6 +14,15 @@ import ProductionProcessScreen from './ProductionProcessScreen';
 import './App.scss';
 import { UIStateProvider } from './UIState';
 
+const queryCache = new QueryCache({
+  defaultConfig: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity
+    }
+  }
+});
+
 function App() {
   return (
     <ThemeProvider theme={Theme}>
@@ -22,9 +32,11 @@ function App() {
             <I18nProvider>
               <HelpProvider>
                 <UIStateProvider>
-                  <Router>
-                    <ProductionProcessScreen />
-                  </Router>
+                  <ReactQueryCacheProvider queryCache={queryCache}>
+                    <Router>
+                      <ProductionProcessScreen />
+                    </Router>
+                  </ReactQueryCacheProvider>
                 </UIStateProvider>
               </HelpProvider>
             </I18nProvider>

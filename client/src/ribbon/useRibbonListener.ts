@@ -2,10 +2,30 @@ import { useEffect } from 'react';
 import { useAccessToken } from '../base/Authentication';
 import { useUIStateContext } from '../UIState';
 import { sendData } from 'raspberry-fetch/dist';
+import { useMutation, useQueryCache } from 'react-query';
 
 function useRibbonListener() {
   const token = useAccessToken();
   const [uiState, dispatch] = useUIStateContext();
+
+  const queryCache = useQueryCache();
+  const [mutate] = useMutation(
+    () => {
+      const sequencing = uiState['setup-sequencing'];
+      const patch = {
+        op: 'replace',
+        path: 'Setup sequencing',
+        value: sequencing
+      };
+      return sendData(token, 'rules', 'PATCH', [patch]);
+    },
+    {
+      onSuccess: () => {
+        queryCache.invalidateQueries('setup-sequencing');
+      }
+    }
+  );
+
   useEffect(() => {
     const ribbonActionListener = ((e: CustomEvent) => {
       switch (e.detail.action) {
@@ -14,13 +34,7 @@ function useRibbonListener() {
           break;
         }
         case 'SAVE_PRODUCTION_PROCESS': {
-          const sequencing = uiState['setup-sequencing'];
-          const patch = {
-            op: 'replace',
-            path: 'Setup sequencing',
-            value: sequencing
-          };
-          sendData(token, 'rules', 'PATCH', [patch]).then(_ => dispatch({ type: 'TOGGLE_EDIT_MODE' }));
+          mutate().then(_ => dispatch({ type: 'TOGGLE_EDIT_MODE' }));
           break;
         }
         case 'CANCEL_PRODUCTION_PROCESS_EDITION': {
