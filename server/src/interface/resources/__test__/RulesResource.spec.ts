@@ -4,7 +4,7 @@ import { RulesResource } from '../RulesResource';
 
 describe('RulesResource', () => {
 
-    it('PATCH should return 500 if command failure', async () => {
+    it.skip('PATCH should return 500 if command failure', async () => {
         const req = mockHttpRequest('/api/rules');
         const [res] = mockHttpResponse();
 
@@ -18,7 +18,7 @@ describe('RulesResource', () => {
         expect(res.statusCode).toEqual(500);
     });
 
-    it('PATCH should return 200 if command success', async () => {
+    it.skip('PATCH should return 200 if command success', async () => {
         const req = mockHttpRequest('/api/rules');
         req.body = [
             { "op": "replace", "path": "Setup Sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }
