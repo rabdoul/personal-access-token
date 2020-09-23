@@ -19,6 +19,7 @@ import HelpResource from "./resources/HelpResource";
 import { FeatureFlippingConfigResource } from "./resources/FeatureFlippingConfigResource";
 import { ActivitiesResource } from "./resources/ActivitiesResource";
 import { SequencingRuleResource } from "./resources/SequencingRuleResource";
+import { RulesResource } from "./resources/RulesResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -84,6 +85,7 @@ export class ExpressServer {
     authenticatedRouter.use(new HelpResource().router);
     authenticatedRouter.use(new ActivitiesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new SequencingRuleResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new RulesResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }
 

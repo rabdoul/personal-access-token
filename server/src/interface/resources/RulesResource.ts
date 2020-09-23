@@ -22,7 +22,7 @@ export class RulesResource {
             const parameters = this.applyPatches(queryResponse.data, patchOperations);
             const commandResponse = await this.commandQueryExecutor.executeCommand('cutadmin', { type: 'production-rules.command.put', parameters })
             if (commandResponse.type == CommandResponseType.COMMAND_SUCCESS) {
-                res.status(200)
+                res.status(200).send()
             } else {
                 res.status(500).send(`Unexpected error when patching rules : ${commandResponse.data}`);
             }
