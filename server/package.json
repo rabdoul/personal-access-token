@@ -13,6 +13,7 @@
     "test-ci": "jest --reporters=jest-junit --coverage --coverageDirectory=./reports/server-coverage"
   },
   "dependencies": {
+    "@types/lodash": "4.14.161",
     "amqplib": "0.5.5",
     "amqplib-rt": "0.0.3",
     "body-parser": "1.19.0",
@@ -25,6 +26,7 @@
     "helmet": "3.21.3",
     "helmet-csp": "2.9.5",
     "lectra-auth-nodejs": "0.2.0",
+    "lodash": "4.17.20",
     "node-fetch": "2.6.1",
     "pino": "5.17.0",
     "uuid": "7.0.2"
