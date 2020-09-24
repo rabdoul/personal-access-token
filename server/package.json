@@ -13,7 +13,6 @@
     "test-ci": "jest --reporters=jest-junit --coverage --coverageDirectory=./reports/server-coverage"
   },
   "dependencies": {
-    "@types/lodash": "4.14.161",
     "amqplib": "0.5.5",
     "amqplib-rt": "0.0.3",
     "body-parser": "1.19.0",
@@ -32,6 +31,7 @@
     "uuid": "7.0.2"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.161",
     "@types/amqplib": "^0.5.13",
     "@types/body-parser": "^1.19.0",
     "@types/cls-hooked": "^4.3.0",
