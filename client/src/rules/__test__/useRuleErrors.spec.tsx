@@ -23,7 +23,7 @@ describe('useRuleErrors', () => {
         <MockedProviders
           uiStateContext={[
             {
-              invalidRules: { 'generate-batch': ['numberOfProductOrders'] }
+              invalidRules: { 'generate-batch': setOf('numberOfProductOrders') }
             },
             () => {}
           ]}
