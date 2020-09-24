@@ -21,11 +21,13 @@ const ActivityList = () => {
   return (
     <List>
       <Title>{formatMessage({ id: 'process' })}</Title>
-      <ItemsContainer>
-        {activities?.map((activity, index) => (
-          <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} edited={editedRules.includes(activity.id as RuleId)} />
-        ))}
-      </ItemsContainer>
+      <ListContainer>
+        <ItemsContainer>
+          {activities?.map((activity, index) => (
+            <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} edited={editedRules.includes(activity.id as RuleId)} />
+          ))}
+        </ItemsContainer>
+      </ListContainer>
     </List>
   );
 };
@@ -38,12 +40,16 @@ const List = styled.div`
   width: 380px;
 `;
 
+const ListContainer = styled.div`
+  max-height: calc(100% - 55px);
+  overflow: auto;
+`;
+
 const ItemsContainer = styled.div`
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  max-height: calc(100% - 55px);
-  overflow: auto;
+  margin-right: 5px;
 `;
 
 export default ActivityList;
