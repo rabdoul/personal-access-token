@@ -21,14 +21,17 @@
     "express": "4.17.1",
     "express-history-api-fallback": "2.2.1",
     "express-pino-logger": "5.0.0",
+    "fast-json-patch": "3.0.0-1",
     "helmet": "3.21.3",
     "helmet-csp": "2.9.5",
     "lectra-auth-nodejs": "0.2.0",
+    "lodash": "4.17.20",
     "node-fetch": "2.6.1",
     "pino": "5.17.0",
     "uuid": "7.0.2"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.161",
     "@types/amqplib": "^0.5.13",
     "@types/body-parser": "^1.19.0",
     "@types/cls-hooked": "^4.3.0",
