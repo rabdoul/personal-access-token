@@ -1,5 +1,5 @@
 import express = require('express');
-import * as jsonpatch from 'fast-json-patch';
+import jsonpatch = require('fast-json-patch');
 import { Operation } from 'fast-json-patch';
 import { pick } from 'lodash';
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
