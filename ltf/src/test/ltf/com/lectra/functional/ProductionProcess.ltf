@@ -59,4 +59,12 @@ SCRIPT_START
 
 	check -> exists = true -> input [ id = orders-number , value = 3 ]
 
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	enterText -> 5$KEY_ENTER -> input [ id = orders-number ]
+
+	click -> div [ data-testid = CheckboxComponent ]
+
+	callScript -> subscript.ClickSave -> [  ] -> 
+
 	channel -> close -> prodprocess
