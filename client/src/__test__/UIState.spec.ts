@@ -5,14 +5,12 @@ describe('App.reducer', () => {
   it('should toggle editMode to true', () => {
     const initialState: UIState = {
       editMode: false,
-      editedRules: [],
-      invalidRules: []
+      editedRules: []
     };
 
     expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({
       editMode: true,
-      editedRules: [],
-      invalidRules: []
+      editedRules: []
     });
   });
 
@@ -20,20 +18,19 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: ['setup-sequencing'],
-      invalidRules: ['setup-sequencing'],
+      invalidRules: { 'setup-sequencing': new Set('numberOfProductOrders') },
       'setup-sequencing': {
         splitCommandProducts: true
       }
     };
 
-    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: [], invalidRules: [] });
+    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: [] });
   });
 
   it('should init setup sequencing', () => {
     const initialState: UIState = {
       editMode: true,
-      editedRules: [],
-      invalidRules: []
+      editedRules: []
     };
 
     const uiState = reducer(initialState, {
@@ -46,7 +43,7 @@ describe('App.reducer', () => {
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules.length).toBe(0);
-    expect(uiState.invalidRules.length).toBe(0);
+    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 5
@@ -57,7 +54,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: [],
-      invalidRules: [],
+      invalidRules: { 'setup-sequencing': new Set() },
       'setup-sequencing': {
         splitCommandProducts: false,
         numberOfProductOrders: 5
@@ -68,12 +65,12 @@ describe('App.reducer', () => {
       type: 'UPDATE_SEQUENCING',
       attribute: 'splitCommandProducts',
       value: true,
-      error: false
+      isValid: true
     });
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules).toEqual(['setup-sequencing']);
-    expect(uiState.invalidRules).toEqual([]);
+    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 5
@@ -84,7 +81,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: [],
-      invalidRules: [],
+      invalidRules: { 'setup-sequencing': new Set() },
       'setup-sequencing': {
         splitCommandProducts: true,
         numberOfProductOrders: 5
@@ -95,12 +92,12 @@ describe('App.reducer', () => {
       type: 'UPDATE_SEQUENCING',
       attribute: 'numberOfProductOrders',
       value: 10,
-      error: false
+      isValid: true
     });
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules).toEqual(['setup-sequencing']);
-    expect(uiState.invalidRules).toEqual([]);
+    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 10
@@ -111,7 +108,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: [],
-      invalidRules: [],
+      invalidRules: { 'setup-sequencing': new Set() },
       'setup-sequencing': {
         splitCommandProducts: true,
         numberOfProductOrders: 5
@@ -122,14 +119,20 @@ describe('App.reducer', () => {
       type: 'UPDATE_SEQUENCING',
       attribute: 'numberOfProductOrders',
       value: undefined,
-      error: true
+      isValid: false
     });
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules).toEqual(['setup-sequencing']);
-    expect(uiState.invalidRules).toEqual(['setup-sequencing']);
+    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': setOf('numberOfProductOrders') });
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true
     });
   });
 });
+
+function setOf(value: string) {
+  const set = new Set();
+  set.add(value);
+  return set;
+}

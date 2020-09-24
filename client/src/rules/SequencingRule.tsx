@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
@@ -19,8 +19,7 @@ const SequencingRule = () => {
   if (!sequencing) return null;
 
   const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
-    const updatedErrors = isValid ? [] : [attribute];
-    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, error: updatedErrors.length > 0 });
+    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid });
   };
 
   return (
