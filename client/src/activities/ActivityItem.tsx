@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
+import Icon from '@lectra/icon';
 
 import { Activity } from '../model';
 import ActivityIndicator from './ActivityIndicator';
@@ -11,9 +12,10 @@ interface Props {
   first: boolean;
   last: boolean;
   edited: boolean;
+  invalid: boolean;
 }
 
-const ActivityItem: React.FC<Props> = ({ activity, first, last, edited }) => {
+const ActivityItem: React.FC<Props> = ({ activity, first, last, edited, invalid }) => {
   const { formatMessage } = useIntl();
   const currentActivityId = useLocation().pathname.substring(1);
   const selected = currentActivityId === activity.id;
@@ -28,8 +30,9 @@ const ActivityItem: React.FC<Props> = ({ activity, first, last, edited }) => {
       data-xname={activity.id}
     >
       <ActivityIndicator selected={selected} disabled={!activity.enabled} first={first} last={last} />
-      {formatMessage({ id: `activity.${activity.id}` })}
-      {edited && '*'}
+      <ActivityName>{formatMessage({ id: `activity.${activity.id}` })}</ActivityName>
+      {invalid && <Icon color={'red'} size={15} type="error" />}
+      {!invalid && edited && '*'}
     </ActivityLink>
   );
 };
@@ -49,6 +52,10 @@ const ActivityLink = styled(Link)<{ selected: boolean; disabled: boolean }>`
   &:hover {
     background-color: ${props => (props.selected ? '#cceaff' : '#e6e6e6')};
   }
+`;
+
+const ActivityName = styled.span`
+  min-width: 260px;
 `;
 
 export default ActivityItem;

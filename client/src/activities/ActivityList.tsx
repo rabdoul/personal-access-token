@@ -13,7 +13,7 @@ import { RuleId, useUIState } from '../UIState';
 const ActivityList = () => {
   const accessToken = useAccessToken();
   const { formatMessage } = useIntl();
-  const editedRules = useUIState().editedRules;
+  const { editedRules, invalidRules } = useUIState();
   const { data: activities } = useQuery<Activity[]>('activities', () => {
     return fetchData(accessToken, 'activities').then((activities: Activity[]) => activities.sort((a1, a2) => a1.order - a2.order));
   });
@@ -24,7 +24,14 @@ const ActivityList = () => {
       <ListContainer>
         <ItemsContainer>
           {activities?.map((activity, index) => (
-            <ActivityItem key={activity.id} activity={activity} first={index === 0} last={index === activities.length - 1} edited={editedRules.includes(activity.id as RuleId)} />
+            <ActivityItem
+              key={activity.id}
+              activity={activity}
+              first={index === 0}
+              last={index === activities.length - 1}
+              edited={editedRules.includes(activity.id as RuleId)}
+              invalid={invalidRules.includes(activity.id as RuleId)}
+            />
           ))}
         </ItemsContainer>
       </ListContainer>
