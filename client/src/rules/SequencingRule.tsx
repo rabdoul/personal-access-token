@@ -4,18 +4,18 @@ import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
 import StepDescription from './StepDescription';
-
 import { Sequencing } from '../model';
 import ResultBlock from './ResultBlock';
 import { useUIStateContext } from '../UIState';
 import useRule from './useRule';
+import useRuleErrors from './useRuleErrors';
 import ErrorIcon from '../common/ErrorIcon';
 
 const SequencingRule = () => {
-  const [{ editMode, invalidRules }, dispatch] = useUIStateContext();
+  const [{ editMode }, dispatch] = useUIStateContext();
 
-  const invalidFields = (invalidRules && invalidRules['setup-sequencing']) || new Set();
   const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
+  const invalidFields = useRuleErrors('setup-sequencing');
 
   if (!sequencing) return null;
 
