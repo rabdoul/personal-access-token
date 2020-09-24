@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
@@ -17,11 +17,10 @@ const SequencingRule = () => {
   const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
 
   if (!sequencing) return null;
-  const error = sequencing.numberOfProductOrders?.toString() === '';
 
-  const updateSequencing = (attribute: keyof Sequencing, value: any) => {
-    const error = attribute === 'numberOfProductOrders' && !value;
-    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, error });
+  const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
+    const updatedErrors = isValid ? [] : [attribute];
+    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, error: updatedErrors.length > 0 });
   };
 
   return (
@@ -45,10 +44,10 @@ const SequencingRule = () => {
                 numberMaxDigits={0}
                 value={sequencing.numberOfProductOrders}
                 width={50}
-                error={error}
+                error={sequencing.numberOfProductOrders?.toString() === ''}
                 icon={<ErrorIcon errorKey="toBeDefined" />}
                 min={0}
-                onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value)}
+                onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '')}
               />
             </FormLine>
           )}
