@@ -4,6 +4,7 @@ import { Sequencing } from './model';
 export type UIState = {
   editMode: boolean;
   editedRules: RuleId[];
+  invalidRules: RuleId[];
   'setup-sequencing'?: Partial<Sequencing>;
 };
 
@@ -11,21 +12,26 @@ export type RuleId = keyof Omit<UIState, 'editedRules' | 'editMode'>;
 
 const InitialState: UIState = {
   editMode: false,
-  editedRules: []
+  editedRules: [],
+  invalidRules: []
 };
 
-export type Action = { type: 'TOGGLE_EDIT_MODE' } | { type: 'INIT_SEQUENCING'; sequencing: Sequencing } | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any };
+export type Action =
+  | { type: 'TOGGLE_EDIT_MODE' }
+  | { type: 'INIT_SEQUENCING'; sequencing: Sequencing }
+  | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; error: boolean };
 
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
     case 'TOGGLE_EDIT_MODE':
-      return { editMode: !state.editMode, editedRules: [] };
+      return { editMode: !state.editMode, editedRules: [], invalidRules: [] };
     case 'INIT_SEQUENCING':
       return { ...state, 'setup-sequencing': action.sequencing };
     case 'UPDATE_SEQUENCING':
       return {
         ...state,
         editedRules: ['setup-sequencing'],
+        invalidRules: action.error ? ['setup-sequencing'] : [],
         'setup-sequencing': {
           ...state['setup-sequencing'],
           [action.attribute]: action.value
