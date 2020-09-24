@@ -5,7 +5,7 @@ import { fetchData } from 'raspberry-fetch';
 import { RuleId, UIState, useUIState } from '../UIState';
 import { useAccessToken } from '../base/Authentication';
 
-export default function useRule<R_ID extends RuleId, R>(ruleId: R_ID, init: (rule: R) => void): UIState[R_ID] | undefined {
+export default function useRule<R_ID extends RuleId, R extends UIState[R_ID]>(ruleId: R_ID, init: (rule: R) => void): UIState[R_ID] | undefined {
   const accessToken = useAccessToken();
 
   const { editMode, [ruleId]: editedRule } = useUIState();

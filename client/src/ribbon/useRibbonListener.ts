@@ -49,7 +49,7 @@ function useRibbonListener() {
     document.addEventListener('RIBBON_ACTION', ribbonActionListener);
 
     return () => document.removeEventListener('RIBBON_ACTION', ribbonActionListener);
-  }, [token, dispatch, uiState]);
+  }, [dispatch, mutate, token, uiState]);
 }
 
 export default useRibbonListener;
