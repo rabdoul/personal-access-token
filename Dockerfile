@@ -30,7 +30,7 @@ ENTRYPOINT ["/sbin/tini", "--"]
 ENV APP_DIR /usr/app
 WORKDIR ${APP_DIR}
 COPY --from=build-image ${APP_DIR}/server/prod_node_modules ./node_modules
-COPY --from=build-image ${APP_DIR}/server/build/src .
+COPY --from=build-image ${APP_DIR}/server/build .
 COPY --from=build-image ${APP_DIR}/client/build ./client
 RUN find . -name __test__ -type d -exec rm -r {} + 
 USER node
