@@ -1,7 +1,7 @@
 import express = require('express');
-import { Operation } from 'fast-json-patch';
 import jsonpatch = require('fast-json-patch');
-
+import { Operation } from 'fast-json-patch';
+import { pick } from 'lodash';
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityReferenceFromId } from "./ActivitiesMapping";
 
@@ -44,9 +44,7 @@ export class RulesResource {
         const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing')
         if (sequencingPatchOp) {
             const activityReference = activityReferenceFromId('setup-sequencing')
-            const activityRule = rules.activities[activityReference]
-            rules.activities = {}
-            rules.activities[activityReference] = activityRule
+            rules.activities = pick(rules.activities, [activityReference])
             const patch: Operation[] = [
                 { op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitCommandProducts'] },
                 { op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['numberOfProductOrders'] },
