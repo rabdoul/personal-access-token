@@ -8,13 +8,17 @@ import SequencingRule from './rules/SequencingRule';
 import StepDescription from './rules/StepDescription';
 import useRibbonConfig from './ribbon/useRibbonConfig';
 import useRibbonListener from './ribbon/useRibbonListener';
+import Notifier from './Notification';
+import { useUIDispatch } from './UIState';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
   const config = useRibbonConfig();
+  const dispatch = useUIDispatch();
 
   return (
     <Screen>
+      <Notifier dispatch={dispatch} />
       <Ribbon config={config} />
       <Content>
         <ActivityList />
