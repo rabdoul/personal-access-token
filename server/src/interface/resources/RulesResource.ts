@@ -1,7 +1,10 @@
 import express = require('express');
+import { Operation } from 'fast-json-patch';
+import jsonpatch = require('fast-json-patch');
 
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityReferenceFromId } from "./ActivitiesMapping";
+
 
 type PatchOperation = {
     op: 'replace' | 'add' | 'remove',
@@ -38,11 +41,21 @@ export class RulesResource {
     }
 
     applyPatches(rules: any, patchOperations: PatchOperation[]): any {
-        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing')!
-        const activityReference = activityReferenceFromId('setup-sequencing')
-        rules['activities'][activityReference]['conditionalBlocks'][0]['activityParameters']['splitList'] = sequencingPatchOp.value['splitCommandProducts']
-        rules['activities'][activityReference]['conditionalBlocks'][0]['activityParameters']['firstSubListSize'] = sequencingPatchOp.value['numberOfProductOrders']
-        return rules;
+        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing')
+        if (sequencingPatchOp) {
+            const activityReference = activityReferenceFromId('setup-sequencing')
+            const activityRule = rules.activities[activityReference]
+            rules.activities = {}
+            rules.activities[activityReference] = activityRule
+            const patch: Operation[] = [
+                { op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitCommandProducts'] },
+                { op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['numberOfProductOrders'] },
+            ];
+            return jsonpatch.applyPatch(rules, patch).newDocument
+        } else {
+            return rules
+        }
+
     }
 
 }

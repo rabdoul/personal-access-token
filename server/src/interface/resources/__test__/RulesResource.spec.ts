@@ -56,6 +56,25 @@ describe('RulesResource', () => {
                                     }
                                 }
                             ]
+                        },
+                        "Generate batch": {
+                            "conditionConsequentType": 11,
+                            "reference": "Generate batch",
+                            "description": null,
+                            "conditionalBlocks": [
+                                {
+                                    "conditionConsequentType": 11,
+                                    "conditions": null,
+                                    "order": 0,
+                                    "activityParameters": {
+                                        "activityParametersType": 11,
+                                        "batchGenerationType": 0,
+                                        "useMaxNumberOfOrder": false,
+                                        "maxNumberOfOrders": 0,
+                                        "criterions": null
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
