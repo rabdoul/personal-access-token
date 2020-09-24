@@ -43,10 +43,10 @@ const SequencingRule = () => {
                 numberMaxDigits={0}
                 value={sequencing.numberOfProductOrders}
                 width={50}
-                error={sequencing.numberOfProductOrders?.toString() === ''}
+                error={sequencing.numberOfProductOrders?.toString() === '' || sequencing.numberOfProductOrders?.toString() === '0'}
                 icon={<ErrorIcon errorKey="toBeDefined" />}
                 min={0}
-                onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '')}
+                onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
               />
             </FormLine>
           )}
