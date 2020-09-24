@@ -6,23 +6,25 @@ import { IntlProvider } from 'react-intl';
 import useRibbonConfig from '../useRibbonConfig';
 import { UIStateContext } from '../../UIState';
 
+const i18nMessages = {
+  'group.edit': 'Edit',
+  'group.save': 'Save',
+  'command.save': 'Save',
+  'command.cancel': 'Cancel',
+  'command.edit': 'Edit'
+};
+
+const MockedProviders = ({ uiStateContext, children }: { uiStateContext: any; children: any }) => (
+  <IntlProvider locale="en" messages={i18nMessages}>
+    <UIStateContext.Provider value={uiStateContext}>{children}</UIStateContext.Provider>
+  </IntlProvider>
+);
+
 describe('useRibbonConfig', () => {
   it('ribbon should render default ribbon config', () => {
-    const Wrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
-      <IntlProvider
-        locale="en"
-        messages={{
-          'group.edit': 'Edit',
-          'group.save': 'Save',
-          'command.save': 'Save',
-          'command.cancel': 'Cancel',
-          'command.edit': 'Edit'
-        }}
-      >
-        <UIStateContext.Provider value={[{ editMode: false }, () => {}]}>{children}</UIStateContext.Provider>
-      </IntlProvider>
-    );
-    const { result } = renderHook(() => useRibbonConfig(), { wrapper: Wrapper });
+    const { result } = renderHook(() => useRibbonConfig(), {
+      wrapper: ({ children }) => <MockedProviders uiStateContext={[{ editMode: false }, () => {}]}>{children}</MockedProviders>
+    });
 
     const config = result.current;
 
@@ -34,21 +36,9 @@ describe('useRibbonConfig', () => {
   });
 
   it('ribbon should render edit ribbon config', () => {
-    const Wrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
-      <IntlProvider
-        locale="en"
-        messages={{
-          'group.edit': 'Edit',
-          'group.save': 'Save',
-          'command.save': 'Save',
-          'command.cancel': 'Cancel',
-          'command.edit': 'Edit'
-        }}
-      >
-        <UIStateContext.Provider value={[{ editMode: true }, () => {}]}>{children}</UIStateContext.Provider>
-      </IntlProvider>
-    );
-    const { result } = renderHook(() => useRibbonConfig(), { wrapper: Wrapper });
+    const { result } = renderHook(() => useRibbonConfig(), {
+      wrapper: ({ children }) => <MockedProviders uiStateContext={[{ editMode: true }, () => {}]}>{children}</MockedProviders>
+    });
 
     const config = result.current;
 
