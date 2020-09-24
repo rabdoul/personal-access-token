@@ -18,6 +18,12 @@ const SequencingRule = () => {
 
   if (!sequencing) return null;
   const error = sequencing.numberOfProductOrders?.toString() === '';
+
+  const updateSequencing = (attribute: keyof Sequencing, value: any) => {
+    const error = attribute === 'numberOfProductOrders' && !value;
+    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, error });
+  };
+
   return (
     <Container>
       <StepDescription />
@@ -27,7 +33,7 @@ const SequencingRule = () => {
             disabled={!editMode}
             label="Split the selection of product orders"
             checked={sequencing.splitCommandProducts!}
-            onChange={value => dispatch({ type: 'UPDATE_SEQUENCING', attribute: 'splitCommandProducts', value })}
+            onChange={value => updateSequencing('splitCommandProducts', value)}
           />
           {sequencing.splitCommandProducts && (
             <FormLine>
@@ -42,7 +48,7 @@ const SequencingRule = () => {
                 error={error}
                 icon={<ErrorIcon errorKey="toBeDefined" />}
                 min={0}
-                onChange={evt => dispatch({ type: 'UPDATE_SEQUENCING', attribute: 'numberOfProductOrders', value: evt.target.value })}
+                onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value)}
               />
             </FormLine>
           )}
