@@ -12,8 +12,9 @@ import useRule from './useRule';
 import ErrorIcon from '../common/ErrorIcon';
 
 const SequencingRule = () => {
-  const [{ editMode }, dispatch] = useUIStateContext();
+  const [{ editMode, invalidRules }, dispatch] = useUIStateContext();
 
+  const invalidFields = (invalidRules && invalidRules['setup-sequencing']) || new Set();
   const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
 
   if (!sequencing) return null;
@@ -43,7 +44,7 @@ const SequencingRule = () => {
                 numberMaxDigits={0}
                 value={sequencing.numberOfProductOrders}
                 width={50}
-                error={sequencing.numberOfProductOrders?.toString() === '' || sequencing.numberOfProductOrders?.toString() === '0'}
+                error={invalidFields.has('numberOfProductOrders')}
                 icon={<ErrorIcon errorKey="toBeDefined" />}
                 min={0}
                 onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
