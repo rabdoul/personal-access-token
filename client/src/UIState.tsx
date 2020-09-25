@@ -17,6 +17,7 @@ const InitialState: UIState = {
 
 export type Action =
   | { type: 'TOGGLE_EDIT_MODE' }
+  | { type: 'RESET_EDIT_MODE' }
   | { type: 'INIT_SEQUENCING'; sequencing: Sequencing }
   | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; isValid: boolean };
 
@@ -24,6 +25,8 @@ export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
     case 'TOGGLE_EDIT_MODE':
       return { editMode: !state.editMode, editedRules: [] };
+    case 'RESET_EDIT_MODE':
+      return { editMode: state.editMode, editedRules: [] };
     case 'INIT_SEQUENCING':
       return { ...state, 'setup-sequencing': action.sequencing, invalidRules: { 'setup-sequencing': new Set() } };
     case 'UPDATE_SEQUENCING':
