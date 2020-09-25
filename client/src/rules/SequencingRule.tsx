@@ -68,9 +68,9 @@ const FormLine = styled.div`
   display: flex;
   flex-direction: row;
   font-weight: lighter;
+
   input {
-    margin: 0px 5px 0px 5px;
-    padding-right: 15px;
+    margin-left: 5px;
   }
 `;
 
