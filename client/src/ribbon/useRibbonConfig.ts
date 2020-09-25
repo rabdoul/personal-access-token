@@ -58,8 +58,13 @@ const editConfig: RibbonConfig = {
 
 function useRibbonConfig() {
   const { formatMessage } = useIntl();
-  const { editMode } = useUIState();
-  return produce(editMode ? editConfig : displayConfig, draft => internationalizeConfig(formatMessage, draft));
+  const { editMode, invalidRules } = useUIState();
+  return produce(editMode ? editConfig : displayConfig, draft => {
+    if (invalidRules && Object.entries(invalidRules).some(it => it[1].size != 0)) {
+      draft.groups[0].commands[0].enable = false; // disable save
+    }
+    return internationalizeConfig(formatMessage, draft);
+  });
 }
 
 function internationalizeConfig(formatMessage: (key: any) => string, config: RibbonConfig) {
