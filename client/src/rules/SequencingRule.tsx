@@ -26,8 +26,8 @@ const SequencingRule = () => {
   return (
     <Container>
       <StepDescription />
-      <ResultBlock>
-        <form>
+      <ResultBlock isDefault>
+        <div>
           <CheckBox
             disabled={!editMode}
             label="Split the selection of product orders"
@@ -51,7 +51,7 @@ const SequencingRule = () => {
               />
             </FormLine>
           )}
-        </form>
+        </div>
       </ResultBlock>
     </Container>
   );

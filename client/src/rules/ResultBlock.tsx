@@ -2,21 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 
-const ResultBlock: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ResultBlock: React.FC<{ children: React.ReactNode; isDefault: boolean }> = ({ children, isDefault }) => {
   const { formatMessage } = useIntl();
   return (
-    <Container>
-      <Operator>{formatMessage({ id: 'rule.default' })}</Operator>
+    <Container isDefault={isDefault}>
+      <Operator>{formatMessage({ id: isDefault ? 'rule.default' : 'rule.then' })}</Operator>
       {children}
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ isDefault: boolean }>`
   align-items: center;
   background-color: #fff;
+  border-left: ${props => (props.isDefault ? 'none' : '5px solid #26a3ff')};
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
   display: flex;
+  margin-left: ${props => (props.isDefault ? '0' : '20px')};
   width: 800px;
   padding: 10px;
 `;
