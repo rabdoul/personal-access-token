@@ -2,29 +2,21 @@ import { useEffect } from 'react';
 import { useAccessToken } from '../base/Authentication';
 import { useUIStateContext } from '../UIState';
 import { sendData } from 'raspberry-fetch/dist';
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation } from 'react-query';
 
 function useRibbonListener() {
   const token = useAccessToken();
   const [uiState, dispatch] = useUIStateContext();
 
-  const queryCache = useQueryCache();
-  const [mutate] = useMutation(
-    () => {
-      const sequencing = uiState['setup-sequencing'];
-      const patch = {
-        op: 'replace',
-        path: 'setup-sequencing',
-        value: sequencing
-      };
-      return sendData(token, 'rules', 'PATCH', [patch]);
-    },
-    {
-      onSuccess: () => {
-        queryCache.invalidateQueries('setup-sequencing');
-      }
-    }
-  );
+  const [mutate] = useMutation(() => {
+    const sequencing = uiState['setup-sequencing'];
+    const patch = {
+      op: 'replace',
+      path: 'setup-sequencing',
+      value: sequencing
+    };
+    return sendData(token, 'rules', 'PATCH', [patch]);
+  });
 
   useEffect(() => {
     const ribbonActionListener = ((e: CustomEvent) => {

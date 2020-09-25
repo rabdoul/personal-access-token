@@ -10,13 +10,13 @@ export default function useRule<R_ID extends RuleId, R extends UIState[R_ID]>(ru
 
   const { editMode, [ruleId]: editedRule } = useUIState();
 
-  const { data, isSuccess } = useQuery<R>(ruleId, () => fetchData(accessToken, `rules/${ruleId}`));
+  const { data, isSuccess, isStale } = useQuery<R>(ruleId, () => fetchData(accessToken, `rules/${ruleId}`));
 
   useEffect(() => {
-    if (editMode && isSuccess && !editedRule) {
+    if (editMode && isSuccess && !editedRule && !isStale) {
       init(data!);
     }
-  }, [editMode, init, isSuccess, data, editedRule]);
+  }, [editMode, init, isSuccess, isStale, data, editedRule]);
 
   return editedRule ?? data;
 }

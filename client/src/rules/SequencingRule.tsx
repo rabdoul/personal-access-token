@@ -45,7 +45,7 @@ const SequencingRule = () => {
                 value={sequencing.numberOfProductOrders}
                 width={50}
                 error={invalidFields.has('numberOfProductOrders')}
-                icon={<ErrorIcon errorKey="toBeDefined" />}
+                icon={<ErrorIcon errorKey="error.not.positive.field" />}
                 min={0}
                 onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
               />

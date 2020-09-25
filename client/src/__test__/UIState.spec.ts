@@ -27,6 +27,22 @@ describe('App.reducer', () => {
     expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: [] });
   });
 
+  it('should reset editMode', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: ['setup-sequencing'],
+      invalidRules: { 'setup-sequencing': new Set('numberOfProductOrders') },
+      'setup-sequencing': {
+        splitCommandProducts: true
+      }
+    };
+
+    expect(reducer(initialState, { type: 'RESET_EDIT_MODE' })).toEqual({
+      editMode: true,
+      editedRules: []
+    });
+  });
+
   it('should init setup sequencing', () => {
     const initialState: UIState = {
       editMode: true,

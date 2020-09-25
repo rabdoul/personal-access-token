@@ -60,7 +60,7 @@ function useRibbonConfig() {
   const { formatMessage } = useIntl();
   const { editMode, invalidRules } = useUIState();
   return produce(editMode ? editConfig : displayConfig, draft => {
-    if (invalidRules && Object.entries(invalidRules).some(it => it[1].size != 0)) {
+    if (invalidRules && Object.entries(invalidRules).some(it => it[1].size !== 0)) {
       draft.groups[0].commands[0].enable = false; // disable save
     }
     return internationalizeConfig(formatMessage, draft);

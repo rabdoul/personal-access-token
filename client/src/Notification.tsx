@@ -12,7 +12,9 @@ const Notifier: React.FC<{ dispatch: Dispatch<Action> }> = ({ dispatch }) => {
     const host = window.location.hostname;
     const notifierClient = CuttingRoomNotifierClient.fromEnv(computeNotifierEnv(host), token);
 
-    notifierClient.on('ProductionRules', EventType.Updated, () => queryCache.invalidateQueries('setup-sequencing'));
+    notifierClient.on('ProductionRules', EventType.Updated, () => {
+      queryCache.invalidateQueries('setup-sequencing').then(() => dispatch({ type: 'RESET_EDIT_MODE' }));
+    });
 
     notifierClient.start();
 
