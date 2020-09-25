@@ -10,7 +10,7 @@ const I18nProvider = (props: { children: ReactNode }) => {
   const lectraLocale = userPreferenceContext.lectraLocale;
   const messages = i18n[lectraLocale.code.toLocaleLowerCase()];
   return (
-    <IntlProvider locale={lectraLocale.toLocale()} messages={messages}>
+    <IntlProvider locale={lectraLocale.toLocale()} messages={messages} onError={() => {}}>
       {props.children}
     </IntlProvider>
   );
