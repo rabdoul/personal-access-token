@@ -21,10 +21,7 @@ export type Action =
   | { type: 'RESET_EDIT_MODE' }
   | { type: 'INIT_SEQUENCING'; sequencing: Sequencing }
   | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; isValid: boolean }
-  | {
-      type: 'INIT_VALIDATE_MTM_PRODUCT';
-      validateMTMProduct: ValidateMTMProduct;
-    };
+  | { type: 'INIT_VALIDATE_MTM_PRODUCT'; validateMTMProduct: ValidateMTMProduct };
 
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {

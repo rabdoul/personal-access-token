@@ -6,10 +6,13 @@ import StepDescription from './StepDescription';
 import ResultBlock from './ResultBlock';
 import useRule from './useRule';
 import { ValidateMTMProduct } from '../model';
-import { useUIDispatch } from '../UIState';
+import { useUIStateContext } from '../UIState';
+import { useIntl } from 'react-intl';
 
 const ValidateMTMProductRule = () => {
-  const dispatch = useUIDispatch();
+  const { formatMessage } = useIntl();
+  const [{ editMode }, dispatch] = useUIStateContext();
+
   const validateMTMProduct = useRule<'validate-mtm-product', ValidateMTMProduct>('validate-mtm-product', validateMTMProduct =>
     dispatch({
       type: 'INIT_VALIDATE_MTM_PRODUCT',
@@ -23,13 +26,15 @@ const ValidateMTMProductRule = () => {
       <ResultBlock isDefault>
         <div>
           <CheckBox
-            label="Request validation if an alteration does not appear in the recommended range"
+            label={formatMessage({ id: 'Request validation if an alteration does not appear in the recommended range' })}
             checked={validateMTMProduct.stopOnOutOfRangeWarning!}
+            disabled={!editMode}
             xlabel="stopOnOutOfRangeWarning"
           />
           <CheckBox
-            label="Request validation if an alteration does not appear in the list of recommended strict values"
+            label={formatMessage({ id: 'Request validation if an alteration does not appear in the list of recommended strict values' })}
             checked={validateMTMProduct.stopOnIncorrectValueWarning!}
+            disabled={!editMode}
             xlabel="stopOnIncorrectValueWarning"
           />
         </div>
