@@ -35,6 +35,7 @@ const SequencingRule = () => {
             label={formatMessage({ id: 'rule.sequencing.split.selection' })}
             checked={sequencing.splitCommandProducts!}
             onChange={value => updateSequencing('splitCommandProducts', value)}
+            xlabel="splitCommandProducts"
           />
           {sequencing.splitCommandProducts && (
             <FormLine>

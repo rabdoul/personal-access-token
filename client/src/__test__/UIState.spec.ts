@@ -1,7 +1,12 @@
 import 'jest';
-import { reducer, UIState } from '../UIState';
+import { reducer, RuleId, UIState } from '../UIState';
 
 describe('App.reducer', () => {
+  const EMPTY_INVALID_RULES = {
+    'setup-sequencing': new Set<string>(),
+    'validate-mtm-product': new Set<string>()
+  };
+
   it('should toggle editMode to true', () => {
     const initialState: UIState = {
       editMode: false,
@@ -18,7 +23,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: ['setup-sequencing'],
-      invalidRules: { 'setup-sequencing': new Set('numberOfProductOrders') },
+      invalidRules: EMPTY_INVALID_RULES,
       'setup-sequencing': {
         splitCommandProducts: true
       }
@@ -31,7 +36,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: ['setup-sequencing'],
-      invalidRules: { 'setup-sequencing': new Set('numberOfProductOrders') },
+      invalidRules: EMPTY_INVALID_RULES,
       'setup-sequencing': {
         splitCommandProducts: true
       }
@@ -70,7 +75,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: [],
-      invalidRules: { 'setup-sequencing': new Set() },
+      invalidRules: EMPTY_INVALID_RULES,
       'setup-sequencing': {
         splitCommandProducts: false,
         numberOfProductOrders: 5
@@ -86,7 +91,7 @@ describe('App.reducer', () => {
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules).toEqual(['setup-sequencing']);
-    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
+    expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 5
@@ -97,7 +102,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: [],
-      invalidRules: { 'setup-sequencing': new Set() },
+      invalidRules: EMPTY_INVALID_RULES,
       'setup-sequencing': {
         splitCommandProducts: true,
         numberOfProductOrders: 5
@@ -113,7 +118,7 @@ describe('App.reducer', () => {
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules).toEqual(['setup-sequencing']);
-    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
+    expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true,
       numberOfProductOrders: 10
@@ -124,7 +129,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: [],
-      invalidRules: { 'setup-sequencing': new Set() },
+      invalidRules: EMPTY_INVALID_RULES,
       'setup-sequencing': {
         splitCommandProducts: true,
         numberOfProductOrders: 5
@@ -140,9 +145,31 @@ describe('App.reducer', () => {
 
     expect(uiState.editMode).toBeTruthy();
     expect(uiState.editedRules).toEqual(['setup-sequencing']);
-    expect(uiState.invalidRules).toEqual({ 'setup-sequencing': setOf('numberOfProductOrders') });
+    expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': setOf('numberOfProductOrders') });
     expect(uiState['setup-sequencing']).toEqual({
       splitCommandProducts: true
+    });
+  });
+
+  it('should init validate mtm product', () => {
+    const initialState: UIState = {
+      editMode: false,
+      editedRules: []
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'INIT_VALIDATE_MTM_PRODUCT',
+      validateMTMProduct: {
+        stopOnOutOfRangeWarning: true,
+        stopOnIncorrectValueWarning: false
+      }
+    });
+
+    expect(uiState.editMode).toBeFalsy();
+    expect(uiState.editedRules.length).toBe(0);
+    expect(uiState['validate-mtm-product']).toEqual({
+      stopOnOutOfRangeWarning: true,
+      stopOnIncorrectValueWarning: false
     });
   });
 });
