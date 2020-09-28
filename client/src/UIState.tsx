@@ -21,7 +21,8 @@ export type Action =
   | { type: 'RESET_EDIT_MODE' }
   | { type: 'INIT_SEQUENCING'; sequencing: Sequencing }
   | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; isValid: boolean }
-  | { type: 'INIT_VALIDATE_MTM_PRODUCT'; validateMTMProduct: ValidateMTMProduct };
+  | { type: 'INIT_VALIDATE_MTM_PRODUCT'; validateMTMProduct: ValidateMTMProduct }
+  | { type: 'UPDATE_VALIDATE_MTM_PRODUCT'; attribute: keyof ValidateMTMProduct; value: any; isValid: boolean };
 
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
@@ -41,7 +42,7 @@ export const reducer = (state: UIState, action: Action): UIState => {
       }
       return {
         ...state,
-        editedRules: ['setup-sequencing'],
+        editedRules: [...state.editedRules, 'setup-sequencing'],
         invalidRules: updatedInvalidRules,
         'setup-sequencing': {
           ...state['setup-sequencing'],
@@ -50,6 +51,13 @@ export const reducer = (state: UIState, action: Action): UIState => {
       };
     case 'INIT_VALIDATE_MTM_PRODUCT':
       return { ...state, 'validate-mtm-product': action.validateMTMProduct };
+
+    case 'UPDATE_VALIDATE_MTM_PRODUCT':
+      return {
+        ...state,
+        editedRules: [...state.editedRules, 'validate-mtm-product'],
+        'validate-mtm-product': { ...state['validate-mtm-product'], [action.attribute]: action.value }
+      };
   }
 };
 

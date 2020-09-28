@@ -5,7 +5,7 @@ import CheckBox from '@lectra/checkbox';
 import StepDescription from './StepDescription';
 import ResultBlock from './ResultBlock';
 import useRule from './useRule';
-import { ValidateMTMProduct } from '../model';
+import { Sequencing, ValidateMTMProduct } from '../model';
 import { useUIStateContext } from '../UIState';
 import { useIntl } from 'react-intl';
 
@@ -20,21 +20,28 @@ const ValidateMTMProductRule = () => {
     })
   );
   if (!validateMTMProduct) return null;
+
+  const updateValidateMTMProduct = (attribute: keyof ValidateMTMProduct, value: any) => {
+    dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, isValid: true });
+  };
+
   return (
     <Container>
       <StepDescription />
       <ResultBlock isDefault>
         <div>
           <CheckBox
+            disabled={!editMode}
             label={formatMessage({ id: 'Request validation if an alteration does not appear in the recommended range' })}
             checked={validateMTMProduct.stopOnOutOfRangeWarning!}
-            disabled={!editMode}
+            onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
             xlabel="stopOnOutOfRangeWarning"
           />
           <CheckBox
+            disabled={!editMode}
             label={formatMessage({ id: 'Request validation if an alteration does not appear in the list of recommended strict values' })}
             checked={validateMTMProduct.stopOnIncorrectValueWarning!}
-            disabled={!editMode}
+            onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
             xlabel="stopOnIncorrectValueWarning"
           />
         </div>
