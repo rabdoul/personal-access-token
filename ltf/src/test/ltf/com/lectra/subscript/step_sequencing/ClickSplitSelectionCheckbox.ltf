@@ -1,0 +1,11 @@
+SCRIPT_DESCRIPTION
+Click the checkboox in sequencing activity
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_START
+
+	click -> div [ data-testid = CheckboxComponent ]

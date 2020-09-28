@@ -1,0 +1,18 @@
+SCRIPT_DESCRIPTION
+Check if activity is edited or not
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> Activity name
+    parameter1 -> true (edited) or false
+
+SCRIPT_START
+
+	comment1 -> Check that activity ${parameter0} edited state is ${parameter1}
+
+   	check -> exists = true -> a [ data-xname = ${parameter0} , data-edited = ${parameter1} ]

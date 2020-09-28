@@ -16,4 +16,4 @@ SCRIPT_START
 
    	click -> a [ data-xname = ${parameter0} , data-enabled = true ]
 
-   	check -> exists = true -> a [ data-xname = ${parameter0} , data-selected = true ]
+	callScript -> subscript.activity_list.CheckActivitySelectedState -> [ ${parameter0} , true ] -> 

@@ -1,0 +1,15 @@
+SCRIPT_DESCRIPTION
+Change the value of order numbers field in sequencing activity
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> Text
+
+SCRIPT_START
+
+	enterText -> ${parameter0} -> input [ id = orders-number ]

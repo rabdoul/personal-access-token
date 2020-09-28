@@ -1,0 +1,102 @@
+﻿﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> Step sequencing activity TEST -> Web production process -> 
+
+	channel -> start -> prodprocess -> ltfs://cutting-room-production-process.dev.mylectra.com/
+
+	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
+
+	paragraph -> Check initial state
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ analyse-product-order , false ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ setup-sequencing , true ] -> 
+
+	comment1 -> Check that no activity is selected at start
+
+	check -> exists = false -> a [ data-selected = true ]
+
+	paragraph -> Test setup sequencing activity
+
+	callScript -> subscript.activity_list.SelectActivity -> [ setup-sequencing ] -> 
+
+	comment1 -> Initial state : checkbox unclicked, input is not shown
+
+	check -> exists = false -> input [ id = orders-number ]
+
+	check -> exists = true -> div [ data-testid = CheckboxComponent ]
+
+	check -> exists = false -> svg [  =  ] -> div [ data-testid = CheckboxComponent ]
+
+	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+
+	check -> exists = true -> svg [  =  ] -> div [ data-testid = CheckboxComponent ]
+
+	check -> exists = true -> input [ id = orders-number ]
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
+
+	callScript -> subscript.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , false ] -> 
+
+	check -> exists = false -> input [ id = orders-number ]
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] ->
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
+
+	callScript -> subscript.ClickSave -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , false ] -> 
+
+	paragraph -> Check error when order number field is emptied
+
+	check -> exists = true -> input [ id = orders-number , value = 3 ]
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_BACKSPACE ] ->
+
+	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
+
+	check -> exists = true -> [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ] 
+
+	comment1 -> Error remains when hiding the field in error
+
+	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+
+	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
+
+	check -> exists = true -> [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ] 
+
+	paragraph -> Teardown
+
+	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_ENTER ] ->
+
+	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+
+	callScript -> subscript.ClickSave -> [  ] ->
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
