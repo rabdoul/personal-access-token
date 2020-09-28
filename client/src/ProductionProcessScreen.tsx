@@ -10,6 +10,7 @@ import useRibbonConfig from './ribbon/useRibbonConfig';
 import useRibbonListener from './ribbon/useRibbonListener';
 import Notifier from './Notification';
 import { useUIDispatch } from './UIState';
+import ValidateMTMProductRule from './rules/ValidateMTMProductRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -24,6 +25,7 @@ const ProductionProcessScreen = () => {
         <ActivityList />
         <Switch>
           <Route exact path="/setup-sequencing" component={SequencingRule} />
+          <Route exact path="/validate-mtm-product" component={ValidateMTMProductRule} />
           <Route
             path="/:activityId"
             render={() => (
