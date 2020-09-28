@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useIntl } from 'react-intl';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
@@ -12,6 +13,7 @@ import useRuleErrors from './useRuleErrors';
 import ErrorIcon from '../common/ErrorIcon';
 
 const SequencingRule = () => {
+  const { formatMessage } = useIntl();
   const [{ editMode }, dispatch] = useUIStateContext();
 
   const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
@@ -30,13 +32,13 @@ const SequencingRule = () => {
         <div>
           <CheckBox
             disabled={!editMode}
-            label="Split the selection of product orders"
+            label={formatMessage({ id: 'rule.sequencing.split.selection' })}
             checked={sequencing.splitCommandProducts!}
             onChange={value => updateSequencing('splitCommandProducts', value)}
           />
           {sequencing.splitCommandProducts && (
             <FormLine>
-              <label htmlFor="orders-number">Number of product orders in the first sub-selection</label>
+              <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
               <Input
                 disabled={!editMode}
                 id="orders-number"
