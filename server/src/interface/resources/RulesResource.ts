@@ -41,19 +41,27 @@ export class RulesResource {
     }
 
     applyPatches(rules: any, patchOperations: PatchOperation[]): any {
-        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing')
+        const patch: Operation[] = [];
+        const patchActivities: string[] = [];
+
+        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing');
         if (sequencingPatchOp) {
             const activityReference = activityReferenceFromId('setup-sequencing')
-            rules.activities = pick(rules.activities, [activityReference])
-            const patch: Operation[] = [
-                { op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitCommandProducts'] },
-                { op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['numberOfProductOrders'] },
-            ];
-            return jsonpatch.applyPatch(rules, patch).newDocument
-        } else {
-            return rules
+            patchActivities.push(activityReference);
+             patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitCommandProducts'] });
+             patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['numberOfProductOrders'] });
         }
 
+        const validateMTMProductPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'validate-mtm-product');
+        if (validateMTMProductPatchOp) {
+            const activityReference = activityReferenceFromId('validate-mtm-product')
+            patchActivities.push(activityReference);
+            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/stopOnOutOfRangeWarning`, value: validateMTMProductPatchOp.value['stopOnOutOfRangeWarning'] });
+            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/stopOnIncorrectValueWarning`, value: validateMTMProductPatchOp.value['stopOnIncorrectValueWarning'] });
+        }
+
+        rules.activities = pick(rules.activities, patchActivities);
+        return patch.length > 0 ? jsonpatch.applyPatch(rules, patch).newDocument : rules;
     }
 
 }

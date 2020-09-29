@@ -113,5 +113,124 @@ describe('RulesResource', () => {
         expect(res.statusCode).toEqual(200);
     });
 
+    it('PATCH should return 200 if command success with two patch operations', async () => {
+        const req = mockHttpRequest('/api/rules', {}, [
+            { "op": "replace", "path": "setup-sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } },
+            { "op": "replace", "path": "validate-mtm-product", "value": { "stopOnOutOfRangeWarning": true, "stopOnIncorrectValueWarning": true } }
+        ]);
+        const [res] = mockHttpResponse();
 
+        const executor = CommandQueryExecutorMockBuilder.newMock()
+            .withQuerySuccess(
+                'cutadmin',
+                { type: 'production-rules.query.get', parameters: {} },
+                {
+                    "productionRulesId": "5c822a10f19e940001456210",
+                    "activities": {
+                        "Setup sequencing": {
+                            "conditionConsequentType": 12,
+                            "reference": "Setup sequencing",
+                            "description": null,
+                            "conditionalBlocks": [
+                                {
+                                    "conditionConsequentType": 12,
+                                    "conditions": null,
+                                    "order": 0,
+                                    "activityParameters": {
+                                        "splitList": false,
+                                        "firstSubListSize": 7,
+                                        "activityParametersType": 12
+                                    }
+                                }
+                            ]
+                        },
+                        "Validate MTM Product":{
+                            "conditionConsequentType":2,
+                            "reference":"Validate MTM Product",
+                            "description":null,
+                            "conditionalBlocks":[
+                                {
+                                    "conditionConsequentType":2,
+                                    "conditions":null,
+                                    "order":0,
+                                    "activityParameters":{
+                                        "activityParametersType":2,
+                                        "stopOnOutOfRangeWarning":false,
+                                        "stopOnIncorrectValueWarning":false
+                                    }
+                                }
+                            ]
+                        },
+                        "Generate batch": {
+                            "conditionConsequentType": 11,
+                            "reference": "Generate batch",
+                            "description": null,
+                            "conditionalBlocks": [
+                                {
+                                    "conditionConsequentType": 11,
+                                    "conditions": null,
+                                    "order": 0,
+                                    "activityParameters": {
+                                        "activityParametersType": 11,
+                                        "batchGenerationType": 0,
+                                        "useMaxNumberOfOrder": false,
+                                        "maxNumberOfOrders": 0,
+                                        "criterions": null
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            )
+            .withCommandSuccess(
+                'cutadmin',
+                {
+                    type: 'production-rules.command.put',
+                    parameters: {
+                        "productionRulesId": "5c822a10f19e940001456210",
+                        "activities": {
+                            "Setup sequencing": {
+                                "conditionConsequentType": 12,
+                                "reference": "Setup sequencing",
+                                "description": null,
+                                "conditionalBlocks": [
+                                    {
+                                        "conditionConsequentType": 12,
+                                        "conditions": null,
+                                        "order": 0,
+                                        "activityParameters": {
+                                            "splitList": true,
+                                            "firstSubListSize": 5,
+                                            "activityParametersType": 12
+                                        }
+                                    }
+                                ]
+                            },
+                            "Validate MTM Product":{
+                                "conditionConsequentType":2,
+                                "reference":"Validate MTM Product",
+                                "description":null,
+                                "conditionalBlocks":[
+                                    {
+                                        "conditionConsequentType":2,
+                                        "conditions":null,
+                                        "order":0,
+                                        "activityParameters":{
+                                            "activityParametersType":2,
+                                            "stopOnOutOfRangeWarning":true,
+                                            "stopOnIncorrectValueWarning":true
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            ).build();
+
+        await new RulesResource(executor).patch(req, res);
+
+        expect(res.statusCode).toEqual(200);
+    });
 });
