@@ -5,7 +5,6 @@ const Title = styled.div<{ weight?: string }>`
   font-size: 24px;
   font-weight: ${props => props.weight ?? 'lighter'};
   margin-bottom: 20px;
-  min-width: 210px;
 `;
 
 export default Title;

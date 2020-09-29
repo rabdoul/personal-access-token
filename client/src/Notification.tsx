@@ -13,7 +13,9 @@ const Notifier: React.FC<{ dispatch: Dispatch<Action> }> = ({ dispatch }) => {
     const notifierClient = CuttingRoomNotifierClient.fromEnv(computeNotifierEnv(host), token);
 
     notifierClient.on('ProductionRules', EventType.Updated, () => {
-      queryCache.invalidateQueries('setup-sequencing').then(() => dispatch({ type: 'RESET_EDIT_MODE' }));
+      queryCache
+        .invalidateQueries(query => query.queryKey[0] === 'setup-sequencing' || query.queryKey[0] === 'validate-mtm-product')
+        .then(() => dispatch({ type: 'RESET_EDIT_MODE' }));
     });
 
     notifierClient.start();
