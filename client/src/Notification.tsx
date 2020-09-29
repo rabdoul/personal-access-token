@@ -1,9 +1,11 @@
 import { Dispatch, useContext, useEffect } from 'react';
 import { CuttingRoomNotifierClient, EventType, NotifierEnv } from 'cutting-room-notifier-client';
-import { useQueryCache } from 'react-query';
+import { useQueryCache, QueryKey } from 'react-query';
 
 import { Action } from './UIState';
 import { AuthenticationContext } from './base/Authentication';
+
+const QUERIES_KEYS_TO_INVALIDATE: QueryKey[] = ['setup-sequencing', 'validate-mtm-product'];
 
 const Notifier: React.FC<{ dispatch: Dispatch<Action> }> = ({ dispatch }) => {
   const token = useContext(AuthenticationContext).accessToken();
@@ -13,9 +15,7 @@ const Notifier: React.FC<{ dispatch: Dispatch<Action> }> = ({ dispatch }) => {
     const notifierClient = CuttingRoomNotifierClient.fromEnv(computeNotifierEnv(host), token);
 
     notifierClient.on('ProductionRules', EventType.Updated, () => {
-      queryCache
-        .invalidateQueries(query => query.queryKey[0] === 'setup-sequencing' || query.queryKey[0] === 'validate-mtm-product')
-        .then(() => dispatch({ type: 'RESET_EDIT_MODE' }));
+      queryCache.invalidateQueries(query => QUERIES_KEYS_TO_INVALIDATE.includes(query.queryKey[0])).then(() => dispatch({ type: 'RESET_EDIT_MODE' }));
     });
 
     notifierClient.start();
