@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAccessToken } from '../base/Authentication';
-import { useUIStateContext } from '../UIState';
+import { UIState, useUIStateContext } from '../UIState';
 import { sendData } from 'raspberry-fetch/dist';
 import { useMutation } from 'react-query';
 
@@ -9,13 +9,8 @@ function useRibbonListener() {
   const [uiState, dispatch] = useUIStateContext();
 
   const [mutate] = useMutation(() => {
-    const sequencing = uiState['setup-sequencing'];
-    const patch = {
-      op: 'replace',
-      path: 'setup-sequencing',
-      value: sequencing
-    };
-    return sendData(token, 'rules', 'PATCH', [patch]);
+    const rulesPatch = getRulesPatch(uiState);
+    return sendData(token, 'rules', 'PATCH', rulesPatch);
   });
 
   useEffect(() => {
@@ -45,3 +40,13 @@ function useRibbonListener() {
 }
 
 export default useRibbonListener;
+
+export const getRulesPatch = (state: UIState) => {
+  return state.editedRules.map(ruleId => {
+    return {
+      op: 'replace',
+      path: ruleId,
+      value: state[ruleId]
+    };
+  });
+};

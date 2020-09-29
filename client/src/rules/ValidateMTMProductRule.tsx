@@ -5,7 +5,7 @@ import CheckBox from '@lectra/checkbox';
 import StepDescription from './StepDescription';
 import ResultBlock from './ResultBlock';
 import useRule from './useRule';
-import { Sequencing, ValidateMTMProduct } from '../model';
+import { ValidateMTMProduct } from '../model';
 import { useUIStateContext } from '../UIState';
 import { useIntl } from 'react-intl';
 
