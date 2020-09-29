@@ -32,7 +32,7 @@ const ValidateMTMProductRule = () => {
         <FieldZone>
           <CheckBox
             disabled={!editMode}
-            label={formatMessage({ id: 'Request validation if an alteration does not appear in the recommended range' })}
+            label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
             checked={validateMTMProduct.stopOnOutOfRangeWarning!}
             onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
             xlabel="stopOnOutOfRangeWarning"
@@ -40,7 +40,7 @@ const ValidateMTMProductRule = () => {
           />
           <CheckBox
             disabled={!editMode}
-            label={formatMessage({ id: 'Request validation if an alteration does not appear in the list of recommended strict values' })}
+            label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}
             checked={validateMTMProduct.stopOnIncorrectValueWarning!}
             onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
             xlabel="stopOnIncorrectValueWarning"
