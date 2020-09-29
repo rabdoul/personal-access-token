@@ -29,13 +29,14 @@ const ValidateMTMProductRule = () => {
     <Container>
       <StepDescription />
       <ResultBlock isDefault>
-        <div>
+        <FieldZone>
           <CheckBox
             disabled={!editMode}
             label={formatMessage({ id: 'Request validation if an alteration does not appear in the recommended range' })}
             checked={validateMTMProduct.stopOnOutOfRangeWarning!}
             onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
             xlabel="stopOnOutOfRangeWarning"
+            tickSize={13}
           />
           <CheckBox
             disabled={!editMode}
@@ -43,8 +44,9 @@ const ValidateMTMProductRule = () => {
             checked={validateMTMProduct.stopOnIncorrectValueWarning!}
             onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
             xlabel="stopOnIncorrectValueWarning"
+            tickSize={13}
           />
-        </div>
+        </FieldZone>
       </ResultBlock>
     </Container>
   );
@@ -54,6 +56,18 @@ const Container = styled.div`
   height: calc(100% - 95px);
   padding: 20px;
   width: calc(100% - 380px);
+`;
+
+const FieldZone = styled.div`
+  span {
+    font-weight: lighter;
+    font-size: 14px;
+  }
+
+  [data-testId='CheckboxComponent'] {
+    height: 14px;
+    width: 14px;
+  }
 `;
 
 export default ValidateMTMProductRule;

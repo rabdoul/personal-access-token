@@ -29,13 +29,14 @@ const SequencingRule = () => {
     <Container>
       <StepDescription />
       <ResultBlock isDefault>
-        <div>
+        <FieldZone>
           <CheckBox
             disabled={!editMode}
             label={formatMessage({ id: 'rule.sequencing.split.selection' })}
             checked={sequencing.splitCommandProducts!}
             onChange={value => updateSequencing('splitCommandProducts', value)}
             xlabel="splitCommandProducts"
+            tickSize={13}
           />
           {sequencing.splitCommandProducts && (
             <FormLine>
@@ -54,7 +55,7 @@ const SequencingRule = () => {
               />
             </FormLine>
           )}
-        </div>
+        </FieldZone>
       </ResultBlock>
     </Container>
   );
@@ -64,6 +65,18 @@ const Container = styled.div`
   height: calc(100% - 95px);
   padding: 20px;
   width: calc(100% - 380px);
+`;
+
+const FieldZone = styled.div`
+  span {
+    font-weight: lighter;
+    font-size: 14px;
+  }
+
+  [data-testId='CheckboxComponent'] {
+    height: 14px;
+    width: 14px;
+  }
 `;
 
 const FormLine = styled.div`
