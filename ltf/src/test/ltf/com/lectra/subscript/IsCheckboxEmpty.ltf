@@ -1,0 +1,15 @@
+SCRIPT_DESCRIPTION
+Check the checkbox is checked (lol)
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-xlabel of the checkbox
+
+SCRIPT_START
+
+	check -> exists = true -> div [ data-testid = CheckboxComponent , data-xlabel = ${parameter0} ]
+
+	check -> exists = false -> svg [  =  ] -> div [ data-testid = CheckboxComponent , data-xlabel = ${parameter0} ]

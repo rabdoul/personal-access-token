@@ -1,0 +1,76 @@
+SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> Step sequencing activity TEST -> Web production process -> 
+
+	channel -> start -> prodprocess -> ltfs://cutting-room-production-process.dev.mylectra.com/
+
+	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ validate-mtm-product , true ] -> 
+
+	paragraph -> Test setup sequencing activity
+
+	callScript -> subscript.activity_list.SelectActivity -> [ validate-mtm-product ] -> 
+
+	comment1 -> Initial state : checkbox unclicked, input is not shown
+
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning ] ->
+
+	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
+
+	callScript -> subscript.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning ] ->
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
+
+	callScript -> subscript.ClickSave -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
+
+	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.IsCheckboxFilled -> [ stopOnIncorrectValueWarning ] ->
+
+	paragraph -> Teardown
+
+	callScript -> subscript.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning ] ->
+
+	callScript -> subscript.ClickSave -> [  ] -> 
+
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning ] ->
+
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning ] ->
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

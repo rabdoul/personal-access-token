@@ -33,17 +33,15 @@ SCRIPT_START
 
 	check -> exists = false -> input [ id = orders-number ]
 
-	check -> exists = true -> div [ data-testid = CheckboxComponent ]
-
-	check -> exists = false -> svg [  =  ] -> div [ data-testid = CheckboxComponent ]
+	callScript -> subscript.IsCheckboxEmpty -> [ splitCommandProducts ] ->
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
 
-	check -> exists = true -> svg [  =  ] -> div [ data-testid = CheckboxComponent ]
+	callScript -> subscript.IsCheckboxFilled -> [ splitCommandProducts ] ->
 
 	check -> exists = true -> input [ id = orders-number ]
 
@@ -57,7 +55,7 @@ SCRIPT_START
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
 
 	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] ->
 
@@ -81,7 +79,7 @@ SCRIPT_START
 
 	comment1 -> Error remains when hiding the field in error
 
-	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
 
 	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
 
@@ -89,13 +87,15 @@ SCRIPT_START
 
 	paragraph -> Teardown
 
-	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
 
 	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_ENTER ] ->
 
-	callScript -> subscript.step_sequencing.ClickSplitSelectionCheckbox -> [  ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
 
 	callScript -> subscript.ClickSave -> [  ] ->
+
+	callScript -> subscript.IsCheckboxEmpty -> [ splitCommandProducts ] ->
 
 	channel -> close -> prodprocess
 
