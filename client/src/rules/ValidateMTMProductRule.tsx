@@ -28,7 +28,7 @@ const ValidateMTMProductRule = () => {
   return (
     <Container>
       <StepDescription />
-      <ResultBlock isDefault conditionned={activityConfiguration.conditions.length > 0}>
+      <ResultBlock isDefault disabled={!editMode} conditionned={activityConfiguration.conditions.length > 0}>
         <FieldZone>
           <CheckBox
             disabled={!editMode}

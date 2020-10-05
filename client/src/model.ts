@@ -15,4 +15,31 @@ type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerList';
 type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory';
 
 export type Sequencing = { splitCommandProducts: boolean; numberOfProductOrders: number };
+
 export type ValidateMTMProduct = { stopOnOutOfRangeWarning: boolean; stopOnIncorrectValueWarning: boolean };
+
+/**
+ *
+ *
+ * [
+ *  {
+ *      branches: [
+ *         {},
+ *         {}
+ *      ],
+ *      result: {}
+ *  },
+ *  {
+ *      branches: [
+ *         {},
+ *         {}
+ *      ],
+ *      result: {}
+ *  },
+ *  { branches: [],
+ *    resultat
+ *  }
+ * ]
+ *
+ *
+ */
