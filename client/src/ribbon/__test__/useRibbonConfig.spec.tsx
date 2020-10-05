@@ -54,7 +54,7 @@ describe('useRibbonConfig', () => {
   it('ribbon should render edit ribbon config with save disabled', () => {
     const { result } = renderHook(() => useRibbonConfig(), {
       wrapper: ({ children }) => (
-        <MockedProviders uiStateContext={[{ editMode: true, invalidRules: { 'setup-sequencing': setOf('numberOfProductOrders') } }, () => {}]}>{children}</MockedProviders>
+        <MockedProviders uiStateContext={[{ editMode: true, invalidRules: { 'setup-sequencing': new Set(['numberOfProductOrders']) } }, () => {}]}>{children}</MockedProviders>
       )
     });
 
@@ -69,9 +69,3 @@ describe('useRibbonConfig', () => {
     expect(config.groups[0].commands[1].enable).toBeTruthy();
   });
 });
-
-function setOf(value: string) {
-  const set = new Set();
-  set.add(value);
-  return set;
-}

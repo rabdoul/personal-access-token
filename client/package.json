@@ -46,6 +46,7 @@
   "scripts": {
     "gen-i18n": "npx react-intl-properties ./i18n/properties ./src/generated",
     "start": "npm run gen-i18n && sh generate-token.sh && react-scripts start",
+    "start-tmp": "npm run gen-i18n && react-scripts start",
     "build": "npm run gen-i18n && react-scripts build",
     "test": "npm run gen-i18n && react-scripts test",
     "eject": "react-scripts eject"

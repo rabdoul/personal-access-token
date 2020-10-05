@@ -23,7 +23,7 @@ describe('useRuleErrors', () => {
         <MockedProviders
           uiStateContext={[
             {
-              invalidRules: { 'generate-batch': setOf('numberOfProductOrders') }
+              invalidRules: { 'generate-batch': new Set(['numberOfProductOrders']) }
             },
             () => {}
           ]}
@@ -42,7 +42,7 @@ describe('useRuleErrors', () => {
         <MockedProviders
           uiStateContext={[
             {
-              invalidRules: { 'setup-sequencing': setOf('numberOfProductOrders') }
+              invalidRules: { 'setup-sequencing': new Set(['numberOfProductOrders']) }
             },
             () => {}
           ]}
@@ -56,9 +56,3 @@ describe('useRuleErrors', () => {
     expect(result.current.has('numberOfProductOrders')).toBeTruthy();
   });
 });
-
-function setOf(value: string) {
-  const set = new Set();
-  set.add(value);
-  return set;
-}

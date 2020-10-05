@@ -146,7 +146,7 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
-      expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': setOf('numberOfProductOrders') });
+      expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': new Set(['numberOfProductOrders']) });
       expect(uiState['setup-sequencing']).toEqual({
         splitCommandProducts: true
       });
@@ -264,9 +264,3 @@ describe('App.reducer', () => {
     });
   });
 });
-
-function setOf(value: string) {
-  const set = new Set();
-  set.add(value);
-  return set;
-}

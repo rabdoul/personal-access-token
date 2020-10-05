@@ -29,7 +29,7 @@ const ActivityList = () => {
               activity={activity}
               first={index === 0}
               last={index === activities.length - 1}
-              edited={editedRules.includes(activity.id as RuleId)}
+              edited={editedRules.has(activity.id as RuleId)}
               invalid={(invalidRules && invalidRules[activity.id as RuleId]?.size > 0) || false}
             />
           ))}
