@@ -8,7 +8,7 @@ import useRule from './useRule';
 import { ValidateMTMProduct } from '../model';
 import { useUIStateContext } from '../UIState';
 import { useIntl } from 'react-intl';
-import useActivity from '../activities/useActivity';
+import useActivityConfiguration from '../activities/useActivityConfiguration';
 
 const ValidateMTMProductRule = () => {
   const { formatMessage } = useIntl();
@@ -17,9 +17,9 @@ const ValidateMTMProductRule = () => {
   const validateMTMProduct = useRule<'validate-mtm-product', ValidateMTMProduct>('validate-mtm-product', validateMTMProduct =>
     dispatch({ type: 'INIT_VALIDATE_MTM_PRODUCT', validateMTMProduct })
   );
-  const { data: activity } = useActivity('validate-mtm-product');
+  const { data: activityConfiguration } = useActivityConfiguration('validate-mtm-product');
 
-  if (!validateMTMProduct || !activity) return null;
+  if (!validateMTMProduct || !activityConfiguration) return null;
 
   const updateValidateMTMProduct = (attribute: keyof ValidateMTMProduct, value: any) => {
     dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, isValid: true });
@@ -28,7 +28,7 @@ const ValidateMTMProductRule = () => {
   return (
     <Container>
       <StepDescription />
-      <ResultBlock isDefault conditionned={activity.conditions.length > 0}>
+      <ResultBlock isDefault conditionned={activityConfiguration.conditions.length > 0}>
         <FieldZone>
           <CheckBox
             disabled={!editMode}

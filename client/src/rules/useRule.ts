@@ -2,15 +2,18 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 
-import { RuleId, UIState, useUIState } from '../UIState';
+import { ActivityId, UIState, useUIState } from '../UIState';
 import { useAccessToken } from '../base/Authentication';
 
-export default function useRule<R_ID extends RuleId, R extends UIState[R_ID]>(ruleId: R_ID, init: (rule: R) => void): UIState[R_ID] | undefined {
+export default function useRule<ACTIVITY_ID extends ActivityId, R extends UIState[ACTIVITY_ID]>(
+  activityId: ACTIVITY_ID,
+  init: (rule: R) => void
+): UIState[ACTIVITY_ID] | undefined {
   const accessToken = useAccessToken();
 
-  const { editMode, [ruleId]: editedRule } = useUIState();
+  const { editMode, [activityId]: editedRule } = useUIState();
 
-  const { data, isSuccess, isStale } = useQuery<R>(['rules', ruleId], () => fetchData(accessToken, `rules/${ruleId}`));
+  const { data, isSuccess, isStale } = useQuery<R>(['rules', activityId], () => fetchData(accessToken, `rules/${activityId}`));
 
   useEffect(() => {
     if (editMode && isSuccess && !editedRule && !isStale) {

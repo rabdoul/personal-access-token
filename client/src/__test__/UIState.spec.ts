@@ -1,5 +1,5 @@
 import 'jest';
-import { reducer, RuleId, UIState } from '../UIState';
+import { reducer, ActivityId, UIState } from '../UIState';
 
 describe('App.reducer', () => {
   const EMPTY_INVALID_RULES = {

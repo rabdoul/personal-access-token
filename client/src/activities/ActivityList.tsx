@@ -8,7 +8,7 @@ import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
 import Title from '../common/Title';
 import { useAccessToken } from '../base/Authentication';
-import { RuleId, useUIState } from '../UIState';
+import { ActivityId, useUIState } from '../UIState';
 
 const ActivityList = () => {
   const accessToken = useAccessToken();
@@ -29,8 +29,8 @@ const ActivityList = () => {
               activity={activity}
               first={index === 0}
               last={index === activities.length - 1}
-              edited={editedRules.has(activity.id as RuleId)}
-              invalid={(invalidRules && invalidRules[activity.id as RuleId]?.size > 0) || false}
+              edited={editedRules.has(activity.id as ActivityId)}
+              invalid={(invalidRules && invalidRules[activity.id as ActivityId]?.size > 0) || false}
             />
           ))}
         </ItemsContainer>

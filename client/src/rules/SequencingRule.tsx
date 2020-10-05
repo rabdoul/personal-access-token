@@ -11,7 +11,7 @@ import { useUIStateContext } from '../UIState';
 import useRule from './useRule';
 import useRuleErrors from './useRuleErrors';
 import ErrorIcon from '../common/ErrorIcon';
-import useActivity from '../activities/useActivity';
+import useActivityConfiguration from '../activities/useActivityConfiguration';
 
 const SequencingRule = () => {
   const { formatMessage } = useIntl();
@@ -19,11 +19,11 @@ const SequencingRule = () => {
 
   const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
 
-  const { data: activity } = useActivity('setup-sequencing');
+  const { data: activityConfiguration } = useActivityConfiguration('setup-sequencing');
 
   const invalidFields = useRuleErrors('setup-sequencing');
 
-  if (!sequencing || !activity) return null;
+  if (!sequencing || !activityConfiguration) return null;
 
   const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
     dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid });
@@ -32,7 +32,7 @@ const SequencingRule = () => {
   return (
     <Container>
       <StepDescription />
-      <ResultBlock isDefault conditionned={activity.conditions.length > 0}>
+      <ResultBlock isDefault conditionned={activityConfiguration.conditions.length > 0}>
         <FieldZone>
           <CheckBox
             disabled={!editMode}

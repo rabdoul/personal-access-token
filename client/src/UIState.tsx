@@ -1,15 +1,15 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { Sequencing, ValidateMTMProduct } from './model';
 
+export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
+
 export type UIState = {
   editMode: boolean;
-  editedRules: Set<RuleId>;
-  invalidRules?: Record<RuleId, Set<string>>;
+  editedRules: Set<ActivityId>;
+  invalidRules?: Record<ActivityId, Set<string>>;
   'setup-sequencing'?: Partial<Sequencing>;
   'validate-mtm-product'?: Partial<ValidateMTMProduct>;
 };
-
-export type RuleId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
 const InitialState: UIState = {
   editMode: false,
@@ -33,11 +33,11 @@ export const reducer = (state: UIState, action: Action): UIState => {
       return { editMode: state.editMode, editedRules: new Set() };
 
     case 'INIT_SEQUENCING':
-      const invalidRules = { ...state.invalidRules, 'setup-sequencing': new Set() } as Record<RuleId, Set<string>>;
+      const invalidRules = { ...state.invalidRules, 'setup-sequencing': new Set() } as Record<ActivityId, Set<string>>;
       return { ...state, 'setup-sequencing': action.sequencing, invalidRules };
 
     case 'UPDATE_SEQUENCING':
-      let updatedInvalidRules = { ...state.invalidRules } as Record<RuleId, Set<string>>;
+      let updatedInvalidRules = { ...state.invalidRules } as Record<ActivityId, Set<string>>;
       if (action.isValid) {
         updatedInvalidRules['setup-sequencing'].delete(action.attribute);
       } else {
