@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 
-const ResultBlock: React.FC<{ children: React.ReactNode; isDefault: boolean }> = ({ children, isDefault }) => {
+const ResultBlock: React.FC<{ children: React.ReactNode; isDefault: boolean; conditionned: boolean }> = ({ children, isDefault, conditionned }) => {
   const { formatMessage } = useIntl();
   return (
     <Container isDefault={isDefault}>
       <Operator>{formatMessage({ id: isDefault ? 'rule.default' : 'rule.then' })}</Operator>
       {children}
+      {conditionned && <button>+</button>}
     </Container>
   );
 };
