@@ -1,11 +1,11 @@
 import 'jest';
 import { mockHttpRequest, mockHttpResponse, CommandQueryExecutorMockBuilder } from '../../../__test__/Mocks';
-import { SequencingRuleResource } from '../SequencingResources';
+import { ValidateMTMProductRuleResource } from "../ValidateMTMProductRuleResource";
 
-describe('SequencingRuleResource', () => {
+describe('ValidateMTMProductRuleResource', () => {
 
     it('GET should return 200 if query success', async () => {
-        const req = mockHttpRequest('/api/setup-sequencing');
+        const req = mockHttpRequest('/api/validate-mtm-product');
         const [res] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
@@ -13,12 +13,12 @@ describe('SequencingRuleResource', () => {
             { type: 'production-rules.query.get', parameters: {} },
             {
                 activities: {
-                    "Setup sequencing": {
+                    "Validate MTM Product": {
                         conditionalBlocks: [{
                             activityParameters: {
-                                "splitList": true,
-                                "firstSubListSize": 7,
-                                "activityParametersType": 12
+                                "stopOnOutOfRangeWarning": true,
+                                "stopOnIncorrectValueWarning": false,
+                                "activityParametersType": 2
                             }
                         }]
                     }
@@ -26,14 +26,14 @@ describe('SequencingRuleResource', () => {
             }
         ).build();
 
-        await new SequencingRuleResource(executor).get(req, res);
+        await new ValidateMTMProductRuleResource(executor).get(req, res);
 
         expect(res.statusCode).toEqual(200);
-        expect(res._getData()).toEqual({ splitCommandProducts: true, numberOfProductOrders: 7 });
+        expect(res._getData()).toEqual({ stopOnOutOfRangeWarning: true, stopOnIncorrectValueWarning: false });
     });
 
     it('GET should return 500 if query failure', async () => {
-        const req = mockHttpRequest('/api/setup-sequencing');
+        const req = mockHttpRequest('/api/validate-mtm-product');
         const [res] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock().withQueryFailure(
@@ -41,10 +41,8 @@ describe('SequencingRuleResource', () => {
             { type: 'production-rules.query.get', parameters: {} }
         ).build();
 
-        await new SequencingRuleResource(executor).get(req, res);
+        await new ValidateMTMProductRuleResource(executor).get(req, res);
 
         expect(res.statusCode).toEqual(500);
     });
-
-
 });

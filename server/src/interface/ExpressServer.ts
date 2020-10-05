@@ -17,10 +17,10 @@ import { AuthenticationMiddleware } from "./AuthenticationMiddleware";
 import { FeatureFlippingConfig } from "../application/FeatureFlipping";
 import HelpResource from "./resources/HelpResource";
 import { FeatureFlippingConfigResource } from "./resources/FeatureFlippingConfigResource";
-import { ActivitiesResource } from "./resources/ActivitiesResource";
-import { SequencingRuleResource } from "./resources/SequencingResources";
+import { ActivitiesResource, ActivityResource } from "./resources/ActivitiesResource";
+import { SequencingRuleResource } from "./resources/SequencingRuleResource";
 import { RulesResource } from "./resources/RulesResource";
-import { ValidateMTMProductRuleResource } from "./resources/ValidateMTMProductResources";
+import { ValidateMTMProductRuleResource } from "./resources/ValidateMTMProductRuleResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -84,7 +84,10 @@ export class ExpressServer {
     const authenticatedRouter = express.Router();
     authenticatedRouter.use(this.authenticationMiddleware());
     authenticatedRouter.use(new HelpResource().router);
+
     authenticatedRouter.use(new ActivitiesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new ActivityResource(this.commandQueryExecutor).router);
+
     authenticatedRouter.use(new SequencingRuleResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new ValidateMTMProductRuleResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new RulesResource(this.commandQueryExecutor).router);

@@ -2,7 +2,8 @@ import express = require('express');
 
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
-import { activityIdFromReference } from "./ActivitiesMapping";
+import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
+import ActivityConfigurationAdapter from './ActivityConfigurationAdapter';
 
 type GetActivitiesQueryResponse = {
     activities: (Activity & { reference: string, eligibleProcess: number[] })[];
@@ -45,4 +46,26 @@ export class ActivitiesResource {
             .map(it => ({ id: activityIdFromReference(it.reference), order: it.order, enabled: it.enabled }));
     }
 }
+
+export class ActivityResource {
+
+    readonly router = express.Router();
+
+    constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
+        this.router.get('/api/activities/:id', this.get.bind(this))
+    }
+
+    async get(req: express.Request, res: express.Response) {
+        const activityId = req.params.id
+        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules-configuration.query.get', parameters: {} });
+        if (response.type === QueryResponseType.QUERY_SUCCESS) {
+            const config = (response.data!! as any).activities.find((activity: any) => activity.reference === activityReferenceFromId(activityId));
+            res.send(new ActivityConfigurationAdapter().toConfig(config));
+        } else {
+            res.status(500).send(`Unexpected error when retrieving activity ${activityId}: ${response.data}`);
+        }
+    }
+
+}
+
 
