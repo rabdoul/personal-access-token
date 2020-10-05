@@ -3,7 +3,7 @@ import { Sequencing, ValidateMTMProduct } from './model';
 
 export type UIState = {
   editMode: boolean;
-  editedRules: RuleId[];
+  editedRules: Set<RuleId>;
   invalidRules?: Record<RuleId, Set<string>>;
   'setup-sequencing'?: Partial<Sequencing>;
   'validate-mtm-product'?: Partial<ValidateMTMProduct>;
@@ -13,7 +13,7 @@ export type RuleId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRu
 
 const InitialState: UIState = {
   editMode: false,
-  editedRules: []
+  editedRules: new Set()
 };
 
 export type Action =
@@ -27,12 +27,15 @@ export type Action =
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
     case 'TOGGLE_EDIT_MODE':
-      return { editMode: !state.editMode, editedRules: [] };
+      return { editMode: !state.editMode, editedRules: new Set() };
+
     case 'RESET_EDIT_MODE':
-      return { editMode: state.editMode, editedRules: [] };
+      return { editMode: state.editMode, editedRules: new Set() };
+
     case 'INIT_SEQUENCING':
       const invalidRules = { ...state.invalidRules, 'setup-sequencing': new Set() } as Record<RuleId, Set<string>>;
       return { ...state, 'setup-sequencing': action.sequencing, invalidRules };
+
     case 'UPDATE_SEQUENCING':
       let updatedInvalidRules = { ...state.invalidRules } as Record<RuleId, Set<string>>;
       if (action.isValid) {
@@ -42,20 +45,21 @@ export const reducer = (state: UIState, action: Action): UIState => {
       }
       return {
         ...state,
-        editedRules: [...state.editedRules, 'setup-sequencing'],
+        editedRules: new Set([...state.editedRules, 'setup-sequencing']),
         invalidRules: updatedInvalidRules,
         'setup-sequencing': {
           ...state['setup-sequencing'],
           [action.attribute]: action.value
         }
       };
+
     case 'INIT_VALIDATE_MTM_PRODUCT':
       return { ...state, 'validate-mtm-product': action.validateMTMProduct };
 
     case 'UPDATE_VALIDATE_MTM_PRODUCT':
       return {
         ...state,
-        editedRules: [...state.editedRules, 'validate-mtm-product'],
+        editedRules: new Set([...state.editedRules, 'validate-mtm-product']),
         'validate-mtm-product': { ...state['validate-mtm-product'], [action.attribute]: action.value }
       };
   }

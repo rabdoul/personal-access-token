@@ -42,7 +42,7 @@ describe('useRule', () => {
   it('should initialize ui state in edit mode', async () => {
     mocked(useQuery).mockReturnValue({ data: { id: 'setup-sequencing' }, isSuccess: true } as QueryResult<any, any>);
 
-    let state: any = { editMode: true, editedRules: [] };
+    let state: any = { editMode: true, editedRules: new Set() };
     const init = (data: any) => {
       state = { ...state, 'setup-sequencing': data };
     };
@@ -51,13 +51,13 @@ describe('useRule', () => {
     });
 
     expect(result.current).toEqual({ id: 'setup-sequencing' });
-    expect(state).toEqual({ editMode: true, editedRules: [], 'setup-sequencing': { id: 'setup-sequencing' } });
+    expect(state).toEqual({ editMode: true, editedRules: new Set(), 'setup-sequencing': { id: 'setup-sequencing' } });
   });
 
   it('should return edited rule in edit mode', async () => {
     mocked(useQuery).mockReturnValue({ data: { id: 'setup-sequencing', numberOfProductOrders: 5 }, isSuccess: true } as QueryResult<any, any>);
 
-    const state: any = { editMode: true, editedRules: [], 'setup-sequencing': { id: 'setup-sequencing', numberOfProductOrders: 10 } };
+    const state: any = { editMode: true, editedRules: new Set(), 'setup-sequencing': { id: 'setup-sequencing', numberOfProductOrders: 10 } };
 
     const { result } = renderHook(
       () => useRule<'setup-sequencing', Sequencing>('setup-sequencing', () => {}),
