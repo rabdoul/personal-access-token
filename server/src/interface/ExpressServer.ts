@@ -18,9 +18,9 @@ import { FeatureFlippingConfig } from "../application/FeatureFlipping";
 import HelpResource from "./resources/HelpResource";
 import { FeatureFlippingConfigResource } from "./resources/FeatureFlippingConfigResource";
 import { ActivitiesResource } from "./resources/ActivitiesResource";
-import { SequencingRuleResource } from "./resources/SequencingRuleResource";
+import { SequencingRuleResource } from "./resources/SequencingResources";
 import { RulesResource } from "./resources/RulesResource";
-import { ValidateMTMProductRuleResource } from "./resources/ValidateMTMProductRuleResource";
+import { ValidateMTMProductRuleResource } from "./resources/ValidateMTMProductResources";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
