@@ -6,7 +6,7 @@
   "dependencies": {
     "@lectra/basicbutton": "1.0.5",
     "@lectra/checkbox": "1.5.2",
-    "@lectra/embed-ribbon": "0.1.2",
+    "@lectra/embed-ribbon": "1.0.1",
     "@lectra/icon": "2.0.0",
     "@lectra/input": "1.4.5",
     "@lectra/ld-react-feature-flags": "1.0.38",
@@ -42,6 +42,7 @@
     "prettier": "2.1.1",
     "react-intl-properties": "0.0.1",
     "react-test-renderer": "16.13.1",
+    "source-map-explorer": "2.5.0",
     "ts-jest": "^25.5.0",
     "typescript": "~3.7.2"
   },
@@ -50,6 +51,7 @@
     "start": "npm run gen-i18n && sh generate-token.sh && react-scripts start",
     "start-tmp": "npm run gen-i18n && react-scripts start",
     "build": "npm run gen-i18n && react-scripts build",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "npm run gen-i18n && react-scripts test",
     "eject": "react-scripts eject"
   },
