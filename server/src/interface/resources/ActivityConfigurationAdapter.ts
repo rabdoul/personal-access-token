@@ -1,7 +1,9 @@
+import { Activity } from './ActivitiesResource';
+
 export default class ActivityConfigurationAdapter {
 
-    toConfig(activityConfiguration: any) {
-        return { conditions: activityConfiguration.eligibleConditions.map((it: any) => this.toCondition(it)) }
+    toConfig(activity: Activity) {
+        return { conditions: activity.eligibleConditions.map((it: any) => this.toCondition(it)) }
     }
 
     private toCondition(conditionConfig: any) {
@@ -16,31 +18,10 @@ export default class ActivityConfigurationAdapter {
     }
 }
 
-enum ListOperator {
-    None = 0,
-    AtLeastOne = 1
-}
+enum ListOperator { None, AtLeastOne }
 
-enum Operator {
-    Equals = 0,
-    Above = 1,
-    Below = 2,
-    Different = 3,
-    Contains = 4,
-    IsInList = 5,
-}
+enum Operator { Equals, Above, Below, Different, Contains, IsInList }
 
-enum ValueType {
-    String = 0,
-    Numeric = 1,
-    Bool = 2,
-    StringList = 3,
-    IntegerList = 4
-}
+enum ValueType { String, Numeric, Bool, StringList, IntegerList }
 
-enum ValueSource {
-    None,
-    NestingGroup,
-    CuttingGroup,
-    ProductCategory
-}
+enum ValueSource { None, NestingGroup, CuttingGroup, ProductCategory }

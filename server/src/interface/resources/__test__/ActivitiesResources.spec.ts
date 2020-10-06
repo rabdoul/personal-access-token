@@ -1,7 +1,7 @@
 import 'jest';
 import { Principal } from 'lectra-auth-nodejs';
 import { mockHttpRequest, mockHttpResponse, CommandQueryExecutorMockBuilder } from '../../../__test__/Mocks';
-import { ActivitiesResource, ActivityResource } from '../ActivitiesResource';
+import { ActivitiesResource } from '../ActivitiesResource';
 
 import { mocked } from 'ts-jest/utils';
 import { currentPrincipal } from '../../../application/Authentication';
@@ -14,9 +14,9 @@ describe('ActivitiesResource', () => {
         mocked(currentPrincipal).mockImplementation(() => new Principal('sub|42', '123456789_A', 'en_EN', [{ offer: 'OD', market: 'FA' }]))
     });
 
-    it('GET should return 200 if query success', async () => {
+    it('GET activities should return 200 if query success', async () => {
         const req = mockHttpRequest('/api/activities');
-        const [res] = mockHttpResponse();
+        const [res, errorHandler] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
             'cutadmin',
@@ -24,7 +24,7 @@ describe('ActivitiesResource', () => {
             { activities: [{ reference: "Setup sequencing", order: 0, enabled: false, x: 2 }] }
         ).build();
 
-        await new ActivitiesResource(executor).get(req, res);
+        await new ActivitiesResource(executor).activities(req, res, errorHandler);
 
         expect(res.statusCode).toEqual(200);
         expect(res._getData()).toEqual([{ id: "setup-sequencing", order: 0, enabled: false }]);
@@ -33,10 +33,10 @@ describe('ActivitiesResource', () => {
     it('toActivities should return all activities when user is authorized for OD', async () => {
         const activities = ActivitiesResource.toActivities({
             activities: [
-                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1] },
-                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2] },
-                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3] },
-                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [4] }
+                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
+                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2], eligibleConditions: [] },
+                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3], eligibleConditions: [] },
+                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [4], eligibleConditions: [] }
             ]
         });
 
@@ -52,10 +52,10 @@ describe('ActivitiesResource', () => {
         mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', [{ offer: 'C1', market: 'FA' }]))
         const activities = ActivitiesResource.toActivities({
             activities: [
-                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1] },
-                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2] },
-                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3] },
-                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [4] }
+                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
+                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2], eligibleConditions: [] },
+                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3], eligibleConditions: [] },
+                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [4], eligibleConditions: [] }
             ]
         });
 
@@ -66,10 +66,10 @@ describe('ActivitiesResource', () => {
         mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', [{ offer: 'MTO', market: 'FA' }, { offer: 'MTC', market: 'FA' }]))
         const activities = ActivitiesResource.toActivities({
             activities: [
-                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1] },
-                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2] },
-                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3] },
-                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [1, 3] }
+                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
+                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2], eligibleConditions: [] },
+                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3], eligibleConditions: [] },
+                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [1, 3], eligibleConditions: [] }
             ]
         });
 
@@ -80,26 +80,23 @@ describe('ActivitiesResource', () => {
         ])
     });
 
-});
-
-describe('ActivityResource', () => {
-    it('GET should return 500 if query failure', async () => {
+    it('GET activity should return 500 if query failure', async () => {
         const req = mockHttpRequest('/api/activities/validate-mtm-product', { id: 'validate-mtm-product' });
-        const [res] = mockHttpResponse();
+        const [res, errorHandler] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock().withQueryFailure(
             'cutadmin',
             { type: 'production-rules-configuration.query.get', parameters: {} }
         ).build();
 
-        await new ActivityResource(executor).get(req, res);
+        await new ActivitiesResource(executor).activities(req, res, errorHandler);
 
         expect(res.statusCode).toEqual(500);
     });
 
-    it('GET should return 200 if query success', async () => {
+    it('GET activity should return 200 if query success', async () => {
         const req = mockHttpRequest('/api/activities/validate-mtm-product', { id: 'validate-mtm-product' });
-        const [res] = mockHttpResponse();
+        const [res, errorHandler] = mockHttpResponse();
 
         const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
             'cutadmin',
@@ -160,7 +157,7 @@ describe('ActivityResource', () => {
             }
         ).build();
 
-        await new ActivityResource(executor).get(req, res);
+        await new ActivitiesResource(executor).activityConfiguration(req, res, errorHandler);
 
         expect(res.statusCode).toEqual(200);
         expect(res._getData()).toEqual({
@@ -184,4 +181,5 @@ describe('ActivityResource', () => {
             ]
         });
     });
+
 });

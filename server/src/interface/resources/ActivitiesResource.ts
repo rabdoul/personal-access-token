@@ -6,14 +6,11 @@ import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMa
 import ActivityConfigurationAdapter from './ActivityConfigurationAdapter';
 
 type GetActivitiesQueryResponse = {
-    activities: (Activity & { reference: string, eligibleProcess: number[] })[];
+    activities: Activity[];
     [k: string]: any;
 }
 
-type Activity = {
-    order: number,
-    enabled: boolean
-}
+export type Activity = { order: number, enabled: boolean, reference: string, eligibleProcess: number[], eligibleConditions: any[] }
 
 const PROCESS_BY_OFFER: Record<string, number> = { MTO: 1, MTC: 2, MTM: 3, OD: 4 };
 
@@ -22,19 +19,40 @@ export class ActivitiesResource {
     readonly router = express.Router();
 
     constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
-        this.router.get('/api/activities', this.get.bind(this))
+        this.router.get('/api/activities', this.activities.bind(this))
+        this.router.get('/api/activities/:id', this.activityConfiguration.bind(this))
     }
 
-    async get(_: express.Request, res: express.Response) {
-        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules-configuration.query.get', parameters: {} })
-        if (response.type === QueryResponseType.QUERY_SUCCESS) {
-            res.send(ActivitiesResource.toActivities(response.data as GetActivitiesQueryResponse));
-        } else {
-            res.status(500).send(`Unexpected error when retrieving activities : ${response.data}`);
+    async activities(_: express.Request, res: express.Response, next: express.NextFunction) {
+        try {
+            const response = await this.retrieveActivities();
+            res.send(ActivitiesResource.toActivities(response));
+        } catch (error) {
+            next(error);
         }
     }
 
-    static toActivities(response: GetActivitiesQueryResponse): Activity[] {
+    async activityConfiguration(req: express.Request, res: express.Response, next: express.NextFunction) {
+        try {
+            const response = await this.retrieveActivities();
+            const activity = response.activities.find(activity => activity.reference === activityReferenceFromId(req.params.id));
+            if (!activity) throw new Error(`Unknown activity ${req.params.id}`)
+            res.send(new ActivityConfigurationAdapter().toConfig(activity));
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    private async retrieveActivities(): Promise<GetActivitiesQueryResponse> {
+        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules-configuration.query.get', parameters: {} });
+        if (response.type !== QueryResponseType.QUERY_SUCCESS) {
+            throw new Error(`Unexpected error when retrieving activities : ${response.data}`)
+        }
+        return response.data as GetActivitiesQueryResponse;
+    }
+
+
+    static toActivities(response: GetActivitiesQueryResponse) {
         const offers = currentPrincipal().authorizations.map(it => it.offer);
 
         const predicate = offers.includes('OD')
@@ -46,26 +64,3 @@ export class ActivitiesResource {
             .map(it => ({ id: activityIdFromReference(it.reference), order: it.order, enabled: it.enabled }));
     }
 }
-
-export class ActivityResource {
-
-    readonly router = express.Router();
-
-    constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
-        this.router.get('/api/activities/:id', this.get.bind(this))
-    }
-
-    async get(req: express.Request, res: express.Response) {
-        const activityId = req.params.id
-        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules-configuration.query.get', parameters: {} });
-        if (response.type === QueryResponseType.QUERY_SUCCESS) {
-            const config = (response.data!! as any).activities.find((activity: any) => activity.reference === activityReferenceFromId(activityId));
-            res.send(new ActivityConfigurationAdapter().toConfig(config));
-        } else {
-            res.status(500).send(`Unexpected error when retrieving activity ${activityId}: ${response.data}`);
-        }
-    }
-
-}
-
-
