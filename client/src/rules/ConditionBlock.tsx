@@ -38,6 +38,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             value={condition.multipleOperator}
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'multipleOperator', value: item.value })}
             width={200}
+            disabled={disabled}
           />
         )}
         <Select
@@ -49,12 +50,14 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'multipleOperator', value: multipleOperator });
           }}
           width={200}
+          disabled={disabled}
         />
         <Select
           listItems={values.operators}
           value={condition.operator}
           onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'operator', value: item.value })}
           width={200}
+          disabled={disabled}
         />
         {(values.type === 'number' || values.type === 'text') && (
           <Input
@@ -62,6 +65,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             value={condition.value}
             onChange={event => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: event.target.value })}
             width={200}
+            disabled={disabled}
           />
         )}
         {values.type === 'list' && (
@@ -70,6 +74,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             width={200}
             value={condition.value}
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: item.value })}
+            disabled={disabled}
           />
         )}
         <BlockActions>
