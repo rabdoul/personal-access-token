@@ -3,7 +3,7 @@ import express = require('express');
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
-import ActivityConfigurationAdapter from './ActivityConfigurationAdapter';
+import { ListOperator, Operator, ValueSource, ValueType } from './types';
 
 type GetActivitiesQueryResponse = {
     activities: Activity[];
@@ -37,7 +37,17 @@ export class ActivitiesResource {
             const response = await this.retrieveActivities();
             const activity = response.activities.find(activity => activity.reference === activityReferenceFromId(req.params.id));
             if (!activity) throw new Error(`Unknown activity ${req.params.id}`)
-            res.send(new ActivityConfigurationAdapter().toConfig(activity));
+            const conditions = activity.eligibleConditions.map((condition: any) => {
+                return {
+                    reference: condition.leftOperand,
+                    multipleOperator: condition.eligibleListOperator.map((lo: number) => ListOperator[lo]),
+                    operators: condition.eligibleOperator.map((o: number) => Operator[o]),
+                    valueType: ValueType[condition.conditionType],
+                    valueSource: ValueSource[condition.rightOperandBindingSource],
+                    predefinedValues: []
+                };
+            })
+            res.send({ conditions });
         } catch (error) {
             next(error);
         }

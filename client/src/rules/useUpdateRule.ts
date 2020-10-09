@@ -11,7 +11,7 @@ export default function useUpdateRule() {
     const patch = Array.from(state.editedRules).map(ruleId => ({
       op: 'replace',
       path: ruleId,
-      value: state[ruleId]
+      value: state[ruleId]![0].result
     }));
     return sendData(token, 'rules', 'PATCH', patch);
   });
