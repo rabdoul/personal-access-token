@@ -3,17 +3,15 @@ import CheckBox from '@lectra/checkbox';
 
 import useRule from './useRule';
 import { ActivityRule, ValidateMTMProduct } from '../model';
-import { useUIStateContext } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form } from './styled-components';
 import Rule from './Rule';
 
 const ValidateMTMProductRule = () => {
-  const [{ editMode }, dispatch] = useUIStateContext();
-  const rule = useRule<'validate-mtm-product', ActivityRule<ValidateMTMProduct>>('validate-mtm-product', validateMTMProductRule =>
-    dispatch({ type: 'INIT_VALIDATE_MTM_PRODUCT_RULE', validateMTMProduct: validateMTMProductRule })
-  );
+  const { editMode } = useUIState();
+  const rule = useRule<'validate-mtm-product', ActivityRule<ValidateMTMProduct>>('validate-mtm-product');
   const { data: activityConfiguration } = useActivityConfiguration('validate-mtm-product');
 
   if (!rule || !activityConfiguration) return null;
@@ -33,7 +31,7 @@ interface FormProps {
 
 const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
-  const [, dispatch] = useUIStateContext();
+  const dispatch = useUIDispatch();
 
   const updateValidateMTMProduct = (attribute: keyof ValidateMTMProduct, value: any) => {
     dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, isValid: true, statementIndex });

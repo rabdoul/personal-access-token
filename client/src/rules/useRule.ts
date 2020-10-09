@@ -2,14 +2,12 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 
-import { ActivityId, UIState, useUIState } from '../UIState';
+import { ActivityId, UIState, useUIDispatch, useUIState } from '../UIState';
 import { useAccessToken } from '../base/Authentication';
 
-export default function useRule<ACTIVITY_ID extends ActivityId, R extends UIState[ACTIVITY_ID]>(
-  activityId: ACTIVITY_ID,
-  init: (rule: R) => void
-): UIState[ACTIVITY_ID] | undefined {
+export default function useRule<ACTIVITY_ID extends ActivityId, R extends UIState[ACTIVITY_ID]>(activityId: ACTIVITY_ID): UIState[ACTIVITY_ID] | undefined {
   const accessToken = useAccessToken();
+  const dispatch = useUIDispatch();
 
   const { editMode, [activityId]: editedRule } = useUIState();
 
@@ -19,9 +17,9 @@ export default function useRule<ACTIVITY_ID extends ActivityId, R extends UIStat
 
   useEffect(() => {
     if (editMode && isSuccess && !editedRule && !isStale) {
-      init(data!);
+      dispatch({ type: 'INIT_RULE', activityId, rule: data! });
     }
-  }, [editMode, init, isSuccess, isStale, data, editedRule]);
+  }, [dispatch, activityId, editMode, isSuccess, isStale, data, editedRule]);
 
   return editedRule ?? data;
 }

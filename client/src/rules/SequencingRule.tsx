@@ -4,7 +4,7 @@ import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
 import { ActivityRule, Sequencing } from '../model';
-import { useUIStateContext } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './useRule';
 import useRuleErrors from './useRuleErrors';
 import ErrorIcon from '../common/ErrorIcon';
@@ -13,9 +13,9 @@ import { Form, FormLine } from './styled-components';
 import Rule from './Rule';
 
 const SequencingRule = () => {
-  const [{ editMode }, dispatch] = useUIStateContext();
+  const { editMode } = useUIState();
 
-  const rule = useRule<'setup-sequencing', ActivityRule<Sequencing>>('setup-sequencing', sequencingRule => dispatch({ type: 'INIT_SEQUENCING_RULE', sequencing: sequencingRule }));
+  const rule = useRule<'setup-sequencing', ActivityRule<Sequencing>>('setup-sequencing');
 
   const { data: activityConfiguration } = useActivityConfiguration('setup-sequencing');
 
@@ -36,7 +36,7 @@ interface FormProps {
 
 const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
-  const [, dispatch] = useUIStateContext();
+  const dispatch = useUIDispatch();
 
   const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
     dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid, statementIndex });

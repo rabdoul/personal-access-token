@@ -249,8 +249,9 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'INIT_SEQUENCING_RULE',
-        sequencing: [
+        type: 'INIT_RULE',
+        activityId: 'setup-sequencing',
+        rule: [
           {
             conditions: [],
             result: {
@@ -424,8 +425,9 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'INIT_VALIDATE_MTM_PRODUCT_RULE',
-        validateMTMProduct: [
+        type: 'INIT_RULE',
+        activityId: 'validate-mtm-product',
+        rule: [
           {
             conditions: [],
             result: {

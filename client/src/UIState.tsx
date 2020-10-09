@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import produce, { enableMapSet } from 'immer';
 
-import { Condition, ActivityRule, Sequencing, ValidateMTMProduct, AssociateCuttingRequirements } from './model';
+import { Condition, ActivityRule, Sequencing, ValidateMTMProduct, AssociateCuttingRequirements, RuleResult } from './model';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -22,11 +22,9 @@ const InitialState: UIState = {
 export type Action =
   | { type: 'TOGGLE_EDIT_MODE' }
   | { type: 'RESET_EDIT_MODE' }
-  | { type: 'INIT_SEQUENCING_RULE'; sequencing: ActivityRule<Sequencing> }
+  | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<RuleResult> }
   | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; isValid: boolean; statementIndex: number }
-  | { type: 'INIT_VALIDATE_MTM_PRODUCT_RULE'; validateMTMProduct: ActivityRule<ValidateMTMProduct> }
   | { type: 'UPDATE_VALIDATE_MTM_PRODUCT'; attribute: keyof ValidateMTMProduct; value: any; isValid: boolean; statementIndex: number }
-  | { type: 'INIT_ASSOCIATE_CUTTING_REQUIREMENTS_RULE'; associateCuttingRequirements: ActivityRule<AssociateCuttingRequirements> }
   | { type: 'ADD_STATEMENT'; activityId: ActivityId }
   | { type: 'ADD_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number }
   | { type: 'UPDATE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number; attribute: keyof Condition; value: any }
@@ -89,9 +87,9 @@ export const reducer = (state: UIState, action: Action): UIState => {
       };
     }
 
-    case 'INIT_SEQUENCING_RULE':
-      const invalidRules = { ...state.invalidRules, 'setup-sequencing': new Set() } as Record<ActivityId, Set<string>>;
-      return { ...state, 'setup-sequencing': action.sequencing, invalidRules };
+    case 'INIT_RULE':
+      const invalidRules = { ...state.invalidRules, [action.activityId]: new Set() } as Record<ActivityId, Set<string>>;
+      return { ...state, [action.activityId]: action.rule, invalidRules };
 
     case 'UPDATE_SEQUENCING':
       return {
@@ -109,9 +107,6 @@ export const reducer = (state: UIState, action: Action): UIState => {
         })
       };
 
-    case 'INIT_VALIDATE_MTM_PRODUCT_RULE':
-      return { ...state, 'validate-mtm-product': action.validateMTMProduct };
-
     case 'UPDATE_VALIDATE_MTM_PRODUCT':
       return {
         ...state,
@@ -120,9 +115,6 @@ export const reducer = (state: UIState, action: Action): UIState => {
           draft[action.statementIndex].result[action.attribute] = action.value;
         })
       };
-
-    case 'INIT_ASSOCIATE_CUTTING_REQUIREMENTS_RULE':
-      return { ...state, 'associate-cutting-requirements': action.associateCuttingRequirements };
   }
 };
 
