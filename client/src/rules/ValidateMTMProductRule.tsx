@@ -31,12 +31,12 @@ interface FormProps {
   disabled: boolean;
 }
 
-const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct, disabled }) => {
+const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const [, dispatch] = useUIStateContext();
 
   const updateValidateMTMProduct = (attribute: keyof ValidateMTMProduct, value: any) => {
-    dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, isValid: true, statementIndex: 0 });
+    dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, isValid: true, statementIndex });
   };
   return (
     <Form onSubmit={e => e.preventDefault()}>

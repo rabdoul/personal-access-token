@@ -34,12 +34,12 @@ interface FormProps {
   disabled: boolean;
 }
 
-const SequencingResultForm: React.FC<FormProps> = ({ sequencing, disabled }) => {
+const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const [, dispatch] = useUIStateContext();
 
   const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
-    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid, statementIndex: 0 });
+    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid, statementIndex });
   };
 
   const invalidFields = useRuleErrors('setup-sequencing');
