@@ -40,7 +40,7 @@ export class ActivitiesResource {
             const conditions = activity.eligibleConditions.map((condition: any) => {
                 return {
                     reference: condition.leftOperand,
-                    multipleOperator: condition.eligibleListOperator.map((lo: number) => ListOperator[lo]),
+                    multipleOperators: condition.eligibleListOperator.map((lo: number) => ListOperator[lo]),
                     operators: condition.eligibleOperator.map((o: number) => Operator[o]),
                     valueType: ValueType[condition.conditionType],
                     valueSource: ValueSource[condition.rightOperandBindingSource],

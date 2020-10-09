@@ -164,7 +164,7 @@ describe('ActivitiesResource', () => {
             conditions: [
                 {
                     reference: "command.reference",
-                    multipleOperator: ["None"],
+                    multipleOperators: ["None"],
                     operators: ["Equals", "Different", "Contains"],
                     valueType: "String",
                     valueSource: "None",
@@ -172,7 +172,7 @@ describe('ActivitiesResource', () => {
                 },
                 {
                     reference: "command.priority",
-                    multipleOperator: ["None"],
+                    multipleOperators: ["None"],
                     operators: ["Equals", "Above", "Below", "Different"],
                     valueType: "String",
                     valueSource: "None",
