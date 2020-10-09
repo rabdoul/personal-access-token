@@ -4,7 +4,8 @@ import { reducer, ActivityId, UIState } from '../UIState';
 describe('App.reducer', () => {
   const EMPTY_INVALID_RULES = {
     'setup-sequencing': new Set<string>(),
-    'validate-mtm-product': new Set<string>()
+    'validate-mtm-product': new Set<string>(),
+    'associate-cutting-requirements': new Set<string>()
   };
 
   it('should toggle editMode to true', () => {
@@ -24,9 +25,7 @@ describe('App.reducer', () => {
       editMode: true,
       editedRules: new Set(['setup-sequencing']),
       invalidRules: EMPTY_INVALID_RULES,
-      'setup-sequencing': {
-        splitCommandProducts: true
-      }
+      'setup-sequencing': []
     };
 
     expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: new Set() });
@@ -37,15 +36,209 @@ describe('App.reducer', () => {
       editMode: true,
       editedRules: new Set(['setup-sequencing']),
       invalidRules: EMPTY_INVALID_RULES,
-      'setup-sequencing': {
-        splitCommandProducts: true
-      }
+      'setup-sequencing': []
     };
 
     expect(reducer(initialState, { type: 'RESET_EDIT_MODE' })).toEqual({
       editMode: true,
       editedRules: new Set()
     });
+  });
+
+  it('should add statement', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(),
+      invalidRules: EMPTY_INVALID_RULES,
+      'validate-mtm-product': [
+        {
+          conditions: [],
+          result: {
+            stopOnOutOfRangeWarning: true,
+            stopOnIncorrectValueWarning: true
+          }
+        }
+      ]
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'ADD_STATEMENT',
+      activityId: 'validate-mtm-product'
+    });
+
+    expect(uiState.editedRules.has('validate-mtm-product')).toBeTruthy();
+    expect(uiState['validate-mtm-product']).toEqual([
+      {
+        conditions: [{}],
+        result: {}
+      },
+      {
+        conditions: [],
+        result: {
+          stopOnOutOfRangeWarning: true,
+          stopOnIncorrectValueWarning: true
+        }
+      }
+    ]);
+  });
+
+  it('should add condition', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(),
+      invalidRules: EMPTY_INVALID_RULES,
+      'validate-mtm-product': [
+        {
+          conditions: [{}, {}],
+          result: {
+            stopOnOutOfRangeWarning: true,
+            stopOnIncorrectValueWarning: true
+          }
+        }
+      ]
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'ADD_CONDITION',
+      activityId: 'validate-mtm-product',
+      statementIndex: 0,
+      conditionIndex: 1
+    });
+
+    expect(uiState.editedRules.has('validate-mtm-product')).toBeTruthy();
+    expect(uiState['validate-mtm-product']).toEqual([
+      {
+        conditions: [{}, {}, {}],
+        result: {
+          stopOnOutOfRangeWarning: true,
+          stopOnIncorrectValueWarning: true
+        }
+      }
+    ]);
+  });
+
+  it('should update condition', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(),
+      invalidRules: EMPTY_INVALID_RULES,
+      'validate-mtm-product': [
+        { conditions: [{}], result: {} },
+        { conditions: [], result: {} }
+      ]
+    };
+
+    let state = reducer(initialState, {
+      type: 'UPDATE_CONDITION',
+      activityId: 'validate-mtm-product',
+      statementIndex: 0,
+      conditionIndex: 0,
+      attribute: 'reference',
+      value: 'command.reference'
+    });
+
+    expect(state.editedRules.has('validate-mtm-product')).toBeTruthy();
+    expect(state['validate-mtm-product']).toEqual([
+      { conditions: [{ reference: 'command.reference' }], result: {} },
+      { conditions: [], result: {} }
+    ]);
+
+    state = reducer(state, {
+      type: 'UPDATE_CONDITION',
+      activityId: 'validate-mtm-product',
+      statementIndex: 0,
+      conditionIndex: 0,
+      attribute: 'operator',
+      value: 'Equal'
+    });
+
+    expect(state['validate-mtm-product']).toEqual([
+      { conditions: [{ reference: 'command.reference', operator: 'Equal' }], result: {} },
+      { conditions: [], result: {} }
+    ]);
+
+    state = reducer(state, {
+      type: 'UPDATE_CONDITION',
+      activityId: 'validate-mtm-product',
+      statementIndex: 0,
+      conditionIndex: 0,
+      attribute: 'reference',
+      value: 'command.priority'
+    });
+
+    expect(state['validate-mtm-product']).toEqual([
+      { conditions: [{ reference: 'command.priority' }], result: {} },
+      { conditions: [], result: {} }
+    ]);
+  });
+
+  it('should delete condition', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(),
+      invalidRules: EMPTY_INVALID_RULES,
+      'validate-mtm-product': [
+        {
+          conditions: [{}, {}],
+          result: {}
+        },
+        {
+          conditions: [],
+          result: {}
+        }
+      ]
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'DELETE_CONDITION',
+      activityId: 'validate-mtm-product',
+      statementIndex: 0,
+      conditionIndex: 1
+    });
+
+    expect(uiState.editedRules.has('validate-mtm-product')).toBeTruthy();
+    expect(uiState['validate-mtm-product']).toEqual([
+      {
+        conditions: [{}],
+        result: {}
+      },
+      {
+        conditions: [],
+        result: {}
+      }
+    ]);
+  });
+
+  it('should delete statement if first condition is deleted', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(),
+      invalidRules: EMPTY_INVALID_RULES,
+      'validate-mtm-product': [
+        {
+          conditions: [{}, {}],
+          result: {}
+        },
+        {
+          conditions: [],
+          result: {}
+        }
+      ]
+    };
+
+    const uiState = reducer(initialState, {
+      type: 'DELETE_CONDITION',
+      activityId: 'validate-mtm-product',
+      statementIndex: 0,
+      conditionIndex: 0
+    });
+
+    expect(uiState['validate-mtm-product']).toEqual([
+      {
+        conditions: [],
+        result: {}
+      }
+    ]);
   });
 
   describe('setup sequencing', () => {
@@ -56,20 +249,30 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'INIT_SEQUENCING',
-        sequencing: {
-          splitCommandProducts: true,
-          numberOfProductOrders: 5
-        }
+        type: 'INIT_SEQUENCING_RULE',
+        sequencing: [
+          {
+            conditions: [],
+            result: {
+              splitCommandProducts: true,
+              numberOfProductOrders: 5
+            }
+          }
+        ]
       });
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules.size).toBe(0);
       expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
-      expect(uiState['setup-sequencing']).toEqual({
-        splitCommandProducts: true,
-        numberOfProductOrders: 5
-      });
+      expect(uiState['setup-sequencing']).toEqual([
+        {
+          conditions: [],
+          result: {
+            splitCommandProducts: true,
+            numberOfProductOrders: 5
+          }
+        }
+      ]);
     });
 
     it('should update setup-sequencing splitCommandProducts', () => {
@@ -77,26 +280,37 @@ describe('App.reducer', () => {
         editMode: true,
         editedRules: new Set(['setup-sequencing']),
         invalidRules: EMPTY_INVALID_RULES,
-        'setup-sequencing': {
-          splitCommandProducts: false,
-          numberOfProductOrders: 5
-        }
+        'setup-sequencing': [
+          {
+            conditions: [],
+            result: {
+              splitCommandProducts: false,
+              numberOfProductOrders: 5
+            }
+          }
+        ]
       };
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
         attribute: 'splitCommandProducts',
         value: true,
-        isValid: true
+        isValid: true,
+        statementIndex: 0
       });
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
       expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
-      expect(uiState['setup-sequencing']).toEqual({
-        splitCommandProducts: true,
-        numberOfProductOrders: 5
-      });
+      expect(uiState['setup-sequencing']).toEqual([
+        {
+          conditions: [],
+          result: {
+            splitCommandProducts: true,
+            numberOfProductOrders: 5
+          }
+        }
+      ]);
     });
 
     it('should update setup-sequencing numberOfProductOrders', () => {
@@ -104,26 +318,37 @@ describe('App.reducer', () => {
         editMode: true,
         editedRules: new Set(),
         invalidRules: EMPTY_INVALID_RULES,
-        'setup-sequencing': {
-          splitCommandProducts: true,
-          numberOfProductOrders: 5
-        }
+        'setup-sequencing': [
+          {
+            conditions: [],
+            result: {
+              splitCommandProducts: true,
+              numberOfProductOrders: 5
+            }
+          }
+        ]
       };
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
         attribute: 'numberOfProductOrders',
         value: 10,
-        isValid: true
+        isValid: true,
+        statementIndex: 0
       });
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
       expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
-      expect(uiState['setup-sequencing']).toEqual({
-        splitCommandProducts: true,
-        numberOfProductOrders: 10
-      });
+      expect(uiState['setup-sequencing']).toEqual([
+        {
+          conditions: [],
+          result: {
+            splitCommandProducts: true,
+            numberOfProductOrders: 10
+          }
+        }
+      ]);
     });
 
     it('should update setup-sequencing numberOfProductOrders with empty value', () => {
@@ -131,39 +356,60 @@ describe('App.reducer', () => {
         editMode: true,
         editedRules: new Set(),
         invalidRules: EMPTY_INVALID_RULES,
-        'setup-sequencing': {
-          splitCommandProducts: true,
-          numberOfProductOrders: 5
-        }
+        'setup-sequencing': [
+          {
+            conditions: [],
+            result: {
+              splitCommandProducts: true,
+              numberOfProductOrders: 5
+            }
+          }
+        ]
       };
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
         attribute: 'numberOfProductOrders',
         value: undefined,
-        isValid: false
+        isValid: false,
+        statementIndex: 0
       });
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
       expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': new Set(['numberOfProductOrders']) });
-      expect(uiState['setup-sequencing']).toEqual({
-        splitCommandProducts: true
-      });
+      expect(uiState['setup-sequencing']).toEqual([
+        {
+          conditions: [],
+          result: {
+            splitCommandProducts: true
+          }
+        }
+      ]);
     });
 
     it('should keep edited rules on update of another rule', () => {
       const initialState: UIState = {
         editMode: true,
         invalidRules: EMPTY_INVALID_RULES,
-        editedRules: new Set(['validate-mtm-product'])
+        editedRules: new Set(['validate-mtm-product']),
+        'setup-sequencing': [
+          {
+            conditions: [],
+            result: {
+              splitCommandProducts: true,
+              numberOfProductOrders: 5
+            }
+          }
+        ]
       };
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
         attribute: 'numberOfProductOrders',
         value: 3,
-        isValid: true
+        isValid: true,
+        statementIndex: 0
       });
 
       expect(uiState.editedRules).toEqual(new Set(['validate-mtm-product', 'setup-sequencing']));
@@ -178,19 +424,29 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'INIT_VALIDATE_MTM_PRODUCT',
-        validateMTMProduct: {
-          stopOnOutOfRangeWarning: true,
-          stopOnIncorrectValueWarning: false
-        }
+        type: 'INIT_VALIDATE_MTM_PRODUCT_RULE',
+        validateMTMProduct: [
+          {
+            conditions: [],
+            result: {
+              stopOnOutOfRangeWarning: true,
+              stopOnIncorrectValueWarning: false
+            }
+          }
+        ]
       });
 
       expect(uiState.editMode).toBeFalsy();
       expect(uiState.editedRules.size).toBe(0);
-      expect(uiState['validate-mtm-product']).toEqual({
-        stopOnOutOfRangeWarning: true,
-        stopOnIncorrectValueWarning: false
-      });
+      expect(uiState['validate-mtm-product']).toEqual([
+        {
+          conditions: [],
+          result: {
+            stopOnOutOfRangeWarning: true,
+            stopOnIncorrectValueWarning: false
+          }
+        }
+      ]);
     });
 
     it('should update validate-mtm-product stopOnOutOfRangeWarning', () => {
@@ -198,66 +454,60 @@ describe('App.reducer', () => {
         editMode: true,
         editedRules: new Set(),
         invalidRules: EMPTY_INVALID_RULES,
-        'validate-mtm-product': {
-          stopOnOutOfRangeWarning: true,
-          stopOnIncorrectValueWarning: false
-        }
+        'validate-mtm-product': [
+          {
+            conditions: [],
+            result: {
+              stopOnOutOfRangeWarning: true,
+              stopOnIncorrectValueWarning: false
+            }
+          }
+        ]
       };
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_VALIDATE_MTM_PRODUCT',
         attribute: 'stopOnOutOfRangeWarning',
         value: false,
-        isValid: true
+        isValid: true,
+        statementIndex: 0
       });
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('validate-mtm-product');
       expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
-      expect(uiState['validate-mtm-product']).toEqual({
-        stopOnOutOfRangeWarning: false,
-        stopOnIncorrectValueWarning: false
-      });
-    });
-
-    it('should update validate-mtm-product stopOnIncorrectValueWarning', () => {
-      const initialState: UIState = {
-        editMode: true,
-        editedRules: new Set(),
-        invalidRules: EMPTY_INVALID_RULES,
-        'validate-mtm-product': {
-          stopOnOutOfRangeWarning: true,
-          stopOnIncorrectValueWarning: false
+      expect(uiState['validate-mtm-product']).toEqual([
+        {
+          conditions: [],
+          result: {
+            stopOnOutOfRangeWarning: false,
+            stopOnIncorrectValueWarning: false
+          }
         }
-      };
-
-      const uiState = reducer(initialState, {
-        type: 'UPDATE_VALIDATE_MTM_PRODUCT',
-        attribute: 'stopOnIncorrectValueWarning',
-        value: true,
-        isValid: true
-      });
-
-      expect(uiState.editMode).toBeTruthy();
-      expect(uiState.editedRules).toContainEqual('validate-mtm-product');
-      expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
-      expect(uiState['validate-mtm-product']).toEqual({
-        stopOnOutOfRangeWarning: true,
-        stopOnIncorrectValueWarning: true
-      });
+      ]);
     });
 
     it('should keep edited rules on update of another rule', () => {
       const initialState: UIState = {
         editMode: true,
-        editedRules: new Set(['setup-sequencing'])
+        editedRules: new Set(['setup-sequencing']),
+        'validate-mtm-product': [
+          {
+            conditions: [],
+            result: {
+              stopOnOutOfRangeWarning: true,
+              stopOnIncorrectValueWarning: false
+            }
+          }
+        ]
       };
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_VALIDATE_MTM_PRODUCT',
         attribute: 'stopOnOutOfRangeWarning',
         value: false,
-        isValid: true
+        isValid: true,
+        statementIndex: 0
       });
 
       expect(uiState.editedRules).toEqual(new Set(['setup-sequencing', 'validate-mtm-product']));

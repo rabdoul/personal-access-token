@@ -6,11 +6,13 @@
   "dependencies": {
     "@lectra/basicbutton": "1.0.5",
     "@lectra/checkbox": "1.5.2",
+    "@lectra/dropdownsearch": "2.0.2",
     "@lectra/embed-ribbon": "1.0.1",
     "@lectra/icon": "2.0.0",
     "@lectra/input": "1.4.5",
     "@lectra/ld-react-feature-flags": "1.0.38",
     "@lectra/loader": "1.0.7",
+    "@lectra/select": "2.1.7",
     "@lectra/themes": "1.1.2",
     "@lectra/tooltip": "1.0.7",
     "cutting-room-notifier-client": "0.0.2",

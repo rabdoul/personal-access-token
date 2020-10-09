@@ -4,6 +4,7 @@ import { Operation } from 'fast-json-patch';
 import { pick } from 'lodash';
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityReferenceFromId } from "./ActivitiesMapping";
+import { ListOperator, Operator, ValueSource, ValueType } from "./types";
 
 
 type PatchOperation = {
@@ -17,7 +18,29 @@ export class RulesResource {
     readonly router = express.Router();
 
     constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
-        this.router.patch('/api/rules', this.patch.bind(this))
+        this.router.get('/api/rules/:activityId', this.get.bind(this))
+        this.router.patch('/api/rules', this.patch.bind(this));
+    }
+
+    async get(req: express.Request, res: express.Response) {
+        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules.query.get', parameters: {} })
+        if (response.type === QueryResponseType.QUERY_SUCCESS) {
+            const data = (response.data as any).activities[activityReferenceFromId(req.params.activityId)];
+            const rule = data.conditionalBlocks.sort((b1: { order: number }, b2: { order: number }) => b1.order - b2.order)
+                .map((block: any) => {
+                    const conditions = block.conditions?.map((condition: any) => ({
+                        multipleOperator: ListOperator[condition.listOperator],
+                        reference: condition.leftOperand,
+                        operator: Operator[condition.operator],
+                        value: condition.rightOperand
+                    })) || [];
+                    const { activityParametersType, ...result } = block.activityParameters
+                    return { conditions, result };
+                });
+            res.send(rule);
+        } else {
+            res.status(500).send(`Unexpected error when retrieving setup sequencing rule : ${response.data}`);
+        }
     }
 
     async patch(req: express.Request, res: express.Response) {
@@ -48,8 +71,8 @@ export class RulesResource {
         if (sequencingPatchOp) {
             const activityReference = activityReferenceFromId('setup-sequencing')
             patchActivities.push(activityReference);
-             patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitCommandProducts'] });
-             patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['numberOfProductOrders'] });
+            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitCommandProducts'] });
+            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['numberOfProductOrders'] });
         }
 
         const validateMTMProductPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'validate-mtm-product');
