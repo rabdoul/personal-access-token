@@ -254,8 +254,8 @@ describe('App.reducer', () => {
           {
             conditions: [],
             result: {
-              splitCommandProducts: true,
-              numberOfProductOrders: 5
+              splitList: true,
+              firstSubListSize: 5
             }
           }
         ]
@@ -268,14 +268,14 @@ describe('App.reducer', () => {
         {
           conditions: [],
           result: {
-            splitCommandProducts: true,
-            numberOfProductOrders: 5
+            splitList: true,
+            firstSubListSize: 5
           }
         }
       ]);
     });
 
-    it('should update setup-sequencing splitCommandProducts', () => {
+    it('should update setup-sequencing splitList', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(['setup-sequencing']),
@@ -284,8 +284,8 @@ describe('App.reducer', () => {
           {
             conditions: [],
             result: {
-              splitCommandProducts: false,
-              numberOfProductOrders: 5
+              splitList: false,
+              firstSubListSize: 5
             }
           }
         ]
@@ -293,7 +293,7 @@ describe('App.reducer', () => {
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
-        attribute: 'splitCommandProducts',
+        attribute: 'splitList',
         value: true,
         isValid: true,
         statementIndex: 0
@@ -306,14 +306,14 @@ describe('App.reducer', () => {
         {
           conditions: [],
           result: {
-            splitCommandProducts: true,
-            numberOfProductOrders: 5
+            splitList: true,
+            firstSubListSize: 5
           }
         }
       ]);
     });
 
-    it('should update setup-sequencing numberOfProductOrders', () => {
+    it('should update setup-sequencing firstSubListSize', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(),
@@ -322,8 +322,8 @@ describe('App.reducer', () => {
           {
             conditions: [],
             result: {
-              splitCommandProducts: true,
-              numberOfProductOrders: 5
+              splitList: true,
+              firstSubListSize: 5
             }
           }
         ]
@@ -331,7 +331,7 @@ describe('App.reducer', () => {
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
-        attribute: 'numberOfProductOrders',
+        attribute: 'firstSubListSize',
         value: 10,
         isValid: true,
         statementIndex: 0
@@ -344,14 +344,14 @@ describe('App.reducer', () => {
         {
           conditions: [],
           result: {
-            splitCommandProducts: true,
-            numberOfProductOrders: 10
+            splitList: true,
+            firstSubListSize: 10
           }
         }
       ]);
     });
 
-    it('should update setup-sequencing numberOfProductOrders with empty value', () => {
+    it('should update setup-sequencing firstSubListSize with empty value', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(),
@@ -360,8 +360,8 @@ describe('App.reducer', () => {
           {
             conditions: [],
             result: {
-              splitCommandProducts: true,
-              numberOfProductOrders: 5
+              splitList: true,
+              firstSubListSize: 5
             }
           }
         ]
@@ -369,7 +369,7 @@ describe('App.reducer', () => {
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
-        attribute: 'numberOfProductOrders',
+        attribute: 'firstSubListSize',
         value: undefined,
         isValid: false,
         statementIndex: 0
@@ -377,12 +377,12 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
-      expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': new Set(['numberOfProductOrders']) });
+      expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': new Set(['firstSubListSize']) });
       expect(uiState['setup-sequencing']).toEqual([
         {
           conditions: [],
           result: {
-            splitCommandProducts: true
+            splitList: true
           }
         }
       ]);
@@ -397,8 +397,8 @@ describe('App.reducer', () => {
           {
             conditions: [],
             result: {
-              splitCommandProducts: true,
-              numberOfProductOrders: 5
+              splitList: true,
+              firstSubListSize: 5
             }
           }
         ]
@@ -406,7 +406,7 @@ describe('App.reducer', () => {
 
       const uiState = reducer(initialState, {
         type: 'UPDATE_SEQUENCING',
-        attribute: 'numberOfProductOrders',
+        attribute: 'firstSubListSize',
         value: 3,
         isValid: true,
         statementIndex: 0

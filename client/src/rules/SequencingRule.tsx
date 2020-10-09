@@ -49,12 +49,12 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, disabled }) => 
       <CheckBox
         disabled={disabled}
         label={formatMessage({ id: 'rule.sequencing.split.selection' })}
-        checked={sequencing.splitCommandProducts!}
-        onChange={value => updateSequencing('splitCommandProducts', value)}
-        xlabel="splitCommandProducts"
+        checked={sequencing.splitList!}
+        onChange={value => updateSequencing('splitList', value)}
+        xlabel="splitList"
         tickSize={13}
       />
-      {sequencing.splitCommandProducts && (
+      {sequencing.splitList && (
         <FormLine>
           <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
           <Input
@@ -62,12 +62,12 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, disabled }) => 
             id="orders-number"
             type="number"
             numberMaxDigits={0}
-            value={sequencing.numberOfProductOrders}
+            value={sequencing.firstSubListSize}
             width={50}
             error={invalidFields.has('numberOfProductOrders')}
             icon={<ErrorIcon errorKey="error.not.positive.field" />}
             min={0}
-            onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
+            onChange={evt => updateSequencing('firstSubListSize', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
           />
         </FormLine>
       )}

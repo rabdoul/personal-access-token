@@ -112,7 +112,7 @@ describe('RulesResource', () => {
 
     it('PATCH should return 200 if command success', async () => {
         const req = mockHttpRequest('/api/rules', {}, [
-            { "op": "replace", "path": "setup-sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } }
+            { "op": "replace", "path": "setup-sequencing", "value": { "splitList": true, "firstSubListSize": 5 } }
         ]);
         const [res] = mockHttpResponse();
 
@@ -198,7 +198,7 @@ describe('RulesResource', () => {
 
     it('PATCH should return 200 if command success with two patch operations', async () => {
         const req = mockHttpRequest('/api/rules', {}, [
-            { "op": "replace", "path": "setup-sequencing", "value": { "splitCommandProducts": true, "numberOfProductOrders": 5 } },
+            { "op": "replace", "path": "setup-sequencing", "value": { "splitList": true, "firstSubListSize": 5 } },
             { "op": "replace", "path": "validate-mtm-product", "value": { "stopOnOutOfRangeWarning": true, "stopOnIncorrectValueWarning": true } }
         ]);
         const [res] = mockHttpResponse();

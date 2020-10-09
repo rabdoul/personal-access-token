@@ -20,8 +20,8 @@ export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCat
 export interface RuleResult {}
 
 export interface Sequencing extends RuleResult {
-  splitCommandProducts: boolean;
-  numberOfProductOrders: number;
+  splitList: boolean;
+  firstSubListSize: number;
 }
 
 export interface ValidateMTMProduct extends RuleResult {
