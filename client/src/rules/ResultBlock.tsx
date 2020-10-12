@@ -5,13 +5,12 @@ import { ActivityId, useUIDispatch } from '../UIState';
 import ConditionalInstruction from './ConditionalInstruction';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 
-interface Props {
-  children: React.ReactNode;
+type Props = {
   activityId: ActivityId;
   conditional: boolean;
   isDefault: boolean;
   disabled: boolean;
-}
+};
 
 const ResultBlock: React.FC<Props> = ({ children, activityId, conditional, isDefault, disabled }) => {
   const dispatch = useUIDispatch();

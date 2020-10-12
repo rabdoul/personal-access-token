@@ -26,11 +26,11 @@ const SequencingRule = () => {
   );
 };
 
-interface FormProps {
+type FormProps = {
   sequencing: Partial<Sequencing>;
   statementIndex: number;
   disabled: boolean;
-}
+};
 
 const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

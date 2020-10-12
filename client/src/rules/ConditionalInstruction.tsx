@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 
-interface Props {
+type Props = {
   type: 'IF' | 'AND' | 'ELSE' | 'THEN' | 'DEFAULT';
-}
+};
 
 const getOperatorColor = (type: string) => {
   switch (type) {

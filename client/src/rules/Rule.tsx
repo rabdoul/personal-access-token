@@ -8,13 +8,13 @@ import ResultBlock from './ResultBlock';
 import ElseBlock from './ElseBlock';
 import { ActivityId } from '../UIState';
 
-interface Props {
+type Props = {
   activityId: ActivityId;
   activityConfiguration: ActivityConfiguration;
   disabled: boolean;
   rule: ActivityRule<RuleResult>;
   children: (statementIndex: number, result: RuleResult) => React.ReactNode;
-}
+};
 
 const Rule = ({ children, activityId, activityConfiguration, rule, disabled }: Props) => {
   return (

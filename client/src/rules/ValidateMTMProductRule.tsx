@@ -23,11 +23,11 @@ const ValidateMTMProductRule = () => {
   );
 };
 
-interface FormProps {
+type FormProps = {
   validateMTMProduct: Partial<ValidateMTMProduct>;
   statementIndex: number;
   disabled: boolean;
-}
+};
 
 const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

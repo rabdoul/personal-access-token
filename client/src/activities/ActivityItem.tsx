@@ -7,13 +7,7 @@ import Icon from '@lectra/icon';
 import { Activity } from '../model';
 import ActivityIndicator from './ActivityIndicator';
 
-interface Props {
-  activity: Activity;
-  first: boolean;
-  last: boolean;
-  edited: boolean;
-  invalid: boolean;
-}
+type Props = { activity: Activity; first: boolean; last: boolean; edited: boolean; invalid: boolean };
 
 const ActivityItem: React.FC<Props> = ({ activity, first, last, edited, invalid }) => {
   const { formatMessage } = useIntl();

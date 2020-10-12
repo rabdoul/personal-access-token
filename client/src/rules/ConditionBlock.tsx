@@ -11,7 +11,7 @@ import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionBlockValues from './useConditionBlockValues';
 
-interface Props {
+type Props = {
   statementIndex: number;
   condition: Condition;
   conditionIndex: number;
@@ -19,9 +19,7 @@ interface Props {
   activityId: ActivityId;
   activityConfiguration: ActivityConfiguration;
   disabled: boolean;
-}
-
-type Item = { label: string; value: string };
+};
 
 const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionIndex, activityId, activityConfiguration, disabled }) => {
   const dispatch = useUIDispatch();

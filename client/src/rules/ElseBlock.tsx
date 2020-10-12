@@ -6,10 +6,10 @@ import { ActivityId, useUIDispatch } from '../UIState';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 
-interface Props {
+type Props = {
   activityId: ActivityId;
   disabled: boolean;
-}
+};
 
 const ElseBlock: React.FC<Props> = ({ activityId, disabled }) => {
   const dispatch = useUIDispatch();

@@ -5,8 +5,9 @@ import { sendData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
 
 export default function useUpdateRule() {
-  const state = useUIState();
   const token = useAccessToken();
+  const state = useUIState();
+
   return useMutation(() => {
     const patch = Array.from(state.editedRules).map(ruleId => ({
       op: 'replace',
