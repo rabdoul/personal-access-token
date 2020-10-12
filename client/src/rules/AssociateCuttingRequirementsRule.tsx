@@ -8,7 +8,7 @@ import Rule from './Rule';
 
 const AssociateCuttingRequirementsRule = () => {
   const { editMode } = useUIState();
-  const rule = useRule<'associate-cutting-requirements', ActivityRule<AssociateCuttingRequirements>>('associate-cutting-requirements');
+  const rule = useRule('associate-cutting-requirements');
   const { data: activityConfiguration } = useActivityConfiguration('associate-cutting-requirements');
 
   if (!rule || !activityConfiguration) return null;

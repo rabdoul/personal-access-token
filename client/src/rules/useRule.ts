@@ -5,13 +5,13 @@ import { fetchData } from 'raspberry-fetch';
 import { ActivityId, UIState, useUIDispatch, useUIState } from '../UIState';
 import { useAccessToken } from '../base/Authentication';
 
-export default function useRule<ACTIVITY_ID extends ActivityId, R extends UIState[ACTIVITY_ID]>(activityId: ACTIVITY_ID): UIState[ACTIVITY_ID] | undefined {
+export default function useRule<ACTIVITY_ID extends ActivityId>(activityId: ACTIVITY_ID): UIState[ACTIVITY_ID] | undefined {
   const accessToken = useAccessToken();
   const dispatch = useUIDispatch();
 
   const { editMode, [activityId]: editedRule } = useUIState();
 
-  const { data, isSuccess, isStale } = useQuery<R>(['rules', activityId], () => {
+  const { data, isSuccess, isStale } = useQuery(['rules', activityId], () => {
     return fetchData(accessToken, `rules/${activityId}`);
   });
 

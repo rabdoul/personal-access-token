@@ -15,7 +15,7 @@ import Rule from './Rule';
 const SequencingRule = () => {
   const { editMode } = useUIState();
 
-  const rule = useRule<'setup-sequencing', ActivityRule<Sequencing>>('setup-sequencing');
+  const rule = useRule('setup-sequencing');
 
   const { data: activityConfiguration } = useActivityConfiguration('setup-sequencing');
 

@@ -11,7 +11,7 @@ import Rule from './Rule';
 
 const ValidateMTMProductRule = () => {
   const { editMode } = useUIState();
-  const rule = useRule<'validate-mtm-product', ActivityRule<ValidateMTMProduct>>('validate-mtm-product');
+  const rule = useRule('validate-mtm-product');
   const { data: activityConfiguration } = useActivityConfiguration('validate-mtm-product');
 
   if (!rule || !activityConfiguration) return null;
