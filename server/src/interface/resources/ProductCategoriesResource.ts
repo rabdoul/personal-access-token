@@ -1,6 +1,4 @@
 import express = require('express');
-import { Principal } from 'lectra-auth-nodejs';
-import { idText } from 'typescript';
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 
