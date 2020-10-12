@@ -15,15 +15,14 @@ type Props = {
   statementIndex: number;
   condition: Condition;
   conditionIndex: number;
-  // add activity id to activity configuration
-  activityId: ActivityId;
   activityConfiguration: ActivityConfiguration;
   disabled: boolean;
 };
 
-const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionIndex, activityId, activityConfiguration, disabled }) => {
+const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionIndex, activityConfiguration, disabled }) => {
   const dispatch = useUIDispatch();
   const values = useConditionBlockValues(condition, activityConfiguration);
+  const activityId = activityConfiguration.id as ActivityId;
 
   return (
     <BlockContainer>

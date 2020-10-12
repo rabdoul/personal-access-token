@@ -20,8 +20,7 @@ const useOperatorColor = (type: string) => {
 
 const ConditionalInstruction: React.FC<Props> = ({ type }) => {
   const { formatMessage } = useIntl();
-  let color = useOperatorColor(type);
-  return <ConditionalInstructionContainer color={color}>{formatMessage({ id: `rule.${type.toLowerCase()}` })}</ConditionalInstructionContainer>;
+  return <ConditionalInstructionContainer color={useOperatorColor(type)}>{formatMessage({ id: `rule.${type.toLowerCase()}` })}</ConditionalInstructionContainer>;
 };
 
 export default ConditionalInstruction;

@@ -9,14 +9,14 @@ import { ActivityId } from '../UIState';
 import { RuleContainer } from './styles';
 
 type Props = {
-  activityId: ActivityId;
   activityConfiguration: ActivityConfiguration;
   disabled: boolean;
   rule: ActivityRule<RuleResult>;
   children: (statementIndex: number, result: RuleResult) => React.ReactNode;
 };
 
-const Rule = ({ children, activityId, activityConfiguration, rule, disabled }: Props) => {
+const Rule = ({ children, activityConfiguration, rule, disabled }: Props) => {
+  const activityId = activityConfiguration.id as ActivityId;
   return (
     <RuleContainer>
       <StepDescription />
@@ -28,7 +28,6 @@ const Rule = ({ children, activityId, activityConfiguration, rule, disabled }: P
                 key={`${statementIndex}-${conditionIndex}`}
                 statementIndex={statementIndex}
                 condition={condition}
-                activityId={activityId}
                 activityConfiguration={activityConfiguration}
                 conditionIndex={conditionIndex}
                 disabled={disabled}

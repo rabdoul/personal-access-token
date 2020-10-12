@@ -1,7 +1,7 @@
 export type Activity = { id: string; order: number; enabled: boolean };
-export type ActivityConfiguration = { conditions: ConditionDef[] };
+export type ActivityConfiguration = { id: string; conditions: ConditionDefinition[] };
 
-export type ConditionDef = {
+export type ConditionDefinition = {
   reference: string;
   multipleOperators: ListOperator[];
   operators: Operator[];

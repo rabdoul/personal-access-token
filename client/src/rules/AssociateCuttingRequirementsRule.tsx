@@ -13,7 +13,7 @@ const AssociateCuttingRequirementsRule = () => {
   if (!rule || !activityConfiguration) return null;
 
   return (
-    <Rule activityId={'associate-cutting-requirements'} activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
+    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
       {(statementIndex, result) => <span>result form goes here</span>}
     </Rule>
   );
