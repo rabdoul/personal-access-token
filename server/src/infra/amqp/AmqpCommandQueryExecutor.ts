@@ -49,7 +49,9 @@ export class AmqpCommandQueryExecutor implements CommandQueryExecutor {
   private async sendAndReceive(exchange: string, routingKey: string, payload: object): Promise<Message | undefined> {
     return this.amqpClient.sendAndReceive(exchange, routingKey, Buffer.from(JSON.stringify(payload)), 'application/json', {
       tenant_id: currentPrincipalOrNull()?.tenantId,
-      api_version: "4.0"
+      api_version: "4.0",
+      usage_offer: "OD",
+      market: "FA"
     })
   }
 }

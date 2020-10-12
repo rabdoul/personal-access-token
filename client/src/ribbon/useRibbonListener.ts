@@ -8,7 +8,7 @@ function useRibbonListener() {
   const token = useAccessToken();
   const [uiState, dispatch] = useUIStateContext();
 
-  const [mutate] = useUpdateRule();
+  const [updateRule] = useUpdateRule();
 
   useEffect(() => {
     const ribbonActionListener = ((e: CustomEvent) => {
@@ -18,7 +18,7 @@ function useRibbonListener() {
           break;
         }
         case 'SAVE_PRODUCTION_PROCESS': {
-          mutate().then(_ => dispatch({ type: 'TOGGLE_EDIT_MODE' }));
+          updateRule().then(_ => dispatch({ type: 'TOGGLE_EDIT_MODE' }));
           break;
         }
         case 'CANCEL_PRODUCTION_PROCESS_EDITION': {
@@ -33,7 +33,7 @@ function useRibbonListener() {
     document.addEventListener('RIBBON_ACTION', ribbonActionListener);
 
     return () => document.removeEventListener('RIBBON_ACTION', ribbonActionListener);
-  }, [dispatch, mutate, token, uiState]);
+  }, [dispatch, updateRule, token, uiState]);
 }
 
 export default useRibbonListener;

@@ -20,10 +20,7 @@ describe('useRule', () => {
   it('should return undefined when query is still loading', async () => {
     mocked(useQuery).mockReturnValue({ data: undefined, isSuccess: false } as QueryResult<any, any>);
 
-    const { result } = renderHook(
-      () => useRule<'setup-sequencing', Sequencing>('setup-sequencing', () => {}),
-      { wrapper: ({ children }) => <MockedProviders uiStateContext={[{}, () => {}]}>{children}</MockedProviders> }
-    );
+    const { result } = renderHook(() => useRule('setup-sequencing'), { wrapper: ({ children }) => <MockedProviders uiStateContext={[{}, () => {}]}>{children}</MockedProviders> });
 
     expect(result.current).toBeUndefined();
   });
@@ -31,10 +28,7 @@ describe('useRule', () => {
   it('should return retrieved rule in display mode', async () => {
     mocked(useQuery).mockReturnValue({ data: { id: 'setup-sequencing' }, isSuccess: true } as QueryResult<any, any>);
 
-    const { result } = renderHook(
-      () => useRule<'setup-sequencing', Sequencing>('setup-sequencing', () => {}),
-      { wrapper: ({ children }) => <MockedProviders uiStateContext={[{}, () => {}]}>{children}</MockedProviders> }
-    );
+    const { result } = renderHook(() => useRule('setup-sequencing'), { wrapper: ({ children }) => <MockedProviders uiStateContext={[{}, () => {}]}>{children}</MockedProviders> });
 
     expect(result.current).toEqual({ id: 'setup-sequencing' });
   });
@@ -46,8 +40,19 @@ describe('useRule', () => {
     const init = (data: any) => {
       state = { ...state, 'setup-sequencing': data };
     };
-    const { result } = renderHook(() => useRule<'setup-sequencing', Sequencing>('setup-sequencing', init), {
-      wrapper: ({ children }) => <MockedProviders uiStateContext={[state, () => {}]}>{children}</MockedProviders>
+    const { result } = renderHook(() => useRule('setup-sequencing'), {
+      wrapper: ({ children }) => (
+        <MockedProviders
+          uiStateContext={[
+            state,
+            (action: any) => {
+              state = { ...state, 'setup-sequencing': action.rule };
+            }
+          ]}
+        >
+          {children}
+        </MockedProviders>
+      )
     });
 
     expect(result.current).toEqual({ id: 'setup-sequencing' });
@@ -59,10 +64,9 @@ describe('useRule', () => {
 
     const state: any = { editMode: true, editedRules: new Set(), 'setup-sequencing': { id: 'setup-sequencing', numberOfProductOrders: 10 } };
 
-    const { result } = renderHook(
-      () => useRule<'setup-sequencing', Sequencing>('setup-sequencing', () => {}),
-      { wrapper: ({ children }) => <MockedProviders uiStateContext={[state, () => {}]}>{children}</MockedProviders> }
-    );
+    const { result } = renderHook(() => useRule('setup-sequencing'), {
+      wrapper: ({ children }) => <MockedProviders uiStateContext={[state, () => {}]}>{children}</MockedProviders>
+    });
 
     expect(result.current).toEqual({ id: 'setup-sequencing', numberOfProductOrders: 10 });
   });

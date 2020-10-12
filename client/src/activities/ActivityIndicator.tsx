@@ -1,11 +1,6 @@
 import React from 'react';
 
-interface Props {
-  selected?: boolean;
-  disabled?: boolean;
-  first?: boolean;
-  last?: boolean;
-}
+type Props = { selected?: boolean; disabled?: boolean; first?: boolean; last?: boolean };
 
 const ActivityIndicator: React.FC<Props> = ({ selected = false, disabled = false, first = false, last = false }) => {
   return (

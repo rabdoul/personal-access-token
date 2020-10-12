@@ -1,43 +1,35 @@
 import React from 'react';
-import styled from 'styled-components';
-import { useIntl } from 'react-intl';
 import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
+import { ActivityId, useUIDispatch } from '../UIState';
+import ConditionalInstruction from './ConditionalInstruction';
+import { BlockActions, BlockContainer, BlockContent } from './styles';
 
-const ResultBlock: React.FC<{ children: React.ReactNode; isDefault: boolean; conditionned: boolean; disabled: boolean }> = ({ children, isDefault, conditionned, disabled }) => {
-  const { formatMessage } = useIntl();
-  return (
-    <Container isDefault={isDefault}>
-      <Operator>{formatMessage({ id: isDefault ? 'rule.default' : 'rule.then' })}</Operator>
-      {children}
-      {conditionned && (
-        <BasicButton onClick={() => {}} disabled={disabled} type={'white'}>
-          <Icon type="add" size={14} />
-        </BasicButton>
-      )}
-    </Container>
-  );
+type Props = {
+  activityId: ActivityId;
+  conditional: boolean;
+  isDefault: boolean;
+  disabled: boolean;
 };
 
-const Container = styled.div<{ isDefault: boolean }>`
-  align-items: center;
-  background-color: #fff;
-  border-left: ${props => (props.isDefault ? 'none' : '5px solid #26a3ff')};
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-  display: flex;
-  margin-left: ${props => (props.isDefault ? '0' : '20px')};
-  width: 800px;
-  padding: 10px;
+const ResultBlock: React.FC<Props> = ({ children, activityId, conditional, isDefault, disabled }) => {
+  const dispatch = useUIDispatch();
 
-  button {
-    margin-left: auto;
-  }
-`;
-
-const Operator = styled.div`
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 20px 0 10px;
-`;
+  return (
+    <BlockContainer marginLeft={isDefault ? '0' : '15px'}>
+      <ConditionalInstruction type={isDefault ? 'DEFAULT' : 'THEN'} />
+      <BlockContent>
+        {children}
+        {conditional && isDefault && (
+          <BlockActions>
+            <BasicButton onClick={() => dispatch({ type: 'ADD_STATEMENT', activityId })} disabled={disabled} type={'white'}>
+              <Icon type="add" size={14} />
+            </BasicButton>
+          </BlockActions>
+        )}
+      </BlockContent>
+    </BlockContainer>
+  );
+};
 
 export default ResultBlock;

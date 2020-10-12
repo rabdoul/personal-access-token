@@ -18,9 +18,8 @@ import { FeatureFlippingConfig } from "../application/FeatureFlipping";
 import HelpResource from "./resources/HelpResource";
 import { FeatureFlippingConfigResource } from "./resources/FeatureFlippingConfigResource";
 import { ActivitiesResource } from "./resources/ActivitiesResource";
-import { SequencingRuleResource } from "./resources/SequencingRuleResource";
 import { RulesResource } from "./resources/RulesResource";
-import { ValidateMTMProductRuleResource } from "./resources/ValidateMTMProductRuleResource";
+import { ProductCategoriesResource } from "./resources/ProductCategoriesResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -85,9 +84,8 @@ export class ExpressServer {
     authenticatedRouter.use(this.authenticationMiddleware());
     authenticatedRouter.use(new HelpResource().router);
     authenticatedRouter.use(new ActivitiesResource(this.commandQueryExecutor).router);
-    authenticatedRouter.use(new SequencingRuleResource(this.commandQueryExecutor).router);
-    authenticatedRouter.use(new ValidateMTMProductRuleResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new RulesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new ProductCategoriesResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }
 

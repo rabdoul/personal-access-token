@@ -1,97 +1,76 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
-import StepDescription from './StepDescription';
 import { Sequencing } from '../model';
-import ResultBlock from './ResultBlock';
-import { useUIStateContext } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './useRule';
 import useRuleErrors from './useRuleErrors';
 import ErrorIcon from '../common/ErrorIcon';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
+import { Form, FormLine } from './styles';
+import Rule from './Rule';
 
 const SequencingRule = () => {
-  const { formatMessage } = useIntl();
-  const [{ editMode }, dispatch] = useUIStateContext();
+  const { editMode } = useUIState();
+  const rule = useRule('setup-sequencing');
+  const activityConfiguration = useActivityConfiguration('setup-sequencing');
 
-  const sequencing = useRule<'setup-sequencing', Sequencing>('setup-sequencing', sequencing => dispatch({ type: 'INIT_SEQUENCING', sequencing }));
-
-  const { data: activityConfiguration } = useActivityConfiguration('setup-sequencing');
-
-  const invalidFields = useRuleErrors('setup-sequencing');
-
-  if (!sequencing || !activityConfiguration) return null;
-
-  const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
-    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid });
-  };
+  if (!rule || !activityConfiguration) return null;
 
   return (
-    <Container>
-      <StepDescription />
-      <ResultBlock isDefault disabled={!editMode} conditionned={activityConfiguration.conditions.length > 0}>
-        <FieldZone>
-          <CheckBox
-            disabled={!editMode}
-            label={formatMessage({ id: 'rule.sequencing.split.selection' })}
-            checked={sequencing.splitCommandProducts!}
-            onChange={value => updateSequencing('splitCommandProducts', value)}
-            xlabel="splitCommandProducts"
-            tickSize={13}
-          />
-          {sequencing.splitCommandProducts && (
-            <FormLine>
-              <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
-              <Input
-                disabled={!editMode}
-                id="orders-number"
-                type="number"
-                numberMaxDigits={0}
-                value={sequencing.numberOfProductOrders}
-                width={50}
-                error={invalidFields.has('numberOfProductOrders')}
-                icon={<ErrorIcon errorKey="error.not.positive.field" />}
-                min={0}
-                onChange={evt => updateSequencing('numberOfProductOrders', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
-              />
-            </FormLine>
-          )}
-        </FieldZone>
-      </ResultBlock>
-    </Container>
+    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
+      {(statementIndex, result) => <SequencingResultForm sequencing={result} statementIndex={statementIndex} disabled={!editMode} />}
+    </Rule>
   );
 };
 
-const Container = styled.div`
-  height: calc(100% - 95px);
-  padding: 20px;
-  width: calc(100% - 380px);
-`;
+type FormProps = {
+  sequencing: Partial<Sequencing>;
+  statementIndex: number;
+  disabled: boolean;
+};
 
-const FieldZone = styled.div`
-  span {
-    font-weight: lighter;
-    font-size: 14px;
-  }
+const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex, disabled }) => {
+  const { formatMessage } = useIntl();
+  const dispatch = useUIDispatch();
 
-  [data-testId='CheckboxComponent'] {
-    height: 14px;
-    width: 14px;
-  }
-`;
+  const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
+    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid, statementIndex });
+  };
 
-const FormLine = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  font-weight: lighter;
+  const invalidFields = useRuleErrors('setup-sequencing');
 
-  input {
-    margin-left: 5px;
-  }
-`;
+  return (
+    <Form onSubmit={e => e.preventDefault()}>
+      <CheckBox
+        disabled={disabled}
+        label={formatMessage({ id: 'rule.sequencing.split.selection' })}
+        checked={sequencing.splitList!}
+        onChange={value => updateSequencing('splitList', value)}
+        xlabel="splitList"
+        tickSize={13}
+      />
+      {sequencing.splitList && (
+        <FormLine>
+          <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
+          <Input
+            disabled={disabled}
+            id="orders-number"
+            type="number"
+            numberMaxDigits={0}
+            value={sequencing.firstSubListSize}
+            width={50}
+            error={invalidFields.has('numberOfProductOrders')}
+            icon={<ErrorIcon errorKey="error.not.positive.field" />}
+            min={0}
+            onChange={evt => updateSequencing('firstSubListSize', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
+          />
+        </FormLine>
+      )}
+    </Form>
+  );
+};
 
 export default SequencingRule;
