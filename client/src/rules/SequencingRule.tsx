@@ -3,21 +3,19 @@ import { useIntl } from 'react-intl';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
-import { ActivityRule, Sequencing } from '../model';
+import { Sequencing } from '../model';
 import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './useRule';
 import useRuleErrors from './useRuleErrors';
 import ErrorIcon from '../common/ErrorIcon';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form, FormLine } from './styled-components';
+import { Form, FormLine } from './styles';
 import Rule from './Rule';
 
 const SequencingRule = () => {
   const { editMode } = useUIState();
-
   const rule = useRule('setup-sequencing');
-
-  const { data: activityConfiguration } = useActivityConfiguration('setup-sequencing');
+  const activityConfiguration = useActivityConfiguration('setup-sequencing');
 
   if (!rule || !activityConfiguration) return null;
 

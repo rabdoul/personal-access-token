@@ -7,7 +7,7 @@ import DropDownSearch from '@lectra/dropdownsearch';
 
 import { ActivityConfiguration, Condition } from '../model';
 import { ActivityId, useUIDispatch } from '../UIState';
-import { BlockActions, BlockContainer, BlockContent } from './styled-components';
+import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionBlockValues from './useConditionBlockValues';
 

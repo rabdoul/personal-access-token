@@ -3,7 +3,7 @@ import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
 import { ActivityId, useUIDispatch } from '../UIState';
 import ConditionalInstruction from './ConditionalInstruction';
-import { BlockActions, BlockContainer, BlockContent } from './styled-components';
+import { BlockActions, BlockContainer, BlockContent } from './styles';
 
 interface Props {
   children: React.ReactNode;

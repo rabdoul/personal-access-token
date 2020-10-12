@@ -2,17 +2,17 @@ import React from 'react';
 import CheckBox from '@lectra/checkbox';
 
 import useRule from './useRule';
-import { ActivityRule, ValidateMTMProduct } from '../model';
+import { ValidateMTMProduct } from '../model';
 import { useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form } from './styled-components';
+import { Form } from './styles';
 import Rule from './Rule';
 
 const ValidateMTMProductRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('validate-mtm-product');
-  const { data: activityConfiguration } = useActivityConfiguration('validate-mtm-product');
+  const activityConfiguration = useActivityConfiguration('validate-mtm-product');
 
   if (!rule || !activityConfiguration) return null;
 
