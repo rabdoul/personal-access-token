@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ActivityConfiguration, ActivityRule, RuleResult } from '../model';
+import { ActivityConfiguration, ActivityRule, StatementResult } from '../model';
 import StepDescription from './StepDescription';
 import ConditionBlock from './ConditionBlock';
 import ResultBlock from './ResultBlock';
@@ -11,8 +11,8 @@ import { RuleContainer } from './styles';
 type Props = {
   activityConfiguration: ActivityConfiguration;
   disabled: boolean;
-  rule: ActivityRule<RuleResult>;
-  children: (statementIndex: number, result: RuleResult) => React.ReactNode;
+  rule: ActivityRule<StatementResult>;
+  children: (statementIndex: number, result: StatementResult) => React.ReactNode;
 };
 
 const Rule = ({ children, activityConfiguration, rule, disabled }: Props) => {

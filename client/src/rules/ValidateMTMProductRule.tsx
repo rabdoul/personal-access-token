@@ -3,18 +3,23 @@ import CheckBox from '@lectra/checkbox';
 
 import useRule from './useRule';
 import { ValidateMTMProduct } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
+import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form } from './styles';
 import Rule from './Rule';
+import useRuleValidator from './useRuleValidator';
 
 const ValidateMTMProductRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('validate-mtm-product');
   const activityConfiguration = useActivityConfiguration('validate-mtm-product');
 
-  if (!rule || !activityConfiguration) return null;
+  useRuleValidator(rule, activityConfiguration?.id as ActivityId | undefined);
+
+  if (!rule || !activityConfiguration) {
+    return null;
+  }
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

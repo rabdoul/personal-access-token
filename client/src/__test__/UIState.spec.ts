@@ -2,21 +2,17 @@ import 'jest';
 import { reducer, ActivityId, UIState } from '../UIState';
 
 describe('App.reducer', () => {
-  const EMPTY_INVALID_RULES = {
-    'setup-sequencing': new Set<string>(),
-    'validate-mtm-product': new Set<string>(),
-    'associate-cutting-requirements': new Set<string>()
-  };
-
   it('should toggle editMode to true', () => {
     const initialState: UIState = {
       editMode: false,
-      editedRules: new Set()
+      editedRules: new Set(),
+      invalidRules: new Set()
     };
 
     expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({
       editMode: true,
-      editedRules: new Set()
+      editedRules: new Set(),
+      invalidRules: new Set()
     });
   });
 
@@ -24,24 +20,25 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(['setup-sequencing']),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'setup-sequencing': []
     };
 
-    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: new Set() });
+    expect(reducer(initialState, { type: 'TOGGLE_EDIT_MODE' })).toEqual({ editMode: false, editedRules: new Set(), invalidRules: new Set() });
   });
 
   it('should reset editMode', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(['setup-sequencing']),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'setup-sequencing': []
     };
 
     expect(reducer(initialState, { type: 'RESET_EDIT_MODE' })).toEqual({
       editMode: true,
-      editedRules: new Set()
+      editedRules: new Set(),
+      invalidRules: new Set()
     });
   });
 
@@ -49,7 +46,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'validate-mtm-product': [
         {
           conditions: [],
@@ -86,7 +83,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'validate-mtm-product': [
         {
           conditions: [{}, {}],
@@ -121,7 +118,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'validate-mtm-product': [
         { conditions: [{}], result: {} },
         { conditions: [], result: {} }
@@ -176,7 +173,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'validate-mtm-product': [
         {
           conditions: [{}, {}],
@@ -213,7 +210,7 @@ describe('App.reducer', () => {
     const initialState: UIState = {
       editMode: true,
       editedRules: new Set(),
-      invalidRules: EMPTY_INVALID_RULES,
+      invalidRules: new Set(),
       'validate-mtm-product': [
         {
           conditions: [{}, {}],
@@ -245,7 +242,8 @@ describe('App.reducer', () => {
     it('should init setup sequencing', () => {
       const initialState: UIState = {
         editMode: true,
-        editedRules: new Set()
+        editedRules: new Set(),
+        invalidRules: new Set()
       };
 
       const uiState = reducer(initialState, {
@@ -264,7 +262,6 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules.size).toBe(0);
-      expect(uiState.invalidRules).toEqual({ 'setup-sequencing': new Set() });
       expect(uiState['setup-sequencing']).toEqual([
         {
           conditions: [],
@@ -280,7 +277,7 @@ describe('App.reducer', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(['setup-sequencing']),
-        invalidRules: EMPTY_INVALID_RULES,
+        invalidRules: new Set(),
         'setup-sequencing': [
           {
             conditions: [],
@@ -302,7 +299,6 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
-      expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
       expect(uiState['setup-sequencing']).toEqual([
         {
           conditions: [],
@@ -318,7 +314,7 @@ describe('App.reducer', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(),
-        invalidRules: EMPTY_INVALID_RULES,
+        invalidRules: new Set(),
         'setup-sequencing': [
           {
             conditions: [],
@@ -340,7 +336,6 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
-      expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
       expect(uiState['setup-sequencing']).toEqual([
         {
           conditions: [],
@@ -356,7 +351,7 @@ describe('App.reducer', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(),
-        invalidRules: EMPTY_INVALID_RULES,
+        invalidRules: new Set(),
         'setup-sequencing': [
           {
             conditions: [],
@@ -378,7 +373,6 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('setup-sequencing');
-      expect(uiState.invalidRules).toEqual({ ...EMPTY_INVALID_RULES, 'setup-sequencing': new Set(['firstSubListSize']) });
       expect(uiState['setup-sequencing']).toEqual([
         {
           conditions: [],
@@ -392,7 +386,7 @@ describe('App.reducer', () => {
     it('should keep edited rules on update of another rule', () => {
       const initialState: UIState = {
         editMode: true,
-        invalidRules: EMPTY_INVALID_RULES,
+        invalidRules: new Set(),
         editedRules: new Set(['validate-mtm-product']),
         'setup-sequencing': [
           {
@@ -421,7 +415,8 @@ describe('App.reducer', () => {
     it('should init validate mtm product', () => {
       const initialState: UIState = {
         editMode: false,
-        editedRules: new Set()
+        editedRules: new Set(),
+        invalidRules: new Set()
       };
 
       const uiState = reducer(initialState, {
@@ -455,7 +450,7 @@ describe('App.reducer', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(),
-        invalidRules: EMPTY_INVALID_RULES,
+        invalidRules: new Set(),
         'validate-mtm-product': [
           {
             conditions: [],
@@ -477,7 +472,6 @@ describe('App.reducer', () => {
 
       expect(uiState.editMode).toBeTruthy();
       expect(uiState.editedRules).toContainEqual('validate-mtm-product');
-      expect(uiState.invalidRules).toEqual(EMPTY_INVALID_RULES);
       expect(uiState['validate-mtm-product']).toEqual([
         {
           conditions: [],
@@ -493,6 +487,8 @@ describe('App.reducer', () => {
       const initialState: UIState = {
         editMode: true,
         editedRules: new Set(['setup-sequencing']),
+        invalidRules: new Set(),
+
         'validate-mtm-product': [
           {
             conditions: [],

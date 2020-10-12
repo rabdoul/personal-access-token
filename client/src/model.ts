@@ -17,19 +17,19 @@ export type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerL
 
 export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory';
 
-export interface RuleResult {}
+export interface StatementResult {}
 
-export interface Sequencing extends RuleResult {
+export interface Sequencing extends StatementResult {
   splitList: boolean;
   firstSubListSize: number;
 }
 
-export interface ValidateMTMProduct extends RuleResult {
+export interface ValidateMTMProduct extends StatementResult {
   stopOnOutOfRangeWarning: boolean;
   stopOnIncorrectValueWarning: boolean;
 }
 
-export interface AssociateCuttingRequirements extends RuleResult {
+export interface AssociateCuttingRequirements extends StatementResult {
   requirementId?: string;
 }
 
@@ -40,9 +40,9 @@ export type Condition = Partial<{
   value: any;
 }>;
 
-export type Statement<T extends RuleResult> = {
+export type Statement<T extends StatementResult> = {
   conditions: Condition[];
   result: Partial<T>;
 };
 
-export type ActivityRule<T extends RuleResult> = Statement<T>[];
+export type ActivityRule<T extends StatementResult> = Statement<T>[];

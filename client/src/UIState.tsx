@@ -1,14 +1,14 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import produce, { enableMapSet } from 'immer';
 
-import { Condition, ActivityRule, Sequencing, ValidateMTMProduct, AssociateCuttingRequirements, RuleResult } from './model';
+import { Condition, ActivityRule, Sequencing, ValidateMTMProduct, AssociateCuttingRequirements, StatementResult } from './model';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
 export type UIState = {
   editMode: boolean;
   editedRules: Set<ActivityId>;
-  invalidRules?: Record<ActivityId, Set<string>>;
+  invalidRules: Set<ActivityId>;
   'setup-sequencing'?: ActivityRule<Sequencing>;
   'validate-mtm-product'?: ActivityRule<ValidateMTMProduct>;
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
@@ -16,18 +16,21 @@ export type UIState = {
 
 const InitialState: UIState = {
   editMode: false,
-  editedRules: new Set()
+  editedRules: new Set(),
+  invalidRules: new Set()
 };
 
 export type Action =
   | { type: 'TOGGLE_EDIT_MODE' }
   | { type: 'RESET_EDIT_MODE' }
-  | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<RuleResult> }
+  | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
   | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; isValid: boolean; statementIndex: number }
   | { type: 'UPDATE_VALIDATE_MTM_PRODUCT'; attribute: keyof ValidateMTMProduct; value: any; isValid: boolean; statementIndex: number }
   | { type: 'ADD_STATEMENT'; activityId: ActivityId }
   | { type: 'ADD_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number }
   | { type: 'UPDATE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number; attribute: keyof Condition; value: any }
+  | { type: 'VALIDATE_RULE'; activityId: ActivityId }
+  | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | { type: 'DELETE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number };
 
 enableMapSet();
@@ -35,10 +38,10 @@ enableMapSet();
 export const reducer = (state: UIState, action: Action): UIState => {
   switch (action.type) {
     case 'TOGGLE_EDIT_MODE':
-      return { editMode: !state.editMode, editedRules: new Set() };
+      return { editMode: !state.editMode, editedRules: new Set(), invalidRules: new Set() };
 
     case 'RESET_EDIT_MODE':
-      return { editMode: state.editMode, editedRules: new Set() };
+      return { editMode: state.editMode, editedRules: new Set(), invalidRules: new Set() };
 
     case 'ADD_STATEMENT':
       return {
@@ -88,20 +91,12 @@ export const reducer = (state: UIState, action: Action): UIState => {
     }
 
     case 'INIT_RULE':
-      const invalidRules = { ...state.invalidRules, [action.activityId]: new Set() } as Record<ActivityId, Set<string>>;
-      return { ...state, [action.activityId]: action.rule, invalidRules };
+      return { ...state, [action.activityId]: action.rule };
 
     case 'UPDATE_SEQUENCING':
       return {
         ...state,
         editedRules: new Set([...state.editedRules, 'setup-sequencing']),
-        invalidRules: produce(state.invalidRules, draft => {
-          if (action.isValid) {
-            draft!['setup-sequencing'].delete(action.attribute);
-          } else {
-            draft!['setup-sequencing'].add(action.attribute);
-          }
-        }),
         'setup-sequencing': produce(state['setup-sequencing']!, draft => {
           draft[action.statementIndex].result[action.attribute] = action.value;
         })
@@ -115,6 +110,17 @@ export const reducer = (state: UIState, action: Action): UIState => {
           draft[action.statementIndex].result[action.attribute] = action.value;
         })
       };
+
+    case 'VALIDATE_RULE': {
+      const invalidRules = new Set(state.invalidRules);
+      invalidRules.delete(action.activityId);
+      return { ...state, invalidRules };
+    }
+
+    case 'INVALIDATE_RULE': {
+      const invalidRules = new Set([...state.invalidRules, action.activityId]);
+      return { ...state, invalidRules };
+    }
   }
 };
 

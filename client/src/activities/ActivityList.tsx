@@ -30,7 +30,7 @@ const ActivityList = () => {
               first={index === 0}
               last={index === activities.length - 1}
               edited={editedRules.has(activity.id as ActivityId)}
-              invalid={(invalidRules && invalidRules[activity.id as ActivityId]?.size > 0) || false}
+              invalid={(invalidRules && invalidRules.has(activity.id as ActivityId)) || false}
             />
           ))}
         </ItemsContainer>

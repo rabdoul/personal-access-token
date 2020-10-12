@@ -60,7 +60,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           <Input
             type={conditionConfiguration.type}
             value={condition.value}
-            onChange={event => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: event.target.value })}
+            onBlur={event => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: event.target.value })}
             width={200}
             disabled={disabled}
           />

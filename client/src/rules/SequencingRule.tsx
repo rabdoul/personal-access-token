@@ -6,8 +6,6 @@ import Input from '@lectra/input';
 import { Sequencing } from '../model';
 import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './useRule';
-import useRuleErrors from './useRuleErrors';
-import ErrorIcon from '../common/ErrorIcon';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, FormLine } from './styles';
 import Rule from './Rule';
@@ -40,8 +38,6 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
     dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid, statementIndex });
   };
 
-  const invalidFields = useRuleErrors('setup-sequencing');
-
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <CheckBox
@@ -62,8 +58,6 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
             numberMaxDigits={0}
             value={sequencing.firstSubListSize}
             width={50}
-            error={invalidFields.has('numberOfProductOrders')}
-            icon={<ErrorIcon errorKey="error.not.positive.field" />}
             min={0}
             onChange={evt => updateSequencing('firstSubListSize', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
           />
