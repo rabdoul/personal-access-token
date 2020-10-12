@@ -19,7 +19,6 @@
     "immer": "7.0.9",
     "lectra-auth-js": "3.2.1",
     "lectra-locale": "0.0.2",
-    "node-sass": "4.14.1",
     "query-string": "6.13.1",
     "raspberry-fetch": "0.0.1",
     "react": "^16.13.1",

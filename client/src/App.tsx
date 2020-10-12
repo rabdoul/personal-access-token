@@ -10,8 +10,6 @@ import HelpProvider from './base/Help';
 import I18nProvider from './base/I18n';
 import UserPreferenceProvider from './base/UserPreference';
 import ProductionProcessScreen from './ProductionProcessScreen';
-
-import './App.scss';
 import { UIStateProvider } from './UIState';
 
 const queryCache = new QueryCache({
