@@ -64,27 +64,41 @@ export class RulesResource {
     }
 
     applyPatches(rules: any, patchOperations: PatchOperation[]): any {
-        const patch: Operation[] = [];
-        const patchActivities: string[] = [];
+        const activities = patchOperations.filter(it => it.op === 'replace').map((it: PatchOperation) => {
+            const inputRule = it.value as { conditions: Condition[], result: any }[];
+            const activityReference = activityReferenceFromId(it.path);
+            const rule = rules.activities[activityReference]
+            const conditionalBlocks = inputRule.map((statement, statementIndex) => {
+                return {
+                    conditionConsequentType: rule.conditionConsequentType,
+                    conditions: statement.conditions.length > 0 ? statement.conditions.map(condition => ({
+                        leftOperand: condition.reference,
+                        listOperator: ListOperator[condition.multipleOperator],
+                        operator: Operator[condition.operator],
+                        rightOperand: condition.value
+                    })) : null,
+                    order: statementIndex,
+                    activityParameters: {
+                        activityParametersType: rule.conditionConsequentType,
+                        ...statement.result
+                    }
+                }
+            })
+            return { ...rule, conditionalBlocks }
+        }).reduce((acc, current) => {
+            return { ...acc, [current.reference]: current }
+        }, {});
 
-        const sequencingPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'setup-sequencing');
-        if (sequencingPatchOp) {
-            const activityReference = activityReferenceFromId('setup-sequencing')
-            patchActivities.push(activityReference);
-            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/splitList`, value: sequencingPatchOp.value['splitList'] });
-            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/firstSubListSize`, value: sequencingPatchOp.value['firstSubListSize'] });
-        }
-
-        const validateMTMProductPatchOp = patchOperations.filter(p => p.op === 'replace').find(p => p.path === 'validate-mtm-product');
-        if (validateMTMProductPatchOp) {
-            const activityReference = activityReferenceFromId('validate-mtm-product')
-            patchActivities.push(activityReference);
-            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/stopOnOutOfRangeWarning`, value: validateMTMProductPatchOp.value['stopOnOutOfRangeWarning'] });
-            patch.push({ op: 'replace', path: `/activities/${activityReference}/conditionalBlocks/0/activityParameters/stopOnIncorrectValueWarning`, value: validateMTMProductPatchOp.value['stopOnIncorrectValueWarning'] });
-        }
-
-        rules.activities = pick(rules.activities, patchActivities);
-        return patch.length > 0 ? jsonpatch.applyPatch(rules, patch).newDocument : rules;
+        return { ...rules, activities }
     }
 
 }
+
+type Condition = {
+    reference: string;
+    multipleOperator: ListOperator;
+    operator: Operator;
+    value: any;
+};
+
+

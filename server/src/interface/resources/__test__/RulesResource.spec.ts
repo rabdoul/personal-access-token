@@ -110,96 +110,21 @@ describe('RulesResource', () => {
         expect(res.statusCode).toEqual(200);
     });
 
-    it('PATCH should return 200 if command success', async () => {
-        const req = mockHttpRequest('/api/rules', {}, [
-            { "op": "replace", "path": "setup-sequencing", "value": { "splitList": true, "firstSubListSize": 5 } }
-        ]);
-        const [res] = mockHttpResponse();
-
-        const executor = CommandQueryExecutorMockBuilder.newMock()
-            .withQuerySuccess(
-                'cutadmin',
-                { type: 'production-rules.query.get', parameters: {} },
-                {
-                    "productionRulesId": "5c822a10f19e940001456210",
-                    "activities": {
-                        "Setup sequencing": {
-                            "conditionConsequentType": 12,
-                            "reference": "Setup sequencing",
-                            "description": null,
-                            "conditionalBlocks": [
-                                {
-                                    "conditionConsequentType": 12,
-                                    "conditions": null,
-                                    "order": 0,
-                                    "activityParameters": {
-                                        "splitList": false,
-                                        "firstSubListSize": 7,
-                                        "activityParametersType": 12
-                                    }
-                                }
-                            ]
-                        },
-                        "Generate batch": {
-                            "conditionConsequentType": 11,
-                            "reference": "Generate batch",
-                            "description": null,
-                            "conditionalBlocks": [
-                                {
-                                    "conditionConsequentType": 11,
-                                    "conditions": null,
-                                    "order": 0,
-                                    "activityParameters": {
-                                        "activityParametersType": 11,
-                                        "batchGenerationType": 0,
-                                        "useMaxNumberOfOrder": false,
-                                        "maxNumberOfOrders": 0,
-                                        "criterions": null
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            )
-            .withCommandSuccess(
-                'cutadmin',
-                {
-                    type: 'production-rules.command.put',
-                    parameters: {
-                        "productionRulesId": "5c822a10f19e940001456210",
-                        "activities": {
-                            "Setup sequencing": {
-                                "conditionConsequentType": 12,
-                                "reference": "Setup sequencing",
-                                "description": null,
-                                "conditionalBlocks": [
-                                    {
-                                        "conditionConsequentType": 12,
-                                        "conditions": null,
-                                        "order": 0,
-                                        "activityParameters": {
-                                            "splitList": true,
-                                            "firstSubListSize": 5,
-                                            "activityParametersType": 12
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            ).build();
-
-        await new RulesResource(executor).patch(req, res);
-
-        expect(res.statusCode).toEqual(200);
-    });
-
     it('PATCH should return 200 if command success with two patch operations', async () => {
         const req = mockHttpRequest('/api/rules', {}, [
-            { "op": "replace", "path": "setup-sequencing", "value": { "splitList": true, "firstSubListSize": 5 } },
-            { "op": "replace", "path": "validate-mtm-product", "value": { "stopOnOutOfRangeWarning": true, "stopOnIncorrectValueWarning": true } }
+            { "op": "replace", "path": "setup-sequencing", "value": [{ conditions: [], result: { "splitList": true, "firstSubListSize": 5 } }] },
+            {
+                "op": "replace", "path": "validate-mtm-product", "value": [
+                    {
+                        conditions: [
+                            { reference: "command.reference", multipleOperator: "None", operator: "Equals", value: "CMD-100" },
+                            { reference: "command.priority", multipleOperator: "None", operator: "Above", value: 3 },
+                        ],
+                        result: { "stopOnOutOfRangeWarning": false, "stopOnIncorrectValueWarning": true }
+                    },
+                    { conditions: [], result: { "stopOnOutOfRangeWarning": true, "stopOnIncorrectValueWarning": true } }
+                ]
+            }
         ]);
         const [res] = mockHttpResponse();
 
@@ -283,9 +208,9 @@ describe('RulesResource', () => {
                                         "conditions": null,
                                         "order": 0,
                                         "activityParameters": {
+                                            "activityParametersType": 12,
                                             "splitList": true,
-                                            "firstSubListSize": 5,
-                                            "activityParametersType": 12
+                                            "firstSubListSize": 5
                                         }
                                     }
                                 ]
@@ -297,8 +222,31 @@ describe('RulesResource', () => {
                                 "conditionalBlocks": [
                                     {
                                         "conditionConsequentType": 2,
-                                        "conditions": null,
+                                        "conditions": [
+                                            {
+                                                "leftOperand": "command.reference",
+                                                "listOperator": 0,
+                                                "operator": 0,
+                                                "rightOperand": "CMD-100"
+                                            },
+                                            {
+                                                "leftOperand": "command.priority",
+                                                "listOperator": 0,
+                                                "operator": 1,
+                                                "rightOperand": 3
+                                            }
+                                        ],
                                         "order": 0,
+                                        "activityParameters": {
+                                            "activityParametersType": 2,
+                                            "stopOnOutOfRangeWarning": false,
+                                            "stopOnIncorrectValueWarning": true
+                                        }
+                                    },
+                                    {
+                                        "conditionConsequentType": 2,
+                                        "conditions": null,
+                                        "order": 1,
                                         "activityParameters": {
                                             "activityParametersType": 2,
                                             "stopOnOutOfRangeWarning": true,
