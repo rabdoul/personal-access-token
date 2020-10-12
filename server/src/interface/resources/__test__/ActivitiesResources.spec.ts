@@ -161,6 +161,7 @@ describe('ActivitiesResource', () => {
 
         expect(res.statusCode).toEqual(200);
         expect(res._getData()).toEqual({
+            id: "validate-mtm-product",
             conditions: [
                 {
                     reference: "command.reference",

@@ -3,12 +3,9 @@ import express = require('express');
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
-import { ListOperator, Operator, ValueSource, ValueType } from './types';
+import { ListOperator, Operator, ValueSource, ValueType } from './model';
 
-type GetActivitiesQueryResponse = {
-    activities: Activity[];
-    [k: string]: any;
-}
+type GetActivitiesQueryResponse = { activities: Activity[] }
 
 export type Activity = { order: number, enabled: boolean, reference: string, eligibleProcess: number[], eligibleConditions: any[] }
 
@@ -32,36 +29,6 @@ export class ActivitiesResource {
         }
     }
 
-    async activityConfiguration(req: express.Request, res: express.Response, next: express.NextFunction) {
-        try {
-            const response = await this.retrieveActivities();
-            const activity = response.activities.find(activity => activity.reference === activityReferenceFromId(req.params.id));
-            if (!activity) throw new Error(`Unknown activity ${req.params.id}`)
-            const conditions = activity.eligibleConditions.map((condition: any) => {
-                return {
-                    reference: condition.leftOperand,
-                    multipleOperators: condition.eligibleListOperator.map((lo: number) => ListOperator[lo]),
-                    operators: condition.eligibleOperator.map((o: number) => Operator[o]),
-                    valueType: ValueType[condition.conditionType],
-                    valueSource: ValueSource[condition.rightOperandBindingSource],
-                    predefinedValues: []
-                };
-            })
-            res.send({ conditions });
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    private async retrieveActivities(): Promise<GetActivitiesQueryResponse> {
-        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules-configuration.query.get', parameters: {} });
-        if (response.type !== QueryResponseType.QUERY_SUCCESS) {
-            throw new Error(`Unexpected error when retrieving activities : ${response.data}`)
-        }
-        return response.data as GetActivitiesQueryResponse;
-    }
-
-
     static toActivities(response: GetActivitiesQueryResponse) {
         const offers = currentPrincipal().authorizations.map(it => it.offer);
 
@@ -73,4 +40,37 @@ export class ActivitiesResource {
             .filter(predicate)
             .map(it => ({ id: activityIdFromReference(it.reference), order: it.order, enabled: it.enabled }));
     }
+
+    async activityConfiguration(req: express.Request, res: express.Response, next: express.NextFunction) {
+        try {
+            const response = await this.retrieveActivities();
+            const activity = response.activities.find(activity => activity.reference === activityReferenceFromId(req.params.id));
+            if (!activity) throw new Error(`Unknown activity ${req.params.id}`)
+            const conditions = activity.eligibleConditions.map((condition: any) => this.toConditionDefinition(condition));
+            res.send({ id: req.params.id, conditions });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    private toConditionDefinition(condition: any) {
+        return {
+            reference: condition.leftOperand,
+            multipleOperators: condition.eligibleListOperator.map((lo: number) => ListOperator[lo]),
+            operators: condition.eligibleOperator.map((o: number) => Operator[o]),
+            valueType: ValueType[condition.conditionType],
+            valueSource: ValueSource[condition.rightOperandBindingSource],
+            predefinedValues: []
+        };
+    }
+
+    private async retrieveActivities(): Promise<GetActivitiesQueryResponse> {
+        const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules-configuration.query.get', parameters: {} });
+        if (response.type !== QueryResponseType.QUERY_SUCCESS) {
+            throw new Error(`Unexpected error when retrieving activities : ${response.data}`)
+        }
+        return response.data as GetActivitiesQueryResponse;
+    }
+
+
 }

@@ -1,17 +1,9 @@
 import express = require('express');
-const jsonpatch = require('fast-json-patch');
-import { Operation } from 'fast-json-patch';
-import { pick } from 'lodash';
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityReferenceFromId } from "./ActivitiesMapping";
-import { ListOperator, Operator, ValueSource, ValueType } from "./types";
+import { ListOperator, Operator, Condition, Statement } from "./model";
 
-
-type PatchOperation = {
-    op: 'replace' | 'add' | 'remove',
-    path: string,
-    value: any
-}
+type PatchOperation = { op: 'replace' | 'add' | 'remove', path: string, value: Statement[] }
 
 export class RulesResource {
 
@@ -25,8 +17,8 @@ export class RulesResource {
     async get(req: express.Request, res: express.Response) {
         const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'production-rules.query.get', parameters: {} })
         if (response.type === QueryResponseType.QUERY_SUCCESS) {
-            const data = (response.data as any).activities[activityReferenceFromId(req.params.activityId)];
-            const rule = data.conditionalBlocks.sort((b1: { order: number }, b2: { order: number }) => b1.order - b2.order)
+            const conditionalBlocks = (response.data as any).activities[activityReferenceFromId(req.params.activityId)].conditionalBlocks;
+            const rule = conditionalBlocks.sort((b1: { order: number }, b2: { order: number }) => b1.order - b2.order)
                 .map((block: any) => {
                     const conditions = block.conditions?.map((condition: any) => ({
                         multipleOperator: ListOperator[condition.listOperator],
@@ -63,42 +55,35 @@ export class RulesResource {
         }
     }
 
-    applyPatches(rules: any, patchOperations: PatchOperation[]): any {
-        const activities = patchOperations.filter(it => it.op === 'replace').map((it: PatchOperation) => {
-            const inputRule = it.value as { conditions: Condition[], result: any }[];
-            const activityReference = activityReferenceFromId(it.path);
-            const rule = rules.activities[activityReference]
-            const conditionalBlocks = inputRule.map((statement, statementIndex) => {
-                return {
-                    conditionConsequentType: rule.conditionConsequentType,
-                    conditions: statement.conditions.length > 0 ? statement.conditions.map(condition => ({
-                        leftOperand: condition.reference,
-                        listOperator: ListOperator[condition.multipleOperator],
-                        operator: Operator[condition.operator],
-                        rightOperand: condition.value
-                    })) : null,
-                    order: statementIndex,
-                    activityParameters: {
-                        activityParametersType: rule.conditionConsequentType,
-                        ...statement.result
-                    }
-                }
+    private applyPatches(rules: any, patchOperations: PatchOperation[]): any {
+        const activities = patchOperations.filter(it => it.op === 'replace')
+            .map((it: PatchOperation) => {
+                const rule = rules.activities[activityReferenceFromId(it.path)]
+                const conditionalBlocks = it.value.map((statement, statementIndex) => this.toConditionalBlock(statement, statementIndex, rule.conditionConsequentType))
+                return { ...rule, conditionalBlocks }
             })
-            return { ...rule, conditionalBlocks }
-        }).reduce((acc, current) => {
-            return { ...acc, [current.reference]: current }
-        }, {});
+            .reduce((acc, current) => ({ ...acc, [current.reference]: current }), {});
 
         return { ...rules, activities }
     }
 
-}
+    private toConditionalBlock(statement: Statement, statementIndex: number, conditionConsequentType: number) {
+        return {
+            conditionConsequentType,
+            conditions: statement.conditions.length > 0 ? statement.conditions.map(condition => ({
+                leftOperand: condition.reference,
+                listOperator: ListOperator[condition.multipleOperator],
+                operator: Operator[condition.operator],
+                rightOperand: condition.value
+            })) : null,
+            order: statementIndex,
+            activityParameters: {
+                activityParametersType: conditionConsequentType,
+                ...statement.result
+            }
+        }
+    }
 
-type Condition = {
-    reference: string;
-    multipleOperator: ListOperator;
-    operator: Operator;
-    value: any;
-};
+}
 
 
