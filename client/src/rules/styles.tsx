@@ -50,3 +50,20 @@ export const BlockContainer = styled.div<{ marginLeft?: string }>`
   min-width: 800px;
   width: fit-content;
 `;
+
+export const RuleContainer = styled.div`
+  height: calc(100% - 95px);
+  padding: 20px;
+  width: calc(100% - 380px);
+  overflow: auto;
+`;
+
+export const ConditionalInstructionContainer = styled.div<{ color: string }>`
+  align-items: center;
+  border-left: 5px solid ${props => props.color};
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 10px;
+  padding-left: 10px;
+`;

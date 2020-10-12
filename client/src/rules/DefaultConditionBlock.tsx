@@ -11,7 +11,7 @@ type Props = {
   disabled: boolean;
 };
 
-const ElseBlock: React.FC<Props> = ({ activityId, disabled }) => {
+const DefaultConditionBlock: React.FC<Props> = ({ activityId, disabled }) => {
   const dispatch = useUIDispatch();
 
   return (
@@ -28,4 +28,4 @@ const ElseBlock: React.FC<Props> = ({ activityId, disabled }) => {
   );
 };
 
-export default ElseBlock;
+export default DefaultConditionBlock;

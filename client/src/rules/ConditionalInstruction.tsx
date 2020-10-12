@@ -1,12 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useIntl } from 'react-intl';
+import { ConditionalInstructionContainer } from './styles';
 
-type Props = {
-  type: 'IF' | 'AND' | 'ELSE' | 'THEN' | 'DEFAULT';
-};
+type Props = { type: 'IF' | 'AND' | 'ELSE' | 'THEN' | 'DEFAULT' };
 
-const getOperatorColor = (type: string) => {
+const useOperatorColor = (type: string) => {
   switch (type) {
     case 'IF':
     case 'AND':
@@ -22,18 +20,8 @@ const getOperatorColor = (type: string) => {
 
 const ConditionalInstruction: React.FC<Props> = ({ type }) => {
   const { formatMessage } = useIntl();
-
-  return <Container color={getOperatorColor(type)}>{formatMessage({ id: `rule.${type.toLowerCase()}` })}</Container>;
+  let color = useOperatorColor(type);
+  return <ConditionalInstructionContainer color={color}>{formatMessage({ id: `rule.${type.toLowerCase()}` })}</ConditionalInstructionContainer>;
 };
 
 export default ConditionalInstruction;
-
-export const Container = styled.div<{ color: string }>`
-  align-items: center;
-  border-left: 5px solid ${props => props.color};
-  display: flex;
-  font-size: 14px;
-  font-weight: 600;
-  margin-right: 10px;
-  padding-left: 10px;
-`;
