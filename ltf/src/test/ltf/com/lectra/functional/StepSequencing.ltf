@@ -11,7 +11,7 @@ SCRIPT_START
 
 	chapter -> Step sequencing activity TEST -> Web production process -> 
 
-	channel -> start -> prodprocess -> ltfs://cutting-room-production-process.dev.mylectra.com/
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
@@ -33,15 +33,15 @@ SCRIPT_START
 
 	check -> exists = false -> input [ id = orders-number ]
 
-	callScript -> subscript.IsCheckboxEmpty -> [ splitCommandProducts ] ->
+	callScript -> subscript.IsCheckboxEmpty -> [ splitCommandProducts ] -> 
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ splitCommandProducts ] ->
+	callScript -> subscript.IsCheckboxFilled -> [ splitList ] -> 
 
 	check -> exists = true -> input [ id = orders-number ]
 
@@ -55,9 +55,9 @@ SCRIPT_START
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
 
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] ->
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
 
@@ -71,31 +71,31 @@ SCRIPT_START
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_BACKSPACE ] ->
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_BACKSPACE ] -> 
 
 	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
 
-	check -> exists = true -> [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ] 
+	check -> exists = true ->  [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ]
 
 	comment1 -> Error remains when hiding the field in error
 
-	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
 
 	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
 
-	check -> exists = true -> [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ] 
+	check -> exists = true ->  [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ]
 
 	paragraph -> Teardown
 
-	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
 
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_ENTER ] ->
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_ENTER ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitCommandProducts ] ->
+	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
 
-	callScript -> subscript.ClickSave -> [  ] ->
+	callScript -> subscript.ClickSave -> [  ] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ splitCommandProducts ] ->
+	callScript -> subscript.IsCheckboxEmpty -> [ splitList ] -> 
 
 	channel -> close -> prodprocess
 
