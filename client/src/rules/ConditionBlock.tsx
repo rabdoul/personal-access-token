@@ -9,7 +9,7 @@ import { ActivityConfiguration, Condition } from '../model';
 import { ActivityId, useUIDispatch } from '../UIState';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
-import useConditionBlockValues from './useConditionBlockValues';
+import useConditionConfiguration from './useConditionConfiguration';
 
 type Props = {
   statementIndex: number;
@@ -21,7 +21,7 @@ type Props = {
 
 const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionIndex, activityConfiguration, disabled }) => {
   const dispatch = useUIDispatch();
-  const values = useConditionBlockValues(condition, activityConfiguration);
+  const conditionConfiguration = useConditionConfiguration(condition, activityConfiguration);
   const activityId = activityConfiguration.id as ActivityId;
 
   return (
@@ -29,9 +29,9 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
       {statementIndex > 0 && conditionIndex === 0 && <ConditionalInstruction type={'ELSE'} />}
       <ConditionalInstruction type={conditionIndex === 0 ? 'IF' : 'AND'} />
       <BlockContent>
-        {values.multipleOperatorItems && (
+        {conditionConfiguration.multipleOperatorItems && (
           <Select
-            listItems={values.multipleOperatorItems}
+            listItems={conditionConfiguration.multipleOperatorItems}
             value={condition.multipleOperator}
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'multipleOperator', value: item.value })}
             width={200}
@@ -39,7 +39,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           />
         )}
         <Select
-          listItems={values.activityReferences}
+          listItems={conditionConfiguration.references}
           value={condition.reference}
           onChange={item => {
             dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'reference', value: item.value });
@@ -50,24 +50,24 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           disabled={disabled}
         />
         <Select
-          listItems={values.operators}
+          listItems={conditionConfiguration.operators}
           value={condition.operator}
           onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'operator', value: item.value })}
           width={200}
           disabled={disabled}
         />
-        {(values.type === 'number' || values.type === 'text') && (
+        {(conditionConfiguration.type === 'number' || conditionConfiguration.type === 'text') && (
           <Input
-            type={values.type}
+            type={conditionConfiguration.type}
             value={condition.value}
             onChange={event => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: event.target.value })}
             width={200}
             disabled={disabled}
           />
         )}
-        {values.type === 'list' && (
+        {conditionConfiguration.type === 'list' && (
           <DropDownSearch
-            listItems={values.listItems}
+            listItems={conditionConfiguration.listItems}
             width={200}
             value={condition.value}
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: item.value })}

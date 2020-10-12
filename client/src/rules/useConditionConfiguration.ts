@@ -18,11 +18,11 @@ const useProductCategories = () => {
   return data;
 };
 
-const useConditionBlockValues = (condition: Condition, activityConfiguration: ActivityConfiguration) => {
+const useConditionConfiguration = (condition: Condition, activityConfiguration: ActivityConfiguration) => {
   const { formatMessage } = useIntl();
   const listItems = useProductCategories();
 
-  const activityReferences = activityConfiguration.conditions.map(it => ({ label: formatMessage({ id: it.reference }), value: it.reference }));
+  const references = activityConfiguration.conditions.map(it => ({ label: formatMessage({ id: it.reference }), value: it.reference }));
   const conditionDefinition = activityConfiguration.conditions.find(it => it.reference === condition.reference);
   const operators = conditionDefinition?.operators.map(it => ({ label: formatMessage({ id: `operator.${it.toLowerCase()}` }), value: it })) || [];
   const multipleOperatorItems =
@@ -31,7 +31,7 @@ const useConditionBlockValues = (condition: Condition, activityConfiguration: Ac
       : undefined;
   const type = getType(conditionDefinition?.valueType, conditionDefinition?.valueSource);
 
-  return { activityReferences, operators, type, listItems, multipleOperatorItems };
+  return { references, operators, type, listItems, multipleOperatorItems };
 };
 
-export default useConditionBlockValues;
+export default useConditionConfiguration;
