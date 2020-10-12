@@ -13,11 +13,7 @@ const getType = (valueType: ValueType | undefined, valueSource: ValueSource | un
 const useProductCategories = () => {
   const accessToken = useAccessToken();
 
-  const { data } = useQuery('product-categories', () => {
-    return fetchData(accessToken, `product-categories`).then(result => {
-      return result;
-    });
-  });
+  const { data } = useQuery('product-categories', () => fetchData(accessToken, `product-categories`));
 
   return data;
 };
