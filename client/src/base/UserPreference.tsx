@@ -6,10 +6,9 @@ import { AuthenticationContext } from './Authentication';
 
 interface UserPreference {
   lectraLocale: LectraLocale;
-  isReadOnlyMode: boolean;
 }
 
-const DEFAULT_USER_PREFERENCE: UserPreference = { lectraLocale: new LectraLocale(), isReadOnlyMode: false };
+const DEFAULT_USER_PREFERENCE: UserPreference = { lectraLocale: new LectraLocale() };
 const UserPreferenceContext = React.createContext<UserPreference>(DEFAULT_USER_PREFERENCE);
 
 const UserPreferenceProvider = (props: { children: ReactNode }) => {
@@ -18,19 +17,18 @@ const UserPreferenceProvider = (props: { children: ReactNode }) => {
   const [provider, setProvider] = useState<string>('default');
 
   const auth0Locale = authenticationContext.user()['https://metadata.lectra.com/user_metadata']?.locale || 'en';
-  const isReadOnlyMode = authenticationContext.user()['https://metadata.lectra.com/app_metadata']?.account_type === 'SUPPORT';
   const lectraLocaleCode = querystring.parse(window.location.search)['lectra-locale'] as string;
 
   useEffect(() => {
     if (lectraLocaleCode) {
       const lectraLocale = lectraLocaleCode ? new LectraLocale(lectraLocaleCode) : LectraLocale.fromLocale(auth0Locale);
-      setUserPreference({ lectraLocale, isReadOnlyMode });
+      setUserPreference({ lectraLocale });
       setProvider('lectra');
     } else if (provider !== 'lectra') {
-      setUserPreference({ lectraLocale: LectraLocale.fromLocale(auth0Locale), isReadOnlyMode });
+      setUserPreference({ lectraLocale: LectraLocale.fromLocale(auth0Locale) });
       setProvider('auth0');
     }
-  }, [auth0Locale, lectraLocaleCode, provider, isReadOnlyMode]);
+  }, [auth0Locale, lectraLocaleCode, provider]);
 
   return <UserPreferenceContext.Provider value={userPreference}>{props.children}</UserPreferenceContext.Provider>;
 };
