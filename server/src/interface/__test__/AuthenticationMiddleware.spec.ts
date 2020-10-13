@@ -30,7 +30,7 @@ describe('AuthenticationMiddleware', () => {
     expect(next.mock.calls.length).toEqual(0);
   });
 
-  it('should return 401 when user authorizations does not contains almost an authorized offer', async () => {
+  it('should return 401 when user authorizations does not contains at least an authorized offer', async () => {
     const req = mockHttpRequest(`/some-parameters`);
     req.headers = {...req.headers, authorization: authorization};
     const [res] = mockHttpResponse();
