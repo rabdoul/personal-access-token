@@ -310,7 +310,8 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'UPDATE_SEQUENCING',
+        type: 'UPDATE_STATEMENT_RESULT',
+        activityId: 'setup-sequencing',
         attribute: 'splitList',
         value: true,
         statementIndex: 0
@@ -346,7 +347,8 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'UPDATE_SEQUENCING',
+        type: 'UPDATE_STATEMENT_RESULT',
+        activityId: 'setup-sequencing',
         attribute: 'firstSubListSize',
         value: 10,
         statementIndex: 0
@@ -382,7 +384,8 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'UPDATE_SEQUENCING',
+        type: 'UPDATE_STATEMENT_RESULT',
+        activityId: 'setup-sequencing',
         attribute: 'firstSubListSize',
         value: undefined,
         statementIndex: 0
@@ -417,7 +420,8 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'UPDATE_SEQUENCING',
+        type: 'UPDATE_STATEMENT_RESULT',
+        activityId: 'setup-sequencing',
         attribute: 'firstSubListSize',
         value: 3,
         statementIndex: 0
@@ -479,7 +483,8 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'UPDATE_VALIDATE_MTM_PRODUCT',
+        type: 'UPDATE_STATEMENT_RESULT',
+        activityId: 'validate-mtm-product',
         attribute: 'stopOnOutOfRangeWarning',
         value: false,
         statementIndex: 0
@@ -516,7 +521,8 @@ describe('App.reducer', () => {
       };
 
       const uiState = reducer(initialState, {
-        type: 'UPDATE_VALIDATE_MTM_PRODUCT',
+        type: 'UPDATE_STATEMENT_RESULT',
+        activityId: 'validate-mtm-product',
         attribute: 'stopOnOutOfRangeWarning',
         value: false,
         statementIndex: 0

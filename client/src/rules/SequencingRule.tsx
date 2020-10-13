@@ -47,7 +47,7 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
   const dispatch = useUIDispatch();
 
   const updateSequencing = (attribute: keyof Sequencing, value: any) => {
-    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, statementIndex });
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'setup-sequencing', statementIndex, attribute, value });
   };
 
   return (

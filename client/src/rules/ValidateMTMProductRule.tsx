@@ -39,8 +39,9 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
   const dispatch = useUIDispatch();
 
   const updateValidateMTMProduct = (attribute: keyof ValidateMTMProduct, value: any) => {
-    dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, statementIndex });
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-mtm-product', statementIndex, attribute, value });
   };
+
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <CheckBox

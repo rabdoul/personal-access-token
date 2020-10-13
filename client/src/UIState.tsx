@@ -20,18 +20,26 @@ const InitialState: UIState = {
   invalidRules: new Set()
 };
 
+type UpdateStatementResult<ID extends ActivityId, SR extends StatementResult> = {
+  type: 'UPDATE_STATEMENT_RESULT';
+  activityId: ID;
+  statementIndex: number;
+  attribute: keyof SR;
+  value: any;
+};
+
 export type Action =
   | { type: 'TOGGLE_EDIT_MODE' }
   | { type: 'RESET_EDIT_MODE' }
-  | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
-  | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; statementIndex: number }
-  | { type: 'UPDATE_VALIDATE_MTM_PRODUCT'; attribute: keyof ValidateMTMProduct; value: any; statementIndex: number }
   | { type: 'ADD_STATEMENT'; activityId: ActivityId }
   | { type: 'ADD_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number }
   | { type: 'UPDATE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number; attribute: keyof Condition; value: any }
+  | { type: 'DELETE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number }
+  | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
   | { type: 'VALIDATE_RULE'; activityId: ActivityId }
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
-  | { type: 'DELETE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number };
+  | UpdateStatementResult<'setup-sequencing', Sequencing>
+  | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>;
 
 enableMapSet();
 
@@ -93,24 +101,6 @@ export const reducer = (state: UIState, action: Action): UIState => {
     case 'INIT_RULE':
       return { ...state, [action.activityId]: action.rule };
 
-    case 'UPDATE_SEQUENCING':
-      return {
-        ...state,
-        editedRules: new Set([...state.editedRules, 'setup-sequencing']),
-        'setup-sequencing': produce(state['setup-sequencing']!, draft => {
-          draft[action.statementIndex].result[action.attribute] = action.value;
-        })
-      };
-
-    case 'UPDATE_VALIDATE_MTM_PRODUCT':
-      return {
-        ...state,
-        editedRules: new Set([...state.editedRules, 'validate-mtm-product']),
-        'validate-mtm-product': produce(state['validate-mtm-product']!, draft => {
-          draft[action.statementIndex].result[action.attribute] = action.value;
-        })
-      };
-
     case 'VALIDATE_RULE': {
       const invalidRules = new Set(state.invalidRules);
       invalidRules.delete(action.activityId);
@@ -121,6 +111,15 @@ export const reducer = (state: UIState, action: Action): UIState => {
       const invalidRules = new Set([...state.invalidRules, action.activityId]);
       return { ...state, invalidRules };
     }
+
+    case 'UPDATE_STATEMENT_RESULT':
+      return {
+        ...state,
+        editedRules: new Set([...state.editedRules, action.activityId]),
+        [action.activityId]: produce(state[action.activityId]!, draft => {
+          (draft[action.statementIndex].result as any)[action.attribute] = action.value;
+        })
+      };
   }
 };
 
