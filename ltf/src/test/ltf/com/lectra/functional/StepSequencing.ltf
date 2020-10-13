@@ -1,4 +1,4 @@
-﻿﻿SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 
 
 SCRIPT_AUTHOR
@@ -11,7 +11,7 @@ SCRIPT_START
 
 	chapter -> Step sequencing activity TEST -> Web production process -> 
 
-	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
@@ -33,7 +33,7 @@ SCRIPT_START
 
 	check -> exists = false -> input [ id = orders-number ]
 
-	callScript -> subscript.IsCheckboxEmpty -> [ splitCommandProducts ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ splitList ] -> 
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
@@ -71,7 +71,7 @@ SCRIPT_START
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_BACKSPACE ] -> 
+	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ a ] -> 
 
 	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
 
