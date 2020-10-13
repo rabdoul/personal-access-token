@@ -23,7 +23,7 @@
         <project.excluded.group>TOREVIEW</project.excluded.group>
 
         <!-- Dependencies -->
-        <lib.selenium-sdk-rc.version>1.0.0.810</lib.selenium-sdk-rc.version>
+        <lib.selenium-sdk-rc.version>1.0.0.821</lib.selenium-sdk-rc.version>
         <lib.auth0-client.version>1.1</lib.auth0-client.version>
         <lib.spock-client.version>0.1.2</lib.spock-client.version>
         <lib.http-request.version>6.0</lib.http-request.version>
