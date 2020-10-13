@@ -14,8 +14,8 @@ const ValidateMTMProductRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('validate-mtm-product');
   const activityConfiguration = useActivityConfiguration('validate-mtm-product');
-
-  useRuleValidator(rule, activityConfiguration?.id as ActivityId | undefined);
+  const activityId = activityConfiguration?.id as ActivityId | undefined;
+  useRuleValidator(activityId, rule);
 
   if (!rule || !activityConfiguration) {
     return null;

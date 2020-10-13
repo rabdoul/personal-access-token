@@ -10,7 +10,9 @@ const AssociateCuttingRequirementsRule = () => {
   const rule = useRule('associate-cutting-requirements');
   const activityConfiguration = useActivityConfiguration('associate-cutting-requirements');
 
-  if (!rule || !activityConfiguration) return null;
+  if (!rule || !activityConfiguration) {
+    return null;
+  }
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

@@ -1,13 +1,15 @@
-import { Dispatch, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CuttingRoomNotifierClient, EventType, NotifierEnv } from 'cutting-room-notifier-client';
 import { useQueryCache } from 'react-query';
 
-import { Action } from './UIState';
+import { useUIDispatch } from './UIState';
 import { AuthenticationContext } from './base/Authentication';
 
-const Notifier: React.FC<{ dispatch: Dispatch<Action> }> = ({ dispatch }) => {
+const Notifier = () => {
   const token = useContext(AuthenticationContext).accessToken();
+  const dispatch = useUIDispatch();
   const queryCache = useQueryCache();
+
   useEffect(() => {
     const host = window.location.hostname;
     const notifierClient = CuttingRoomNotifierClient.fromEnv(computeNotifierEnv(host), token);
@@ -40,4 +42,4 @@ export function computeNotifierEnv(host: String): NotifierEnv {
   }
 }
 
-export default Notifier;
+export default React.memo(Notifier);

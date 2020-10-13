@@ -1,7 +1,10 @@
 import { RibbonConfig } from '@lectra/embed-ribbon';
 import produce from 'immer';
+import { useContext } from 'react';
 import { useIntl } from 'react-intl';
+
 import { useUIState } from '../UIState';
+import { AuthenticationContext } from '../base/Authentication';
 
 const edit = `${window.origin}/assets/Edit_v01.png`;
 const save = `${window.origin}/assets/Save_v01.png`;
@@ -59,12 +62,20 @@ const editConfig: RibbonConfig = {
 function useRibbonConfig() {
   const { formatMessage } = useIntl();
   const { editMode, invalidRules } = useUIState();
-  return produce(editMode ? editConfig : displayConfig, draft => {
-    if (editMode) {
-      draft.groups[0].commands[0].enable = invalidRules.size === 0; // disable save
-    }
-    return internationalizeConfig(formatMessage, draft);
-  });
+  const isReadOnlyMode = useContext(AuthenticationContext).isSupportMode();
+  if (isReadOnlyMode) {
+    return produce(displayConfig, draft => {
+      draft.groups[0].commands[0].enable = false; // disable edit
+      return internationalizeConfig(formatMessage, draft);
+    });
+  } else {
+    return produce(editMode ? editConfig : displayConfig, draft => {
+      if (editMode) {
+        draft.groups[0].commands[0].enable = invalidRules.size === 0; // disable save
+      }
+      return internationalizeConfig(formatMessage, draft);
+    });
+  }
 }
 
 function internationalizeConfig(formatMessage: (key: any) => string, config: RibbonConfig) {
