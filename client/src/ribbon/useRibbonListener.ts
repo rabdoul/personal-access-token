@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useAccessToken } from '../base/Authentication';
-import { useUIStateContext } from '../UIState';
+import { useUIDispatch } from '../UIState';
 
 import useUpdateRule from '../rules/useUpdateRule';
 
 function useRibbonListener() {
   const token = useAccessToken();
-  const [uiState, dispatch] = useUIStateContext();
+  const dispatch = useUIDispatch();
 
   const [updateRule] = useUpdateRule();
 
@@ -33,7 +33,7 @@ function useRibbonListener() {
     document.addEventListener('RIBBON_ACTION', ribbonActionListener);
 
     return () => document.removeEventListener('RIBBON_ACTION', ribbonActionListener);
-  }, [dispatch, updateRule, token, uiState]);
+  }, [dispatch, updateRule, token]);
 }
 
 export default useRibbonListener;

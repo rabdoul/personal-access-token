@@ -9,18 +9,15 @@ import StepDescription from './rules/StepDescription';
 import useRibbonConfig from './ribbon/useRibbonConfig';
 import useRibbonListener from './ribbon/useRibbonListener';
 import Notifier from './Notification';
-import { useUIDispatch } from './UIState';
 import ValidateMTMProductRule from './rules/ValidateMTMProductRule';
 import AssociateCuttingRequirementsRule from './rules/AssociateCuttingRequirementsRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
   const config = useRibbonConfig();
-  const dispatch = useUIDispatch();
-
   return (
     <Screen>
-      <Notifier dispatch={dispatch} />
+      <Notifier />
       <Ribbon config={config} />
       <Content>
         <ActivityList />

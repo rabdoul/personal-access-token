@@ -14,9 +14,9 @@ const ActivityList = () => {
   const accessToken = useAccessToken();
   const { formatMessage } = useIntl();
   const { editedRules, invalidRules } = useUIState();
-  const { data: activities } = useQuery<Activity[]>('activities', () => {
-    return fetchData(accessToken, 'activities').then((activities: Activity[]) => activities.sort((a1, a2) => a1.order - a2.order));
-  });
+  const { data: activities } = useQuery<Activity[]>('activities', () =>
+    fetchData(accessToken, 'activities').then((activities: Activity[]) => activities.sort((a1, a2) => a1.order - a2.order))
+  );
 
   return (
     <List>
