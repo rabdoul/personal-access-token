@@ -63,19 +63,12 @@ function useRibbonConfig() {
   const { formatMessage } = useIntl();
   const { editMode, invalidRules } = useUIState();
   const isReadOnlyMode = useContext(AuthenticationContext).isSupportMode();
-  if (isReadOnlyMode) {
-    return produce(displayConfig, draft => {
-      draft.groups[0].commands[0].enable = false; // disable edit
-      return internationalizeConfig(formatMessage, draft);
-    });
-  } else {
-    return produce(editMode ? editConfig : displayConfig, draft => {
-      if (editMode) {
-        draft.groups[0].commands[0].enable = invalidRules.size === 0; // disable save
-      }
-      return internationalizeConfig(formatMessage, draft);
-    });
-  }
+  return produce(editMode ? editConfig : displayConfig, draft => {
+    if (editMode) {
+      draft.groups[0].commands[0].enable = isReadOnlyMode || invalidRules.size === 0; // disable save
+    }
+    return internationalizeConfig(formatMessage, draft);
+  });
 }
 
 function internationalizeConfig(formatMessage: (key: any) => string, config: RibbonConfig) {
