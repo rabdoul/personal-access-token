@@ -11,6 +11,8 @@ SCRIPT_START
 
 	chapter -> Step sequencing activity TEST -> Web production process -> 
 
+	callScript -> scripts.ResetProductionRules -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
+
 	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
