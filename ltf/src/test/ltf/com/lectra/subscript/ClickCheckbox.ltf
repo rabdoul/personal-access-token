@@ -7,7 +7,8 @@ r.bancal
 SCRIPT_PARAMETERS
 
     parameter0 -> data-xlabel of the checkbox
+	parameter1 -> data-resultblock-id (index of result block)
 
 SCRIPT_START
 
-	click -> div [ data-testid = CheckboxComponent , data-xlabel = ${parameter0} ]
+	click -> div [ data-testid = CheckboxComponent , data-xlabel = ${parameter0} ] -> div [ data-resultblock-id = ${parameter1} ]

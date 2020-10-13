@@ -25,17 +25,17 @@ SCRIPT_START
 
 	comment1 -> Initial state : checkbox unclicked, input is not shown
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
 
@@ -45,9 +45,9 @@ SCRIPT_START
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning ] -> 
+	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
 
@@ -55,23 +55,23 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ stopOnIncorrectValueWarning ] -> 
+	callScript -> subscript.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	paragraph -> Teardown
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning ] -> 
+	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	callScript -> subscript.ClickSave -> [  ] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	channel -> close -> prodprocess
 

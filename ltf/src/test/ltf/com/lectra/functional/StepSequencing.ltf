@@ -35,15 +35,15 @@ SCRIPT_START
 
 	check -> exists = false -> input [ id = orders-number ]
 
-	callScript -> subscript.IsCheckboxEmpty -> [ splitList ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ splitList , 0 ] -> 
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
+	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ splitList ] -> 
+	callScript -> subscript.IsCheckboxFilled -> [ splitList , 0 ] -> 
 
 	check -> exists = true -> input [ id = orders-number ]
 
@@ -57,7 +57,7 @@ SCRIPT_START
 
 	callScript -> subscript.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
+	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
 
 	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] -> 
 
@@ -81,7 +81,7 @@ SCRIPT_START
 
 	comment1 -> Error remains when hiding the field in error
 
-	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
+	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
 
 	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
 
@@ -89,15 +89,15 @@ SCRIPT_START
 
 	paragraph -> Teardown
 
-	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
+	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
 
 	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_ENTER ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitList ] -> 
+	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
 
 	callScript -> subscript.ClickSave -> [  ] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ splitList ] -> 
+	callScript -> subscript.IsCheckboxEmpty -> [ splitList , 0 ] -> 
 
 	channel -> close -> prodprocess
 
