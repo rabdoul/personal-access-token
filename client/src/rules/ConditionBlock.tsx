@@ -18,9 +18,10 @@ type Props = {
   conditionIndex: number;
   activityConfiguration: ActivityConfiguration;
   disabled: boolean;
+  xid: string;
 };
 
-const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionIndex, activityConfiguration, disabled }) => {
+const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionIndex, activityConfiguration, disabled, xid }) => {
   const dispatch = useUIDispatch();
   const conditionConfiguration = useConditionConfiguration(condition, activityConfiguration);
   const activityId = activityConfiguration.id as ActivityId;
@@ -35,7 +36,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
   };
 
   return (
-    <BlockContainer>
+    <BlockContainer data-conditionblock-id={xid}>
       {statementIndex > 0 && conditionIndex === 0 && <ConditionalInstruction type={'ELSE'} />}
       <ConditionalInstruction type={conditionIndex === 0 ? 'IF' : 'AND'} />
       <BlockContent>
