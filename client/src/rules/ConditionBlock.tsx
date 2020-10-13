@@ -10,6 +10,7 @@ import { ActivityId, useUIDispatch } from '../UIState';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
+import ErrorIcon from '../common/ErrorIcon';
 
 type Props = {
   statementIndex: number;
@@ -23,6 +24,15 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
   const dispatch = useUIDispatch();
   const conditionConfiguration = useConditionConfiguration(condition, activityConfiguration);
   const activityId = activityConfiguration.id as ActivityId;
+
+  const handleConditionValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: inputValue, type } = event.target;
+
+    let value;
+    if (inputValue) value = type === 'number' ? parseFloat(inputValue) : inputValue;
+
+    dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value });
+  };
 
   return (
     <BlockContainer>
@@ -48,6 +58,8 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           }}
           width={200}
           disabled={disabled}
+          error={!condition.reference}
+          icon={<ErrorIcon errorKey="error.field.mandatory" />}
         />
         <Select
           listItems={conditionConfiguration.operators}
@@ -55,14 +67,18 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'operator', value: item.value })}
           width={200}
           disabled={disabled}
+          error={!condition.operator}
+          icon={<ErrorIcon errorKey="error.field.mandatory" />}
         />
         {(conditionConfiguration.type === 'number' || conditionConfiguration.type === 'text') && (
           <Input
             type={conditionConfiguration.type}
             value={condition.value}
-            onBlur={event => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: event.target.value })}
+            onBlur={handleConditionValueChange}
             width={200}
             disabled={disabled}
+            error={!condition.value}
+            icon={<ErrorIcon errorKey="error.field.mandatory" />}
           />
         )}
         {conditionConfiguration.type === 'list' && (
