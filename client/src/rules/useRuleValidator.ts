@@ -14,13 +14,13 @@ function validateStatementCondition(condition: Condition): boolean {
   return 'reference' in condition && 'operator' in condition && 'multipleOperator' in condition && 'value' in condition;
 }
 
-const defaultValidateStatment = () => true;
+const defaultValidateStatement = () => true;
 
 export default function useRuleValidator<T>(rule?: Statement<T>[], activityId?: ActivityId, validateStatementResult?: (result: Partial<T>) => boolean) {
   const dispatch = useUIDispatch();
   useEffect(() => {
     if (rule && activityId) {
-      const isValid = validateRule(rule, validateStatementResult || defaultValidateStatment);
+      const isValid = validateRule(rule, validateStatementResult || defaultValidateStatement);
       dispatch({ type: isValid ? 'VALIDATE_RULE' : 'INVALIDATE_RULE', activityId });
     }
   }, [dispatch, rule, activityId, validateStatementResult]);

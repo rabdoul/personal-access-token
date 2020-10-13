@@ -10,9 +10,14 @@ import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, FormLine } from './styles';
 import Rule from './Rule';
 import useRuleValidator from './useRuleValidator';
+import ErrorIcon from '../common/ErrorIcon';
 
-const validateStatement = (result: Partial<Sequencing>) => {
-  return result.firstSubListSize !== undefined && result.firstSubListSize > 0;
+function isFirstSubListSizeValid(firstSubListSize?: number) {
+  return firstSubListSize !== undefined && firstSubListSize > 0;
+}
+
+const validateStatementResult = (result: Partial<Sequencing>) => {
+  return isFirstSubListSizeValid(result.firstSubListSize);
 };
 
 const SequencingRule = () => {
@@ -20,7 +25,7 @@ const SequencingRule = () => {
   const rule = useRule('setup-sequencing');
   const activityConfiguration = useActivityConfiguration('setup-sequencing');
   const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(rule, activityId, validateStatement);
+  useRuleValidator(rule, activityId, validateStatementResult);
 
   if (!rule || !activityConfiguration) return null;
 
@@ -41,7 +46,7 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
-  const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
+  const updateSequencing = (attribute: keyof Sequencing, value: any) => {
     dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, statementIndex });
   };
 
@@ -64,9 +69,11 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
             type="number"
             numberMaxDigits={0}
             value={sequencing.firstSubListSize}
+            error={!isFirstSubListSizeValid(sequencing.firstSubListSize)}
+            icon={<ErrorIcon errorKey="error.not.positive.field" />}
             width={50}
             min={0}
-            onBlur={evt => updateSequencing('firstSubListSize', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
+            onBlur={evt => updateSequencing('firstSubListSize', evt.target.value)}
           />
         </FormLine>
       )}
