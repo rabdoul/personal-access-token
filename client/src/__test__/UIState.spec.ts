@@ -238,6 +238,26 @@ describe('App.reducer', () => {
     ]);
   });
 
+  it('should invalidate rule', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(['setup-sequencing']),
+      invalidRules: new Set(),
+      'setup-sequencing': [{ conditions: [], result: {} }]
+    };
+    expect(reducer(initialState, { type: 'INVALIDATE_RULE', activityId: 'setup-sequencing' }).invalidRules).toEqual(new Set(['setup-sequencing']));
+  });
+
+  it('should validate rule', () => {
+    const initialState: UIState = {
+      editMode: true,
+      editedRules: new Set(['setup-sequencing']),
+      invalidRules: new Set(['setup-sequencing']),
+      'setup-sequencing': [{ conditions: [], result: { splitList: true, firstSubListSize: 7 } }]
+    };
+    expect(reducer(initialState, { type: 'VALIDATE_RULE', activityId: 'setup-sequencing' }).invalidRules.size).toBe(0);
+  });
+
   describe('setup sequencing', () => {
     it('should init setup sequencing', () => {
       const initialState: UIState = {
