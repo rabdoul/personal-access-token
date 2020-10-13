@@ -4,16 +4,23 @@ import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
 import { Sequencing } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
+import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, FormLine } from './styles';
 import Rule from './Rule';
+import useRuleValidator from './useRuleValidator';
+
+const validateStatement = (result: Partial<Sequencing>) => {
+  return result.firstSubListSize !== undefined && result.firstSubListSize > 0;
+};
 
 const SequencingRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('setup-sequencing');
   const activityConfiguration = useActivityConfiguration('setup-sequencing');
+  const activityId = activityConfiguration?.id as ActivityId | undefined;
+  useRuleValidator(rule, activityId, validateStatement);
 
   if (!rule || !activityConfiguration) return null;
 
@@ -35,7 +42,7 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
   const dispatch = useUIDispatch();
 
   const updateSequencing = (attribute: keyof Sequencing, value: any, isValid: boolean = true) => {
-    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, isValid, statementIndex });
+    dispatch({ type: 'UPDATE_SEQUENCING', attribute, value, statementIndex });
   };
 
   return (
@@ -59,7 +66,7 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
             value={sequencing.firstSubListSize}
             width={50}
             min={0}
-            onChange={evt => updateSequencing('firstSubListSize', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
+            onBlur={evt => updateSequencing('firstSubListSize', evt.target.value, evt.target.value !== '' && evt.target.value !== '0')}
           />
         </FormLine>
       )}

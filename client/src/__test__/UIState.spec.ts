@@ -293,7 +293,6 @@ describe('App.reducer', () => {
         type: 'UPDATE_SEQUENCING',
         attribute: 'splitList',
         value: true,
-        isValid: true,
         statementIndex: 0
       });
 
@@ -330,7 +329,6 @@ describe('App.reducer', () => {
         type: 'UPDATE_SEQUENCING',
         attribute: 'firstSubListSize',
         value: 10,
-        isValid: true,
         statementIndex: 0
       });
 
@@ -367,7 +365,6 @@ describe('App.reducer', () => {
         type: 'UPDATE_SEQUENCING',
         attribute: 'firstSubListSize',
         value: undefined,
-        isValid: false,
         statementIndex: 0
       });
 
@@ -403,7 +400,6 @@ describe('App.reducer', () => {
         type: 'UPDATE_SEQUENCING',
         attribute: 'firstSubListSize',
         value: 3,
-        isValid: true,
         statementIndex: 0
       });
 
@@ -466,7 +462,6 @@ describe('App.reducer', () => {
         type: 'UPDATE_VALIDATE_MTM_PRODUCT',
         attribute: 'stopOnOutOfRangeWarning',
         value: false,
-        isValid: true,
         statementIndex: 0
       });
 
@@ -504,7 +499,6 @@ describe('App.reducer', () => {
         type: 'UPDATE_VALIDATE_MTM_PRODUCT',
         attribute: 'stopOnOutOfRangeWarning',
         value: false,
-        isValid: true,
         statementIndex: 0
       });
 

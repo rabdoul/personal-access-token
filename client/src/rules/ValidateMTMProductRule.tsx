@@ -39,7 +39,7 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
   const dispatch = useUIDispatch();
 
   const updateValidateMTMProduct = (attribute: keyof ValidateMTMProduct, value: any) => {
-    dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, isValid: true, statementIndex });
+    dispatch({ type: 'UPDATE_VALIDATE_MTM_PRODUCT', attribute, value, statementIndex });
   };
   return (
     <Form onSubmit={e => e.preventDefault()}>

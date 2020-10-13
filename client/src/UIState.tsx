@@ -24,8 +24,8 @@ export type Action =
   | { type: 'TOGGLE_EDIT_MODE' }
   | { type: 'RESET_EDIT_MODE' }
   | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
-  | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; isValid: boolean; statementIndex: number }
-  | { type: 'UPDATE_VALIDATE_MTM_PRODUCT'; attribute: keyof ValidateMTMProduct; value: any; isValid: boolean; statementIndex: number }
+  | { type: 'UPDATE_SEQUENCING'; attribute: keyof Sequencing; value: any; statementIndex: number }
+  | { type: 'UPDATE_VALIDATE_MTM_PRODUCT'; attribute: keyof ValidateMTMProduct; value: any; statementIndex: number }
   | { type: 'ADD_STATEMENT'; activityId: ActivityId }
   | { type: 'ADD_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number }
   | { type: 'UPDATE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number; attribute: keyof Condition; value: any }

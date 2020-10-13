@@ -37,7 +37,7 @@ describe('useRibbonConfig', () => {
 
   it('ribbon should render edit ribbon config with save enabled', () => {
     const { result } = renderHook(() => useRibbonConfig(), {
-      wrapper: ({ children }) => <MockedProviders uiStateContext={[{ editMode: true, invalidRules: { 'setup-sequencing': new Set() } }, () => {}]}>{children}</MockedProviders>
+      wrapper: ({ children }) => <MockedProviders uiStateContext={[{ editMode: true, invalidRules: new Set() }, () => {}]}>{children}</MockedProviders>
     });
 
     const config = result.current;
