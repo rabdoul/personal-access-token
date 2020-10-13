@@ -20,17 +20,20 @@ interface AuthContext {
   accessToken: () => string;
   idToken: () => string;
   user: () => User;
+  isSupportMode: () => boolean;
 }
 
 export class AuthenticatedUserContext implements AuthContext {
   accessToken: () => string;
   idToken: () => string;
   user: () => User;
+  isSupportMode: () => boolean;
 
   constructor(accessToken: string, idToken: string, user: User) {
     this.accessToken = () => accessToken;
     this.idToken = () => idToken;
     this.user = () => user;
+    this.isSupportMode = () => user['https://metadata.lectra.com/app_metadata']?.account_type === 'SUPPORT';
   }
 }
 
@@ -43,7 +46,8 @@ const UNAUTHENTICATED_USER_CONTEXT = {
   },
   user: () => {
     throw new Error('Unauthenticated user');
-  }
+  },
+  isSupportMode: () => false
 };
 
 const LOCAL_AUTHENTICATION_CONTEXT = new AuthenticatedUserContext(process.env.REACT_APP_ACCESS_TOKEN!, '', {
