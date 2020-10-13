@@ -8,9 +8,10 @@ const ErrorIcon: React.FC<{ errorKey: string }> = ({ errorKey }) => {
   return (
     <Tooltip
       content={
-        <>
-          <Icon color={'red'} size={20} type="error" /> {formatMessage({ id: errorKey })}
-        </>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Icon color={'red'} size={20} type="error" />
+          <div style={{ marginLeft: '10px' }}>{formatMessage({ id: errorKey })}</div>
+        </div>
       }
     >
       <Icon color={'red'} size={15} type="error" />
