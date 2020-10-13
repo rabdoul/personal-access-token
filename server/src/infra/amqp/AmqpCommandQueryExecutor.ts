@@ -18,8 +18,8 @@ export class AmqpCommandQueryExecutor implements CommandQueryExecutor {
       case 'command.success':
         return { type: CommandResponseType.COMMAND_SUCCESS };
       case 'command.failure':
-        LOGGER.error({ mdc: currentPrincipalOrNull() }, `Command Failure, exchange=${exchange}, routingKey=${command.type}, parameters=${command.parameters}`);
         const data = JSON.parse(message?.content.toString() || '');
+        LOGGER.error({ mdc: currentPrincipalOrNull() }, `Command Failure, exchange=${exchange}, routingKey=${command.type}, parameters=${command.parameters}, response=${JSON.stringify(data)}`);
         return { type: CommandResponseType.COMMAND_FAILURE, data };
       default:
         return { type: CommandResponseType.COMMAND_FAILURE };
