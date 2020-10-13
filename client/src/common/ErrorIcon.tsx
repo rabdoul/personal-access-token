@@ -19,4 +19,6 @@ const ErrorIcon: React.FC<{ errorKey: string }> = ({ errorKey }) => {
   );
 };
 
+export const MANDATORY_FIELD_ERROR = <ErrorIcon errorKey="error.field.mandatory" />;
+
 export default ErrorIcon;

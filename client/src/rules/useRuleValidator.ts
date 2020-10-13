@@ -16,7 +16,7 @@ function validateStatementCondition(condition: Condition): boolean {
 
 const defaultValidateStatement = () => true;
 
-export default function useRuleValidator<T>(rule?: Statement<T>[], activityId?: ActivityId, validateStatementResult?: (result: Partial<T>) => boolean) {
+export default function useRuleValidator<T>(activityId?: ActivityId, rule?: Statement<T>[], validateStatementResult?: (result: Partial<T>) => boolean) {
   const dispatch = useUIDispatch();
   useEffect(() => {
     if (rule && activityId) {

@@ -10,7 +10,7 @@ import { ActivityId, useUIDispatch } from '../UIState';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
-import ErrorIcon from '../common/ErrorIcon';
+import { MANDATORY_FIELD_ERROR } from '../common/ErrorIcon';
 
 type Props = {
   statementIndex: number;
@@ -27,10 +27,10 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
 
   const handleConditionValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue, type } = event.target;
-
     let value;
-    if (inputValue) value = type === 'number' ? parseFloat(inputValue) : inputValue;
-
+    if (inputValue) {
+      value = type === 'number' ? parseFloat(inputValue) : inputValue;
+    }
     dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value });
   };
 
@@ -59,7 +59,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           width={200}
           disabled={disabled}
           error={!condition.reference}
-          icon={<ErrorIcon errorKey="error.field.mandatory" />}
+          icon={MANDATORY_FIELD_ERROR}
         />
         <Select
           listItems={conditionConfiguration.operators}
@@ -68,7 +68,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           width={200}
           disabled={disabled}
           error={!condition.operator}
-          icon={<ErrorIcon errorKey="error.field.mandatory" />}
+          icon={MANDATORY_FIELD_ERROR}
         />
         {(conditionConfiguration.type === 'number' || conditionConfiguration.type === 'text') && (
           <Input
@@ -78,7 +78,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             width={200}
             disabled={disabled}
             error={!condition.value}
-            icon={<ErrorIcon errorKey="error.field.mandatory" />}
+            icon={MANDATORY_FIELD_ERROR}
           />
         )}
         {conditionConfiguration.type === 'list' && (
@@ -88,6 +88,8 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             value={condition.value}
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: item.value })}
             disabled={disabled}
+            error={!condition.value}
+            icon={MANDATORY_FIELD_ERROR}
           />
         )}
         <BlockActions>

@@ -20,8 +20,8 @@ const useProductCategories = () => {
 
 const useConditionConfiguration = (condition: Condition, activityConfiguration: ActivityConfiguration) => {
   const { formatMessage } = useIntl();
-  const listItems = useProductCategories();
-
+  const productCategoryItems = useProductCategories();
+  console.log('exec useConditionConfiguration');
   const references = activityConfiguration.conditions.map(it => ({ label: formatMessage({ id: it.reference }), value: it.reference }));
   const conditionDefinition = activityConfiguration.conditions.find(it => it.reference === condition.reference);
   const operators = conditionDefinition?.operators.map(it => ({ label: formatMessage({ id: `operator.${it.toLowerCase()}` }), value: it })) || [];
@@ -31,7 +31,7 @@ const useConditionConfiguration = (condition: Condition, activityConfiguration: 
       : undefined;
   const type = getType(conditionDefinition?.valueType, conditionDefinition?.valueSource);
 
-  return { references, operators, type, listItems, multipleOperatorItems };
+  return { references, operators, type, listItems: productCategoryItems, multipleOperatorItems };
 };
 
 export default useConditionConfiguration;

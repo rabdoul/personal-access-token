@@ -25,9 +25,11 @@ const SequencingRule = () => {
   const rule = useRule('setup-sequencing');
   const activityConfiguration = useActivityConfiguration('setup-sequencing');
   const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(rule, activityId, validateStatementResult);
+  useRuleValidator(activityId, rule, validateStatementResult);
 
-  if (!rule || !activityConfiguration) return null;
+  if (!rule || !activityConfiguration) {
+    return null;
+  }
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
