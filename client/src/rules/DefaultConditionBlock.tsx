@@ -15,7 +15,7 @@ const DefaultConditionBlock: React.FC<Props> = ({ activityId, disabled }) => {
   const dispatch = useUIDispatch();
 
   return (
-    <BlockContainer>
+    <BlockContainer data-conditionblock-id="else">
       <ConditionalInstruction type={'ELSE'} />
       <BlockContent>
         <BlockActions>

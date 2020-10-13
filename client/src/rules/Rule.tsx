@@ -25,6 +25,7 @@ const Rule = ({ children, activityConfiguration, rule, disabled }: Props) => {
           <div key={statementIndex}>
             {statement.conditions.map((condition, conditionIndex) => (
               <ConditionBlock
+                xid={`${statementIndex}-${conditionIndex}`}
                 key={`${statementIndex}-${conditionIndex}`}
                 statementIndex={statementIndex}
                 condition={condition}
@@ -34,7 +35,7 @@ const Rule = ({ children, activityConfiguration, rule, disabled }: Props) => {
               />
             ))}
             {rule.length !== 1 && statementIndex === rule?.length - 1 && <DefaultConditionBlock activityId={activityId} disabled={disabled} />}
-            <ResultBlock activityId={activityId} conditional={activityConfiguration.conditions.length > 0} isDefault={rule.length === 1} disabled={disabled}>
+            <ResultBlock xid={statementIndex} activityId={activityId} conditional={activityConfiguration.conditions.length > 0} isDefault={rule.length === 1} disabled={disabled}>
               {children(statementIndex, statement.result!)}
             </ResultBlock>
           </div>

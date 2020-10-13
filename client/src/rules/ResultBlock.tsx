@@ -10,13 +10,14 @@ type Props = {
   conditional: boolean;
   isDefault: boolean;
   disabled: boolean;
+  xid: number;
 };
 
-const ResultBlock: React.FC<Props> = ({ children, activityId, conditional, isDefault, disabled }) => {
+const ResultBlock: React.FC<Props> = ({ children, activityId, conditional, isDefault, disabled, xid }) => {
   const dispatch = useUIDispatch();
 
   return (
-    <BlockContainer marginLeft={isDefault ? '0' : '15px'}>
+    <BlockContainer data-resultblock-id={xid} marginLeft={isDefault ? '0' : '15px'}>
       <ConditionalInstruction type={isDefault ? 'DEFAULT' : 'THEN'} />
       <BlockContent>
         {children}
