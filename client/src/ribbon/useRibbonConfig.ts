@@ -65,7 +65,7 @@ function useRibbonConfig() {
   const isReadOnlyMode = useContext(AuthenticationContext).isSupportMode();
   return produce(editMode ? editConfig : displayConfig, draft => {
     if (editMode) {
-      draft.groups[0].commands[0].enable = isReadOnlyMode || invalidRules.size === 0; // disable save
+      draft.groups[0].commands[0].enable = !isReadOnlyMode && invalidRules.size === 0; // disable save
     }
     return internationalizeConfig(formatMessage, draft);
   });
