@@ -19,7 +19,7 @@ export class AmqpCommandQueryExecutor implements CommandQueryExecutor {
         return { type: CommandResponseType.COMMAND_SUCCESS };
       case 'command.failure':
         LOGGER.error({ mdc: currentPrincipalOrNull() }, `Command Failure, exchange=${exchange}, routingKey=${command.type}, parameters=${command.parameters}`);
-        const data = message?.properties.contentType.toLowerCase().startsWith('application/json') ? JSON.parse(message.content.toString()) : message?.content;
+        const data = JSON.parse(message?.content.toString() || '');
         return { type: CommandResponseType.COMMAND_FAILURE, data };
       default:
         return { type: CommandResponseType.COMMAND_FAILURE };
@@ -38,7 +38,7 @@ export class AmqpCommandQueryExecutor implements CommandQueryExecutor {
       case 'query.failure':
       case 'failure': {
         LOGGER.error({ mdc: currentPrincipalOrNull() }, `Query Failure, exchange=${exchange}, routingKey=${query.type},, parameters=${JSON.stringify(query.parameters)}`);
-        const data = message?.properties.contentType.toLowerCase().startsWith('application/json') ? JSON.parse(message.content.toString()) : message?.content;
+        const data = JSON.parse(message?.content.toString() || '');
         return { type: QueryResponseType.QUERY_FAILURE, data };
       }
       default:
