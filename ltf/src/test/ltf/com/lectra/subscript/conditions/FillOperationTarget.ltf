@@ -1,4 +1,4 @@
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 Select operation target of designated conditional block
 
 SCRIPT_AUTHOR
@@ -6,15 +6,16 @@ r.bancal
 
 SCRIPT_GROUPS
 
+
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-conditionblock-id
-    parameter1 -> Operation target
+	parameter0 -> data-conditionblock-id
+	parameter1 -> Operation target
 
 SCRIPT_START
 
-    click -> use [  =  ] -> div [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]
+	click -> use [  =  ] -> div [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]
 
-    click -> div [ text = ${parameter1} ] -> div [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]
+	click -> div [ text = ${parameter1} ] -> div [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]
 
-   	check -> exists = true -> div [ text = ${parameter1} , class ≈ "KUISelect__single-value" ] -> div [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]
+	check -> exists = true -> div [ text = ${parameter1} , class ≈ KUISelect__value-container ] -> div [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]

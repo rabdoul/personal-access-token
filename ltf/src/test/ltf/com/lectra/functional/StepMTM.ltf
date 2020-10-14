@@ -13,11 +13,11 @@ SCRIPT_START
 
 	callScript -> scripts.ResetProductionRules -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
-	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
-	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] ->
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ validate-mtm-product , true ] -> 
 
@@ -27,7 +27,7 @@ SCRIPT_START
 
 	comment1 -> Initial state : checkbox unclicked, input is not shown
 
-	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
@@ -65,9 +65,9 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
 
-	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 0 ] -> 
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 1 ] -> 
 

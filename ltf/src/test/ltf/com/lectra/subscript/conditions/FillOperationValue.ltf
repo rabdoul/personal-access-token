@@ -1,4 +1,4 @@
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 Select operation value of designated conditional block
 
 SCRIPT_AUTHOR
@@ -6,11 +6,12 @@ r.bancal
 
 SCRIPT_GROUPS
 
+
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-conditionblock-id
-    parameter1 -> Operation value
+	parameter0 -> data-conditionblock-id
+	parameter1 -> Operation value
 
 SCRIPT_START
 
-   	enterText -> text -> ${parameter0}$KEY_ENTER -> input [ data-xlabel = operation-target ] -> div [ data-conditionblock-id = ${parameter0} ]
+	enterText -> ${parameter1}$KEY_ENTER -> input [ data-xlabel = operation-value ] -> div [ data-conditionblock-id = ${parameter0} ]
