@@ -3,6 +3,8 @@
 
 .idea
 *.iml
+HOWTO.html
+.vscode
 
 ### Node ###
 # Logs
