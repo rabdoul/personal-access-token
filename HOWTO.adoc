@@ -1,6 +1,6 @@
 = How to add a new activity rule
 
-== Pre-requesite
+== 🛠 Pre-requesite
 
 The rule configuration already exists.
 You can check with the following API :
@@ -8,7 +8,7 @@ You can check with the following API :
 Exchange:: `cut-admin`
 RoutingKey:: `production-rules-configuration.query.get`
 
-== Server
+== 💻 Server
 
 * Add your activity in the record with the corresponding id (lowercase with dash instead of space)
 [source, typescript]
@@ -18,7 +18,7 @@ include::server/src/interface/resources/ActivitiesMapping.ts[tags=mapping]
 
 That's all 😎
 
-== Client
+== 🕸 Client
 
 === Create a new file in `src/rules`
 
@@ -64,5 +64,8 @@ In the file `src/ProductionProcessScreen.tsx`
  <Route exact path="/rule-id" component={ComponentRule} />
 ----
 
+== 🙈 LTF Test
+
+Add a new functional test for the rule in `ltf/src/test/tlf/com/lectra/functional`
 
 
