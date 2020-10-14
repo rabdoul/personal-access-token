@@ -22,4 +22,4 @@ SCRIPT_START
     
   	callScript -> subscript.conditions.FillOperator -> [ ${parameter0} , ${parameter2} ] ->
     
-  	callScript -> subscript.conditions.FillRightOperandInput -> [ ${parameter0} , ${parameter3} ] ->
+  	callScript -> subscript.conditions.FillRightOperandList -> [ ${parameter0} , ${parameter3} ] ->
