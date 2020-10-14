@@ -20,9 +20,9 @@ That's all 😎
 
 == 🕸 Client
 
-=== Create a new file in `src/rules`
+=== Create a new file `XXXRule.tsx` in `src/rules`
 
-* Define model for statement result of the rule
+* Define a model `XXX` for statement result of the rule
 
 .Example for existing `Sequencing`
 [source, typescript]
@@ -33,20 +33,20 @@ export interface Sequencing extends StatementResult {
 }
 ----
 
-* Create a `React` component using common hooks ( `useRule`,  `useRuleValidator`)
+* Create a `React` component `XXXRule` using common hooks ( `useRule`,  `useRuleValidator`)
 
 === Declare rule in UIState
 
 In the file `src/UIState.tsx`
 
-* Declare a new key in `UIState` type
+* Declare a new key in `UIState` type : `'xxx'?: ActivityRule<XXX>`
 
-[source]
+[source, typescript]
 ----
 include::client/src/UIState.tsx[tags=uiState]
 ----
 
-* Declare a new action of type `UpdateStatementResult`
+* Declare a new action : `UpdateStatementResult<'xxx', XXX>`
 
 [source]
 ----
@@ -61,7 +61,7 @@ In the file `src/ProductionProcessScreen.tsx`
 
 [source, jsx]
 ----
- <Route exact path="/rule-id" component={ComponentRule} />
+ <Route exact path="/xxx" component={XXXRule} />
 ----
 
 == 🙈 LTF Test
