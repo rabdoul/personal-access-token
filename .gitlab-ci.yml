@@ -1,0 +1,14 @@
+pages:
+  tags:
+    - pages
+  stage: deploy
+  script:
+    - docker pull asciidoctor/docker-asciidoctor
+    - docker run --rm --user $(id -u):$(id -g) -v $(pwd):/documents -w /documents/ asciidoctor/docker-asciidoctor asciidoctor -r asciidoctor-diagram HOWTO.adoc
+    - mkdir public
+    - cp HOWTO.html public/index.html
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
