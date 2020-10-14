@@ -6,6 +6,7 @@ import Icon from '@lectra/icon';
 
 import { Activity } from '../model';
 import ActivityIndicator from './ActivityIndicator';
+import { withHelpTooltip, useHelpUrl } from '../base/Help';
 
 type Props = { activity: Activity; first: boolean; last: boolean; edited: boolean; invalid: boolean };
 
@@ -18,6 +19,7 @@ const ActivityItem: React.FC<Props> = ({ activity, first, last, edited, invalid 
       to={`${activity.id}`}
       selected={selected}
       disabled={!activity.enabled}
+      helpUrl={useHelpUrl(`ACTIVITY_${activity.id}`)}
       data-selected={selected}
       data-edited={edited}
       data-enabled={activity.enabled}
@@ -31,7 +33,7 @@ const ActivityItem: React.FC<Props> = ({ activity, first, last, edited, invalid 
   );
 };
 
-const ActivityLink = styled(Link)<{ selected: boolean; disabled: boolean }>`
+const ActivityLink = withHelpTooltip(styled(Link)<{ selected: boolean; disabled: boolean }>`
   align-items: center;
   background-color: ${props => (props.selected ? '#cceaff' : 'white')};
   border-top: 1px solid #ccc;
@@ -46,7 +48,7 @@ const ActivityLink = styled(Link)<{ selected: boolean; disabled: boolean }>`
   &:hover {
     background-color: ${props => (props.selected ? '#cceaff' : '#e6e6e6')};
   }
-`;
+`);
 
 const ActivityName = styled.span`
   min-width: 260px;

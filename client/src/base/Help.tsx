@@ -44,20 +44,20 @@ export const useHelpUrl = (key: string) => {
   }
 };
 
-interface WithTooltipProps {
-  alias?: string;
+interface WithHelpTooltipProps {
+  helpUrl?: string;
 }
 
-export const withHelpTooltip = <P extends object>(Component: React.ComponentType<P>): React.FC<P & WithTooltipProps> => ({ alias, ...props }: WithTooltipProps) => {
-  if (alias !== undefined) {
-    return (
-      <StyledTooltip placement="bottom-start" duration={800} interactive={true} content={<iframe id="frame" title="frame" src={alias} frameBorder="0" />}>
-        <Component {...(props as P)} />
-      </StyledTooltip>
-    );
-  } else {
+export const withHelpTooltip = <P extends object>(Component: React.ComponentType<P>): React.FC<P & WithHelpTooltipProps> => ({ helpUrl, ...props }: WithHelpTooltipProps) => {
+  if (!helpUrl) {
     return <Component {...(props as P)} />;
   }
+
+  return (
+    <StyledTooltip placement="bottom-start" duration={800} interactive={true} content={<iframe id="frame" title="frame" src={helpUrl} frameBorder="0" />}>
+      <Component {...(props as P)} />
+    </StyledTooltip>
+  );
 };
 
 export default HelpProvider;
