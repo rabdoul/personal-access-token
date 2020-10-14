@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import React, { ReactNode } from 'react';
-import { HelpContext, Help, useHelpUrl } from '../Help';
+import { HelpContext, Help, useHelpUrls } from '../Help';
 
 describe('HelpProvider', () => {
   const StaticHelpProvider: React.FC<{ children: ReactNode; help: Help }> = ({ children, help }) => {
@@ -8,8 +8,8 @@ describe('HelpProvider', () => {
   };
 
   describe('useHelpUrl', () => {
-    it('should return undefined is help is not active', () => {
-      const wrapper = ({ children }) => (
+    it('should return empty array if help is not active', () => {
+      const wrapper: React.FC = ({ children }) => (
         <StaticHelpProvider
           help={{
             isActive: false,
@@ -22,12 +22,12 @@ describe('HelpProvider', () => {
         </StaticHelpProvider>
       );
 
-      const { result } = renderHook(() => useHelpUrl('PARAMS_TAB'), { wrapper });
-      expect(result.current).toBeUndefined();
+      const { result } = renderHook(() => useHelpUrls('PARAMS_TAB'), { wrapper });
+      expect(result.current).toEqual([]);
     });
 
     it('should return tooltipUrl if help is active and key exists', () => {
-      const wrapper = ({ children }) => (
+      const wrapper: React.FC = ({ children }) => (
         <StaticHelpProvider
           help={{
             isActive: true,
@@ -40,12 +40,12 @@ describe('HelpProvider', () => {
         </StaticHelpProvider>
       );
 
-      const { result } = renderHook(() => useHelpUrl('PARAMS_DISPLAY'), { wrapper });
-      expect(result.current).toBe('https://help.dev.mylectra.com/help/systemmanager/FR/Content/03-Parametres-Avances/01-Afficher.htm');
+      const { result } = renderHook(() => useHelpUrls('PARAMS_DISPLAY'), { wrapper });
+      expect(result.current).toEqual(['https://help.dev.mylectra.com/help/systemmanager/FR/Content/03-Parametres-Avances/01-Afficher.htm']);
     });
 
-    it('should return undefined is help is active but no key', () => {
-      const wrapper = ({ children }) => (
+    it('should return empty array if help is active but no key', () => {
+      const wrapper: React.FC = ({ children }) => (
         <StaticHelpProvider
           help={{
             isActive: false,
@@ -58,8 +58,8 @@ describe('HelpProvider', () => {
         </StaticHelpProvider>
       );
 
-      const { result } = renderHook(() => useHelpUrl('PARAMS_TAB'), { wrapper });
-      expect(result.current).toBeUndefined();
+      const { result } = renderHook(() => useHelpUrls('PARAMS_TAB'), { wrapper });
+      expect(result.current).toEqual([]);
     });
   });
 });

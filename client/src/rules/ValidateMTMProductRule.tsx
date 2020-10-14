@@ -9,7 +9,7 @@ import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, FormLine } from './common/styles';
 import Rule from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
-import { useHelpUrl } from '../base/Help';
+import { useHelpUrls } from '../base/Help';
 
 export interface ValidateMTMProduct extends StatementResult {
   stopOnOutOfRangeWarning: boolean;
@@ -48,9 +48,11 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-mtm-product', statementIndex, attribute, value });
   };
 
+  const urls = useHelpUrls('PP_VMP_VALIDATE_INTERVAL_ALT', 'PP_VMP_VALIDATE_STRICT_ALT');
+
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine helpUrl={useHelpUrl('PP_VMP_VALIDATE_INTERVAL_ALT')}>
+      <FormLine helpUrl={urls[0]}>
         <CheckBox
           disabled={disabled}
           label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
@@ -60,7 +62,7 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
           tickSize={13}
         />
       </FormLine>
-      <FormLine helpUrl={useHelpUrl('PP_VMP_VALIDATE_STRICT_ALT')}>
+      <FormLine helpUrl={urls[1]}>
         <CheckBox
           disabled={disabled}
           label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}

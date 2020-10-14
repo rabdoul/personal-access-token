@@ -37,11 +37,9 @@ const HelpProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   return <HelpContext.Provider value={{ isActive, aliases }}>{children}</HelpContext.Provider>;
 };
 
-export const useHelpUrl = (key: string) => {
+export const useHelpUrls = (...keys: string[]) => {
   const context = useContext<Help>(HelpContext);
-  if (context.isActive) {
-    return context.aliases[key];
-  }
+  return context.isActive ? keys.map(key => context.aliases[key]) : [];
 };
 
 interface WithHelpTooltipProps {

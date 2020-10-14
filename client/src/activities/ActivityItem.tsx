@@ -6,7 +6,7 @@ import Icon from '@lectra/icon';
 
 import { Activity } from '../model';
 import ActivityIndicator from './ActivityIndicator';
-import { withHelpTooltip, useHelpUrl } from '../base/Help';
+import { withHelpTooltip, useHelpUrls } from '../base/Help';
 
 type Props = { activity: Activity; first: boolean; last: boolean; edited: boolean; invalid: boolean };
 
@@ -19,7 +19,7 @@ const ActivityItem: React.FC<Props> = ({ activity, first, last, edited, invalid 
       to={`${activity.id}`}
       selected={selected}
       disabled={!activity.enabled}
-      helpUrl={useHelpUrl(`ACTIVITY_${activity.id}`)}
+      helpUrl={useHelpUrls(`ACTIVITY_${activity.id}`)[0]}
       data-selected={selected}
       data-edited={edited}
       data-enabled={activity.enabled}
