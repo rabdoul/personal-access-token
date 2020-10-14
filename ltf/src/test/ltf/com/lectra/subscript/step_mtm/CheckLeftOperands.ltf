@@ -1,0 +1,39 @@
+SCRIPT_DESCRIPTION
+Check all options of left operands for step mtm conditions
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+    paragraph -> Check all options in conditional list of step MTM
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.conditions.UnfoldList -> [ 0-0 , left-operand ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Product&space;order ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Priority ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Sales&space;point ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Production&space;site ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Product ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Product&space;family ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Product&space;category ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Offer ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Grading ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Special&space;grading&space;1 ] -> 
+
+	callScript -> subscript.conditions.CheckLeftOperand -> [ Special&space;grading&space;2 ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
