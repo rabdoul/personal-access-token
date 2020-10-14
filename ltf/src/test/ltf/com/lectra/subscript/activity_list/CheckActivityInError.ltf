@@ -1,0 +1,17 @@
+SCRIPT_DESCRIPTION
+Check if activity is in error
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> Activity xname
+
+SCRIPT_START
+
+	comment1 -> Check that activity ${parameter0} is in error
+
+	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = ${parameter0} ]
+
+	check -> exists = true -> div [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ]

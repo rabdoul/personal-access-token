@@ -1,0 +1,11 @@
+SCRIPT_DESCRIPTION
+Click the delete icon to remove designated conditional block
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+	comment1 -> Click the delete icon at the right of ${parameter0} conditional block
+
+    click -> div [ data-testid = icon-delete ] -> div [ data-conditionblock-id = ${parameter0} ]

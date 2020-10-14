@@ -1,0 +1,21 @@
+﻿SCRIPT_DESCRIPTION
+Select right operand of designated conditional block
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> data-conditionblock-id
+	parameter1 -> right operand
+
+SCRIPT_START
+
+	click -> use [  =  ] -> div [ data-xlabel = right-operand ] -> div [ data-conditionblock-id = ${parameter0} ]
+
+	click -> div [ text = ${parameter1} ] -> div [ data-xlabel = right-operand ] -> div [ data-conditionblock-id = ${parameter0} ]
+
+	check -> exists = true -> div [ class ≈ KUISelect__value-container , text = ${parameter1} ] -> div [ data-xlabel = right-operand ] -> div [ data-conditionblock-id = ${parameter0} ]

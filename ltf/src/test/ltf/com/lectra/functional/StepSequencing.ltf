@@ -17,6 +17,8 @@ SCRIPT_START
 
 	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] ->
+
 	paragraph -> Check initial state
 
 	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ analyse-product-order , false ] -> 
@@ -35,35 +37,35 @@ SCRIPT_START
 
 	check -> exists = false -> input [ id = orders-number ]
 
-	callScript -> subscript.IsCheckboxEmpty -> [ splitList , 0 ] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ splitList , 0 ] -> 
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
-	callScript -> subscript.ClickEdit -> [  ] -> 
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
+	callScript -> subscript.result_block.ClickCheckbox -> [ splitList , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ splitList , 0 ] -> 
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ splitList , 0 ] -> 
 
 	check -> exists = true -> input [ id = orders-number ]
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
 
-	callScript -> subscript.ClickCancel -> [  ] -> 
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , false ] -> 
 
 	check -> exists = false -> input [ id = orders-number ]
 
-	callScript -> subscript.ClickEdit -> [  ] -> 
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
+	callScript -> subscript.result_block.ClickCheckbox -> [ splitList , 0 ] -> 
 
 	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
 
-	callScript -> subscript.ClickSave -> [  ] -> 
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , false ] -> 
 
@@ -71,33 +73,17 @@ SCRIPT_START
 
 	check -> exists = true -> input [ id = orders-number , value = 3 ]
 
-	callScript -> subscript.ClickEdit -> [  ] -> 
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
 	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ a ] -> 
 
-	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
-
-	check -> exists = true ->  [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ]
+	callScript -> subscript.activity_list.CheckActivityInError -> [ setup-sequencing ] -> 
 
 	comment1 -> Error remains when hiding the field in error
 
-	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
+	callScript -> subscript.result_block.ClickCheckbox -> [ splitList , 0 ] -> 
 
-	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = setup-sequencing ]
-
-	check -> exists = true ->  [ data-xlabel = SAVE_PRODUCTION_PROCESS , data-enabled = disabled ]
-
-	paragraph -> Teardown
-
-	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
-
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 5$KEY_ENTER ] -> 
-
-	callScript -> subscript.ClickCheckbox -> [ splitList , 0 ] -> 
-
-	callScript -> subscript.ClickSave -> [  ] -> 
-
-	callScript -> subscript.IsCheckboxEmpty -> [ splitList , 0 ] -> 
+	callScript -> subscript.activity_list.CheckActivityInError -> [ setup-sequencing ] -> 
 
 	channel -> close -> prodprocess
 
