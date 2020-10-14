@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import Title from '../common/Title';
+import Title from './Title';
 
 const StepDescription = () => {
   const { formatMessage } = useIntl();

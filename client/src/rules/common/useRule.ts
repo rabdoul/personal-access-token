@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 
-import { ActivityId, UIState, useUIDispatch, useUIState } from '../UIState';
-import { useAccessToken } from '../base/Authentication';
+import { ActivityId, UIState, useUIDispatch, useUIState } from '../../UIState';
+import { useAccessToken } from '../../base/Authentication';
 
 export default function useRule<ACTIVITY_ID extends ActivityId>(activityId: ACTIVITY_ID): UIState[ACTIVITY_ID] | undefined {
   const accessToken = useAccessToken();

@@ -3,9 +3,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import { useQuery, QueryResult } from 'react-query';
 import { mocked } from 'ts-jest/utils';
 
-import { AuthenticationContext } from '../../base/Authentication';
-import { Sequencing } from '../../model';
-import { UIStateContext } from '../../UIState';
+import { AuthenticationContext } from '../../../base/Authentication';
+import { UIStateContext } from '../../../UIState';
 import useRule from '../useRule';
 
 jest.mock('react-query');

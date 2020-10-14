@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAccessToken } from '../base/Authentication';
 import { useUIDispatch } from '../UIState';
 
-import useUpdateRule from '../rules/useUpdateRule';
+import useUpdateRule from '../rules/common/useUpdateRule';
 
 function useRibbonListener() {
   const token = useAccessToken();

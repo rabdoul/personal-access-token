@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import ActivityList from './activities/ActivityList';
 import SequencingRule from './rules/SequencingRule';
-import StepDescription from './rules/StepDescription';
+import StepDescription from './rules/common/StepDescription';
 import useRibbonConfig from './ribbon/useRibbonConfig';
 import useRibbonListener from './ribbon/useRibbonListener';
 import Notifier from './Notification';

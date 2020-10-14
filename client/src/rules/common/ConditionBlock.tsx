@@ -5,12 +5,12 @@ import Input from '@lectra/input';
 import Select from '@lectra/select';
 import DropDownSearch from '@lectra/dropdownsearch';
 
-import { ActivityConfiguration, Condition } from '../model';
-import { ActivityId, useUIDispatch } from '../UIState';
+import { ActivityConfiguration, Condition } from '../../model';
+import { ActivityId, useUIDispatch } from '../../UIState';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
-import { MANDATORY_FIELD_ERROR } from '../common/ErrorIcon';
+import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
 
 type Props = {
   statementIndex: number;

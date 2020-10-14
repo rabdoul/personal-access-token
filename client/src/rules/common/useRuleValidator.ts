@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Statement, Condition } from '../model';
-import { ActivityId, useUIDispatch } from '../UIState';
+import { Statement, Condition } from '../../model';
+import { ActivityId, useUIDispatch } from '../../UIState';
 
 function validateRule<T>(rule: Statement<T>[], validateStatementResult: (result: Partial<T>) => boolean): boolean {
   return rule.every(statement => validateStatementConditions(statement) && validateStatementResult(statement.result));

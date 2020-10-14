@@ -1,10 +1,14 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import produce, { enableMapSet } from 'immer';
 
-import { Condition, ActivityRule, Sequencing, ValidateMTMProduct, AssociateCuttingRequirements, StatementResult } from './model';
+import { Condition, ActivityRule, StatementResult } from './model';
+import { Sequencing } from './rules/SequencingRule';
+import { ValidateMTMProduct } from './rules/ValidateMTMProductRule';
+import { AssociateCuttingRequirements } from './rules/AssociateCuttingRequirementsRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
+// tag::uiState[]
 export type UIState = {
   editMode: boolean;
   editedRules: Set<ActivityId>;
@@ -13,6 +17,7 @@ export type UIState = {
   'validate-mtm-product'?: ActivityRule<ValidateMTMProduct>;
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
 };
+// end::uiState[]
 
 const InitialState: UIState = {
   editMode: false,
@@ -28,6 +33,7 @@ type UpdateStatementResult<ID extends ActivityId, SR extends StatementResult> = 
   value: any;
 };
 
+// tag::action[]
 export type Action =
   | { type: 'TOGGLE_EDIT_MODE' }
   | { type: 'RESET_EDIT_MODE' }
@@ -40,6 +46,7 @@ export type Action =
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>;
+// end::action[]
 
 enableMapSet();
 

@@ -2,7 +2,7 @@ import React from 'react';
 import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
 
-import { ActivityId, useUIDispatch } from '../UIState';
+import { ActivityId, useUIDispatch } from '../../UIState';
 import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 

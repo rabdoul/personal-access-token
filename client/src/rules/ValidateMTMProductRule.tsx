@@ -1,14 +1,19 @@
 import React from 'react';
 import CheckBox from '@lectra/checkbox';
 
-import useRule from './useRule';
-import { ValidateMTMProduct } from '../model';
+import useRule from './common/useRule';
+import { StatementResult } from '../model';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form } from './styles';
-import Rule from './Rule';
-import useRuleValidator from './useRuleValidator';
+import { Form } from './common/styles';
+import Rule from './common/Rule';
+import useRuleValidator from './common/useRuleValidator';
+
+export interface ValidateMTMProduct extends StatementResult {
+  stopOnOutOfRangeWarning: boolean;
+  stopOnIncorrectValueWarning: boolean;
+}
 
 const ValidateMTMProductRule = () => {
   const { editMode } = useUIState();

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { ActivityConfiguration, ActivityRule, StatementResult } from '../model';
+import { ActivityConfiguration, ActivityRule, StatementResult } from '../../model';
 import StepDescription from './StepDescription';
 import ConditionBlock from './ConditionBlock';
 import ResultBlock from './ResultBlock';
 import DefaultConditionBlock from './DefaultConditionBlock';
-import { ActivityId } from '../UIState';
+import { ActivityId } from '../../UIState';
 import { RuleContainer } from './styles';
 
 type Props = {

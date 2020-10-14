@@ -1,3 +1,4 @@
+// tag::mapping[]
 const ACTIVITIES_MAPPING: Record<string, string> = {
     "Analyse product order" : "analyse-product-order",
     "Personalize" : "personalize",
@@ -16,6 +17,7 @@ const ACTIVITIES_MAPPING: Record<string, string> = {
     "Publish" : "publish",
     "Assist offloading" : "assist-offloading"
 }
+// end::mapping[]
 
 export function activityIdFromReference(reference: string): string {
     return ACTIVITIES_MAPPING[reference]

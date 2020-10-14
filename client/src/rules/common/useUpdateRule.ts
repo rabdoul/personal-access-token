@@ -1,8 +1,8 @@
-import { useUIState } from '../UIState';
+import { useUIState } from '../../UIState';
 import { useMutation } from 'react-query';
 import { sendData } from 'raspberry-fetch';
 
-import { useAccessToken } from '../base/Authentication';
+import { useAccessToken } from '../../base/Authentication';
 
 export default function useUpdateRule() {
   const token = useAccessToken();

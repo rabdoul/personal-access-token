@@ -1,5 +1,5 @@
 import 'jest';
-import { reducer, ActivityId, UIState } from '../UIState';
+import { reducer, UIState } from '../UIState';
 
 describe('App.reducer', () => {
   it('should toggle editMode to true', () => {

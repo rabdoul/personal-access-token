@@ -19,20 +19,6 @@ export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCat
 
 export interface StatementResult {}
 
-export interface Sequencing extends StatementResult {
-  splitList: boolean;
-  firstSubListSize: number;
-}
-
-export interface ValidateMTMProduct extends StatementResult {
-  stopOnOutOfRangeWarning: boolean;
-  stopOnIncorrectValueWarning: boolean;
-}
-
-export interface AssociateCuttingRequirements extends StatementResult {
-  requirementId?: string;
-}
-
 export type Condition = Partial<{
   reference: string;
   multipleOperator: ListOperator;

@@ -3,14 +3,19 @@ import { useIntl } from 'react-intl';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
-import { Sequencing } from '../model';
+import { StatementResult } from '../model';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
-import useRule from './useRule';
+import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form, FormLine } from './styles';
-import Rule from './Rule';
-import useRuleValidator from './useRuleValidator';
-import ErrorIcon from '../common/ErrorIcon';
+import { Form, FormLine } from './common/styles';
+import Rule from './common/Rule';
+import useRuleValidator from './common/useRuleValidator';
+import ErrorIcon from './common/ErrorIcon';
+
+export interface Sequencing extends StatementResult {
+  splitList: boolean;
+  firstSubListSize: number;
+}
 
 function isFirstSubListSizeValid(firstSubListSize?: number) {
   return firstSubListSize !== undefined && firstSubListSize > 0;

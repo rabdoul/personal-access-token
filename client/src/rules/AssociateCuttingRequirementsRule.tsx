@@ -1,9 +1,14 @@
 import React from 'react';
 
-import useRule from './useRule';
+import useRule from './common/useRule';
 import { useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule from './Rule';
+import Rule from './common/Rule';
+import { StatementResult } from '../model';
+
+export interface AssociateCuttingRequirements extends StatementResult {
+  requirementId?: string;
+}
 
 const AssociateCuttingRequirementsRule = () => {
   const { editMode } = useUIState();
