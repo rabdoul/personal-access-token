@@ -1,0 +1,25 @@
+SCRIPT_DESCRIPTION
+Check if activity is selected or not
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-conditionblock-id
+    parameter1 -> Operation target
+    parameter2 -> Operand
+    parameter3 -> Operation value
+
+
+SCRIPT_START
+
+	comment1 -> Enter condition ${parameter1} ${parameter2} ${parameter3} for conditional block ${parameter0}
+
+  	callScript -> subscript.conditions.FillOperationTarget -> [ ${parameter0} , ${parameter1} ] ->
+    
+  	callScript -> subscript.conditions.FillOperand -> [ ${parameter0} , ${parameter2} ] ->
+    
+  	callScript -> subscript.conditions.FillOperationValue -> [ ${parameter0} , ${parameter3} ] ->

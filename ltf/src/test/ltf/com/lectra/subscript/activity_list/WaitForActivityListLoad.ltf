@@ -1,0 +1,10 @@
+
+SCRIPT_DESCRIPTION
+Wait for tha activity list to be loaded
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+	waitForObject -> 10 -> a [ data-xname = analyse-product-order ]

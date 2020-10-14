@@ -17,6 +17,8 @@ SCRIPT_START
 
 	callScript -> subscript.Login -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] ->
+
 	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ validate-mtm-product , true ] -> 
 
 	paragraph -> Test setup sequencing activity
@@ -25,53 +27,51 @@ SCRIPT_START
 
 	comment1 -> Initial state : checkbox unclicked, input is not shown
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
-	callScript -> subscript.ClickEdit -> [  ] -> 
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
+	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
-
-	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
-
-	callScript -> subscript.ClickCancel -> [  ] -> 
-
-	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
-
-	callScript -> subscript.ClickEdit -> [  ] -> 
-
-	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
-
-	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning , 0 ] -> 
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
 
-	callScript -> subscript.ClickSave -> [  ] -> 
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 0 ] -> 
+	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	paragraph -> Teardown
+	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
-	callScript -> subscript.ClickEdit -> [  ] -> 
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
 
-	callScript -> subscript.ClickCheckbox -> [ stopOnIncorrectValueWarning , 0 ] -> 
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-mtm-product ] -> 
 
-	callScript -> subscript.ClickSave -> [  ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Priority , Is&space;greater&space;than , 3 ] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
+	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
-	callScript -> subscript.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 1 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 1 ] -> 
 
 	channel -> close -> prodprocess
 

@@ -42,6 +42,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
       <BlockContent>
         {conditionConfiguration.multipleOperatorItems && (
           <Select
+            data-xlabel="prior-operator"
             listItems={conditionConfiguration.multipleOperatorItems}
             value={condition.multipleOperator}
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'multipleOperator', value: item.value })}
@@ -50,6 +51,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           />
         )}
         <Select
+          data-xlabel="operation-target"
           listItems={conditionConfiguration.references}
           value={condition.reference}
           onChange={item => {
@@ -63,6 +65,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           icon={MANDATORY_FIELD_ERROR}
         />
         <Select
+          data-xlabel="operand"
           listItems={conditionConfiguration.operators}
           value={condition.operator}
           onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'operator', value: item.value })}
@@ -73,6 +76,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
         />
         {(conditionConfiguration.type === 'number' || conditionConfiguration.type === 'text') && (
           <Input
+            data-xlabel="operation-value"
             type={conditionConfiguration.type}
             value={condition.value}
             onBlur={handleConditionValueChange}
