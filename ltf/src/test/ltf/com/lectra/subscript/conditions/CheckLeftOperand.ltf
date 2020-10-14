@@ -1,0 +1,13 @@
+﻿SCRIPT_DESCRIPTION
+Check a value exists in the list of left operands
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> Operand text
+
+SCRIPT_START
+
+	check -> exists = true -> div [ text = ${parameter0} ] -> div [ data-xlabel = left-operand ]

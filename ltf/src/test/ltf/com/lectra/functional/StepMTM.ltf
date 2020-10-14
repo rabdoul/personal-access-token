@@ -31,6 +31,8 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
+	callScript -> subscript.step_mtm.CheckLeftOperands -> [  ] -> 
+
 	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
@@ -59,11 +61,25 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Priority , Is&space;greater&space;than , 3 ] -> 
 
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Product&space;category , Is&space;equal&space;to , Skirt ] -> 
+
 	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Offer , Is&space;different&space;from , somthing_duh ] -> 
 
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Priority , Is&space;greater&space;than , 3 ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Product&space;category , Is&space;equal&space;to , Skirt ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Offer , Is&space;different&space;from , somthing_duh ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
 

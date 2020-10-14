@@ -1,0 +1,14 @@
+﻿SCRIPT_DESCRIPTION
+Click to unfold a list in conditional blocks
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> data-conditionblock-id
+	parameter1 -> List label
+
+SCRIPT_START
+
+	click -> use [  =  ] -> div [ data-xlabel = ${parameter1} ] -> div [ data-conditionblock-id = ${parameter0} ]

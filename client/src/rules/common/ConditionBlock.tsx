@@ -88,6 +88,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
         )}
         {conditionConfiguration.type === 'list' && (
           <DropDownSearch
+            data-xlabel="right-operand"
             listItems={conditionConfiguration.listItems}
             width={200}
             value={condition.value}

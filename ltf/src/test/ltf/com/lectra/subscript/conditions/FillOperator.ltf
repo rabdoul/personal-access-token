@@ -14,8 +14,8 @@ SCRIPT_PARAMETERS
 
 SCRIPT_START
 
-	click -> use [  =  ] -> div [ data-xlabel = operator ] -> div [ data-conditionblock-id = ${parameter0} ]
+	callScript -> subscript.conditions.UnfoldList -> [ ${parameter0} , operator ] -> 
 
 	click -> div [ text = ${parameter1} ] -> div [ data-xlabel = operator ] -> div [ data-conditionblock-id = ${parameter0} ]
 
-	check -> exists = true -> div [ class ≈ KUISelect__value-container , text = ${parameter1} ] -> div [ data-xlabel = operator ] -> div [ data-conditionblock-id = ${parameter0} ]
+	callScript -> subscript.conditions.CheckListValue -> [ ${parameter0} , operator , ${parameter1} ] -> 

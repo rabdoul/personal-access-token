@@ -4,6 +4,10 @@ Click the + icon of designated conditional block
 SCRIPT_AUTHOR
 r.bancal
 
+SCRIPT_PARAMETERS
+
+    parameter0 -> condition block id
+
 SCRIPT_START
 
 	comment1 -> Click the + icon at the right of ${parameter0} conditional block
