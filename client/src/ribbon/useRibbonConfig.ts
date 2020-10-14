@@ -17,7 +17,7 @@ const displayConfig: RibbonConfig = {
       description: 'group.edit',
       commands: [
         {
-          id: 'EDIT_PRODUCTION_PROCESS',
+          id: 'PP_EDIT',
           type: 'default',
           description: 'command.edit',
           imageUrl: edit,
@@ -37,7 +37,7 @@ const editConfig: RibbonConfig = {
       description: 'group.save',
       commands: [
         {
-          id: 'SAVE_PRODUCTION_PROCESS',
+          id: 'PP_SAVE',
           type: 'default',
           description: 'command.save',
           imageUrl: save,
@@ -46,7 +46,7 @@ const editConfig: RibbonConfig = {
           action: "document.dispatchEvent(new CustomEvent('RIBBON_ACTION', { 'detail': { 'action': 'SAVE_PRODUCTION_PROCESS' } }))"
         },
         {
-          id: 'CANCEL_PRODUCTION_PROCESS_EDITION',
+          id: 'PP_CANCEL',
           type: 'default',
           description: 'command.cancel',
           imageUrl: cancel,

@@ -6,9 +6,10 @@ import { StatementResult } from '../model';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form } from './common/styles';
+import { Form, FormLine } from './common/styles';
 import Rule from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
+import { useHelpUrl } from '../base/Help';
 
 export interface ValidateMTMProduct extends StatementResult {
   stopOnOutOfRangeWarning: boolean;
@@ -49,22 +50,26 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <CheckBox
-        disabled={disabled}
-        label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
-        checked={validateMTMProduct.stopOnOutOfRangeWarning!}
-        onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
-        xlabel="stopOnOutOfRangeWarning"
-        tickSize={13}
-      />
-      <CheckBox
-        disabled={disabled}
-        label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}
-        checked={validateMTMProduct.stopOnIncorrectValueWarning!}
-        onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
-        xlabel="stopOnIncorrectValueWarning"
-        tickSize={13}
-      />
+      <FormLine helpUrl={useHelpUrl('PP_VMP_VALIDATE_INTERVAL_ALT')}>
+        <CheckBox
+          disabled={disabled}
+          label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
+          checked={validateMTMProduct.stopOnOutOfRangeWarning!}
+          onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
+          xlabel="stopOnOutOfRangeWarning"
+          tickSize={13}
+        />
+      </FormLine>
+      <FormLine helpUrl={useHelpUrl('PP_VMP_VALIDATE_STRICT_ALT')}>
+        <CheckBox
+          disabled={disabled}
+          label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}
+          checked={validateMTMProduct.stopOnIncorrectValueWarning!}
+          onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
+          xlabel="stopOnIncorrectValueWarning"
+          tickSize={13}
+        />
+      </FormLine>
     </Form>
   );
 };

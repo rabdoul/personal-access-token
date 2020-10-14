@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { withHelpTooltip } from '../../base/Help';
 
 export const Form = styled.form`
   span {
@@ -12,7 +13,7 @@ export const Form = styled.form`
   }
 `;
 
-export const FormLine = styled.div`
+export const FormLine = withHelpTooltip(styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -21,7 +22,7 @@ export const FormLine = styled.div`
   input {
     margin-left: 5px;
   }
-`;
+`);
 
 export const BlockContent = styled.div`
   align-items: center;

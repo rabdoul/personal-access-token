@@ -8,4 +8,4 @@ SCRIPT_GROUPS
 
 SCRIPT_START
 
-	click -> div [ data-xlabel = SAVE_PRODUCTION_PROCESS ]
+	click -> div [ data-xlabel = PP_SAVE ]

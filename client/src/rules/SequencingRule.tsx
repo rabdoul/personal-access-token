@@ -11,6 +11,7 @@ import { Form, FormLine } from './common/styles';
 import Rule from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
 import ErrorIcon from './common/ErrorIcon';
+import { useHelpUrl } from '../base/Help';
 
 export interface Sequencing extends StatementResult {
   splitList: boolean;
@@ -59,16 +60,18 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <CheckBox
-        disabled={disabled}
-        label={formatMessage({ id: 'rule.sequencing.split.selection' })}
-        checked={sequencing.splitList!}
-        onChange={value => updateSequencing('splitList', value)}
-        xlabel="splitList"
-        tickSize={13}
-      />
+      <FormLine helpUrl={useHelpUrl('PP_SEQ_SPLIT_ORDERS')}>
+        <CheckBox
+          disabled={disabled}
+          label={formatMessage({ id: 'rule.sequencing.split.selection' })}
+          checked={sequencing.splitList!}
+          onChange={value => updateSequencing('splitList', value)}
+          xlabel="splitList"
+          tickSize={13}
+        />
+      </FormLine>
       {sequencing.splitList && (
-        <FormLine>
+        <FormLine helpUrl={useHelpUrl('PP_SEQ_PRODUCTS_NUMBER')}>
           <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
           <Input
             disabled={disabled}

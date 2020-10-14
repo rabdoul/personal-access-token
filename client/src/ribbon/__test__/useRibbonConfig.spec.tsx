@@ -8,9 +8,9 @@ import { UIStateContext } from '../../UIState';
 import { AuthenticationContext, AuthenticatedUserContext } from '../../base/Authentication';
 
 const aliases = {
-  EDIT_PRODUCTION_PROCESS: 'http://help.dev.mylectra.com/EDIT_PRODUCTION_PROCESS',
-  SAVE_PRODUCTION_PROCESS: 'http://help.dev.mylectra.com/SAVE_PRODUCTION_PROCESS',
-  CANCEL_PRODUCTION_PROCESS_EDITION: 'http://help.dev.mylectra.com/CANCEL_PRODUCTION_PROCESS_EDITION'
+  PP_EDIT: 'http://help.dev.mylectra.com/PP_EDIT',
+  PP_SAVE: 'http://help.dev.mylectra.com/PP_SAVE',
+  PP_CANCEL: 'http://help.dev.mylectra.com/PP_CANCEL'
 };
 
 const i18nMessages = {
@@ -48,7 +48,7 @@ describe('useRibbonConfig', () => {
     expect(config.groups[0].commands.length).toEqual(1);
     expect(config.groups[0].commands[0].description).toEqual('Edit');
     expect(config.groups[0].commands[0].enable).toBeTruthy();
-    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/EDIT_PRODUCTION_PROCESS');
+    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/PP_EDIT');
   });
 
   it('ribbon should render edit ribbon config with save enabled', () => {
@@ -67,11 +67,11 @@ describe('useRibbonConfig', () => {
     expect(config.groups[0].commands.length).toEqual(2);
     expect(config.groups[0].commands[0].description).toEqual('Save');
     expect(config.groups[0].commands[0].enable).toBeTruthy();
-    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/SAVE_PRODUCTION_PROCESS');
+    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/PP_SAVE');
 
     expect(config.groups[0].commands[1].description).toEqual('Cancel');
     expect(config.groups[0].commands[1].enable).toBeTruthy();
-    expect(config.groups[0].commands[1].helpUrl).toBe('http://help.dev.mylectra.com/CANCEL_PRODUCTION_PROCESS_EDITION');
+    expect(config.groups[0].commands[1].helpUrl).toBe('http://help.dev.mylectra.com/PP_CANCEL');
   });
 
   it('ribbon should render edit ribbon config with save disabled when error', () => {
@@ -90,11 +90,11 @@ describe('useRibbonConfig', () => {
     expect(config.groups[0].commands.length).toEqual(2);
     expect(config.groups[0].commands[0].description).toEqual('Save');
     expect(config.groups[0].commands[0].enable).toBeFalsy();
-    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/SAVE_PRODUCTION_PROCESS');
+    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/PP_SAVE');
 
     expect(config.groups[0].commands[1].description).toEqual('Cancel');
     expect(config.groups[0].commands[1].enable).toBeTruthy();
-    expect(config.groups[0].commands[1].helpUrl).toBe('http://help.dev.mylectra.com/CANCEL_PRODUCTION_PROCESS_EDITION');
+    expect(config.groups[0].commands[1].helpUrl).toBe('http://help.dev.mylectra.com/PP_CANCEL');
   });
 
   it('ribbon should render edit ribbon config with save disabled when mode support', () => {
@@ -113,10 +113,10 @@ describe('useRibbonConfig', () => {
     expect(config.groups[0].commands.length).toEqual(2);
     expect(config.groups[0].commands[0].description).toEqual('Save');
     expect(config.groups[0].commands[0].enable).toBeFalsy();
-    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/SAVE_PRODUCTION_PROCESS');
+    expect(config.groups[0].commands[0].helpUrl).toBe('http://help.dev.mylectra.com/PP_SAVE');
 
     expect(config.groups[0].commands[1].description).toEqual('Cancel');
     expect(config.groups[0].commands[1].enable).toBeTruthy();
-    expect(config.groups[0].commands[1].helpUrl).toBe('http://help.dev.mylectra.com/CANCEL_PRODUCTION_PROCESS_EDITION');
+    expect(config.groups[0].commands[1].helpUrl).toBe('http://help.dev.mylectra.com/PP_CANCEL');
   });
 });

@@ -8,4 +8,4 @@ SCRIPT_GROUPS
 
 SCRIPT_START
 
-	click -> div [ data-xlabel = CANCEL_PRODUCTION_PROCESS_EDITION ]
+	click -> div [ data-xlabel = PP_CANCEL ]

@@ -8,4 +8,4 @@ SCRIPT_GROUPS
 
 SCRIPT_START
 
-	click -> div [ data-xlabel = EDIT_PRODUCTION_PROCESS ]
+	click -> div [ data-xlabel = PP_EDIT ]
