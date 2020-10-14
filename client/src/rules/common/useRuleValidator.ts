@@ -11,7 +11,7 @@ function validateStatementConditions(statement: Statement<any>): boolean {
 }
 
 function validateStatementCondition(condition: Condition): boolean {
-  return 'reference' in condition && 'operator' in condition && 'multipleOperator' in condition && 'value' in condition;
+  return condition.multipleOperator !== undefined && condition.reference !== undefined && condition.operator !== undefined && condition.value !== undefined;
 }
 
 const defaultValidateStatement = () => true;

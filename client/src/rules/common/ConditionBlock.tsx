@@ -26,7 +26,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
   const conditionConfiguration = useConditionConfiguration(condition, activityConfiguration);
   const activityId = activityConfiguration.id as ActivityId;
 
-  const handleConditionValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConditionInputValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue, type } = event.target;
     let value;
     if (inputValue) {
@@ -75,7 +75,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           <Input
             type={conditionConfiguration.type}
             value={condition.value}
-            onBlur={handleConditionValueChange}
+            onBlur={handleConditionInputValueChange}
             width={200}
             disabled={disabled}
             error={!condition.value}
@@ -87,7 +87,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             listItems={conditionConfiguration.listItems}
             width={200}
             value={condition.value}
-            onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: item.value })}
+            onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: item?.value })}
             disabled={disabled}
             error={!condition.value}
             icon={MANDATORY_FIELD_ERROR}
