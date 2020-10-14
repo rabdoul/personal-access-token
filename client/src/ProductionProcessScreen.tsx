@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Ribbon from '@lectra/embed-ribbon';
 import { Switch, Route } from 'react-router-dom';
 
+import { Help, HelpContext } from './base/Help';
 import ActivityList from './activities/ActivityList';
 import SequencingRule from './rules/SequencingRule';
 import StepDescription from './rules/common/StepDescription';
@@ -14,7 +15,8 @@ import AssociateCuttingRequirementsRule from './rules/AssociateCuttingRequiremen
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
-  const config = useRibbonConfig();
+  const { aliases } = useContext<Help>(HelpContext);
+  const config = useRibbonConfig(aliases);
   return (
     <Screen>
       <Notifier />

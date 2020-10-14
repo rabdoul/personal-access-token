@@ -59,7 +59,7 @@ const editConfig: RibbonConfig = {
   ]
 };
 
-function useRibbonConfig() {
+function useRibbonConfig(aliases: Record<string, string>) {
   const { formatMessage } = useIntl();
   const { editMode, invalidRules } = useUIState();
   const isReadOnlyMode = useContext(AuthenticationContext).isSupportMode();
@@ -67,15 +67,16 @@ function useRibbonConfig() {
     if (editMode) {
       draft.groups[0].commands[0].enable = !isReadOnlyMode && invalidRules.size === 0; // disable save
     }
-    return internationalizeConfig(formatMessage, draft);
+    return documentCommands(draft, formatMessage, aliases);
   });
 }
 
-function internationalizeConfig(formatMessage: (key: any) => string, config: RibbonConfig) {
+function documentCommands(config: RibbonConfig, formatMessage: (key: any) => string, aliases: Record<string, string>) {
   config.groups.forEach(group => {
     group.description = formatMessage({ id: group.description });
     group.commands.forEach(command => {
       command.description = formatMessage({ id: command.description });
+      command.helpUrl = aliases[command.id];
     });
   });
 }
