@@ -6,9 +6,9 @@ import { fetchData } from 'raspberry-fetch';
 
 import { Activity } from '../model';
 import ActivityItem from './ActivityItem';
-import Title from '../rules/common/Title';
 import { useAccessToken } from '../base/Authentication';
 import { ActivityId, useUIState } from '../UIState';
+import { Title } from '../global-style';
 
 const ActivityList = () => {
   const accessToken = useAccessToken();
