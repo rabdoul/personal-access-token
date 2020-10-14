@@ -1,0 +1,68 @@
+= How to add a new activity rule
+
+== Pre-requesite
+
+The rule configuration already exists.
+You can check with the following API :
+
+Exchange:: `cut-admin`
+RoutingKey:: `production-rules-configuration.query.get`
+
+== Server
+
+* Add your activity in the record with the corresponding id (lowercase with dash instead of space)
+[source, typescript]
+----
+include::server/src/interface/resources/ActivitiesMapping.ts[tags=mapping]
+---- 
+
+That's all 😎
+
+== Client
+
+=== Create a new file in `src/rules`
+
+* Define model for statement result of the rule
+
+.Example for existing `Sequencing`
+[source, typescript]
+----
+export interface Sequencing extends StatementResult {
+  splitList: boolean;
+  firstSubListSize: number;
+}
+----
+
+* Create a `React` component using common hooks ( `useRule`,  `useRuleValidator`)
+
+=== Declare rule in UIState
+
+In the file `src/UIState.tsx`
+
+* Declare a new key in `UIState` type
+
+[source]
+----
+include::client/src/UIState.tsx[tags=uiState]
+----
+
+* Declare a new action of type `UpdateStatementResult`
+
+[source]
+----
+include::client/src/UIState.tsx[tags=action]
+----
+
+=== Declare route in router
+
+In the file `src/ProductionProcessScreen.tsx`
+
+* declare a new route 
+
+[source, jsx]
+----
+ <Route exact path="/rule-id" component={ComponentRule} />
+----
+
+
+
