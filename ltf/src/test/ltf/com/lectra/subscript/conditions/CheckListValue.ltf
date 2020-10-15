@@ -1,16 +1,18 @@
-
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 Check the content of a conditional block list value
 
 SCRIPT_AUTHOR
 r.bancal
 
+SCRIPT_GROUPS
+
+
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-conditionblock-id
-    parameter1 -> list xlabel (left-operand , operator , right-operand , multipleOperator)
-    parameter2 -> Value
+	parameter0 -> data-conditionblock-id
+	parameter1 -> list xlabel (left-operand , operator , right-operand , multipleOperator)
+	parameter2 -> Value
 
 SCRIPT_START
 
-	check -> exists = true -> div [ text = ${parameter2} , class ≈ KUISelect__value-container ] -> div [ data-xlabel = ${parameter1} ] -> div [ data-conditionblock-id = ${parameter0} ]
+	check -> exists = true -> div [ text = ${parameter2} ] -> div [ data-xlabel = ${parameter1} ] -> div [ data-conditionblock-id = ${parameter0} ]
