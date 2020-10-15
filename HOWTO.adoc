@@ -5,7 +5,7 @@
 The rule configuration already exists.
 You can check with the following API :
 
-Exchange:: `cut-admin`
+Exchange:: `cutadmin`
 RoutingKey:: `production-rules-configuration.query.get`
 
 == 💻 Server
