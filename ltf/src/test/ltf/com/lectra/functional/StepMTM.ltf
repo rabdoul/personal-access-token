@@ -109,6 +109,10 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 2 ] -> 
 
+	paragraph -> Test online help
+
+	callScript -> subscript.ribbon.CheckOnlineHelp -> [ validate-mtm-product , stopOnOutOfRangeWarning ] -> 
+
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !
