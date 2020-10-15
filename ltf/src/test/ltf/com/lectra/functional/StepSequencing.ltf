@@ -85,6 +85,10 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ setup-sequencing ] -> 
 
+	paragraph -> Test online help
+
+	callScript -> subscript.ribbon.CheckOnlineHelp -> [ setup-sequencing , splitList ] -> 
+
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !
