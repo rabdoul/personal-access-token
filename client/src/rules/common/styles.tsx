@@ -133,7 +133,7 @@ export const ToInput = styled(Input)`
 `;
 
 export const EfficiencyImg = styled.div`
-  background-image: url('/assets/gauge.png');
+  background-image: url('/assets/Gauge.png');
   background-repeat: no-repeat;
   height: 35px;
   width: 280px;

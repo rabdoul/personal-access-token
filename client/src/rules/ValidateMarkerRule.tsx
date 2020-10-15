@@ -3,31 +3,20 @@ import { useIntl } from 'react-intl';
 import SpanTooltip from '@lectra/spantooltip';
 
 import { StatementResult } from '../model';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { EfficiencyContainer, EfficiencyImg, EfficiencyNumbersContainer, Form, FormLine, FromInput, ToInput } from './common/styles';
 import Rule from './common/Rule';
-import useRuleValidator from './common/useRuleValidator';
-import ErrorIcon from './common/ErrorIcon';
 import { useHelpUrls } from '../base/Help';
 
 export interface ValidateMarker extends StatementResult {}
-
-// function isFirstSubListSizeValid(firstSubListSize?: number) {
-//   return firstSubListSize !== undefined && firstSubListSize > 0;
-// }
-//
-// const validateStatementResult = (result: Partial<Sequencing>) => {
-//   return isFirstSubListSizeValid(result.firstSubListSize);
-// };
 
 const ValidateMarkerRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('validate-marker');
   const activityConfiguration = useActivityConfiguration('validate-marker');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-  // useRuleValidator(activityId, rule, validateStatementResult);
+  // const activityId = activityConfiguration?.id as ActivityId | undefined;
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -48,11 +37,11 @@ type FormProps = {
 
 const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
-  const dispatch = useUIDispatch();
+  // const dispatch = useUIDispatch();
 
-  const updateMarkerValidation = (attribute: keyof ValidateMarker, value: any) => {
-    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker', statementIndex, attribute, value });
-  };
+  // const updateMarkerValidation = (attribute: keyof ValidateMarker, value: any) => {
+  //   dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker', statementIndex, attribute, value });
+  // };
 
   const urls = useHelpUrls('PP_VM_REGLE_VALID_PLC');
 
