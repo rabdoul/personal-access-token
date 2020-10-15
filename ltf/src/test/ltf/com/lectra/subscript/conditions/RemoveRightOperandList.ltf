@@ -1,0 +1,16 @@
+
+SCRIPT_DESCRIPTION
+Click the delete icon to remove designated conditional block
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> condition block id
+
+SCRIPT_START
+
+    comment1 -> Remove right operand from list of condition block ${parameter0}
+
+	click -> svg [ data-xlabel = icon-cross ] -> div [ data-xlabel = right-operand ] -> div [ data-conditionblock-id = ${parameter0} ]

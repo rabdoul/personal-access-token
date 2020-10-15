@@ -9,7 +9,7 @@ SANITYCHECK TESTS
 
 SCRIPT_START
 
-	chapter -> Step sequencing activity TEST -> Web production process -> 
+	chapter -> Step made to measure TEST -> Web production process -> 
 
 	callScript -> scripts.ResetProductionRules -> [ valid-orderform-od@framboise.com , !Lectra33! ] -> 
 
@@ -21,19 +21,19 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ validate-mtm-product , true ] -> 
 
-	paragraph -> Test setup sequencing activity
+	comment1 -> Initial state : two checkboxes unclicked
 
 	callScript -> subscript.activity_list.SelectActivity -> [ validate-mtm-product ] -> 
-
-	comment1 -> Initial state : checkbox unclicked, input is not shown
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
+    paragraph -> Check all options in conditional list of step MTM
+
 	callScript -> subscript.step_mtm.CheckLeftOperands -> [  ] -> 
 
-	comment1 -> Edit rule : once checkbox is accepted, input appears and can be modified
+	paragraph -> Test edit mode and cancel
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
@@ -45,6 +45,8 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 0 ] -> 
+
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
@@ -54,6 +56,8 @@ SCRIPT_START
 	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
+
+	paragraph -> Add conditional block with two condition
 
 	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
 
@@ -65,7 +69,17 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Product&space;category , Is&space;equal&space;to , Skirt ] -> 
 
+	comment1 -> Remove the product category and check the activity is in error
+
+	callScript -> subscript.conditions.RemoveRightOperandList -> [ 0-1 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-mtm-product ] -> 
+
+  	callScript -> subscript.conditions.FillRightOperandList -> [ 0-1 , Coat ] ->
+
 	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
+
+	paragraph -> Add another conditional block
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
@@ -73,11 +87,13 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
+	paragraph -> Check state of activity after saving
+
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
 
 	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Priority , Is&space;greater&space;than , 3 ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Product&space;category , Is&space;equal&space;to , Skirt ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Product&space;category , Is&space;equal&space;to , Coat ] -> 
 
 	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Offer , Is&space;different&space;from , somthing_duh ] -> 
 
