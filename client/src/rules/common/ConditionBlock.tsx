@@ -1,8 +1,10 @@
 import React from 'react';
 import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
+import IconButton from '@lectra/iconbutton';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
+import SpanTooltip from '@lectra/spantooltip';
 import DropDownSearch from '@lectra/dropdownsearch';
 
 import { ActivityConfiguration, Condition } from '../../model';
@@ -11,6 +13,7 @@ import { BlockActions, BlockContainer, BlockContent } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
 import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
+import styled from 'styled-components/macro';
 
 type Props = {
   statementIndex: number;
@@ -33,6 +36,21 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
       value = type === 'number' ? parseFloat(inputValue) : inputValue;
     }
     dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value });
+  };
+
+  const customRenderDropDownSearchSelection = (data: any) => {
+    return (
+      data && (
+        <ContainerSelection disabled={disabled}>
+          <div style={{ width: '150px' }}>
+            <SpanTooltip text={data.label} />
+          </div>
+          <IconButton onClick={() => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: undefined })}>
+            <IconDelete color="#a5aaae" size={13} type="delete" disabled={disabled} />
+          </IconButton>
+        </ContainerSelection>
+      )
+    );
   };
 
   return (
@@ -95,6 +113,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             onChange={item => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value: item?.value })}
             disabled={disabled}
             error={!condition.value}
+            customRenderSelection={customRenderDropDownSearchSelection}
             icon={MANDATORY_FIELD_ERROR}
           />
         )}
@@ -112,3 +131,32 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
 };
 
 export default ConditionBlock;
+
+const ContainerSelection = styled.div<{ disabled: boolean }>`
+  align-items: center;
+  background-color: ${props => (props.disabled ? '#E6E6E6' : 'white')};
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-radius: 2px;
+  border-right: 1px solid #ccc;
+  border-top: 3px solid #16a086;
+  display: flex;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 10px 0 5px;
+  opacity: ${props => (props.disabled ? '0.3' : '1')};
+  width: 200px;
+`;
+
+const IconDelete = styled(Icon)<{ disabled: boolean }>`
+  align-items: center;
+  display: ${props => (props.disabled ? 'none' : 'flex')};
+
+  &:hover {
+    color: #747d82;
+  }
+
+  &:active {
+    color: #5c5f61;
+  }
+`;
