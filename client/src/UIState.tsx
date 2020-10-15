@@ -5,6 +5,7 @@ import { Condition, ActivityRule, StatementResult } from './model';
 import { Sequencing } from './rules/SequencingRule';
 import { ValidateMTMProduct } from './rules/ValidateMTMProductRule';
 import { AssociateCuttingRequirements } from './rules/AssociateCuttingRequirementsRule';
+import { ValidateMarker } from './rules/ValidateMarkerRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -16,6 +17,7 @@ export type UIState = {
   'setup-sequencing'?: ActivityRule<Sequencing>;
   'validate-mtm-product'?: ActivityRule<ValidateMTMProduct>;
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
+  'validate-marker'?: ActivityRule<ValidateMarker>;
 };
 // end::uiState[]
 
@@ -46,6 +48,7 @@ export type Action =
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
+  | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>;
 // end::action[]
 

@@ -1,6 +1,7 @@
 import Icon from '@lectra/icon';
 import styled from 'styled-components/macro';
 import { withHelpTooltip } from '../../base/Help';
+import Input from '@lectra/input';
 
 export const Form = styled.form`
   span {
@@ -97,4 +98,43 @@ export const IconDelete = styled(Icon)<{ disabled: boolean }>`
   &:active {
     color: #5c5f61;
   }
+`;
+
+export const EfficiencyNumbersContainer = styled.div`
+  align-items: center;
+  display: flex;
+  height: 35px;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  position: relative;
+  width: 280px;
+
+  .KUISpanTooltip {
+    width: 40px;
+  }
+`;
+
+export const EfficiencyContainer = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  width: 280px;
+`;
+
+export const FromInput = styled(Input)`
+  position: absolute;
+  left: 40px;
+`;
+
+export const ToInput = styled(Input)`
+  position: absolute;
+  right: 43px;
+`;
+
+export const EfficiencyImg = styled.div`
+  background-image: url('/assets/gauge.png');
+  background-repeat: no-repeat;
+  height: 35px;
+  width: 280px;
 `;
