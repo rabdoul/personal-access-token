@@ -171,7 +171,7 @@ describe('ActivitiesResource', () => {
                     operators: ["Equals", "Different", "Contains"],
                     valueType: "String",
                     valueSource: "None",
-                    predefinedValues: []
+                    predefinedValueSource: []
                 },
                 {
                     reference: "command.priority",
@@ -179,7 +179,7 @@ describe('ActivitiesResource', () => {
                     operators: ["Equals", "Above", "Below", "Different"],
                     valueType: "String",
                     valueSource: "None",
-                    predefinedValues: []
+                    predefinedValueSource: []
                 }
             ]
         });
