@@ -12,6 +12,7 @@ import useRibbonListener from './ribbon/useRibbonListener';
 import Notifier from './Notification';
 import ValidateMTMProductRule from './rules/ValidateMTMProductRule';
 import AssociateCuttingRequirementsRule from './rules/AssociateCuttingRequirementsRule';
+import { PublishRule } from './rules/PublishRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -27,6 +28,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/setup-sequencing" component={SequencingRule} />
           <Route exact path="/validate-mtm-product" component={ValidateMTMProductRule} />
           <Route exact path="/associate-cutting-requirements" component={AssociateCuttingRequirementsRule} />
+          <Route exact path="/publish" component={PublishRule} />
           <Route
             path="/:activityId"
             render={() => (
