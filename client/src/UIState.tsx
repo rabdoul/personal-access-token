@@ -45,7 +45,8 @@ export type Action =
   | { type: 'VALIDATE_RULE'; activityId: ActivityId }
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
-  | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>;
+  | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
+  | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>;
 // end::action[]
 
 enableMapSet();

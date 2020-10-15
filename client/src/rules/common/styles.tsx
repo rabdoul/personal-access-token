@@ -1,3 +1,4 @@
+import Icon from '@lectra/icon';
 import styled from 'styled-components/macro';
 import { withHelpTooltip } from '../../base/Help';
 
@@ -67,4 +68,33 @@ export const ConditionalInstructionContainer = styled.div<{ color: string }>`
   font-weight: 600;
   margin-right: 10px;
   padding-left: 10px;
+`;
+
+export const SelectionContainer = styled.div<{ disabled: boolean }>`
+  align-items: center;
+  background-color: ${props => (props.disabled ? '#E6E6E6' : 'white')};
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-radius: 2px;
+  border-right: 1px solid #ccc;
+  border-top: 3px solid #16a086;
+  display: flex;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 10px 0 5px;
+  opacity: ${props => (props.disabled ? '0.3' : '1')};
+  width: 200px;
+`;
+
+export const IconDelete = styled(Icon)<{ disabled: boolean }>`
+  align-items: center;
+  display: ${props => (props.disabled ? 'none' : 'flex')};
+
+  &:hover {
+    color: #747d82;
+  }
+
+  &:active {
+    color: #5c5f61;
+  }
 `;

@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { Condition, ActivityConfiguration, ValueSource, ValueType, ConditionDefinition } from '../../model';
+import { Condition, ActivityConfiguration, ConditionDefinition } from '../../model';
 import { useAccessToken } from '../../base/Authentication';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
