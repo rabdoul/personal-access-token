@@ -10,6 +10,7 @@ const ACTIVITIES_MAPPING: Record<string, string> = {
     "Generate section plan" : "generate-section-plan",
     "Generate marker" : "generate-marker",
     "Validate marker" : "validate-marker",
+    "Generate spreading plan" : "generate-spreading-plan",
     "After Nesting Roll Allocation" : "after-nesting-roll-allocation",
     "Associate cutting requirements" : "associate-cutting-requirements",
     "Associate cutting activities" : "associate-cutting-activities",

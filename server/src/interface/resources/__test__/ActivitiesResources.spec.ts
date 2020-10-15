@@ -21,7 +21,9 @@ describe('ActivitiesResource', () => {
         const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
             'cutadmin',
             { type: 'production-rules-configuration.query.get', parameters: {} },
-            { activities: [{ reference: "Setup sequencing", order: 0, enabled: false, x: 2 }] }
+            { activities: [
+                { reference: "Setup sequencing", order: 0, enabled: false, x: 2 },
+                { reference: "New activity", order: 0, enabled: false, x: 2 }] }
         ).build();
 
         await new ActivitiesResource(executor).activities(req, res, errorHandler);

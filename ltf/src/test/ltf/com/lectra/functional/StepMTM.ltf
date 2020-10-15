@@ -85,9 +85,13 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
-	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 1 ] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnOutOfRangeWarning , 1 ] -> 
 
-	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 1 ] -> 
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 1 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 2 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnIncorrectValueWarning , 2 ] -> 
 
 	channel -> close -> prodprocess
 

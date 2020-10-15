@@ -38,6 +38,7 @@ export class ActivitiesResource {
 
         return response.activities
             .filter(predicate)
+            .filter(it => activityIdFromReference(it.reference))
             .map(it => ({ id: activityIdFromReference(it.reference), order: it.order, enabled: it.enabled }));
     }
 
