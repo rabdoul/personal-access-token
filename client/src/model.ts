@@ -7,6 +7,7 @@ export type ConditionDefinition = {
   operators: Operator[];
   valueType: ValueType;
   valueSource: ValueSource;
+  predefinedValueSource: string[];
 };
 
 type ListOperator = 'None' | 'AtLeastOne';
