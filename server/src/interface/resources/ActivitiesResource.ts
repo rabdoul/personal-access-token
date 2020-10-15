@@ -61,7 +61,7 @@ export class ActivitiesResource {
             operators: condition.eligibleOperator.map((o: number) => Operator[o]),
             valueType: ValueType[condition.conditionType],
             valueSource: ValueSource[condition.rightOperandBindingSource],
-            predefinedValues: []
+            predefinedValueSource: condition.predefinedRightOperand
         };
     }
 
