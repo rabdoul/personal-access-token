@@ -20,6 +20,7 @@ import { FeatureFlippingConfigResource } from "./resources/FeatureFlippingConfig
 import { ActivitiesResource } from "./resources/ActivitiesResource";
 import { RulesResource } from "./resources/RulesResource";
 import { ProductCategoriesResource } from "./resources/ProductCategoriesResource";
+import { MaterialGroupsResource } from "./resources/MaterialSpecsResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -86,6 +87,7 @@ export class ExpressServer {
     authenticatedRouter.use(new ActivitiesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new RulesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new ProductCategoriesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new MaterialGroupsResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }
 

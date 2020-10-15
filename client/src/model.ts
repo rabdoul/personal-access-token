@@ -16,7 +16,7 @@ export type Operator = 'Equals' | 'Above' | 'Below' | 'Different' | 'Contains' |
 
 export type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerList';
 
-export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory';
+export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory' | 'SpreadingGroup';
 
 export interface StatementResult {}
 
