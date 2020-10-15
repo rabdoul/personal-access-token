@@ -1,0 +1,9 @@
+SCRIPT_DESCRIPTION
+Check save button is disabled
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+	check -> exists = true -> div [ data-xlabel = PP_SAVE , data-enabled = disabled ]

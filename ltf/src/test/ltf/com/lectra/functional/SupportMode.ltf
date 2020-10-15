@@ -1,0 +1,47 @@
+SCRIPT_DESCRIPTION
+This test checks support mode : it is possible to consult / edit production rules, but never save it.
+The support mode is on user level ; for this test the user support-framboise@lectra.com is used
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> SupportMode -> Web production process -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ support-framboise@lectra.com , SupportL3ctra ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] ->
+
+	paragraph -> Step sequencing
+
+    callScript -> subscript.activity_list.SelectActivity -> [ setup-sequencing ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ splitList , 0 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	paragraph -> Step MTM
+
+    callScript -> subscript.activity_list.SelectActivity -> [ validate-mtm-product ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	channel -> close -> prodprocess 
+
+   	comment1 -> Test success !

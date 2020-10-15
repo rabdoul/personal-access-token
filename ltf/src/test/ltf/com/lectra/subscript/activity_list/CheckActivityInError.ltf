@@ -14,4 +14,4 @@ SCRIPT_START
 
 	check -> exists = true -> div [ data-testid = icon-error ] -> a [ data-xname = ${parameter0} ]
 
-	check -> exists = true -> div [ data-xlabel = PP_SAVE , data-enabled = disabled ]
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
