@@ -11,6 +11,7 @@ import { useAccessToken } from '../base/Authentication';
 import { Form, FormLine } from './common/styles';
 import DropDownSearch from '@lectra/dropdownsearch';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
+import { useIntl } from 'react-intl';
 
 export interface AssociateCuttingRequirements extends StatementResult {
   requirementId?: string;
@@ -45,6 +46,7 @@ type FormProps = {
 };
 
 const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associateRequierements, statementIndex, disabled }) => {
+  const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const requirements = useRequirements();
   function handleRequierementChange(item?: { value: string }) {
@@ -56,12 +58,15 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   return (
     <Form>
       <FormLine>
+        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'Requirement' })}</label>
         <DropDownSearch
+          id={`requirement-${statementIndex}`}
           listItems={requirements}
           value={associateRequierements.requirementId}
           onChange={handleRequierementChange}
           customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
           disabled={disabled}
+          placeholder="Search"
           width={200}
         />
       </FormLine>

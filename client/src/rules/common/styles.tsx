@@ -20,8 +20,8 @@ export const FormLine = withHelpTooltip(styled.div`
   flex-direction: row;
   font-weight: lighter;
 
-  input {
-    margin-left: 5px;
+  label {
+    margin-right: 5px;
   }
 `);
 
