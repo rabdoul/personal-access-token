@@ -39,7 +39,7 @@ type FormProps = {
 const RollAssignmentResultForm: React.FC<FormProps> = ({ rollAssignment, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
-  const urls = useHelpUrls('PP_ROLL_');
+  const urls = useHelpUrls('PP_ROLL_ASK_FOR_REF');
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
