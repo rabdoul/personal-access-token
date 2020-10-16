@@ -57,7 +57,8 @@ export type Action =
   | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
-  | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>;
+  | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
+  | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>;
 // end::action[]
 
 enableMapSet();
