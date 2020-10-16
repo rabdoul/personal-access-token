@@ -16,7 +16,7 @@ const DropDownSearchRenderer: React.FC<Props> = ({ item, disabled, onDelete }) =
   return (
     <SelectionContainer disabled={disabled}>
       <div style={{ width: '150px' }}>
-        <SpanTooltip text={item.label} />
+        <SpanTooltip text={item.label || ''} />
       </div>
       <IconButton onClick={onDelete}>
         <IconDelete color="#a5aaae" size={13} type="delete" disabled={disabled} />
