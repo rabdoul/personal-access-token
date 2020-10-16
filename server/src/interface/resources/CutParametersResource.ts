@@ -7,12 +7,21 @@ export class RequirementsResource {
     readonly router = express.Router();
 
     constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
-        this.router.get('/api/requirements', this.get.bind(this))
+        this.router.get('/api/cut-parameters/requirements', this.requirements.bind(this));
+        this.router.get('/api/cut-parameters/activities', this.activities.bind(this));
     }
 
-    async get(_: express.Request, res: express.Response) {
+    async requirements(_: express.Request, res: express.Response) {
+        this.retrieveAndSend("requirement", res);
+    }
+
+    async activities(_: express.Request, res: express.Response) {
+        this.retrieveAndSend("activity", res);
+    }
+
+    async retrieveAndSend(parameter: string, res: express.Response) {
         const response = await this.commandQueryExecutor.executeQuery('cutparameters', {
-            type: 'cut-requirement-parameters.query.searchCustom',
+            type: `cut-${parameter}-parameters.query.searchCustom`,
             parameters: { TenantId: currentPrincipal().tenantId, FieldsToFill: ["Meta.Ident", "Meta.Level"] }
         });
         if (response.type === QueryResponseType.QUERY_SUCCESS) {
@@ -21,7 +30,7 @@ export class RequirementsResource {
                 .map(it => ({ label: it.Meta.Ident, value: it.Id }))
             res.send(requirements);
         } else {
-            res.status(500).send(`Unexpected error when retrieving product categories : ${response.data}`);
+            res.status(500).send(`Unexpected error when retrieving ${parameter} : ${response.data}`);
         }
     }
 

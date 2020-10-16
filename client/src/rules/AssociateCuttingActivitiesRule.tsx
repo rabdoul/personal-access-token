@@ -14,20 +14,20 @@ import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import { useIntl } from 'react-intl';
 import { useHelpUrls } from '../base/Help';
 
-export interface AssociateCuttingRequirements extends StatementResult {
-  requirementId?: string;
+export interface AssociateCuttingActivities extends StatementResult {
+  activityId?: string;
 }
 
-function useRequirements() {
+function useActivities() {
   const token = useAccessToken();
-  const { data: requirements } = useQuery('cut-activities', () => fetchData(token, 'cut-parameters/requirements'));
-  return requirements;
+  const { data: activities } = useQuery('cut-activities', () => fetchData(token, 'cut-parameters/activities'));
+  return activities;
 }
 
-const AssociateCuttingRequirementsRule = () => {
+const AssociateCuttingActivitiesRule = () => {
   const { editMode } = useUIState();
-  const rule = useRule('associate-cutting-requirements');
-  const activityConfiguration = useActivityConfiguration('associate-cutting-requirements');
+  const rule = useRule('associate-cutting-activities');
+  const activityConfiguration = useActivityConfiguration('associate-cutting-activities');
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -35,37 +35,37 @@ const AssociateCuttingRequirementsRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <AssociateCuttingRequirementsResultForm associateRequierements={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {(statementIndex, result) => <AssociateCuttingActivitiesResultForm associateActivities={result} statementIndex={statementIndex} disabled={!editMode} />}
     </Rule>
   );
 };
 
 type FormProps = {
-  associateRequierements: Partial<AssociateCuttingRequirements>;
+  associateActivities: Partial<AssociateCuttingActivities>;
   statementIndex: number;
   disabled: boolean;
 };
 
-const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associateRequierements, statementIndex, disabled }) => {
+const AssociateCuttingActivitiesResultForm: React.FC<FormProps> = ({ associateActivities, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
-  const requirements = useRequirements();
+  const activities = useActivities();
   const urls = useHelpUrls('PP_REQUIREMENT');
 
   function handleRequierementChange(item?: { value: string }) {
-    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-requirements', statementIndex, attribute: 'requirementId', value: item?.value });
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-activities', statementIndex, attribute: 'activityId', value: item?.value });
   }
-  if (!requirements) {
+  if (!activities) {
     return null;
   }
   return (
     <Form>
       <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'requirement' })}</label>
+        <label htmlFor={`activity-${statementIndex}`}>{formatMessage({ id: 'activity' })}</label>
         <DropDownSearch
           id={`requirement-${statementIndex}`}
-          listItems={requirements}
-          value={associateRequierements.requirementId}
+          listItems={activities}
+          value={associateActivities.activityId}
           onChange={handleRequierementChange}
           customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
           disabled={disabled}
@@ -77,4 +77,4 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   );
 };
 
-export default AssociateCuttingRequirementsRule;
+export default AssociateCuttingActivitiesRule;
