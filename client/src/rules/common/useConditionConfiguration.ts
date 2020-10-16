@@ -7,7 +7,7 @@ import { fetchData } from 'raspberry-fetch';
 function computeConditionValueType(conditionDefinition?: ConditionDefinition) {
   if (!conditionDefinition) {
     return 'text';
-  } else if (conditionDefinition.valueSource === 'None' && conditionDefinition.predefinedValueSource.length === 0) {
+  } else if (conditionDefinition.valueSource === 'None' && conditionDefinition.valueType !== 'Bool' && conditionDefinition.predefinedValueSource.length === 0) {
     return conditionDefinition.valueType === 'Numeric' ? 'number' : 'text';
   }
   return 'list';
@@ -39,22 +39,28 @@ function useSpreadingGroups() {
 
 function useListItems(conditionDefinition?: ConditionDefinition) {
   const { formatMessage } = useIntl();
+
   const productCategoryItems = useProductCategories();
   const nestingGroupItems = useNestingGroups();
   const cuttingGroupItems = useCuttingGroups();
   const spreadingGroupItems = useSpreadingGroups();
+  const booleanItems = [
+    { label: formatMessage({ id: 'boolean.true' }), value: 'True' },
+    { label: formatMessage({ id: 'boolean.false' }), value: 'False' }
+  ];
   const predifinedItems = conditionDefinition?.predefinedValueSource.map(it => ({ label: formatMessage({ id: it }), value: it })) || [];
 
-  if (conditionDefinition?.valueSource === 'ProductCategory') {
-    return productCategoryItems;
-  } else if (conditionDefinition?.valueSource === 'NestingGroup') {
-    return nestingGroupItems;
-  } else if (conditionDefinition?.valueSource === 'CuttingGroup') {
-    return cuttingGroupItems;
-  } else if (conditionDefinition?.valueSource === 'SpreadingGroup') {
-    return spreadingGroupItems;
-  } else {
-    return predifinedItems;
+  switch (conditionDefinition?.valueSource) {
+    case 'ProductCategory':
+      return productCategoryItems;
+    case 'NestingGroup':
+      return nestingGroupItems;
+    case 'CuttingGroup':
+      return cuttingGroupItems;
+    case 'SpreadingGroup':
+      return spreadingGroupItems;
+    default:
+      return conditionDefinition?.valueType === 'Bool' ? booleanItems : predifinedItems;
   }
 }
 
