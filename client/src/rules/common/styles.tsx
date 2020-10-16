@@ -122,14 +122,24 @@ export const EfficiencyContainer = styled.div`
   width: 280px;
 `;
 
-export const FromInput = styled(Input)`
+export const FromInput = styled(Input)<{ error: boolean }>`
   position: absolute;
   left: 40px;
+
+  input {
+    padding-left: 0;
+    padding-right: ${props => (props.error ? '22px' : '10px')} !important;
+  }
 `;
 
-export const ToInput = styled(Input)`
+export const ToInput = styled(Input)<{ error: boolean }>`
   position: absolute;
   right: 43px;
+
+  input {
+    padding-left: 0;
+    padding-right: ${props => (props.error ? '22px' : '10px')} !important;
+  }
 `;
 
 export const EfficiencyImg = styled.div`
