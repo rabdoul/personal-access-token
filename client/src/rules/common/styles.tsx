@@ -2,6 +2,7 @@ import Icon from '@lectra/icon';
 import styled from 'styled-components/macro';
 import { withHelpTooltip } from '../../base/Help';
 import Input from '@lectra/input';
+import Select from '@lectra/select';
 
 export const Form = styled.form`
   span {
@@ -54,6 +55,10 @@ export const BlockContainer = styled.div<{ marginLeft?: string }>`
   width: fit-content;
 `;
 
+export const StyledSelect = styled(Select)`
+  width: 200px !important;
+`;
+
 export const RuleContainer = styled.div`
   height: calc(100% - 95px);
   padding: 20px;
@@ -61,7 +66,7 @@ export const RuleContainer = styled.div`
   overflow: auto;
 `;
 
-export const ConditionalInstructionContainer = withHelpTooltip(styled.div<{ color: string }>`
+export const ConditionalInstructionContainer = withHelpTooltip(styled.div<{ color: string; withTooltip: boolean }>`
   align-items: center;
   border-left: 5px solid ${props => props.color};
   display: flex;
@@ -69,6 +74,7 @@ export const ConditionalInstructionContainer = withHelpTooltip(styled.div<{ colo
   font-weight: 600;
   margin-right: 10px;
   padding-left: 10px;
+  height: ${props => (!props.withTooltip ? 'inherit' : '100%')};
 `);
 
 export const SelectionContainer = styled.div<{ disabled: boolean }>`
