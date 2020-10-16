@@ -12,6 +12,7 @@ import { Form, FormLine } from './common/styles';
 import DropDownSearch from '@lectra/dropdownsearch';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import { useIntl } from 'react-intl';
+import { useHelpUrls } from '../base/Help';
 
 export interface AssociateCuttingRequirements extends StatementResult {
   requirementId?: string;
@@ -49,6 +50,8 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const requirements = useRequirements();
+  const urls = useHelpUrls('PP_REQUIREMENT');
+
   function handleRequierementChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-requirements', statementIndex, attribute: 'requirementId', value: item?.value });
   }
@@ -57,7 +60,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   }
   return (
     <Form>
-      <FormLine>
+      <FormLine helpUrl={urls[0]}>
         <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'requirement' })}</label>
         <DropDownSearch
           id={`requirement-${statementIndex}`}
