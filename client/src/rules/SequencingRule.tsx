@@ -78,6 +78,7 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
           <Input
             disabled={disabled}
             id="orders-number"
+            data-xlabel="orders-number"
             type="number"
             numberMaxDigits={0}
             value={sequencing.firstSubListSize}

@@ -13,7 +13,7 @@ describe("RulesResource", () => {
   it("GET should return 500 if query failure", async () => {
     const req = mockHttpRequest("/api/rules/associate-cutting-requirements", { activityId: "associate-cutting-requirements" });
     const [res] = mockHttpResponse();
-    const executor = CommandQueryExecutorMockBuilder.newMock().withQueryFailure("cutadmin", { type: "production-rules.query.get", parameters: {} }).build();
+    const executor = CommandQueryExecutorMockBuilder.newMock().withQueryFailure("cutadmin", { type: "production-rules.query.getKnown", parameters: ["GenerateCuttingOrder", "AssociateCuttingRequirements"] }).build();
 
     await new RulesResource(executor).get(req, res);
 
@@ -27,7 +27,7 @@ describe("RulesResource", () => {
     const executor = CommandQueryExecutorMockBuilder.newMock()
       .withQuerySuccess(
         "cutadmin",
-        { type: "production-rules.query.get", parameters: {} },
+        { type: "production-rules.query.getKnown", parameters: ["GenerateCuttingOrder", "AssociateCuttingRequirements"] },
         {
           activities: {
             "Associate cutting requirements": {
