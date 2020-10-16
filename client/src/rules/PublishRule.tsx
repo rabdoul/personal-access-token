@@ -1,30 +1,43 @@
 import React from 'react';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
+import CheckBox from '@lectra/checkbox';
+
 import { StatementResult } from '../model';
-import { ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import Rule from './common/Rule';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
-import useRuleValidator from './common/useRuleValidator';
-import { useUIState } from '../UIState';
+import { Form, FormLine } from './common/styles';
 
 export interface Publish extends StatementResult {
-  isAutomaticallyPublished: boolean;
+  automaticallyPublish: boolean;
 }
 
 export const PublishRule: React.FC = () => {
-  const rule = useRule('publish');
+  const publish = useRule('publish');
   const { editMode } = useUIState();
   const activityConfiguration = useActivityConfiguration('publish');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(activityId, rule);
-  if (rule !== undefined && activityConfiguration !== undefined) {
+  if (publish !== undefined && activityConfiguration !== undefined) {
     return (
-      <Rule rule={rule} activityConfiguration={activityConfiguration} disabled={!editMode}>
-        {(statementIndex, result) => <span>result form goes here</span>}
+      <Rule rule={publish} activityConfiguration={activityConfiguration} disabled={!editMode}>
+        {(statementIndex, result) => <PublishForm statementIndex={statementIndex} result={result} editMode={editMode} />}
       </Rule>
     );
   } else {
     return <StepDescription />;
   }
+};
+
+const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; editMode: boolean }> = ({ statementIndex, result, editMode }) => {
+  const dispatch = useUIDispatch();
+  const onChange = (value: any) => {
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'publish', statementIndex: statementIndex, attribute: 'automaticallyPublish', value: value });
+  };
+  return (
+    <Form onSubmit={e => e.preventDefault()}>
+      <FormLine>
+        <CheckBox disabled={!editMode} label="TOBEDEFINED" checked={result.automaticallyPublish ?? true} onChange={onChange} xlabel="stopOnOutOfRangeWarning" tickSize={13} />
+      </FormLine>
+    </Form>
+  );
 };

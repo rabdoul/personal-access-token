@@ -47,7 +47,8 @@ export type Action =
   | { type: 'VALIDATE_RULE'; activityId: ActivityId }
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
-  | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>;
+  | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
+  | UpdateStatementResult<'publish', Publish>;
 // end::action[]
 
 enableMapSet();
@@ -80,7 +81,6 @@ export const reducer = (state: UIState, action: Action): UIState => {
     }
 
     case 'UPDATE_CONDITION': {
-      console.log(action);
       return {
         ...state,
         editedRules: new Set([...state.editedRules, action.activityId]),
