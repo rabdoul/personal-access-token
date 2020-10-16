@@ -3,12 +3,13 @@ import useActivityConfiguration from '../activities/useActivityConfiguration';
 import CheckBox from '@lectra/checkbox';
 
 import { StatementResult } from '../model';
-import { useUIState, useUIDispatch } from '../UIState';
+import { useUIState, useUIDispatch, ActivityId } from '../UIState';
 import Rule from './common/Rule';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import { Form, FormLine } from './common/styles';
 import { useIntl } from 'react-intl';
+import useRuleValidator from './common/useRuleValidator';
 
 export interface Publish extends StatementResult {
   automaticallyPublish: boolean;
@@ -18,6 +19,8 @@ export const PublishRule: React.FC = () => {
   const publish = useRule('publish');
   const { editMode } = useUIState();
   const activityConfiguration = useActivityConfiguration('publish');
+  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, publish);
+
   if (publish !== undefined && activityConfiguration !== undefined) {
     return (
       <Rule rule={publish} activityConfiguration={activityConfiguration} disabled={!editMode}>
