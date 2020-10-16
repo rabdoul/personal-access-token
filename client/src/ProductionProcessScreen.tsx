@@ -16,6 +16,7 @@ import PublishRule from './rules/PublishRule';
 import ValidateMarkerRule from './rules/ValidateMarkerRule';
 import AssociateCuttingActivitiesRule from './rules/AssociateCuttingActivitiesRule';
 import RollAssignmentRule from './rules/RollAssignmentRule';
+import GenerateSectionPlanRule from './rules/GenerateSectionPlanRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -35,6 +36,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/associate-cutting-activities" component={AssociateCuttingActivitiesRule} />
           <Route exact path="/publish" component={PublishRule} />
           <Route exact path="/after-nesting-roll-allocation" component={RollAssignmentRule} />
+          <Route exact path="/generate-section-plan" component={GenerateSectionPlanRule} />
           <Route
             path="/:activityId"
             render={() => (
