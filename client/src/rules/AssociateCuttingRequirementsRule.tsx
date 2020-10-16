@@ -20,7 +20,7 @@ export interface AssociateCuttingRequirements extends StatementResult {
 
 function useRequirements() {
   const token = useAccessToken();
-  const { data: requirements } = useQuery('cut-activities', () => fetchData(token, 'cut-parameters/requirements'));
+  const { data: requirements } = useQuery('cut-requirements', () => fetchData(token, 'cut-parameters/requirements'));
   return requirements;
 }
 
@@ -61,7 +61,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   return (
     <Form>
       <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'requirement' })}</label>
+        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'cutting.requirement' })}</label>
         <DropDownSearch
           id={`requirement-${statementIndex}`}
           listItems={requirements}

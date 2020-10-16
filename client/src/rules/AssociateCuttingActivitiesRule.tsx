@@ -61,7 +61,7 @@ const AssociateCuttingActivitiesResultForm: React.FC<FormProps> = ({ associateAc
   return (
     <Form>
       <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`activity-${statementIndex}`}>{formatMessage({ id: 'activity' })}</label>
+        <label htmlFor={`activity-${statementIndex}`}>{formatMessage({ id: 'cutting.activity' })}</label>
         <DropDownSearch
           id={`requirement-${statementIndex}`}
           listItems={activities}
