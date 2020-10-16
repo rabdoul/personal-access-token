@@ -80,6 +80,7 @@ export const reducer = (state: UIState, action: Action): UIState => {
     }
 
     case 'UPDATE_CONDITION': {
+      console.log(action);
       return {
         ...state,
         editedRules: new Set([...state.editedRules, action.activityId]),
