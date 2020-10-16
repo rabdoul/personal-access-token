@@ -50,7 +50,7 @@ const AssociateCuttingActivitiesResultForm: React.FC<FormProps> = ({ associateAc
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const activities = useActivities();
-  const urls = useHelpUrls('PP_REQUIREMENT');
+  const urls = useHelpUrls('PP_CUTTING_ACTIVITY');
 
   function handleRequierementChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-activities', statementIndex, attribute: 'activityId', value: item?.value });
@@ -61,7 +61,7 @@ const AssociateCuttingActivitiesResultForm: React.FC<FormProps> = ({ associateAc
   return (
     <Form>
       <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`activity-${statementIndex}`}>{formatMessage({ id: 'activity' })}</label>
+        <label htmlFor={`activity-${statementIndex}`}>{formatMessage({ id: 'cutting.activity' })}</label>
         <DropDownSearch
           data-xlabel="activity"
           id={`activity-${statementIndex}`}

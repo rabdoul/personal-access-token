@@ -20,7 +20,7 @@ export interface AssociateCuttingRequirements extends StatementResult {
 
 function useRequirements() {
   const token = useAccessToken();
-  const { data: requirements } = useQuery('cut-activities', () => fetchData(token, 'cut-parameters/requirements'));
+  const { data: requirements } = useQuery('cut-requirements', () => fetchData(token, 'cut-parameters/requirements'));
   return requirements;
 }
 
@@ -50,7 +50,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const requirements = useRequirements();
-  const urls = useHelpUrls('PP_REQUIREMENT');
+  const urls = useHelpUrls('PP_CUTTING_REQUIREMENT');
 
   function handleRequierementChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-requirements', statementIndex, attribute: 'requirementId', value: item?.value });
@@ -61,7 +61,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   return (
     <Form>
       <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'requirement' })}</label>
+        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'cutting.requirement' })}</label>
         <DropDownSearch
           data-xlabel="requirement"
           id={`requirement-${statementIndex}`}
