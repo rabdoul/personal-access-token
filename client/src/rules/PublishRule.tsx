@@ -8,6 +8,7 @@ import Rule from './common/Rule';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import { Form, FormLine } from './common/styles';
+import { useIntl } from 'react-intl';
 
 export interface Publish extends StatementResult {
   automaticallyPublish: boolean;
@@ -30,13 +31,22 @@ export const PublishRule: React.FC = () => {
 
 const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; editMode: boolean }> = ({ statementIndex, result, editMode }) => {
   const dispatch = useUIDispatch();
+  const { formatMessage } = useIntl();
   const onChange = (value: any) => {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'publish', statementIndex: statementIndex, attribute: 'automaticallyPublish', value: value });
   };
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <FormLine>
-        <CheckBox disabled={!editMode} label="TOBEDEFINED" checked={result.automaticallyPublish ?? true} onChange={onChange} xlabel="stopOnOutOfRangeWarning" tickSize={13} />
+        <label htmlFor={'TBD'}>{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</label>
+        <CheckBox
+          disabled={!editMode}
+          label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
+          checked={result.automaticallyPublish ?? true}
+          onChange={onChange}
+          xlabel="stopOnOutOfRangeWarning"
+          tickSize={13}
+        />
       </FormLine>
     </Form>
   );
