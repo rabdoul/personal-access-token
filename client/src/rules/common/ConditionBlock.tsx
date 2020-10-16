@@ -7,7 +7,7 @@ import DropDownSearch from '@lectra/dropdownsearch';
 
 import { ActivityConfiguration, Condition } from '../../model';
 import { ActivityId, useUIDispatch } from '../../UIState';
-import { BlockActions, BlockContainer, BlockContent } from './styles';
+import { BlockActions, BlockContainer, BlockContent, StyledSelect } from './styles';
 import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
 import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
@@ -44,7 +44,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
       <ConditionalInstruction type={conditionIndex === 0 ? 'IF' : 'AND'} />
       <BlockContent>
         {conditionConfiguration.multipleOperatorItems && (
-          <Select
+          <StyledSelect
             data-xlabel="multipleOperator"
             listItems={conditionConfiguration.multipleOperatorItems}
             value={condition.multipleOperator}
@@ -53,7 +53,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             disabled={disabled}
           />
         )}
-        <Select
+        <StyledSelect
           data-xlabel="left-operand"
           listItems={conditionConfiguration.references}
           value={condition.reference}
@@ -67,7 +67,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           error={!condition.reference}
           icon={MANDATORY_FIELD_ERROR}
         />
-        <Select
+        <StyledSelect
           data-xlabel="operator"
           listItems={conditionConfiguration.operators}
           value={condition.operator}
