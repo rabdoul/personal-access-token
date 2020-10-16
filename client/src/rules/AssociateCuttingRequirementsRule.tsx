@@ -63,6 +63,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
       <FormLine helpUrl={urls[0]}>
         <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'cutting.requirement' })}</label>
         <DropDownSearch
+          data-xlabel="requirement"
           id={`requirement-${statementIndex}`}
           listItems={requirements}
           value={associateRequierements.requirementId}
