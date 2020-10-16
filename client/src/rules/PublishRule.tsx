@@ -55,7 +55,7 @@ const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; 
           label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
           checked={result.automaticallyPublish ?? true}
           onChange={onChange}
-          xlabel="stopOnOutOfRangeWarning"
+          xlabel="enableAutomaticPublishing"
           tickSize={13}
         />
       </FormLine>
