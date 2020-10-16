@@ -50,12 +50,12 @@ const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, stateme
       <FormLine helpUrl={urls[0]}>
         {formatMessage({ id: 'rule.validate.marker' })}
         <div style={{ margin: '0 20px 0 60px', alignSelf: 'start', paddingTop: '8px' }}>{formatMessage({ id: 'rule.validate.marker.efficiency' })}</div>
-        <div>
+        <div data-xlabel="marker-validblock">
           <EfficiencyNumbersContainer>
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.from' })} />
-            <FromInput type="number" width={50} />
+            <FromInput data-xlabel="efficiency-lower-bound" type="number" width={50} />
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.to' })} />
-            <ToInput type="number" width={50} />%
+            <ToInput type="number" data-xlabel="efficiency-upper-bound" width={50} />%
           </EfficiencyNumbersContainer>
           <EfficiencyImg />
           <EfficiencyContainer>
