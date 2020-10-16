@@ -5,6 +5,7 @@ import { Condition, ActivityRule, StatementResult } from './model';
 import { Sequencing } from './rules/SequencingRule';
 import { ValidateMTMProduct } from './rules/ValidateMTMProductRule';
 import { AssociateCuttingRequirements } from './rules/AssociateCuttingRequirementsRule';
+import { Publish } from './rules/PublishRule';
 import { AssociateCuttingActivities } from './rules/AssociateCuttingActivitiesRule';
 import { ValidateMarker } from './rules/ValidateMarkerRule';
 import { RollAssignment } from './rules/RollAssignmentRule';
@@ -19,6 +20,7 @@ export type UIState = {
   'setup-sequencing'?: ActivityRule<Sequencing>;
   'validate-mtm-product'?: ActivityRule<ValidateMTMProduct>;
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
+  publish?: ActivityRule<Publish>;
   'associate-cutting-activities'?: ActivityRule<AssociateCuttingActivities>;
   'validate-marker'?: ActivityRule<ValidateMarker>;
   'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
@@ -52,6 +54,7 @@ export type Action =
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
+  | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
