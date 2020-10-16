@@ -7,6 +7,7 @@ import { ValidateMTMProduct } from './rules/ValidateMTMProductRule';
 import { AssociateCuttingRequirements } from './rules/AssociateCuttingRequirementsRule';
 import { AssociateCuttingActivities } from './rules/AssociateCuttingActivitiesRule';
 import { ValidateMarker } from './rules/ValidateMarkerRule';
+import { RollAssignment } from './rules/RollAssignmentRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -20,6 +21,7 @@ export type UIState = {
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
   'associate-cutting-activities'?: ActivityRule<AssociateCuttingActivities>;
   'validate-marker'?: ActivityRule<ValidateMarker>;
+  'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
 };
 // end::uiState[]
 

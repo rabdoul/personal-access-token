@@ -14,6 +14,7 @@ import ValidateMTMProductRule from './rules/ValidateMTMProductRule';
 import AssociateCuttingRequirementsRule from './rules/AssociateCuttingRequirementsRule';
 import ValidateMarkerRule from './rules/ValidateMarkerRule';
 import AssociateCuttingActivitiesRule from './rules/AssociateCuttingActivitiesRule';
+import RollAssignmentRule from './rules/RollAssignmentRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -31,6 +32,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/validate-marker" component={ValidateMarkerRule} />
           <Route exact path="/associate-cutting-requirements" component={AssociateCuttingRequirementsRule} />
           <Route exact path="/associate-cutting-activities" component={AssociateCuttingActivitiesRule} />
+          <Route exact path="/after-nesting-roll-allocation" component={RollAssignmentRule} />
           <Route
             path="/:activityId"
             render={() => (
