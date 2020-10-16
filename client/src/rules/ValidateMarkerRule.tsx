@@ -53,12 +53,12 @@ const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, stateme
       <FormLine helpUrl={urls[0]}>
         {formatMessage({ id: 'rule.validate.marker' })}
         <div style={{ margin: '0 20px 0 60px', alignSelf: 'start', paddingTop: '8px' }}>{formatMessage({ id: 'rule.validate.marker.efficiency' })}</div>
-        <div>
+        <div data-xlabel="marker-validblock">
           <EfficiencyNumbersContainer>
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.from' })} />
-            <FromInput value={validateMarker.efficiencyThresholdForManualValidation} type="number" width={50} numberMaxDigits={0} min={0} />
+            <FromInput value={validateMarker.efficiencyThresholdForManualValidation} type="number" width={50} numberMaxDigits={0} min={0} data-xlabel="efficiency-lower-bound" />
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.to' })} />
-            <ToInput value={validateMarker.efficiencyThresholdForAutomaticValidation} type="number" width={50} numberMaxDigits={0} min={0} />%
+            <ToInput value={validateMarker.efficiencyThresholdForAutomaticValidation} type="number" width={50} numberMaxDigits={0} min={0} data-xlabel="efficiency-upper-bound" />%
           </EfficiencyNumbersContainer>
           <EfficiencyImg />
           <EfficiencyContainer>
