@@ -41,15 +41,17 @@ const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; 
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <FormLine>
-        <label htmlFor={'TBD'}>{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</label>
-        <CheckBox
-          disabled={!editMode}
-          label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
-          checked={result.automaticallyPublish ?? true}
-          onChange={onChange}
-          xlabel="stopOnOutOfRangeWarning"
-          tickSize={13}
-        />
+        <label htmlFor="enable-automatic-publishing">{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</label>
+        <div id="enable-automatic-publishing">
+          <CheckBox
+            disabled={!editMode}
+            label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
+            checked={result.automaticallyPublish ?? true}
+            onChange={onChange}
+            xlabel="stopOnOutOfRangeWarning"
+            tickSize={13}
+          />
+        </div>
       </FormLine>
     </Form>
   );
