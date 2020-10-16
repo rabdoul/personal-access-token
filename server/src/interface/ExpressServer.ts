@@ -21,7 +21,7 @@ import { ActivitiesResource } from "./resources/ActivitiesResource";
 import { RulesResource } from "./resources/RulesResource";
 import { ProductCategoriesResource } from "./resources/ProductCategoriesResource";
 import { MaterialGroupsResource } from "./resources/MaterialSpecsResource";
-import { RequirementsResource } from "./resources/RequirementsResource";
+import { RequirementsResource } from "./resources/CutParametersResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
