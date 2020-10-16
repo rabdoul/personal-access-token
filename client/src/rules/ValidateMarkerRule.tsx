@@ -10,7 +10,10 @@ import { EfficiencyContainer, EfficiencyImg, EfficiencyNumbersContainer, Form, F
 import Rule from './common/Rule';
 import { useHelpUrls } from '../base/Help';
 
-export interface ValidateMarker extends StatementResult {}
+export interface ValidateMarker extends StatementResult {
+  efficiencyThresholdForManualValidation: number;
+  efficiencyThresholdForAutomaticValidation: number;
+}
 
 const ValidateMarkerRule = () => {
   const { editMode } = useUIState();
@@ -43,7 +46,7 @@ const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, stateme
   //   dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker', statementIndex, attribute, value });
   // };
 
-  const urls = useHelpUrls('PP_VM_REGLE_VALID_PLC');
+  const urls = useHelpUrls('PP_VM_MARKER_VALIDATION');
 
   return (
     <Form>
@@ -53,9 +56,9 @@ const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, stateme
         <div>
           <EfficiencyNumbersContainer>
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.from' })} />
-            <FromInput type="number" width={50} />
+            <FromInput value={validateMarker.efficiencyThresholdForManualValidation} type="number" width={50} numberMaxDigits={0} min={0} />
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.to' })} />
-            <ToInput type="number" width={50} />%
+            <ToInput value={validateMarker.efficiencyThresholdForAutomaticValidation} type="number" width={50} numberMaxDigits={0} min={0} />%
           </EfficiencyNumbersContainer>
           <EfficiencyImg />
           <EfficiencyContainer>
