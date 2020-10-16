@@ -15,19 +15,23 @@ export class RulesResource {
   }
 
   async get(req: express.Request, res: express.Response) {
-    const response = await this.commandQueryExecutor.executeQuery("cutadmin", { type: "production-rules.query.get", parameters: {} });
+    const activityReference = activityReferenceFromId(req.params.activityId);
+    const response = await this.commandQueryExecutor.executeQuery("cutadmin",
+      {
+        type: "production-rules.query.getKnown",
+        parameters: ["GenerateCuttingOrder", activityReference.split(' ').map(it => `${it.charAt(0).toUpperCase()}${it.slice(1)}`).join("")]
+      }
+    );
     if (response.type === QueryResponseType.QUERY_SUCCESS) {
-      const conditionalBlocks = (response.data as any).activities[activityReferenceFromId(req.params.activityId)].conditionalBlocks;
-      const rule = conditionalBlocks
-        .sort((b1: { order: number }, b2: { order: number }) => b1.order - b2.order)
+      const conditionalBlocks = (response.data as any).activities[activityReference].conditionalBlocks;
+      const rule = conditionalBlocks.sort((b1: { order: number }, b2: { order: number }) => b1.order - b2.order)
         .map((block: any) => {
-          const conditions =
-            block.conditions?.map((condition: any) => ({
-              multipleOperator: ListOperator[condition.listOperator],
-              reference: condition.leftOperand,
-              operator: Operator[condition.operator],
-              value: condition.rightOperand,
-            })) || [];
+          const conditions = block.conditions?.map((condition: any) => ({
+            multipleOperator: ListOperator[condition.listOperator],
+            reference: condition.leftOperand,
+            operator: Operator[condition.operator],
+            value: condition.rightOperand,
+          })) || [];
           const { activityParametersType, ...result } = block.activityParameters;
           return { conditions, result };
         });
@@ -36,6 +40,7 @@ export class RulesResource {
       res.status(500).send(`Unexpected error when retrieving setup sequencing rule : ${response.data}`);
     }
   }
+
   @disableForSupport()
   async patch(req: express.Request, res: express.Response, next: express.NextFunction) {
     try {
@@ -80,11 +85,11 @@ export class RulesResource {
       conditions:
         statement.conditions.length > 0
           ? statement.conditions.map((condition) => ({
-              leftOperand: condition.reference,
-              listOperator: ListOperator[condition.multipleOperator],
-              operator: Operator[condition.operator],
-              rightOperand: condition.value,
-            }))
+            leftOperand: condition.reference,
+            listOperator: ListOperator[condition.multipleOperator],
+            operator: Operator[condition.operator],
+            rightOperand: condition.value,
+          }))
           : null,
       order: statementIndex,
       activityParameters: {
