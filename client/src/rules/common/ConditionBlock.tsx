@@ -12,6 +12,7 @@ import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
 import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
 import DropDownSearchRenderer from './DropDownSearchRenderer';
+import { useHelpUrls, withHelpTooltip } from '../../base/Help';
 
 type Props = {
   statementIndex: number;
@@ -26,6 +27,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
   const dispatch = useUIDispatch();
   const conditionConfiguration = useConditionConfiguration(condition, activityConfiguration);
   const activityId = activityConfiguration.id as ActivityId;
+  const urls = useHelpUrls('PP_ADD_CONDITION', 'PP_DELETE_CONDITION');
 
   const handleConditionInputValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue, type } = event.target;
@@ -107,16 +109,23 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           />
         )}
         <BlockActions>
-          <BasicButton onClick={() => dispatch({ type: 'ADD_CONDITION', activityId, statementIndex, conditionIndex: conditionIndex + 1 })} disabled={disabled} type={'white'}>
+          <ActionButton
+            helpUrl={urls[0]}
+            onClick={() => dispatch({ type: 'ADD_CONDITION', activityId, statementIndex, conditionIndex: conditionIndex + 1 })}
+            disabled={disabled}
+            type={'white'}
+          >
             <Icon type="add" size={14} />
-          </BasicButton>
-          <BasicButton onClick={() => dispatch({ type: 'DELETE_CONDITION', activityId, statementIndex, conditionIndex })} disabled={disabled} type={'white'}>
+          </ActionButton>
+          <ActionButton helpUrl={urls[1]} onClick={() => dispatch({ type: 'DELETE_CONDITION', activityId, statementIndex, conditionIndex })} disabled={disabled} type={'white'}>
             <Icon type="delete" size={14} />
-          </BasicButton>
+          </ActionButton>
         </BlockActions>
       </BlockContent>
     </BlockContainer>
   );
 };
+
+const ActionButton = withHelpTooltip(BasicButton);
 
 export default ConditionBlock;

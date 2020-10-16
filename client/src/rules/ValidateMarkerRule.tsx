@@ -9,7 +9,7 @@ import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { EfficiencyContainer, EfficiencyImg, EfficiencyNumbersContainer, Form, FormLine, FromInput, ToInput } from './common/styles';
 import Rule from './common/Rule';
 import { useHelpUrls } from '../base/Help';
-import ErrorIcon, { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import ErrorIcon from './common/ErrorIcon';
 import useRuleValidator from './common/useRuleValidator';
 
 export interface ValidateMarker extends StatementResult {

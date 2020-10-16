@@ -61,7 +61,7 @@ export const RuleContainer = styled.div`
   overflow: auto;
 `;
 
-export const ConditionalInstructionContainer = styled.div<{ color: string }>`
+export const ConditionalInstructionContainer = withHelpTooltip(styled.div<{ color: string }>`
   align-items: center;
   border-left: 5px solid ${props => props.color};
   display: flex;
@@ -69,7 +69,7 @@ export const ConditionalInstructionContainer = styled.div<{ color: string }>`
   font-weight: 600;
   margin-right: 10px;
   padding-left: 10px;
-`;
+`);
 
 export const SelectionContainer = styled.div<{ disabled: boolean }>`
   align-items: center;
