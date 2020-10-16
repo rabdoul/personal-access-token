@@ -40,8 +40,8 @@ const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; 
   };
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine>
-        <div style={{ margin: '0 20px 0 0px', alignSelf: 'start', paddingTop: '3px' }}>{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</div>
+      <FormLine style={{ paddingTop: '3px' }}>
+        <div style={{ margin: '0 20px 0 0px', alignSelf: 'start' }}>{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</div>
         <CheckBox
           disabled={!editMode}
           label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
