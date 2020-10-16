@@ -50,7 +50,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const requirements = useRequirements();
-  const urls = useHelpUrls('PP_REQUIREMENT');
+  const urls = useHelpUrls('PP_CUTTING_REQUIREMENT');
 
   function handleRequierementChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-requirements', statementIndex, attribute: 'requirementId', value: item?.value });
