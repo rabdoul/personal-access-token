@@ -21,8 +21,8 @@ const UserPreferenceProvider = (props: { children: ReactNode }) => {
 
   useEffect(() => {
     if (lectraLocaleCode) {
-      const lectraLocale = lectraLocaleCode ? new LectraLocale(lectraLocaleCode) : LectraLocale.fromLocale(auth0Locale);
-      setUserPreference({ lectraLocale });
+      const lectraLocale = lectraLocaleCode ? lectraLocaleCode : auth0Locale;
+      setUserPreference({ lectraLocale: LectraLocale.fromLocale(lectraLocale) });
       setProvider('lectra');
     } else if (provider !== 'lectra') {
       setUserPreference({ lectraLocale: LectraLocale.fromLocale(auth0Locale) });
