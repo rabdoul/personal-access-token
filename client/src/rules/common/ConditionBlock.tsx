@@ -2,7 +2,6 @@ import React from 'react';
 import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
 import Input from '@lectra/input';
-import Select from '@lectra/select';
 import DropDownSearch from '@lectra/dropdownsearch';
 
 import { ActivityConfiguration, Condition } from '../../model';
