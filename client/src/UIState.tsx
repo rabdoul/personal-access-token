@@ -8,6 +8,7 @@ import { AssociateCuttingRequirements } from './rules/AssociateCuttingRequiremen
 import { Publish } from './rules/PublishRule';
 import { AssociateCuttingActivities } from './rules/AssociateCuttingActivitiesRule';
 import { ValidateMarker } from './rules/ValidateMarkerRule';
+import { RollAssignment } from './rules/RollAssignmentRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -22,6 +23,7 @@ export type UIState = {
   publish?: ActivityRule<Publish>;
   'associate-cutting-activities'?: ActivityRule<AssociateCuttingActivities>;
   'validate-marker'?: ActivityRule<ValidateMarker>;
+  'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
 };
 // end::uiState[]
 

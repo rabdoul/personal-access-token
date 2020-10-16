@@ -16,7 +16,7 @@ export interface Publish extends StatementResult {
   automaticallyPublish: boolean;
 }
 
-export const PublishRule: React.FC = () => {
+const PublishRule: React.FC = () => {
   const publish = useRule('publish');
   const { editMode } = useUIState();
   const activityConfiguration = useActivityConfiguration('publish');
@@ -62,3 +62,5 @@ const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; 
     </Form>
   );
 };
+
+export default PublishRule;
