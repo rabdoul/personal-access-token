@@ -83,7 +83,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
                   value: value === 'true'
                 })
               }
-              additionalAttributes={{ disabled: true }}
+              disabled={disabled}
             />
           </FormLine>
           {isProductNumberLimited && (
@@ -115,6 +115,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
                   onChange={({ value }) =>
                     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-section-plan', statementIndex, attribute: 'groupDistribution', value: parseInt(value) })
                   }
+                  disabled={disabled}
                 />
               </FormLine>
             </>
