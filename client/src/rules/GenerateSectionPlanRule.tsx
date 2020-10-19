@@ -8,6 +8,8 @@ import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { Form, FormLine, StyledSelect } from './common/styles';
 import Input from '@lectra/input';
+import useRuleValidator from './common/useRuleValidator';
+import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 
 export interface GenerateSectionPlan extends StatementResult {
   sectionPlanGeneration: number;
@@ -16,10 +18,19 @@ export interface GenerateSectionPlan extends StatementResult {
   groupDistribution: number;
 }
 
+function isMaxNumberOfProductsValid(result: Partial<GenerateSectionPlan>) {
+  return result.sectionPlanGeneration === 0 && result.canLimitMarkerByProductNumber ? result.maxNumberOfProducts !== undefined : true;
+}
+
+const validateStatementResult = (result: Partial<GenerateSectionPlan>) => {
+  return isMaxNumberOfProductsValid(result);
+};
+
 const GenerateSectionPlanRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('generate-section-plan');
   const activityConfiguration = useActivityConfiguration('generate-section-plan');
+  useRuleValidator('generate-section-plan', rule, validateStatementResult);
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -102,8 +113,11 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
                     })
                   }
                   type="number"
+                  min={0}
                   value={statementResult.maxNumberOfProducts}
                   disabled={disabled}
+                  error={!isMaxNumberOfProductsValid(statementResult)}
+                  icon={MANDATORY_FIELD_ERROR}
                 />
               </FormLine>
               <FormLine>
