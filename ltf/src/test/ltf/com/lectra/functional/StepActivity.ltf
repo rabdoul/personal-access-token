@@ -1,0 +1,106 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> Step made to measure TEST -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ associate-cutting-activities , true ] -> 
+
+	comment1 -> Initial state : two checkboxes unclicked
+
+	callScript -> subscript.activity_list.SelectActivity -> [ associate-cutting-activities ] -> 
+
+	paragraph -> Check all options in conditional list of step MTM
+
+	callScript -> subscript.step_activities.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ activity , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ activity1 , activity , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ associate-cutting-activities , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ associate-cutting-activities , false ] -> 
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ associate-cutting-activities ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTO ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Material&space;type , Is&space;equal&space;to , Motif ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-1 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Is&space;equal&space;to , INest ] -> 
+
+	paragraph -> Add another conditional block
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 1-0 , Material&space;type&space;(cutting&space;order) , Is&space;equal&space;to , Placed&space;motif ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Visible&space;weft&space;distortion , Is&space;equal&space;to , False ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ activity2 , activity , 1 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ activity1 , activity , 2 ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ associate-cutting-activities , false ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTO ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Material&space;type , Is&space;equal&space;to , Motif ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Is&space;equal&space;to , INest ]
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-0 , Material&space;type&space;(cutting&space;order) , Is&space;equal&space;to , Placed&space;motif ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Visible&space;weft&space;distortion , Is&space;equal&space;to , False ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ activity2 , activity , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ activity1 , activity , 2 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ activity , 0 ] -> 
+
+	paragraph -> Test online help
+
+	callScript -> subscript.ribbon.CheckOnlineHelp -> [ associate-cutting-activities , activity ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
