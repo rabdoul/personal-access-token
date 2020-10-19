@@ -60,6 +60,13 @@ export const StyledSelect = styled(Select)`
   width: 200px !important;
 `;
 
+export const StyledSmallSelect = styled(Select)`
+  .KUISelect__control {
+    min-width: 50px !important;
+    width: 50px !important;
+  }
+`;
+
 export const RuleContainer = styled.div`
   height: calc(100% - 95px);
   padding: 20px;
