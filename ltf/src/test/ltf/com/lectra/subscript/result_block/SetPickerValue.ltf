@@ -1,0 +1,21 @@
+SCRIPT_DESCRIPTION
+Set value of result block picker (activity, requirement, offloading rule...)
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> text to enter into input
+    parameter1 -> data-xlabel of the checkbox
+	parameter2 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Select value ${parameter0} for picker ${parameter1} of block result ${parameter2}
+
+	click -> div [ class ≈ KUISelect ] -> div [ data-xlabel = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
+
+	click -> div [ text = ${parameter0} , class ≈ option ] -> div [ data-xlabel = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ ${parameter0} , ${parameter1} , ${parameter2} ] -> 

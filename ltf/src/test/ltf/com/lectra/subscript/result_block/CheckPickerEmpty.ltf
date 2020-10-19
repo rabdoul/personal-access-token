@@ -1,0 +1,14 @@
+SCRIPT_DESCRIPTION
+Click the checkboox in sequencing activity
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-xlabel of the picker
+	parameter1 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	check -> exists = true -> div [ data-xvalue = none , data-xlabel = ${parameter0} ] -> div [ data-resultblock-id = ${parameter1} ]
