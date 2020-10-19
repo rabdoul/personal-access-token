@@ -7,7 +7,7 @@ import Icon from '@lectra/icon';
 import BasicButton from '@lectra/basicbutton';
 
 import { StatementResult } from '../model';
-import { useUIState } from '../UIState';
+import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
@@ -31,7 +31,7 @@ const GenerateBatchRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('generate-batch');
   const activityConfiguration = useActivityConfiguration('generate-batch');
-  // const activityId = activityConfiguration?.id as ActivityId | undefined;
+  const activityId = activityConfiguration?.id as ActivityId | undefined;
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -46,11 +46,12 @@ const GenerateBatchRule = () => {
 
 const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
-  // const dispatch = useUIDispatch();
+  const dispatch = useUIDispatch();
 
-  // const updateGenrateBatch = (attribute: keyof GenerateBatch, value: any) => {
-  //   dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-batch', statementIndex, attribute, value });
-  // };
+  const updateGenerateBatch = (attribute: keyof GenerateBatch, value: any) => {
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-batch', statementIndex, attribute, value });
+  };
+
   const groupOrdersPerCriteriaItems = [
     { label: formatMessage({ id: 'common.no' }), value: '0' },
     { label: formatMessage({ id: 'common.yes' }), value: '1' }
@@ -63,20 +64,31 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           <CheckBox
             disabled={disabled}
             checked={statementResult.useMaxNumberOfOrder ?? true}
-            onChange={() => {}}
+            onChange={(value: any) => {
+              if (statementResult.batchGenerationType === 0) updateGenerateBatch('useMaxNumberOfOrder', value);
+            }}
             xlabel="enableMaxPO"
             tickSize={13}
             label={formatMessage({ id: 'rule.generate.batch.enable.max.po.batch' })}
           />
         </FormLabel>
-        <Input onBlur={evt => {}} value={statementResult.maxNumberOfOrders} type="number" disabled={disabled} width={50} numberMaxDigits={0} min={0} data-xlabel="maxPOPerBatch" />
+        <Input
+          onBlur={evt => updateGenerateBatch('maxNumberOfOrders', parseInt(evt.target.value))}
+          value={statementResult.maxNumberOfOrders}
+          type="number"
+          disabled={disabled}
+          width={50}
+          numberMaxDigits={0}
+          min={0}
+          data-xlabel="maxPOPerBatch"
+        />
       </FormLine>
       <FormLine>
         <FormLabel>{formatMessage({ id: 'rule.generate.batch.group.orders.criteria' })}</FormLabel>
         <StyledSmallSelect
           data-xlabel="groupOrderCriteria"
           listItems={groupOrdersPerCriteriaItems}
-          onChange={item => {}}
+          onChange={({ value }) => updateGenerateBatch('batchGenerationType', parseInt(value))}
           width={50}
           disabled={disabled}
           value={`${statementResult.batchGenerationType}`}
@@ -109,7 +121,7 @@ const CriteriasBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crite
     <CriteriasContainer data-xrow={criteriaIndex} data-xlabel="criterias">
       <FormLine style={{ marginBottom: '10px' }}>
         <CriteriaLabel>{formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}</CriteriaLabel>
-        <Select data-xlabel="criteria" listItems={criteriaItems} onChange={item => {}} disabled={disabled} value={`${criterion.batchGenerationCriterionType}`} />
+        <Select data-xlabel="criteria" listItems={criteriaItems} onChange={item => {}} disabled={disabled} value={`${criterion.batchGenerationCriterionType}`} width={120} />
         <ButtonGroup>
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => {}}>
             <Icon type="add" />

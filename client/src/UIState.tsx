@@ -60,7 +60,7 @@ export type Action =
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
-  | UpdateStatementResult<'generate-batch', RollAssignment>
+  | UpdateStatementResult<'generate-batch', GenerateBatch>
   | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'generate-section-plan', GenerateSectionPlan>
   | UpdateStatementResult<'generate-spreading-plan', GenerateSpreadingPlan>
