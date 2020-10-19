@@ -4,7 +4,7 @@ import ItemsSwitcher from '@lectra/itemsswitcher';
 import useRule from './common/useRule';
 import { useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { Form, FormLine, StyledSelect } from './common/styles';
 import Input from '@lectra/input';
@@ -27,18 +27,12 @@ const GenerateSectionPlanRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <GenerateSectionPlanResultForm generateSectionPlan={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <GenerateSectionPlanResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  generateSectionPlan: Partial<GenerateSectionPlan>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const GenerateSectionPlanResultForm: React.FC<FormProps> = ({ generateSectionPlan, statementIndex, disabled }) => {
+const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateSectionPlan>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   return (
     <Form onSubmit={e => e.preventDefault()}>
@@ -49,7 +43,7 @@ const GenerateSectionPlanResultForm: React.FC<FormProps> = ({ generateSectionPla
             { label: 'Automatic', value: '0' },
             { label: 'Manual', value: '1' }
           ]}
-          value={`${generateSectionPlan.groupDistribution}`}
+          value={`${statementResult.groupDistribution}`}
           onChange={item => {}}
           width={200}
           disabled={disabled}
@@ -64,12 +58,12 @@ const GenerateSectionPlanResultForm: React.FC<FormProps> = ({ generateSectionPla
             { title: 'Yes', value: 'true' },
             { title: 'No', value: 'false' }
           ]}
-          defaultValue={`${generateSectionPlan.canLimitMarkerByProductNumber}`}
+          defaultValue={`${statementResult.canLimitMarkerByProductNumber}`}
         />
       </FormLine>
       <FormLine>
         <label htmlFor="">{formatMessage({ id: 'max.product.number' })}</label>
-        <Input onBlur={() => {}} type="number" value={generateSectionPlan.maxNumberOfProducts} />
+        <Input onBlur={() => {}} type="number" value={statementResult.maxNumberOfProducts} />
       </FormLine>
       <FormLine>
         <label htmlFor="">{formatMessage({ id: 'product.distribution' })}</label>
@@ -80,7 +74,7 @@ const GenerateSectionPlanResultForm: React.FC<FormProps> = ({ generateSectionPla
             { title: 'Balance', value: '0' },
             { title: 'Fill', value: '1' }
           ]}
-          defaultValue={`${generateSectionPlan.groupDistribution}`}
+          defaultValue={`${statementResult.groupDistribution}`}
         />
       </FormLine>
     </Form>

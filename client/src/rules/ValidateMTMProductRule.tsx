@@ -7,7 +7,7 @@ import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, FormLine } from './common/styles';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
 import { useHelpUrls } from '../base/Help';
 
@@ -29,18 +29,12 @@ const ValidateMTMProductRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <ValidateMTMProductResultForm validateMTMProduct={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <ValidateMTMProductResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  validateMTMProduct: Partial<ValidateMTMProduct>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct, statementIndex, disabled }) => {
+const ValidateMTMProductResultForm: React.FC<StatementResultFormProps<ValidateMTMProduct>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
@@ -56,7 +50,7 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
         <CheckBox
           disabled={disabled}
           label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
-          checked={validateMTMProduct.stopOnOutOfRangeWarning!}
+          checked={statementResult.stopOnOutOfRangeWarning!}
           onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
           xlabel="stopOnOutOfRangeWarning"
           tickSize={13}
@@ -66,7 +60,7 @@ const ValidateMTMProductResultForm: React.FC<FormProps> = ({ validateMTMProduct,
         <CheckBox
           disabled={disabled}
           label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}
-          checked={validateMTMProduct.stopOnIncorrectValueWarning!}
+          checked={statementResult.stopOnIncorrectValueWarning!}
           onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
           xlabel="stopOnIncorrectValueWarning"
           tickSize={13}

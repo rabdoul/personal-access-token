@@ -7,7 +7,7 @@ import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { EfficiencyContainer, EfficiencyImg, EfficiencyNumbersContainer, Form, FormLine, FromInput, ToInput } from './common/styles';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import { useHelpUrls } from '../base/Help';
 import ErrorIcon from './common/ErrorIcon';
 import useRuleValidator from './common/useRuleValidator';
@@ -53,18 +53,12 @@ const ValidateMarkerRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <ValidateMarkerResultForm validateMarker={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <ValidateMarkerResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  validateMarker: Partial<ValidateMarker>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, statementIndex, disabled }) => {
+const ValidateMarkerResultForm: React.FC<StatementResultFormProps<ValidateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
@@ -84,27 +78,27 @@ const ValidateMarkerResultForm: React.FC<FormProps> = ({ validateMarker, stateme
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.from' })} />
             <FromInput
               onBlur={evt => updateMarkerValidation('efficiencyThresholdForManualValidation', evt.target.value)}
-              value={validateMarker.efficiencyThresholdForManualValidation}
+              value={statementResult.efficiencyThresholdForManualValidation}
               type="number"
               disabled={disabled}
               width={50}
               numberMaxDigits={0}
               min={0}
               data-xlabel="efficiency-lower-bound"
-              error={!isEfficiencyThresholdForManualValidationValid(validateMarker)}
+              error={!isEfficiencyThresholdForManualValidationValid(statementResult)}
               icon={<ErrorIcon errorKey="rule.validate.marker.efficiency.must.be.lower" />}
             />
             <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.to' })} />
             <ToInput
               onBlur={evt => updateMarkerValidation('efficiencyThresholdForAutomaticValidation', evt.target.value)}
-              value={validateMarker.efficiencyThresholdForAutomaticValidation}
+              value={statementResult.efficiencyThresholdForAutomaticValidation}
               type="number"
               disabled={disabled}
               width={50}
               numberMaxDigits={0}
               min={0}
               data-xlabel="efficiency-upper-bound"
-              error={!isEfficiencyThresholdForAutomaticValidationValid(validateMarker)}
+              error={!isEfficiencyThresholdForAutomaticValidationValid(statementResult)}
               icon={<ErrorIcon errorKey="rule.validate.marker.efficiency.must.be.lower" />}
             />
             %

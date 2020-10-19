@@ -3,7 +3,7 @@ import React from 'react';
 import useRule from './common/useRule';
 import { useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { useIntl } from 'react-intl';
 import { useHelpUrls } from '../base/Help';
@@ -25,18 +25,12 @@ const RollAssignmentRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <RollAssignmentResultForm rollAssignment={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <RollAssignmentResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  rollAssignment: Partial<RollAssignment>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const RollAssignmentResultForm: React.FC<FormProps> = ({ rollAssignment, statementIndex, disabled }) => {
+const RollAssignmentResultForm: React.FC<StatementResultFormProps<RollAssignment>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const urls = useHelpUrls('PP_ROLL_ASK_FOR_REF');
@@ -47,7 +41,7 @@ const RollAssignmentResultForm: React.FC<FormProps> = ({ rollAssignment, stateme
         <Checkbox
           disabled={disabled}
           label={formatMessage({ id: 'request.roll.allocation' })}
-          checked={rollAssignment.rollAllocationRequired!}
+          checked={statementResult.rollAllocationRequired!}
           onChange={value => dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'after-nesting-roll-allocation', statementIndex, attribute: 'rollAllocationRequired', value })}
           xlabel="rollAllocationRequired"
           tickSize={13}

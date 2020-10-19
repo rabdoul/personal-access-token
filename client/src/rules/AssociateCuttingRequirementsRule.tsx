@@ -3,7 +3,7 @@ import React from 'react';
 import useRule from './common/useRule';
 import { useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
@@ -35,18 +35,12 @@ const AssociateCuttingRequirementsRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <AssociateCuttingRequirementsResultForm associateRequierements={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <AssociateCuttingRequirementsResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  associateRequierements: Partial<AssociateCuttingRequirements>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associateRequierements, statementIndex, disabled }) => {
+const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<AssociateCuttingRequirements>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const requirements = useRequirements();
@@ -66,7 +60,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<FormProps> = ({ associate
           data-xlabel="requirement"
           id={`requirement-${statementIndex}`}
           listItems={requirements}
-          value={associateRequierements.requirementId}
+          value={statementResult.requirementId}
           onChange={handleRequierementChange}
           customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
           disabled={disabled}

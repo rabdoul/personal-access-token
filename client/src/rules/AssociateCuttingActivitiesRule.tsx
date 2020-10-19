@@ -3,7 +3,7 @@ import React from 'react';
 import useRule from './common/useRule';
 import { useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
@@ -35,18 +35,12 @@ const AssociateCuttingActivitiesRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <AssociateCuttingActivitiesResultForm associateActivities={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <AssociateCuttingActivitiesResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  associateActivities: Partial<AssociateCuttingActivities>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const AssociateCuttingActivitiesResultForm: React.FC<FormProps> = ({ associateActivities, statementIndex, disabled }) => {
+const AssociateCuttingActivitiesResultForm: React.FC<StatementResultFormProps<AssociateCuttingActivities>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
   const activities = useActivities();
@@ -66,7 +60,7 @@ const AssociateCuttingActivitiesResultForm: React.FC<FormProps> = ({ associateAc
           data-xlabel="activity"
           id={`activity-${statementIndex}`}
           listItems={activities}
-          value={associateActivities.activityId}
+          value={statementResult.activityId}
           onChange={handleRequierementChange}
           customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
           disabled={disabled}

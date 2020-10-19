@@ -4,7 +4,7 @@ import CheckBox from '@lectra/checkbox';
 
 import { StatementResult } from '../model';
 import { useUIState, useUIDispatch, ActivityId } from '../UIState';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import { useHelpUrls, withHelpTooltip } from '../base/Help';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
@@ -25,7 +25,7 @@ const PublishRule: React.FC = () => {
   if (publish !== undefined && activityConfiguration !== undefined) {
     return (
       <Rule rule={publish} activityConfiguration={activityConfiguration} disabled={!editMode}>
-        {(statementIndex, result) => <PublishForm statementIndex={statementIndex} result={result} editMode={editMode} />}
+        {props => <PublishForm {...props} />}
       </Rule>
     );
   } else {
@@ -33,7 +33,7 @@ const PublishRule: React.FC = () => {
   }
 };
 
-const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; editMode: boolean }> = ({ statementIndex, result, editMode }) => {
+const PublishForm: React.FC<StatementResultFormProps<Publish>> = ({ statementIndex, statementResult, disabled }) => {
   const dispatch = useUIDispatch();
   const { formatMessage } = useIntl();
   const onChange = (value: any) => {
@@ -51,9 +51,9 @@ const PublishForm: React.FC<{ statementIndex: number; result: Partial<Publish>; 
         <CheckBoxLabelWithHelp helpUrl={useHelpUrls('PP_PUBLICATION_CUTTING_ORDERS')[0]} />
         <CheckBoxWithHelp
           helpUrl={useHelpUrls('PP_PUBLICATION_PUBLISH_AUTOMATICALLY')[0]}
-          disabled={!editMode}
+          disabled={disabled}
           label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
-          checked={result.automaticallyPublish ?? true}
+          checked={statementResult.automaticallyPublish ?? true}
           onChange={onChange}
           xlabel="enableAutomaticPublishing"
           tickSize={13}

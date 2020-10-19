@@ -8,7 +8,7 @@ import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, FormLine } from './common/styles';
-import Rule from './common/Rule';
+import Rule, { StatementResultFormProps } from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
 import ErrorIcon from './common/ErrorIcon';
 import { useHelpUrls } from '../base/Help';
@@ -39,18 +39,12 @@ const SequencingRule = () => {
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {(statementIndex, result) => <SequencingResultForm sequencing={result} statementIndex={statementIndex} disabled={!editMode} />}
+      {props => <SequencingResultForm {...props} />}
     </Rule>
   );
 };
 
-type FormProps = {
-  sequencing: Partial<Sequencing>;
-  statementIndex: number;
-  disabled: boolean;
-};
-
-const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex, disabled }) => {
+const SequencingResultForm: React.FC<StatementResultFormProps<Sequencing>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
@@ -66,13 +60,13 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
         <CheckBox
           disabled={disabled}
           label={formatMessage({ id: 'rule.sequencing.split.selection' })}
-          checked={sequencing.splitList!}
+          checked={statementResult.splitList!}
           onChange={value => updateSequencing('splitList', value)}
           xlabel="splitList"
           tickSize={13}
         />
       </FormLine>
-      {sequencing.splitList && (
+      {statementResult.splitList && (
         <FormLine helpUrl={urls[1]}>
           <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
           <Input
@@ -81,8 +75,8 @@ const SequencingResultForm: React.FC<FormProps> = ({ sequencing, statementIndex,
             data-xlabel="orders-number"
             type="number"
             numberMaxDigits={0}
-            value={sequencing.firstSubListSize}
-            error={!isFirstSubListSizeValid(sequencing.firstSubListSize)}
+            value={statementResult.firstSubListSize}
+            error={!isFirstSubListSizeValid(statementResult.firstSubListSize)}
             icon={<ErrorIcon errorKey="error.not.positive.field" />}
             width={50}
             min={0}
