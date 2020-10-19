@@ -60,6 +60,7 @@ export type Action =
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
   | UpdateStatementResult<'generate-batch', RollAssignment>
   | UpdateStatementResult<'publish', Publish>
+  | UpdateStatementResult<'generate-section-plan', GenerateSectionPlan>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>

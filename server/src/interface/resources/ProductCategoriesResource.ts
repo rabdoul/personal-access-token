@@ -11,9 +11,10 @@ export class ProductCategoriesResource {
     }
 
     async get(_: express.Request, res: express.Response) {
+        const locale = currentPrincipal().userLocale?.substr(0, 2) || "en"
         const response = await this.commandQueryExecutor.executeQuery('monetizationgrid', {
             type: 'monetizationgrid.usages.query.by-service',
-            parameters: { serviceId: "OD", locale: currentPrincipal().userLocale || "en" }
+            parameters: { serviceId: "OD", locale }
         });
         if (response.type === QueryResponseType.QUERY_SUCCESS) {
             const categories = (response.data as any).usages.map((it: { id: string, localized: string }) => ({ value: it.id, label: it.localized }))

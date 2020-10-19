@@ -16,6 +16,6 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.UnfoldList -> [ ${parameter0} , left-operand ] -> 
 
-	click -> div [ text = ${parameter1} ] -> div [ data-xlabel = left-operand ] -> div [ data-conditionblock-id = ${parameter0} ]
+	click -> div [ text = ${parameter1} , class ≈ option ] -> div [ data-xlabel = left-operand ] -> div [ data-conditionblock-id = ${parameter0} ]
 
 	callScript -> subscript.conditions.CheckListValue -> [ ${parameter0} , left-operand , ${parameter1} ] -> 

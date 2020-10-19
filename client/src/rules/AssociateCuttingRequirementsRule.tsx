@@ -13,6 +13,7 @@ import DropDownSearch from '@lectra/dropdownsearch';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import { useIntl } from 'react-intl';
 import { useHelpUrls } from '../base/Help';
+import useRuleValidator from './common/useRuleValidator';
 
 export interface AssociateCuttingRequirements extends StatementResult {
   requirementId?: string;
@@ -28,6 +29,7 @@ const AssociateCuttingRequirementsRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('associate-cutting-requirements');
   const activityConfiguration = useActivityConfiguration('associate-cutting-requirements');
+  useRuleValidator('associate-cutting-requirements', rule);
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -58,6 +60,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
         <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'cutting.requirement' })}</label>
         <DropDownSearch
           data-xlabel="requirement"
+          data-xvalue={statementResult.requirementId ? statementResult.requirementId : 'none'}
           id={`requirement-${statementIndex}`}
           listItems={requirements}
           value={statementResult.requirementId}

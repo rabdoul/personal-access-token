@@ -1,5 +1,8 @@
 ﻿SCRIPT_DESCRIPTION
-
+Test of step sequencing :
+-> No conditional block
+-> One checkbox (default unchecked) and one input displayed only if checkbox is checked 
+-> Input value is integer and mandatory even when hidden
 
 SCRIPT_AUTHOR
 r.bancal
@@ -35,7 +38,7 @@ SCRIPT_START
 
 	comment1 -> Initial state : checkbox unclicked, input is not shown
 
-	check -> exists = false -> input [ id = orders-number ]
+	check -> exists = false -> input [ data-xlabel = orders-number ]
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ splitList , 0 ] -> 
 
@@ -47,21 +50,25 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ splitList , 0 ] -> 
 
-	check -> exists = true -> input [ id = orders-number ]
+	check -> exists = true -> input [ data-xlabel = orders-number ]
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
+
+	comment1 -> No condition tree for sequencing rule : the "+" button is not displayed
+
+	check -> exists = false ->  div [ data-testid = icon-add ]
 
 	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , false ] -> 
 
-	check -> exists = false -> input [ id = orders-number ]
+	check -> exists = false -> input [ data-xlabel = orders-number ]
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
 	callScript -> subscript.result_block.ClickCheckbox -> [ splitList , 0 ] -> 
 
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ 3 ] -> 
+	callScript -> subscript.result_block.FillInput -> [ 3 , orders-number , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ setup-sequencing , true ] -> 
 
@@ -71,11 +78,11 @@ SCRIPT_START
 
 	paragraph -> Check error when order number field is emptied
 
-	check -> exists = true -> input [ id = orders-number , value = 3 ]
+	callScript -> subscript.result_block.CheckInputValue -> [ 3 , orders-number , 0 ] -> 
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.step_sequencing.ChangeOrderNumbers -> [ a ] -> 
+	callScript -> subscript.result_block.FillInput -> [ a , orders-number , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ setup-sequencing ] -> 
 
