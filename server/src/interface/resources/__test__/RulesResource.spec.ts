@@ -142,7 +142,7 @@ describe("RulesResource", () => {
     const executor = CommandQueryExecutorMockBuilder.newMock()
       .withQuerySuccess(
         "cutadmin",
-        { type: "production-rules.query.get", parameters: {} },
+        { type: "production-rules.query.getKnown", parameters: ["SetupSequencing", "ValidateMTMProduct", "GenerateCuttingOrder"] },
         {
           productionRulesId: "5c822a10f19e940001456210",
           activities: {
