@@ -49,7 +49,14 @@ export class RulesResource {
         res.status(200).send();
         return;
       }
-      const queryResponse = await this.commandQueryExecutor.executeQuery("cutadmin", { type: "production-rules.query.get", parameters: {} });
+
+      const queryResponse = await this.commandQueryExecutor.executeQuery("cutadmin",
+        {
+          type: "production-rules.query.getKnown",
+          parameters: patchOperations.map(it => activityReferenceFromId(it.path)).map(it => it.split(' ').map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join("")).concat("GenerateCuttingOrder")
+        }
+      );
+
       if (queryResponse.type == QueryResponseType.QUERY_SUCCESS) {
         const parameters = this.applyPatches(queryResponse.data, patchOperations);
         const commandResponse = await this.commandQueryExecutor.executeCommand("cutadmin", { type: "production-rules.command.put", parameters });
