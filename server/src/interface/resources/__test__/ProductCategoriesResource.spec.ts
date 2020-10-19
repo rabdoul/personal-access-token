@@ -21,7 +21,7 @@ describe('ProductCategoriesResource', () => {
             'monetizationgrid',
             {
                 type: 'monetizationgrid.usages.query.by-service',
-                parameters: { serviceId: "OD", locale: "en_EN" }
+                parameters: { serviceId: "OD", locale: "en" }
             },
             { usages: [{ id: "shirt", localized: "Tops/Shirt" }] }
         ).build();
@@ -32,6 +32,27 @@ describe('ProductCategoriesResource', () => {
         expect(res._getData()).toEqual([{ value: "shirt", label: "Tops/Shirt" }]);
     });
 
+    it('GET doit retourner 200 si la requete est en succes', async () => {
+        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'french-framboise@lectra.com', 'fr_fr', []))
+
+        const req = mockHttpRequest('/api/product-categories');
+        const [res] = mockHttpResponse();
+
+        const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
+            'monetizationgrid',
+            {
+                type: 'monetizationgrid.usages.query.by-service',
+                parameters: { serviceId: "OD", locale: "fr" }
+            },
+            { usages: [{ id: "shirt", localized: "Tops/Chemise" }] }
+        ).build();
+
+        await new ProductCategoriesResource(executor).get(req, res);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._getData()).toEqual([{ value: "shirt", label: "Tops/Chemise" }]);
+    });
+
     it('GET should return 500 if query failure', async () => {
         const req = mockHttpRequest('/api/product-categories');
         const [res] = mockHttpResponse();
@@ -40,7 +61,7 @@ describe('ProductCategoriesResource', () => {
             'monetizationgrid',
             {
                 type: 'monetizationgrid.usages.query.by-service',
-                parameters: { serviceId: "OD", locale: "en_EN" }
+                parameters: { serviceId: "OD", locale: "en" }
             }
         ).build();
 
