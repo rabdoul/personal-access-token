@@ -1,7 +1,7 @@
 import 'jest';
 import { reducer, UIState } from '../UIState';
 
-describe('App.reducer', () => {
+describe('UIState', () => {
   it('should toggle editMode to true', () => {
     const initialState: UIState = {
       editMode: false,
@@ -529,6 +529,54 @@ describe('App.reducer', () => {
       });
 
       expect(uiState.editedRules).toEqual(new Set(['setup-sequencing', 'validate-mtm-product']));
+    });
+  });
+
+  describe('generate batch', () => {
+    it('should remove all criterions', () => {
+      const initialState: UIState = {
+        editMode: true,
+        editedRules: new Set(['setup-sequencing']),
+        invalidRules: new Set(),
+        'generate-batch': [
+          {
+            conditions: [],
+            result: {
+              batchGenerationType: 1,
+              useMaxNumberOfOrder: true,
+              maxNumberOfOrders: 100,
+              criterions: [
+                {
+                  batchGenerationCriterionType: 0,
+                  componentCategory: 'A',
+                  componentMaterialUsage: 'B',
+                  isContrast: true
+                },
+                {
+                  batchGenerationCriterionType: 1
+                }
+              ]
+            }
+          }
+        ]
+      };
+
+      const uiState = reducer(initialState, {
+        type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH',
+        statementIndex: 0
+      });
+
+      expect(uiState['generate-batch']).toEqual([
+        {
+          conditions: [],
+          result: {
+            batchGenerationType: 1,
+            useMaxNumberOfOrder: true,
+            maxNumberOfOrders: 100,
+            criterions: null
+          }
+        }
+      ]);
     });
   });
 });

@@ -52,6 +52,13 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-batch', statementIndex, attribute, value });
   };
 
+  const updateCriterions = (value: number) => {
+    if (value === 0) {
+      dispatch({ type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH', statementIndex });
+    }
+    updateGenerateBatch('batchGenerationType', value);
+  };
+
   const groupOrdersPerCriteriaItems = [
     { label: formatMessage({ id: 'common.no' }), value: '0' },
     { label: formatMessage({ id: 'common.yes' }), value: '1' }
@@ -88,7 +95,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
         <StyledSmallSelect
           data-xlabel="groupOrderCriteria"
           listItems={groupOrdersPerCriteriaItems}
-          onChange={({ value }) => updateGenerateBatch('batchGenerationType', parseInt(value))}
+          onChange={({ value }) => updateCriterions(parseInt(value))}
           width={50}
           disabled={disabled}
           value={`${statementResult.batchGenerationType}`}
