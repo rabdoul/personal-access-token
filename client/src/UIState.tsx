@@ -57,6 +57,7 @@ export type Action =
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
   | UpdateStatementResult<'publish', Publish>
+  | UpdateStatementResult<'generate-section-plan', GenerateSectionPlan>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>

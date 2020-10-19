@@ -21,6 +21,7 @@ export const FormLine = withHelpTooltip(styled.div`
   display: flex;
   flex-direction: row;
   font-weight: lighter;
+  margin: 2px 0;
 
   label {
     margin-right: 5px;
