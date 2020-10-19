@@ -1,0 +1,18 @@
+SCRIPT_DESCRIPTION
+Click the cross icon of a picker to remove its value
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-xlabel of the checkbox
+	parameter1 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Remove value of picker ${parameter0} of result block ${parameter1}
+
+	click -> div [ data-testid = icon-delete ] -> div [ data-xlabel = ${parameter0} ] -> div [ data-resultblock-id = ${parameter1} ]
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ ${parameter0} , ${parameter1} ] -> 
