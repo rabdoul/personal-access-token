@@ -1,8 +1,6 @@
 import 'jest';
 import { mockHttpRequest, mockHttpResponse, CommandQueryExecutorMockBuilder } from '../../../__test__/Mocks';
-import { MaterialGroupsResource } from '../MaterialSpecsResource';
 import { OffloadingRulesResource } from '../OffloadingRulesResource';
-import { ProductCategoriesResource } from '../ProductCategoriesResource';
 
 describe('OffloadingRulesResource', () => {
 
