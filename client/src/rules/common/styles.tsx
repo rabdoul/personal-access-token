@@ -60,6 +60,13 @@ export const StyledSelect = styled(Select)`
   width: 200px !important;
 `;
 
+export const StyledSmallSelect = styled(Select)`
+  .KUISelect__control {
+    min-width: 50px !important;
+    width: 50px !important;
+  }
+`;
+
 export const RuleContainer = styled.div`
   height: calc(100% - 95px);
   padding: 20px;
@@ -154,4 +161,28 @@ export const EfficiencyImg = styled.div`
   background-repeat: no-repeat;
   height: 35px;
   width: 280px;
+`;
+
+export const CriteriasContainer = styled.div`
+  border: 1px solid #333;
+  margin-top: 15px;
+  padding: 10px 20px;
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  margin-left: 40px;
+  gap: 10px;
+`;
+
+export const FormLabel = styled.div`
+  align-items: center;
+  display: flex;
+  margin-right: 10px;
+  width: 340px;
+`;
+
+export const CriteriaLabel = styled.div`
+  margin-right: 10px;
+  width: 170px;
 `;
