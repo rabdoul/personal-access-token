@@ -3,12 +3,26 @@ import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import Icon from '@lectra/icon';
+import { Flags } from '@lectra/ld-react-feature-flags';
 
+import { withHelpTooltip, useHelpUrls } from '../base/Help';
 import { Activity } from '../model';
 import ActivityIndicator from './ActivityIndicator';
-import { withHelpTooltip, useHelpUrls } from '../base/Help';
 
 type Props = { activity: Activity; first: boolean; last: boolean; edited: boolean; invalid: boolean };
+
+const FlippedActivityItem: React.FC<Props> = props => {
+  return (
+    <Flags
+      flag="massprod-workflow-enabled"
+      fallbackRender={() => {
+        return !['generate-section-plan'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
+      }}
+    >
+      <ActivityItem {...props} />
+    </Flags>
+  );
+};
 
 const ActivityItem: React.FC<Props> = ({ activity, first, last, edited, invalid }) => {
   const { formatMessage } = useIntl();
@@ -54,4 +68,4 @@ const ActivityName = styled.span`
   min-width: 260px;
 `;
 
-export default ActivityItem;
+export default FlippedActivityItem;
