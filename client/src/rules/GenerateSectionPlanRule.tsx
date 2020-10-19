@@ -51,12 +51,12 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
   const isProductNumberLimited = statementResult.canLimitMarkerByProductNumber;
 
   const sectionPlanGenerationItems = [
-    { label: 'Automatic', value: '0' },
-    { label: 'Manual', value: '1' }
+    { label: formatMessage({ id: 'rule.generate.section.plan.generation.automatic' }), value: '0' },
+    { label: formatMessage({ id: 'rule.generate.section.plan.generation.manual' }), value: '1' }
   ];
   const groupDistributionItems = [
-    { title: 'Balance', value: '0' },
-    { title: 'Fill', value: '1' }
+    { title: formatMessage({ id: 'rule.generate.section.plan.distribution.balance' }), value: '0' },
+    { title: formatMessage({ id: 'rule.generate.section.plan.distribution.fill' }), value: '1' }
   ];
 
   return (
@@ -81,8 +81,8 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
             <ItemsSwitcher
               name="canLimitMarkerByProductNumber"
               items={[
-                { title: 'Yes', value: 'true' },
-                { title: 'No', value: 'false' }
+                { title: formatMessage({ id: 'common.yes' }), value: 'true' },
+                { title: formatMessage({ id: 'common.no' }), value: 'false' }
               ]}
               defaultValue={`${statementResult.canLimitMarkerByProductNumber}`}
               onChange={({ value }) =>
