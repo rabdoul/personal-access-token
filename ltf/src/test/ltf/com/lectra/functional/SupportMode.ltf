@@ -54,6 +54,18 @@ SCRIPT_START
 
    	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
+	paragraph -> Step Requirement
+
+    callScript -> subscript.activity_list.SelectActivity -> [ associate-cutting-requirements ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.SetPickerEmpty -> [ requirement , 0 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
 	channel -> close -> prodprocess 
 
    	comment1 -> Test success !

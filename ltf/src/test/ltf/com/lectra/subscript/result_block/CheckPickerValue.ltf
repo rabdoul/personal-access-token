@@ -1,16 +1,20 @@
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 Click the checkboox in sequencing activity
 
 SCRIPT_AUTHOR
 r.bancal
 
+SCRIPT_GROUPS
+
+
 SCRIPT_PARAMETERS
 
-    parameter0 -> value of the picker
-    parameter1 -> data-xlabel of the picker
+	parameter0 -> value of the picker
+	parameter1 -> data-xlabel of the picker
 	parameter2 -> data-resultblock-id (index of result block)
 
 SCRIPT_START
+
 	comment1 -> Check picker ${parameter1} of block result ${parameter2} has vlaue ${parameter0}
 
-	check -> text = ${parameter0} -> div [ data-xlabel = ${parameter0} ] -> div [ data-resultblock-id = ${parameter1} ]
+	check -> text = ${parameter0} -> div [ data-xlabel = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
