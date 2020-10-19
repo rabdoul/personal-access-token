@@ -9,7 +9,7 @@ type GetActivitiesQueryResponse = { activities: Activity[] }
 
 export type Activity = { order: number, enabled: boolean, reference: string, eligibleProcess: number[], eligibleConditions: any[] }
 
-const PROCESS_BY_OFFER: Record<string, number> = { MTO: 0, MTC: 1, MTM: 2, OD: 3 };
+const PROCESS_BY_OFFER: Record<string, number> = { MTO: 1, MTC: 2, MTM: 3, OD: 4 };
 
 export class ActivitiesResource {
 
