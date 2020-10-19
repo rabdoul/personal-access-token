@@ -17,6 +17,7 @@ import ValidateMarkerRule from './rules/ValidateMarkerRule';
 import AssociateCuttingActivitiesRule from './rules/AssociateCuttingActivitiesRule';
 import RollAssignmentRule from './rules/RollAssignmentRule';
 import GenerateSectionPlanRule from './rules/GenerateSectionPlanRule';
+import GenerateBatchRule from './rules/GenerateBatchRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -31,6 +32,7 @@ const ProductionProcessScreen = () => {
         <Switch>
           <Route exact path="/setup-sequencing" component={SequencingRule} />
           <Route exact path="/validate-mtm-product" component={ValidateMTMProductRule} />
+          <Route exact path="/generate-batch" component={GenerateBatchRule} />
           <Route exact path="/validate-marker" component={ValidateMarkerRule} />
           <Route exact path="/associate-cutting-requirements" component={AssociateCuttingRequirementsRule} />
           <Route exact path="/associate-cutting-activities" component={AssociateCuttingActivitiesRule} />
