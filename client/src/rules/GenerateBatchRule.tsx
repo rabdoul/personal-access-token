@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import styled from 'styled-components';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
@@ -42,39 +43,82 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
 
   return (
     <Form>
-      <FormLine>
-        <CheckBox disabled={disabled} checked={true} onChange={() => {}} xlabel="enableMaxPO" tickSize={13} />
-        {formatMessage({ id: 'generate.batch.enable.max.po.batch' })}
+      <FormLine style={{ marginBottom: '10px' }}>
+        <FormLabel>
+          <CheckBox
+            disabled={disabled}
+            checked={true}
+            onChange={() => {}}
+            xlabel="enableMaxPO"
+            tickSize={13}
+            label={formatMessage({ id: 'rule.generate.batch.enable.max.po.batch' })}
+          />
+        </FormLabel>
         <Input onBlur={evt => {}} type="number" disabled={disabled} width={50} numberMaxDigits={0} min={0} data-xlabel="maxPOPerBatch" />
       </FormLine>
       <FormLine>
-        {formatMessage({ id: 'generate.batch.group.orders.criteria' })}
+        <FormLabel>{formatMessage({ id: 'rule.generate.batch.group.orders.criteria' })}</FormLabel>
         <Select data-xlabel="groupOrderCriteria" listItems={[]} onChange={item => {}} width={50} disabled={disabled} />
       </FormLine>
-      <div>
-        <FormLine>
-          {formatMessage({ id: 'generate.batch.criteria' })}
-          <Select data-xlabel="criteria" listItems={[]} onChange={item => {}} disabled={disabled} />
+      <CriteriasBlock disabled={disabled} criteriaIndex={0} />
+    </Form>
+  );
+};
+
+const CriteriasBlock: React.FC<{ disabled: boolean; criteriaIndex: number }> = ({ disabled, criteriaIndex }) => {
+  const { formatMessage } = useIntl();
+
+  return (
+    <CriteriasContainer data-xrow={criteriaIndex} data-xlabel="criterias">
+      <FormLine style={{ marginBottom: '10px' }}>
+        <CriteriaLabel>{formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}</CriteriaLabel>
+        <Select data-xlabel="criteria" listItems={[]} onChange={item => {}} disabled={disabled} />
+        <ButtonGroup>
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => {}}>
             <Icon type="add" />
           </BasicButton>
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => {}}>
             <Icon type="delete" />
           </BasicButton>
-        </FormLine>
-        <FormLine>
-          {formatMessage({ id: 'generate.batch.component.category' })}
-          <Input onBlur={evt => {}} type="text" disabled={disabled} width={250} data-xlabel="componentCategory" />
-          <CheckBox disabled={disabled} checked={true} onChange={() => {}} xlabel="withContrast" tickSize={13} />
-          {formatMessage({ id: 'generate.batch.contrast' })}
-        </FormLine>
-        <FormLine>
-          {formatMessage({ id: 'generate.batch.material.usage' })}
-          <Input onBlur={evt => {}} type="text" disabled={disabled} width={250} data-xlabel="materialUsage" />
-        </FormLine>
-      </div>
-    </Form>
+        </ButtonGroup>
+      </FormLine>
+      <FormLine style={{ marginBottom: '10px' }}>
+        <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.component.category' })}</CriteriaLabel>
+        <Input onBlur={evt => {}} type="text" disabled={disabled} width={200} data-xlabel="componentCategory" />
+        <div style={{ marginLeft: '20px' }}>
+          <CheckBox disabled={disabled} checked={true} onChange={() => {}} xlabel="withContrast" tickSize={13} label={formatMessage({ id: 'rule.generate.batch.contrast' })} />
+        </div>
+      </FormLine>
+      <FormLine>
+        <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</CriteriaLabel>
+        <Input onBlur={evt => {}} type="text" disabled={disabled} width={200} data-xlabel="materialUsage" />
+      </FormLine>
+    </CriteriasContainer>
   );
 };
 
 export default GenerateBatchRule;
+
+const CriteriasContainer = styled.div`
+  border: 1px solid #333;
+  margin-top: 15px;
+  padding: 10px 20px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  margin-left: 40px;
+  gap: 10px;
+`;
+
+const FormLabel = styled.div`
+  align-items: center;
+  display: flex;
+  margin-right: 10px;
+  width: 340px;
+`;
+
+const CriteriaLabel = styled.div`
+  margin-right: 10px;
+  width: 170px;
+`;
