@@ -10,6 +10,7 @@ import { AssociateCuttingActivities } from './rules/AssociateCuttingActivitiesRu
 import { ValidateMarker } from './rules/ValidateMarkerRule';
 import { RollAssignment } from './rules/RollAssignmentRule';
 import { GenerateSectionPlan } from './rules/GenerateSectionPlanRule';
+import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
 import { GenerateBatch } from './rules/GenerateBatchRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
@@ -28,6 +29,7 @@ export type UIState = {
   'validate-marker'?: ActivityRule<ValidateMarker>;
   'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
   'generate-section-plan'?: ActivityRule<GenerateSectionPlan>;
+  'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
 };
 // end::uiState[]
 
@@ -61,6 +63,7 @@ export type Action =
   | UpdateStatementResult<'generate-batch', RollAssignment>
   | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'generate-section-plan', GenerateSectionPlan>
+  | UpdateStatementResult<'generate-spreading-plan', GenerateSpreadingPlan>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
