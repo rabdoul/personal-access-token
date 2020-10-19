@@ -6,6 +6,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -13,6 +14,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
+    font-display: swap;
   }
 
   @font-face {
@@ -20,6 +22,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -27,6 +30,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-LightItalic.ttf') format('truetype');
     font-weight: 300;
     font-style: italic;
+    font-display: swap;
   }
 
   @font-face {
@@ -34,6 +38,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -41,6 +46,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-SemiBold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -48,6 +54,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-SemiBoldItalic.ttf') format('truetype');
     font-weight: 600;
     font-style: italic;
+    font-display: swap;
   }
 
   @font-face {
@@ -55,6 +62,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -62,6 +70,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-BoldItalic.ttf') format('truetype');
     font-weight: bold;
     font-style: italic;
+    font-display: swap;
   }
 
   @font-face {
@@ -69,6 +78,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-ExtraBold.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -76,6 +86,7 @@ const GlobalStyle = styled.createGlobalStyle`
     src: url('https://assets.mylectra.com/fonts/OpenSans-ExtraBoldItalic.ttf') format('truetype');
     font-weight: 900;
     font-style: italic;
+    font-display: swap;
   }
 
   * {
