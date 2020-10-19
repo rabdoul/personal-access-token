@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import styled from 'styled-components';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
@@ -12,9 +11,21 @@ import { useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { Form, FormLine } from './common/styles';
+import { ButtonGroup, CriteriaLabel, CriteriasContainer, Form, FormLabel, FormLine } from './common/styles';
 
-export interface GenerateBatch extends StatementResult {}
+interface Criterion {
+  batchGenerationCriterionType: number;
+  componentCategory?: string;
+  componentMaterialUsage?: string;
+  isContrast?: boolean;
+}
+
+export interface GenerateBatch extends StatementResult {
+  batchGenerationType: number;
+  useMaxNumberOfOrder: boolean;
+  maxNumberOfOrders: number;
+  criterions?: Criterion[];
+}
 
 const GenerateBatchRule = () => {
   const { editMode } = useUIState();
@@ -47,25 +58,35 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
         <FormLabel>
           <CheckBox
             disabled={disabled}
-            checked={true}
+            checked={statementResult.useMaxNumberOfOrder ?? true}
             onChange={() => {}}
             xlabel="enableMaxPO"
             tickSize={13}
             label={formatMessage({ id: 'rule.generate.batch.enable.max.po.batch' })}
           />
         </FormLabel>
-        <Input onBlur={evt => {}} type="number" disabled={disabled} width={50} numberMaxDigits={0} min={0} data-xlabel="maxPOPerBatch" />
+        <Input onBlur={evt => {}} value={statementResult.maxNumberOfOrders} type="number" disabled={disabled} width={50} numberMaxDigits={0} min={0} data-xlabel="maxPOPerBatch" />
       </FormLine>
       <FormLine>
         <FormLabel>{formatMessage({ id: 'rule.generate.batch.group.orders.criteria' })}</FormLabel>
         <Select data-xlabel="groupOrderCriteria" listItems={[]} onChange={item => {}} width={50} disabled={disabled} />
       </FormLine>
-      <CriteriasBlock disabled={disabled} criteriaIndex={0} />
+      {statementResult.criterions &&
+        statementResult.criterions.map((criterion: Criterion, index: number) => {
+          return (
+            <CriteriasBlock key={`criterion-${index}`} disabled={disabled} criteriaIndex={index} criterion={criterion} criterionsLength={statementResult.criterions!.length} />
+          );
+        })}
     </Form>
   );
 };
 
-const CriteriasBlock: React.FC<{ disabled: boolean; criteriaIndex: number }> = ({ disabled, criteriaIndex }) => {
+const CriteriasBlock: React.FC<{ disabled: boolean; criteriaIndex: number; criterion: Criterion; criterionsLength: number }> = ({
+  disabled,
+  criteriaIndex,
+  criterion,
+  criterionsLength
+}) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -77,48 +98,31 @@ const CriteriasBlock: React.FC<{ disabled: boolean; criteriaIndex: number }> = (
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => {}}>
             <Icon type="add" />
           </BasicButton>
-          <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => {}}>
+          <BasicButton disabled={disabled || criterionsLength === 1} toggled={false} type="white" onClick={() => {}}>
             <Icon type="delete" />
           </BasicButton>
         </ButtonGroup>
       </FormLine>
       <FormLine style={{ marginBottom: '10px' }}>
         <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.component.category' })}</CriteriaLabel>
-        <Input onBlur={evt => {}} type="text" disabled={disabled} width={200} data-xlabel="componentCategory" />
+        <Input onBlur={evt => {}} value={criterion.componentCategory} type="text" disabled={disabled} width={200} data-xlabel="componentCategory" />
         <div style={{ marginLeft: '20px' }}>
-          <CheckBox disabled={disabled} checked={true} onChange={() => {}} xlabel="withContrast" tickSize={13} label={formatMessage({ id: 'rule.generate.batch.contrast' })} />
+          <CheckBox
+            disabled={disabled}
+            checked={criterion.isContrast ?? true}
+            onChange={() => {}}
+            xlabel="withContrast"
+            tickSize={13}
+            label={formatMessage({ id: 'rule.generate.batch.contrast' })}
+          />
         </div>
       </FormLine>
       <FormLine>
         <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</CriteriaLabel>
-        <Input onBlur={evt => {}} type="text" disabled={disabled} width={200} data-xlabel="materialUsage" />
+        <Input onBlur={evt => {}} value={criterion.componentMaterialUsage} type="text" disabled={disabled} width={200} data-xlabel="materialUsage" />
       </FormLine>
     </CriteriasContainer>
   );
 };
 
 export default GenerateBatchRule;
-
-const CriteriasContainer = styled.div`
-  border: 1px solid #333;
-  margin-top: 15px;
-  padding: 10px 20px;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  margin-left: 40px;
-  gap: 10px;
-`;
-
-const FormLabel = styled.div`
-  align-items: center;
-  display: flex;
-  margin-right: 10px;
-  width: 340px;
-`;
-
-const CriteriaLabel = styled.div`
-  margin-right: 10px;
-  width: 170px;
-`;
