@@ -1,0 +1,164 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> Step made to measure TEST -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ validate-marker , true ] -> 
+
+	comment1 -> Initial state : two checkboxes unclicked
+
+	callScript -> subscript.activity_list.SelectActivity -> [ validate-marker ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 100 , efficiency-upper-bound , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step MTM
+
+	callScript -> subscript.step_validate_marker.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 10 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 80 , efficiency-upper-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 10 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 80 , efficiency-upper-bound , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 100 , efficiency-upper-bound , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker , false ] -> 
+
+	paragraph -> Test that an error is issued when upper-bound is lower than lower bound
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 50 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 30 , efficiency-upper-bound , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 23 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 88 , efficiency-upper-bound , 0 ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTO ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , Material&space;nature , Contains , Linen ] -> 
+
+	comment1 -> Remove the product category and check the activity is in error
+
+	callScript -> subscript.conditions.RemoveRightOperandList -> [ 0-0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker ] -> 
+
+	callScript -> subscript.conditions.FillRightOperandList -> [ 0-0 , MTC/MTM ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 22 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 175 , efficiency-upper-bound , 0 ] -> 
+
+	comment1 -> Activity in error : efficiency cannot be higher than 100%
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 75 , efficiency-upper-bound , 0 ] -> 
+
+	paragraph -> Add another conditional block
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Marker&space;length , Is&space;greater&space;than , azs85 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Material&space;type , Is&space;different&space;from , Plaid ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 1-1 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 1-2 , Supplier , Is&space;equal&space;to , Textile-producer-INC ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 1-2 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 1-3 , Recut , Is&space;equal&space;to , True ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 95 , efficiency-upper-bound , 1 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 44 , efficiency-lower-bound , 1 ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker , false ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTC/MTM ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Material&space;nature , Contains , Linen ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Marker&space;length , Is&space;greater&space;than , 85 ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Material&space;type , Is&space;different&space;from , Plaid ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-2 , Supplier , Is&space;equal&space;to , Textile-producer-INC ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-3 , Recut , Is&space;equal&space;to , True ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 22 , efficiency-lower-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 44 , efficiency-lower-bound , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 23 , efficiency-lower-bound , 2 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 75 , efficiency-upper-bound , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 95 , efficiency-upper-bound , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 88 , efficiency-upper-bound , 2 ] -> 
+
+	paragraph -> Test online help
+
+	callScript -> subscript.ribbon.CheckOnlineHelp -> [ validate-marker , marker-validblock ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

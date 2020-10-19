@@ -1,8 +1,11 @@
-SCRIPT_DESCRIPTION
-Check all options of left operands for step mtm conditions
+﻿SCRIPT_DESCRIPTION
+Check all options of left operands and associated operator for step mtm conditions
 
 SCRIPT_AUTHOR
 r.bancal
+
+SCRIPT_GROUPS
+
 
 SCRIPT_START
 
@@ -12,28 +15,104 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-mtm-product ] -> 
 
-	callScript -> subscript.conditions.UnfoldList -> [ 0-0 , left-operand ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;order ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Product&space;order ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Priority ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Sales&space;point ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Production&space;site ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Priority ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Product ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Product&space;family ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Product&space;category ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;greater&space;than ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Offer ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;lower&space;than ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Grading ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Sales&space;point ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Special&space;grading&space;1 ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
 
-	callScript -> subscript.conditions.CheckLeftOperand -> [ Special&space;grading&space;2 ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Production&space;site ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	//callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product ] -> 
+
+	//callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;family ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;category ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Offer ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Grading ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Special&space;grading&space;1 ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Special&space;grading&space;2 ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
 	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
