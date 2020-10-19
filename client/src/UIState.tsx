@@ -10,6 +10,7 @@ import { AssociateCuttingActivities } from './rules/AssociateCuttingActivitiesRu
 import { ValidateMarker } from './rules/ValidateMarkerRule';
 import { RollAssignment } from './rules/RollAssignmentRule';
 import { GenerateSectionPlan } from './rules/GenerateSectionPlanRule';
+import { GenerateBatch } from './rules/GenerateBatchRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -20,6 +21,7 @@ export type UIState = {
   invalidRules: Set<ActivityId>;
   'setup-sequencing'?: ActivityRule<Sequencing>;
   'validate-mtm-product'?: ActivityRule<ValidateMTMProduct>;
+  'generate-batch'?: ActivityRule<GenerateBatch>;
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
   publish?: ActivityRule<Publish>;
   'associate-cutting-activities'?: ActivityRule<AssociateCuttingActivities>;
@@ -56,6 +58,7 @@ export type Action =
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
+  | UpdateStatementResult<'generate-batch', RollAssignment>
   | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
