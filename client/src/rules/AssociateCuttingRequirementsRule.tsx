@@ -58,6 +58,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
         <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'cutting.requirement' })}</label>
         <DropDownSearch
           data-xlabel="requirement"
+          data-xvalue={statementResult.requirementId ? statementResult.requirementId : 'none'}
           id={`requirement-${statementIndex}`}
           listItems={requirements}
           value={statementResult.requirementId}

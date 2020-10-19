@@ -1,0 +1,13 @@
+SCRIPT_DESCRIPTION
+Check operator is available in list
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> operator
+
+SCRIPT_START
+
+	check -> exists = true -> div [ text = ${parameter0} ] -> div [ data-xlabel = operator ]

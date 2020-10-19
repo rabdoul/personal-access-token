@@ -42,6 +42,18 @@ SCRIPT_START
 
    	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
+	paragraph -> Step Marker Validation
+
+    callScript -> subscript.activity_list.SelectActivity -> [ validate-marker ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 95 , efficiency-upper-bound , 1 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
 	channel -> close -> prodprocess 
 
    	comment1 -> Test success !

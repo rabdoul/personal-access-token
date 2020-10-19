@@ -1,5 +1,19 @@
 ﻿SCRIPT_DESCRIPTION
-
+Test of step validate made to measure :
+-> Conditional blocks
+   Values of conditions : 
+	Product order     (single-text)
+	Priority          (numeric)
+	Sales point       (single-text)
+	Production site   (multi-text)
+	Product           (multi-text)
+	Product family    (multi-text)
+	Product category  (list)
+	Offer             (multi-text)
+	Grading           (multi-text)
+	Special grading 1 (multi-text)
+	Special grading 2 (multi-text)
+-> Two checkboxes (default unchecked)
 
 SCRIPT_AUTHOR
 r.bancal
@@ -13,7 +27,7 @@ SCRIPT_START
 
 	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
 
-	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
 
@@ -29,7 +43,7 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ stopOnIncorrectValueWarning , 0 ] -> 
 
-    paragraph -> Check all options in conditional list of step MTM
+	paragraph -> Check all options in conditional list of step MTM
 
 	callScript -> subscript.step_mtm.CheckLeftOperands -> [  ] -> 
 
@@ -57,7 +71,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , true ] -> 
 
-	paragraph -> Add conditional block with two condition
+	paragraph -> Add conditional block with two conditions
 
 	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
 
@@ -75,7 +89,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-mtm-product ] -> 
 
-  	callScript -> subscript.conditions.FillRightOperandList -> [ 0-1 , Coat ] ->
+	callScript -> subscript.conditions.FillRightOperandList -> [ 0-1 , Coat ] -> 
 
 	callScript -> subscript.result_block.ClickCheckbox -> [ stopOnOutOfRangeWarning , 0 ] -> 
 

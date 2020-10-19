@@ -1,0 +1,9 @@
+SCRIPT_DESCRIPTION
+Check that there is a left operator displayed (for now, only "At least one" is available)
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+	check -> exists = true -> div [ data-xlabel = multipleOperator ]

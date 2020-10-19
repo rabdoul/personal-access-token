@@ -58,6 +58,7 @@ const AssociateCuttingActivitiesResultForm: React.FC<StatementResultFormProps<As
         <label htmlFor={`activity-${statementIndex}`}>{formatMessage({ id: 'cutting.activity' })}</label>
         <DropDownSearch
           data-xlabel="activity"
+          data-xvalue={statementResult.activityId ? statementResult.activityId : 'none'}
           id={`activity-${statementIndex}`}
           listItems={activities}
           value={statementResult.activityId}

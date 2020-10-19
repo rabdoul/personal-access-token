@@ -1,0 +1,15 @@
+SCRIPT_DESCRIPTION
+Select left operand and unfold operator list
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> left operand
+
+SCRIPT_START
+
+	callScript -> subscript.conditions.FillLeftOperand -> [ 0-0 , ${parameter0} ] -> 
+
+	callScript -> subscript.conditions.UnfoldList -> [ 0-0 , operator ] -> 

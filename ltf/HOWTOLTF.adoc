@@ -1,0 +1,7 @@
+= How to add a LTF test for new activity
+
+== 🙈 
+
+Add a new functional test for the rule in `ltf/src/test/tlf/com/lectra/functional`
+
+
