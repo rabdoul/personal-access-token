@@ -163,7 +163,7 @@ export const EfficiencyImg = styled.div`
   width: 280px;
 `;
 
-export const CriteriasContainer = styled.div`
+export const CriterionsContainer = styled.div`
   border: 1px solid #333;
   margin-top: 15px;
   padding: 10px 20px;

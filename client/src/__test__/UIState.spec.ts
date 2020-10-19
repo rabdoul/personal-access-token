@@ -533,10 +533,45 @@ describe('UIState', () => {
   });
 
   describe('generate batch', () => {
+    it('should add criteria', () => {
+      const initialState: UIState = {
+        editMode: true,
+        editedRules: new Set(['generate-batch']),
+        invalidRules: new Set(),
+        'generate-batch': [
+          {
+            conditions: [],
+            result: {
+              batchGenerationType: 1,
+              useMaxNumberOfOrder: true,
+              maxNumberOfOrders: 100
+            }
+          }
+        ]
+      };
+
+      const uiState = reducer(initialState, {
+        type: 'ADD_CRITERIA_GENERATE_BATCH',
+        statementIndex: 0
+      });
+
+      expect(uiState['generate-batch']).toEqual([
+        {
+          conditions: [],
+          result: {
+            batchGenerationType: 1,
+            useMaxNumberOfOrder: true,
+            maxNumberOfOrders: 100,
+            criterions: [{}]
+          }
+        }
+      ]);
+    });
+
     it('should remove all criterions', () => {
       const initialState: UIState = {
         editMode: true,
-        editedRules: new Set(['setup-sequencing']),
+        editedRules: new Set(['generate-batch']),
         invalidRules: new Set(),
         'generate-batch': [
           {
