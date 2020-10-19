@@ -7,7 +7,7 @@ import Icon from '@lectra/icon';
 import BasicButton from '@lectra/basicbutton';
 
 import { StatementResult } from '../model';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
@@ -19,7 +19,7 @@ const GenerateBatchRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('generate-batch');
   const activityConfiguration = useActivityConfiguration('generate-batch');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
+  // const activityId = activityConfiguration?.id as ActivityId | undefined;
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -34,7 +34,7 @@ const GenerateBatchRule = () => {
 
 const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
-  const dispatch = useUIDispatch();
+  // const dispatch = useUIDispatch();
 
   // const updateGenrateBatch = (attribute: keyof GenerateBatch, value: any) => {
   //   dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-batch', statementIndex, attribute, value });
