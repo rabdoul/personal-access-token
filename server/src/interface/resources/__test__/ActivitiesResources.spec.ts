@@ -68,10 +68,10 @@ describe('ActivitiesResource', () => {
         mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', [{ offer: 'MTO', market: 'FA' }, { offer: 'MTC', market: 'FA' }]))
         const activities = ActivitiesResource.toActivities({
             activities: [
-                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
-                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2], eligibleConditions: [] },
-                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3], eligibleConditions: [] },
-                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [1, 3], eligibleConditions: [] }
+                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [0], eligibleConditions: [] },
+                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
+                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [2], eligibleConditions: [] },
+                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [0, 2], eligibleConditions: [] }
             ]
         });
 

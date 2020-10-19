@@ -22,6 +22,7 @@ import { RulesResource } from "./resources/RulesResource";
 import { ProductCategoriesResource } from "./resources/ProductCategoriesResource";
 import { MaterialGroupsResource } from "./resources/MaterialSpecsResource";
 import { RequirementsResource } from "./resources/CutParametersResource";
+import { OffloadingRulesResource } from "./resources/OffloadingRulesResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -90,6 +91,7 @@ export class ExpressServer {
     authenticatedRouter.use(new ProductCategoriesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new MaterialGroupsResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new RequirementsResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new OffloadingRulesResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }
 
