@@ -66,7 +66,7 @@ const OffloadingResultForm: React.FC<StatementResultFormProps<Offloading>> = ({ 
         <label htmlFor={`offloadingRule-${statementIndex}`}>{formatMessage({ id: 'step.offloading.rule' })}</label>
         <DropDownSearch
           data-xlabel="offloading-rule"
-          id={`offloading-rule-${statementIndex}`}
+          data-xvalue={statementResult.offloadingRuleId ? statementResult.offloadingRuleId : 'none'}
           listItems={offloadingRules}
           value={statementResult.offloadingRuleId}
           onChange={handleOffloadingRuleChange}

@@ -61,7 +61,6 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
         <DropDownSearch
           data-xlabel="requirement"
           data-xvalue={statementResult.requirementId ? statementResult.requirementId : 'none'}
-          id={`requirement-${statementIndex}`}
           listItems={requirements}
           value={statementResult.requirementId}
           onChange={handleRequierementChange}

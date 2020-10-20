@@ -61,7 +61,6 @@ const AssociateCuttingActivitiesResultForm: React.FC<StatementResultFormProps<As
         <DropDownSearch
           data-xlabel="activity"
           data-xvalue={statementResult.activityId ? statementResult.activityId : 'none'}
-          id={`activity-${statementIndex}`}
           listItems={activities}
           value={statementResult.activityId}
           onChange={handleRequierementChange}
