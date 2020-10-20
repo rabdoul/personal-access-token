@@ -7,11 +7,13 @@ import Icon from '@lectra/icon';
 import BasicButton from '@lectra/basicbutton';
 
 import { StatementResult } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
+import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
+import useRuleValidator from './common/useRuleValidator';
+import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 
 export type Criteria = Partial<{
   batchGenerationCriterionType: number;
@@ -27,11 +29,20 @@ export interface GenerateBatch extends StatementResult {
   criterions?: Criteria[];
 }
 
+const isMaxNumberOfOrdersValid = (maxNumberOfOrders?: number) => {
+  return maxNumberOfOrders !== undefined && maxNumberOfOrders > 0;
+};
+
+const validateStatementResult = (result: Partial<GenerateBatch>) => {
+  return isMaxNumberOfOrdersValid(result.maxNumberOfOrders);
+};
+
 const GenerateBatchRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('generate-batch');
   const activityConfiguration = useActivityConfiguration('generate-batch');
-  // const activityId = activityConfiguration?.id as ActivityId | undefined;
+  const activityId = activityConfiguration?.id as ActivityId | undefined;
+  useRuleValidator(activityId, rule, validateStatementResult);
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -86,11 +97,13 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           onBlur={evt => updateGenerateBatch('maxNumberOfOrders', parseInt(evt.target.value))}
           value={statementResult.maxNumberOfOrders}
           type="number"
-          disabled={disabled}
+          disabled={disabled || !statementResult.useMaxNumberOfOrder}
           width={50}
           numberMaxDigits={0}
           min={0}
           data-xlabel="maxPOPerBatch"
+          error={!isMaxNumberOfOrdersValid(statementResult.maxNumberOfOrders)}
+          icon={MANDATORY_FIELD_ERROR}
         />
       </FormLine>
       <FormLine>
