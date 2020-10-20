@@ -18,6 +18,7 @@ import AssociateCuttingActivitiesRule from './rules/AssociateCuttingActivitiesRu
 import RollAssignmentRule from './rules/RollAssignmentRule';
 import GenerateSectionPlanRule from './rules/GenerateSectionPlanRule';
 import GenerateBatchRule from './rules/GenerateBatchRule';
+import GenerateCuttingOrder from './rules/GenerateCuttingOrder';
 import GenerateSpreadingPlanRule from './rules/GenerateSpreadingPlanRule';
 import OffloadingRule from './rules/OffloadingRule';
 
@@ -41,6 +42,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/publish" component={PublishRule} />
           <Route exact path="/after-nesting-roll-allocation" component={RollAssignmentRule} />
           <Route exact path="/generate-section-plan" component={GenerateSectionPlanRule} />
+          <Route exact path="/generate-cutting-order" component={GenerateCuttingOrder} />
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />
           <Route
