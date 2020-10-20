@@ -44,7 +44,6 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
     { label: formatMessage({ id: 'rule.generate.spreading.plan.split.equivalent' }), value: '1' },
     { label: formatMessage({ id: 'rule.generate.spreading.plan.split.maximize' }), value: '2' }
   ];
-
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <FormLine>
@@ -52,7 +51,7 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
         <StyledSelect
           name="spreadingPlanGeneration"
           listItems={generationModeItems}
-          value={`${statementResult.spreadingPlanGeneration}`}
+          value={statementResult.spreadingPlanGeneration?.toString()}
           onChange={({ value }) =>
             dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-spreading-plan', statementIndex, attribute: 'spreadingPlanGeneration', value: parseInt(value) })
           }
@@ -66,7 +65,7 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
           <StyledSelect
             name="spreadingPlanDistribution"
             listItems={distributionModeItems}
-            value={`${statementResult.spreadingPlanDistribution}`}
+            value={statementResult.spreadingPlanDistribution?.toString()}
             onChange={({ value }) =>
               dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-spreading-plan', statementIndex, attribute: 'spreadingPlanDistribution', value: parseInt(value) })
             }
