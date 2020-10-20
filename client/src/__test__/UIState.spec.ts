@@ -619,6 +619,63 @@ describe('UIState', () => {
       ]);
     });
 
+    it('should remove one criteria', () => {
+      const initialState: UIState = {
+        editMode: true,
+        editedRules: new Set(['generate-batch']),
+        invalidRules: new Set(),
+        'generate-batch': [
+          {
+            conditions: [],
+            result: {
+              batchGenerationType: 1,
+              useMaxNumberOfOrder: true,
+              maxNumberOfOrders: 100,
+              criterions: [
+                {
+                  batchGenerationCriterionType: 0,
+                  componentCategory: 'compCat',
+                  componentMaterialUsage: 'matUsage',
+                  isContrast: false
+                },
+                {
+                  batchGenerationCriterionType: 0,
+                  componentCategory: 'compCat2',
+                  componentMaterialUsage: 'matUsage2',
+                  isContrast: true
+                }
+              ]
+            }
+          }
+        ]
+      };
+
+      const uiState = reducer(initialState, {
+        type: 'DELETE_CRITERIA_GENERATE_BATCH',
+        statementIndex: 0,
+        criteriaIndex: 1
+      });
+
+      expect(uiState['generate-batch']).toEqual([
+        {
+          conditions: [],
+          result: {
+            batchGenerationType: 1,
+            useMaxNumberOfOrder: true,
+            maxNumberOfOrders: 100,
+            criterions: [
+              {
+                batchGenerationCriterionType: 0,
+                componentCategory: 'compCat',
+                componentMaterialUsage: 'matUsage',
+                isContrast: false
+              }
+            ]
+          }
+        }
+      ]);
+    });
+
     it('should remove all criterions', () => {
       const initialState: UIState = {
         editMode: true,

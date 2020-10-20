@@ -16,6 +16,18 @@ export const Form = styled.form`
   }
 `;
 
+export const Result = styled.div`
+  span {
+    font-weight: lighter;
+    font-size: 14px;
+  }
+
+  [data-testId='CheckboxComponent'] {
+    height: 14px;
+    width: 14px;
+  }
+`;
+
 export const FormLine = withHelpTooltip(styled.div`
   align-items: center;
   display: flex;

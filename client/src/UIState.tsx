@@ -59,6 +59,7 @@ export type Action =
   | { type: 'VALIDATE_RULE'; activityId: ActivityId }
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
   | { type: 'ADD_CRITERIA_GENERATE_BATCH'; statementIndex: number }
+  | { type: 'DELETE_CRITERIA_GENERATE_BATCH'; statementIndex: number; criteriaIndex: number }
   | { type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH'; statementIndex: number }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
@@ -161,6 +162,14 @@ export const reducer = (state: UIState, action: Action): UIState => {
           } else {
             draft[action.statementIndex].result.criterions = [{}];
           }
+        })
+      };
+
+    case 'DELETE_CRITERIA_GENERATE_BATCH':
+      return {
+        ...state,
+        'generate-batch': produce(state['generate-batch']!, draft => {
+          draft[action.statementIndex].result.criterions!.splice(action.criteriaIndex, 1);
         })
       };
 

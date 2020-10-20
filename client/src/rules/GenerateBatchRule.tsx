@@ -11,7 +11,7 @@ import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { ButtonGroup, CriteriaLabel, CriterionsContainer, Form, FormLabel, FormLine, StyledSmallSelect } from './common/styles';
+import { ButtonGroup, CriteriaLabel, CriterionsContainer, Form, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
 
 type Criteria = Partial<{
   batchGenerationCriterionType: number;
@@ -67,7 +67,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
   ];
 
   return (
-    <Form>
+    <Result>
       <FormLine style={{ marginBottom: '10px' }}>
         <FormLabel>
           <CheckBox
@@ -116,7 +116,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
             />
           );
         })}
-    </Form>
+    </Result>
   );
 };
 
@@ -145,7 +145,12 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })}>
             <Icon type="add" />
           </BasicButton>
-          <BasicButton disabled={disabled || criterionsLength === 1} toggled={false} type="white" onClick={() => {}}>
+          <BasicButton
+            disabled={disabled || criterionsLength === 1}
+            toggled={false}
+            type="white"
+            onClick={() => dispatch({ type: 'DELETE_CRITERIA_GENERATE_BATCH', statementIndex, criteriaIndex })}
+          >
             <Icon type="delete" />
           </BasicButton>
         </ButtonGroup>
