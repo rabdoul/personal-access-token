@@ -10,7 +10,7 @@ SANITYCHECK TESTS
 
 SCRIPT_START
 
-	chapter -> Step roll assignment test -> Web production process -> 
+	chapter -> ***** Step roll assignment test ***** -> Web production process -> 
 
 	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
 

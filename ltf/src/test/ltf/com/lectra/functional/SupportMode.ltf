@@ -10,7 +10,7 @@ SANITYCHECK TESTS
 
 SCRIPT_START
 
-	chapter -> SupportMode -> Web production process -> 
+	chapter -> ***** SupportMode TEST ***** -> Web production process -> 
 
 	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
 
@@ -97,6 +97,20 @@ SCRIPT_START
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
 	callScript -> subscript.result_block.ClickCheckbox -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	paragraph -> Step roll assignment
+
+    callScript -> subscript.activity_list.SelectActivity -> [ assist-offloading ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.SetPickerEmpty -> [ offloading-rule , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ ssDefault-OffloadingRules , offloading-rule , 0 ] -> 
 
 	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
 

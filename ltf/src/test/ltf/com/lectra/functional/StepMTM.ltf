@@ -23,7 +23,7 @@ SANITYCHECK TESTS
 
 SCRIPT_START
 
-	chapter -> Step made to measure TEST -> Web production process -> 
+	chapter -> ***** Step made to measure TEST ***** -> Web production process -> 
 
 	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
 
