@@ -36,7 +36,7 @@ export const FormLine = withHelpTooltip(styled.div`
   margin: 2px 0;
 
   label {
-    margin-right: 5px;
+    margin-right: 20px;
   }
 `);
 
@@ -183,7 +183,7 @@ export const CriterionsContainer = styled.div`
 
 export const ButtonGroup = styled.div`
   display: flex;
-  margin-left: 40px;
+  margin-left: 99px;
   gap: 10px;
 `;
 

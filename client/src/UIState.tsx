@@ -11,7 +11,8 @@ import { ValidateMarker } from './rules/ValidateMarkerRule';
 import { RollAssignment } from './rules/RollAssignmentRule';
 import { GenerateSectionPlan } from './rules/GenerateSectionPlanRule';
 import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
-import { GenerateBatch } from './rules/GenerateBatchRule';
+import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
+import { Offloading } from './rules/OffloadingRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -30,6 +31,7 @@ export type UIState = {
   'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
   'generate-section-plan'?: ActivityRule<GenerateSectionPlan>;
   'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
+  'assist-offloading'?: ActivityRule<Offloading>;
 };
 // end::uiState[]
 
@@ -61,6 +63,7 @@ export type Action =
   | { type: 'ADD_CRITERIA_GENERATE_BATCH'; statementIndex: number }
   | { type: 'DELETE_CRITERIA_GENERATE_BATCH'; statementIndex: number; criteriaIndex: number }
   | { type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH'; statementIndex: number }
+  | { type: 'UPDATE_CRITERIA_GENERATE_BATCH'; statementIndex: number; criteriaIndex: number; attribute: keyof Criteria; value: any }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
   | UpdateStatementResult<'generate-batch', GenerateBatch>
@@ -70,7 +73,8 @@ export type Action =
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
-  | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>;
+  | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>
+  | UpdateStatementResult<'assist-offloading', Offloading>;
 // end::action[]
 
 enableMapSet();
@@ -178,6 +182,19 @@ export const reducer = (state: UIState, action: Action): UIState => {
         ...state,
         'generate-batch': produce(state['generate-batch']!, draft => {
           (draft[action.statementIndex].result as any).criterions = null;
+        })
+      };
+
+    case 'UPDATE_CRITERIA_GENERATE_BATCH':
+      return {
+        ...state,
+        editedRules: new Set([...state.editedRules, 'generate-batch']),
+        'generate-batch': produce(state['generate-batch']!, draft => {
+          if (action.attribute === 'batchGenerationCriterionType' && action.value !== 0) {
+            (draft[action.statementIndex].result.criterions![action.criteriaIndex] as any) = { batchGenerationCriterionType: action.value };
+          } else {
+            (draft[action.statementIndex].result.criterions![action.criteriaIndex] as any)[action.attribute] = action.value;
+          }
         })
       };
   }

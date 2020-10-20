@@ -11,9 +11,9 @@ import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { ButtonGroup, CriteriaLabel, CriterionsContainer, Form, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
+import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
 
-type Criteria = Partial<{
+export type Criteria = Partial<{
   batchGenerationCriterionType: number;
   componentCategory: string;
   componentMaterialUsage: string;
@@ -57,6 +57,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
       dispatch({ type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH', statementIndex });
     } else {
       dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex });
+      updateGenerateBatch('useMaxNumberOfOrder', true);
     }
     updateGenerateBatch('batchGenerationType', value);
   };
@@ -72,7 +73,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
         <FormLabel>
           <CheckBox
             disabled={disabled}
-            checked={statementResult.useMaxNumberOfOrder ?? true}
+            checked={statementResult.useMaxNumberOfOrder ? statementResult.useMaxNumberOfOrder : false}
             onChange={(value: any) => {
               if (statementResult.batchGenerationType === 0) updateGenerateBatch('useMaxNumberOfOrder', value);
             }}
@@ -136,11 +137,22 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
     { label: formatMessage({ id: 'common.criteria.order.date' }), value: '2' }
   ];
 
+  const updateCriteria = (attribute: keyof Criteria, value: any) => {
+    dispatch({ type: 'UPDATE_CRITERIA_GENERATE_BATCH', statementIndex, criteriaIndex, attribute, value });
+  };
+
   return (
     <CriterionsContainer data-xrow={criteriaIndex} data-xlabel="criterions">
       <FormLine style={{ marginBottom: '10px' }}>
         <CriteriaLabel>{formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}</CriteriaLabel>
-        <Select data-xlabel="criteria" listItems={criteriaItems} onChange={item => {}} disabled={disabled} value={`${criteria.batchGenerationCriterionType}`} width={120} />
+        <Select
+          data-xlabel="criteria"
+          listItems={criteriaItems}
+          onChange={item => updateCriteria('batchGenerationCriterionType', parseInt(item.value))}
+          disabled={disabled}
+          value={`${criteria.batchGenerationCriterionType}`}
+          width={120}
+        />
         <ButtonGroup>
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })}>
             <Icon type="add" />
@@ -159,12 +171,19 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
         <>
           <FormLine style={{ marginBottom: '10px' }}>
             <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.component.category' })}</CriteriaLabel>
-            <Input onBlur={evt => {}} value={criteria.componentCategory} type="text" disabled={disabled} width={200} data-xlabel="componentCategory" />
+            <Input
+              onBlur={evt => updateCriteria('componentCategory', evt.target.value)}
+              value={criteria.componentCategory}
+              type="text"
+              disabled={disabled}
+              width={200}
+              data-xlabel="componentCategory"
+            />
             <div style={{ marginLeft: '20px' }}>
               <CheckBox
                 disabled={disabled}
-                checked={criteria.isContrast ?? true}
-                onChange={() => {}}
+                checked={criteria.isContrast ? criteria.isContrast : false}
+                onChange={value => updateCriteria('isContrast', value)}
                 xlabel="withContrast"
                 tickSize={13}
                 label={formatMessage({ id: 'rule.generate.batch.contrast' })}
@@ -173,7 +192,14 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
           </FormLine>
           <FormLine>
             <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</CriteriaLabel>
-            <Input onBlur={evt => {}} value={criteria.componentMaterialUsage} type="text" disabled={disabled} width={200} data-xlabel="materialUsage" />
+            <Input
+              onBlur={evt => updateCriteria('componentMaterialUsage', evt.target.value)}
+              value={criteria.componentMaterialUsage}
+              type="text"
+              disabled={disabled}
+              width={200}
+              data-xlabel="materialUsage"
+            />
           </FormLine>
         </>
       )}
