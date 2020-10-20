@@ -58,6 +58,7 @@ export type Action =
   | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
   | { type: 'VALIDATE_RULE'; activityId: ActivityId }
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
+  | { type: 'ADD_CRITERIA_GENERATE_BATCH'; statementIndex: number }
   | { type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH'; statementIndex: number }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
@@ -151,10 +152,22 @@ export const reducer = (state: UIState, action: Action): UIState => {
         })
       };
 
+    case 'ADD_CRITERIA_GENERATE_BATCH':
+      return {
+        ...state,
+        'generate-batch': produce(state['generate-batch']!, draft => {
+          if (draft[action.statementIndex].result.criterions) {
+            draft[action.statementIndex].result.criterions!.push({});
+          } else {
+            draft[action.statementIndex].result.criterions = [{}];
+          }
+        })
+      };
+
     case 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH':
       return {
         ...state,
-        ['generate-batch']: produce(state['generate-batch']!, draft => {
+        'generate-batch': produce(state['generate-batch']!, draft => {
           (draft[action.statementIndex].result as any).criterions = null;
         })
       };
