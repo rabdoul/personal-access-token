@@ -36,7 +36,7 @@ export const FormLine = withHelpTooltip(styled.div`
   margin: 2px 0;
 
   label {
-    margin-right: 5px;
+    margin-right: 20px;
   }
 `);
 
