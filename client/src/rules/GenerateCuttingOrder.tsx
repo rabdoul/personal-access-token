@@ -56,8 +56,7 @@ const GenerateCuttingOrderForm: React.FC<StatementResultFormProps<GenerateCuttin
       <FormLine helpUrl={cuttingOrderModeHelpUrl[0]}>
         <SelectLabel>{formatMessage({ id: 'rule.generate.cutting.order.generation.mode' })}</SelectLabel>
         <Select
-          name="cuttingOrderProductGrouping"
-          x-label="cuttingOrderProductGrouping"
+          data-xlabel="cuttingOrderProductGrouping"
           listItems={productGroupingListItems}
           value={`${statementResult.productGrouping ?? 4}`}
           onChange={({ value }) =>
@@ -68,12 +67,10 @@ const GenerateCuttingOrderForm: React.FC<StatementResultFormProps<GenerateCuttin
         />
       </FormLine>
       {statementResult.productGrouping !== 4 && statementResult.productGrouping !== undefined ? (
-        <FormLine helpUrl={cuttingOrderModeHelpUrl[0]}>
+        <FormLine helpUrl={cuttingOrderModeHelpUrl[0]} style={{ marginTop: '10px' }}>
           <SelectLabel>{formatMessage({ id: 'rule.generate.cutting.order.material.grouping' })}</SelectLabel>
           <Select
-            name="cuttingOrderMaterialGrouping"
-            x-label="cuttingOrderMaterialGrouping"
-            style={{ marginTop: '10px' }}
+            data-xlabel="cuttingOrderMaterialGrouping"
             listItems={materialGroupingListItems}
             value={`${statementResult.materialGrouping ?? 0}`}
             onChange={({ value }) =>
