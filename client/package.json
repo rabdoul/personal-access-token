@@ -14,7 +14,7 @@
     "@lectra/itemsswitcher": "1.2.2",
     "@lectra/ld-react-feature-flags": "1.0.39",
     "@lectra/loader": "1.0.7",
-    "@lectra/select": "2.2.0",
+    "@lectra/select": "2.2.1",
     "@lectra/spantooltip": "1.0.6",
     "@lectra/themes": "1.1.2",
     "@lectra/tooltip": "1.0.7",

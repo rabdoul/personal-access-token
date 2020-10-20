@@ -60,9 +60,8 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <FormLine>
-        <label htmlFor="spreadingPlanGeneration">{formatMessage({ id: 'rule.generate.spreading.plan.generation.mode' })}</label>
+        <label>{formatMessage({ id: 'rule.generate.spreading.plan.generation.mode' })}</label>
         <StyledSelect
-          name="spreadingPlanGeneration"
           listItems={generationModeItems}
           value={statementResult.spreadingPlanGeneration?.toString()}
           onChange={({ value }) =>
@@ -76,9 +75,8 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
       </FormLine>
       {statementResult.spreadingPlanGeneration === 0 && (
         <FormLine>
-          <label htmlFor="spreadingPlanDistribution">{formatMessage({ id: 'rule.generate.spreading.plan.distribution.mode' })}</label>
+          <label>{formatMessage({ id: 'rule.generate.spreading.plan.distribution.mode' })}</label>
           <StyledSelect
-            name="spreadingPlanDistribution"
             listItems={distributionModeItems}
             value={statementResult.spreadingPlanDistribution?.toString()}
             onChange={({ value }) =>

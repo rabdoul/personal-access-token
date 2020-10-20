@@ -62,9 +62,8 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <FormLine>
-        <label htmlFor="sectionPlanGeneration">{formatMessage({ id: 'rule.generate.section.plan.generation.mode' })}</label>
+        <label>{formatMessage({ id: 'rule.generate.section.plan.generation.mode' })}</label>
         <StyledSelect
-          name="sectionPlanGeneration"
           listItems={sectionPlanGenerationItems}
           value={statementResult.sectionPlanGeneration?.toString()}
           onChange={({ value }) =>
