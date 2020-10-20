@@ -105,19 +105,31 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
       </FormLine>
       {statementResult.criterions &&
         statementResult.criterions.map((criteria: Criteria, index: number) => {
-          return <CriterionsBlock key={`criteria-${index}`} disabled={disabled} criteriaIndex={index} criteria={criteria} criterionsLength={statementResult.criterions!.length} />;
+          return (
+            <CriterionsBlock
+              key={`criteria-${index}`}
+              disabled={disabled}
+              criteriaIndex={index}
+              criteria={criteria}
+              criterionsLength={statementResult.criterions!.length}
+              statementIndex={statementIndex}
+            />
+          );
         })}
     </Form>
   );
 };
 
-const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; criteria: Criteria; criterionsLength: number }> = ({
+const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; criteria: Criteria; criterionsLength: number; statementIndex: number }> = ({
   disabled,
   criteriaIndex,
   criteria,
-  criterionsLength
+  criterionsLength,
+  statementIndex
 }) => {
   const { formatMessage } = useIntl();
+  const dispatch = useUIDispatch();
+
   const criteriaItems = [
     { label: formatMessage({ id: 'common.criteria.material' }), value: '0' },
     { label: formatMessage({ id: 'common.criteria.delivery.date' }), value: '1' },
@@ -130,7 +142,7 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
         <CriteriaLabel>{formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}</CriteriaLabel>
         <Select data-xlabel="criteria" listItems={criteriaItems} onChange={item => {}} disabled={disabled} value={`${criteria.batchGenerationCriterionType}`} width={120} />
         <ButtonGroup>
-          <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => {}}>
+          <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })}>
             <Icon type="add" />
           </BasicButton>
           <BasicButton disabled={disabled || criterionsLength === 1} toggled={false} type="white" onClick={() => {}}>
