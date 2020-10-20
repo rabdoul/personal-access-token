@@ -13,6 +13,7 @@ import { GenerateSectionPlan } from './rules/GenerateSectionPlanRule';
 import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
 import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
 import { Offloading } from './rules/OffloadingRule';
+import { GenerateCuttingOrder } from './rules/GenerateCuttingOrder';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -30,6 +31,7 @@ export type UIState = {
   'validate-marker'?: ActivityRule<ValidateMarker>;
   'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
   'generate-section-plan'?: ActivityRule<GenerateSectionPlan>;
+  'generate-cutting-order'?: ActivityRule<GenerateCuttingOrder>;
   'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
   'assist-offloading'?: ActivityRule<Offloading>;
 };
@@ -74,6 +76,7 @@ export type Action =
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
   | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>
+  | UpdateStatementResult<'generate-cutting-order', GenerateCuttingOrder>
   | UpdateStatementResult<'assist-offloading', Offloading>;
 // end::action[]
 
