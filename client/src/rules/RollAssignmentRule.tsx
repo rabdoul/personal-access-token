@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { useHelpUrls } from '../base/Help';
 import { Form, FormLine } from './common/styles';
 import Checkbox from '@lectra/checkbox';
+import useRuleValidator from './common/useRuleValidator';
 
 export interface RollAssignment extends StatementResult {
   rollAllocationRequired: boolean;
@@ -18,6 +19,7 @@ const RollAssignmentRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('after-nesting-roll-allocation');
   const activityConfiguration = useActivityConfiguration('after-nesting-roll-allocation');
+  useRuleValidator('after-nesting-roll-allocation', rule);
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -33,11 +35,10 @@ const RollAssignmentRule = () => {
 const RollAssignmentResultForm: React.FC<StatementResultFormProps<RollAssignment>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
-  const urls = useHelpUrls('PP_ROLL_ASK_FOR_REF');
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine helpUrl={urls[0]}>
+      <FormLine helpUrl={useHelpUrls('PP_ROLL_ASK_FOR_REF')[0]}>
         <Checkbox
           disabled={disabled}
           label={formatMessage({ id: 'request.roll.allocation' })}
