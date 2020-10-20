@@ -54,7 +54,8 @@ const LOCAL_AUTHENTICATION_CONTEXT = new AuthenticatedUserContext(process.env.RE
   sub: 'auth0|666',
   'https://metadata.lectra.com/app_metadata': {
     account_type: 'SUPPORT_OR_NOT',
-    authorizations: [{ offer: 'OD', market: 'FA' }]
+    authorizations: [{ offer: 'OD', market: 'FA' }],
+    company: { id: '123456789_A' }
   }
 });
 
