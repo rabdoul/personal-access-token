@@ -66,7 +66,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
         <StyledSelect
           name="sectionPlanGeneration"
           listItems={sectionPlanGenerationItems}
-          value={`${statementResult.sectionPlanGeneration}`}
+          value={statementResult.sectionPlanGeneration?.toString()}
           onChange={({ value }) =>
             dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-section-plan', statementIndex, attribute: 'sectionPlanGeneration', value: parseInt(value) })
           }
@@ -84,7 +84,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
                 { title: formatMessage({ id: 'common.yes' }), value: 'true' },
                 { title: formatMessage({ id: 'common.no' }), value: 'false' }
               ]}
-              defaultValue={`${statementResult.canLimitMarkerByProductNumber}`}
+              defaultValue={statementResult.canLimitMarkerByProductNumber?.toString() ?? 'false'}
               onChange={({ value }) =>
                 dispatch({
                   type: 'UPDATE_STATEMENT_RESULT',
@@ -125,7 +125,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
                 <ItemsSwitcher
                   name="groupDistribution"
                   items={groupDistributionItems}
-                  defaultValue={`${statementResult.groupDistribution}`}
+                  defaultValue={statementResult.groupDistribution?.toString() ?? '0'}
                   onChange={({ value }) =>
                     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-section-plan', statementIndex, attribute: 'groupDistribution', value: parseInt(value) })
                   }
