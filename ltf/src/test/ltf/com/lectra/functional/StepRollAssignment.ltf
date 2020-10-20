@@ -1,0 +1,101 @@
+﻿SCRIPT_DESCRIPTION
+Test of step roll assignment :
+-> One checkbox (default unchecked)
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> Step roll assignment test -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ after-nesting-roll-allocation , true ] -> 
+
+	comment1 -> Initial state : two checkboxes unclicked
+
+	callScript -> subscript.activity_list.SelectActivity -> [ after-nesting-roll-allocation ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ rollAllocationRequired , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step MTM
+
+	callScript -> subscript.step_roll_assignment.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ after-nesting-roll-allocation , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ after-nesting-roll-allocation , false ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ after-nesting-roll-allocation , true ] -> 
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ after-nesting-roll-allocation ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Material/Roll&space;batch , Is&space;equal&space;to , Batch ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Cutting&space;Family , Is&space;equal&space;to , ICut ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-1 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Is&space;different&space;from , iBird ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-2 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-3 , spread.plyCount , Is&space;lower&space;than , d5 ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ after-nesting-roll-allocation , false ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Material/Roll&space;batch , Is&space;equal&space;to , Batch ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Cutting&space;Family , Is&space;equal&space;to , ICut ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Is&space;different&space;from , iBird ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-3 , spread.plyCount , Is&space;lower&space;than , 5 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ rollAllocationRequired , 1 ] -> 
+
+	paragraph -> Test online help
+
+	callScript -> subscript.ribbon.CheckOnlineHelp -> [ after-nesting-roll-allocation , rollAllocationRequired ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

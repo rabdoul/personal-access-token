@@ -25,11 +25,12 @@ export function useFFConfig(): FFConfig | undefined {
 }
 
 const FeatureFlippingProvider = (props: { children: ReactNode }) => {
-  const userKey = useContext(AuthenticationContext).user().sub;
+  const { sub, 'https://metadata.lectra.com/app_metadata': meta } = useContext(AuthenticationContext).user();
+  const tenantId = meta?.company?.id;
   const clientKey = useFFConfig()?.clientKey;
 
   return clientKey ? (
-    <FlagsProvider user={{ key: userKey }} clientkey={clientKey}>
+    <FlagsProvider user={{ key: sub, custom: { tenantId } }} clientkey={clientKey}>
       {props.children}
     </FlagsProvider>
   ) : (

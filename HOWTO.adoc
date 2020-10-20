@@ -68,4 +68,17 @@ In the file `src/ProductionProcessScreen.tsx`
 
 Add a new functional test for the rule in `ltf/src/test/tlf/com/lectra/functional`
 
+== Online Help
+
+Retrieve the path of  the help in the project #CuttingRoom/CutPreparation.Applications/-/tree/master/SystemManager/Tooltips/EN/Content/02-Processus-Production#
+
+In the project #cloud\online-help#, update the file `alias.json` to add an alias with the path on the online help
+
+  "PP_CUTTING_ACTIVITY": "Content/02-Processus-Production/14-Activite-Decoupe/Activite-Decoupe.htm",
+
+And use this alias in the form of the rule
+
+  const urls = useHelpUrls('PP_CUTTING_ACTIVITY');
+
+
 

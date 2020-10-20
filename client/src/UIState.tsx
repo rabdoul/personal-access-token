@@ -12,6 +12,7 @@ import { RollAssignment } from './rules/RollAssignmentRule';
 import { GenerateSectionPlan } from './rules/GenerateSectionPlanRule';
 import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
 import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
+import { Offloading } from './rules/OffloadingRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -30,6 +31,7 @@ export type UIState = {
   'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
   'generate-section-plan'?: ActivityRule<GenerateSectionPlan>;
   'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
+  'assist-offloading'?: ActivityRule<Offloading>;
 };
 // end::uiState[]
 
@@ -71,7 +73,8 @@ export type Action =
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
-  | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>;
+  | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>
+  | UpdateStatementResult<'assist-offloading', Offloading>;
 // end::action[]
 
 enableMapSet();

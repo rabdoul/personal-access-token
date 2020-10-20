@@ -90,6 +90,18 @@ SCRIPT_START
 
    	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
+	paragraph -> Step roll assignment
+
+    callScript -> subscript.activity_list.SelectActivity -> [ after-nesting-roll-allocation ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ rollAllocationRequired , 0 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
 	channel -> close -> prodprocess 
 
    	comment1 -> Test success !
