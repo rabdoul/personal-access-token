@@ -721,5 +721,112 @@ describe('UIState', () => {
         }
       ]);
     });
+
+    it('should update generate-batch batchGenerationCriterionType and reset all other attributes', () => {
+      const initialState: UIState = {
+        editMode: true,
+        editedRules: new Set(),
+        invalidRules: new Set(),
+        'generate-batch': [
+          {
+            conditions: [],
+            result: {
+              batchGenerationType: 1,
+              useMaxNumberOfOrder: true,
+              maxNumberOfOrders: 100,
+              criterions: [
+                {
+                  batchGenerationCriterionType: 0,
+                  componentCategory: 'compCat',
+                  componentMaterialUsage: 'matUsage',
+                  isContrast: false
+                }
+              ]
+            }
+          }
+        ]
+      };
+
+      const uiState = reducer(initialState, {
+        type: 'UPDATE_CRITERIA_GENERATE_BATCH',
+        statementIndex: 0,
+        criteriaIndex: 0,
+        attribute: 'batchGenerationCriterionType',
+        value: 1
+      });
+
+      expect(uiState.editMode).toBeTruthy();
+      expect(uiState.editedRules).toContainEqual('generate-batch');
+      expect(uiState['generate-batch']).toEqual([
+        {
+          conditions: [],
+          result: {
+            batchGenerationType: 1,
+            useMaxNumberOfOrder: true,
+            maxNumberOfOrders: 100,
+            criterions: [
+              {
+                batchGenerationCriterionType: 1
+              }
+            ]
+          }
+        }
+      ]);
+    });
+
+    it('should update generate-batch componentMaterialUsage', () => {
+      const initialState: UIState = {
+        editMode: true,
+        editedRules: new Set(),
+        invalidRules: new Set(),
+        'generate-batch': [
+          {
+            conditions: [],
+            result: {
+              batchGenerationType: 1,
+              useMaxNumberOfOrder: true,
+              maxNumberOfOrders: 100,
+              criterions: [
+                {
+                  batchGenerationCriterionType: 0,
+                  componentCategory: 'compCat',
+                  componentMaterialUsage: 'matUsage',
+                  isContrast: false
+                }
+              ]
+            }
+          }
+        ]
+      };
+
+      const uiState = reducer(initialState, {
+        type: 'UPDATE_CRITERIA_GENERATE_BATCH',
+        statementIndex: 0,
+        criteriaIndex: 0,
+        attribute: 'componentMaterialUsage',
+        value: 'anotherMatUsage'
+      });
+
+      expect(uiState.editMode).toBeTruthy();
+      expect(uiState.editedRules).toContainEqual('generate-batch');
+      expect(uiState['generate-batch']).toEqual([
+        {
+          conditions: [],
+          result: {
+            batchGenerationType: 1,
+            useMaxNumberOfOrder: true,
+            maxNumberOfOrders: 100,
+            criterions: [
+              {
+                batchGenerationCriterionType: 0,
+                componentCategory: 'compCat',
+                componentMaterialUsage: 'anotherMatUsage',
+                isContrast: false
+              }
+            ]
+          }
+        }
+      ]);
+    });
   });
 });
