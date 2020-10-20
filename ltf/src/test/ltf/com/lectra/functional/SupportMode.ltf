@@ -78,6 +78,18 @@ SCRIPT_START
 
    	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
+	paragraph -> Step Publishing
+
+    callScript -> subscript.activity_list.SelectActivity -> [ publish ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableAutomaticPublishing , 0 ] -> 
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
 	channel -> close -> prodprocess 
 
    	comment1 -> Test success !

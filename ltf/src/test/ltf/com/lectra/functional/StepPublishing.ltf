@@ -1,0 +1,89 @@
+﻿SCRIPT_DESCRIPTION
+Test of step publishing :
+-> One checkbox (default unchecked)
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> Step publishing test -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ publish , true ] -> 
+
+	comment1 -> Initial state : two checkboxes unclicked
+
+	callScript -> subscript.activity_list.SelectActivity -> [ publish ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPublishing , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step MTM
+
+	callScript -> subscript.step_publishing.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableAutomaticPublishing , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableAutomaticPublishing , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ publish , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPublishing , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ publish , false ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableAutomaticPublishing , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ publish , true ] -> 
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ publish ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Color , Is&space;equal&space;to , blue ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , Sequence&space;number , Is&space;greater&space;than , not2 ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ publish , false ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Color , Is&space;equal&space;to , blue ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Sequence&space;number , Is&space;greater&space;than , 2 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPublishing , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableAutomaticPublishing , 1 ] -> 
+
+	paragraph -> Test online help
+
+	callScript -> subscript.ribbon.CheckOnlineHelp -> [ publish , enableAutomaticPublishing ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
