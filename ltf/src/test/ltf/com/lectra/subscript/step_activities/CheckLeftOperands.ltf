@@ -1,0 +1,100 @@
+﻿SCRIPT_DESCRIPTION
+Check all options of left operands and associated operator for step mtm conditions
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+
+SCRIPT_START
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ associate-cutting-activities ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Process ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Material&space;type ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Nesting&space;Family ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Material&space;nature ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Color ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;family ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;category ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Offer ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Recut ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Material&space;type&space;(cutting&space;order) ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Visible&space;weft&space;distortion ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 

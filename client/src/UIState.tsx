@@ -58,9 +58,11 @@ export type Action =
   | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
   | { type: 'VALIDATE_RULE'; activityId: ActivityId }
   | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
+  | { type: 'ADD_CRITERIA_GENERATE_BATCH'; statementIndex: number }
+  | { type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH'; statementIndex: number }
   | UpdateStatementResult<'setup-sequencing', Sequencing>
   | UpdateStatementResult<'validate-mtm-product', ValidateMTMProduct>
-  | UpdateStatementResult<'generate-batch', RollAssignment>
+  | UpdateStatementResult<'generate-batch', GenerateBatch>
   | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'generate-section-plan', GenerateSectionPlan>
   | UpdateStatementResult<'generate-spreading-plan', GenerateSpreadingPlan>
@@ -147,6 +149,26 @@ export const reducer = (state: UIState, action: Action): UIState => {
         editedRules: new Set([...state.editedRules, action.activityId]),
         [action.activityId]: produce(state[action.activityId]!, draft => {
           (draft[action.statementIndex].result as any)[action.attribute] = action.value;
+        })
+      };
+
+    case 'ADD_CRITERIA_GENERATE_BATCH':
+      return {
+        ...state,
+        'generate-batch': produce(state['generate-batch']!, draft => {
+          if (draft[action.statementIndex].result.criterions) {
+            draft[action.statementIndex].result.criterions!.push({});
+          } else {
+            draft[action.statementIndex].result.criterions = [{}];
+          }
+        })
+      };
+
+    case 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH':
+      return {
+        ...state,
+        'generate-batch': produce(state['generate-batch']!, draft => {
+          (draft[action.statementIndex].result as any).criterions = null;
         })
       };
   }
