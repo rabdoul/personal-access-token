@@ -1,6 +1,6 @@
 import 'jest';
 import { mockHttpRequest, mockHttpResponse, CommandQueryExecutorMockBuilder } from '../../../__test__/Mocks';
-import { MaterialGroupsResource } from '../MaterialSpecsResource';
+import { MaterialGroupsResource } from '../MaterialGroupsResource';
 
 describe('MatrialGroupsResource', () => {
 
