@@ -183,7 +183,7 @@ export const CriterionsContainer = styled.div`
 
 export const ButtonGroup = styled.div`
   display: flex;
-  margin-left: 40px;
+  margin-left: 99px;
   gap: 10px;
 `;
 

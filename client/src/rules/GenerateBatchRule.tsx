@@ -11,7 +11,7 @@ import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { ButtonGroup, CriteriaLabel, CriterionsContainer, Form, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
+import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
 
 export type Criteria = Partial<{
   batchGenerationCriterionType: number;
