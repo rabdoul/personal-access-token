@@ -7,17 +7,30 @@ import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { Form, FormLine, StyledSelect } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
+import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 
 export interface GenerateSpreadingPlan extends StatementResult {
   spreadingPlanGeneration: number;
   spreadingPlanDistribution: number;
 }
 
+function isPlanGenerationValid(result: Partial<GenerateSpreadingPlan>) {
+  return result.spreadingPlanGeneration !== undefined;
+}
+
+function isDistributionValid(result: Partial<GenerateSpreadingPlan>) {
+  return result.spreadingPlanGeneration === 1 || result.spreadingPlanDistribution !== undefined;
+}
+
+const validateStatementResult = (result: Partial<GenerateSpreadingPlan>) => {
+  return isPlanGenerationValid(result) && isDistributionValid(result);
+};
+
 const GenerateSpreadingPlanRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('generate-spreading-plan');
   const activityConfiguration = useActivityConfiguration('generate-spreading-plan');
-  useRuleValidator('generate-spreading-plan', rule);
+  useRuleValidator('generate-spreading-plan', rule, validateStatementResult);
 
   if (!rule || !activityConfiguration) {
     return null;
@@ -57,6 +70,8 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
           }
           width={200}
           disabled={disabled}
+          error={!isPlanGenerationValid(statementResult)}
+          icon={MANDATORY_FIELD_ERROR}
         />
       </FormLine>
       {statementResult.spreadingPlanGeneration === 0 && (
@@ -71,6 +86,8 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
             }
             width={200}
             disabled={disabled}
+            error={!isDistributionValid(statementResult)}
+            icon={MANDATORY_FIELD_ERROR}
           />
         </FormLine>
       )}
