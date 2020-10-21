@@ -1,0 +1,17 @@
+SCRIPT_DESCRIPTION
+Check the active part of an item switcher
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> text display on item switcher
+    parameter1 -> data-testid of the checkbox
+	parameter2 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Check item switcher ${parameter1} of block result ${parameter2} has value ${parameter0}
+
+	check -> text = ${parameter0} -> li [ class = active ] -> ul [ data-testid = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]

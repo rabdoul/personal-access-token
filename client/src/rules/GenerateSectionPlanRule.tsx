@@ -64,6 +64,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
       <FormLine>
         <label>{formatMessage({ id: 'rule.generate.section.plan.generation.mode' })}</label>
         <StyledSelect
+          data-xlabel="generation-mode"
           listItems={sectionPlanGenerationItems}
           value={statementResult.sectionPlanGeneration?.toString()}
           onChange={({ value }) =>
@@ -101,6 +102,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
               <FormLine>
                 <label htmlFor="maxNumberOfProducts">{formatMessage({ id: 'rule.generate.section.plan.max.product.number' })}</label>
                 <Input
+                  data-xlabel="maxNumberOfProducts"
                   name="maxNumberOfProducts"
                   onBlur={({ target: { value } }) =>
                     dispatch({
