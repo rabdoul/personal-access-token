@@ -15,6 +15,7 @@ import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
 import { Offloading } from './rules/OffloadingRule';
 import { GenerateCuttingOrder } from './rules/GenerateCuttingOrder';
 import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
+import { MaterialValidation } from './rules/MaterialValidationRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -36,6 +37,7 @@ export type UIState = {
   'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
   'assist-offloading'?: ActivityRule<Offloading>;
   'affect-cutting-line'?: ActivityRule<AffectCuttingLine>;
+  'validate-marker-width'?: ActivityRule<MaterialValidation>;
 };
 // end::uiState[]
 
@@ -80,7 +82,8 @@ export type Action =
   | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>
   | UpdateStatementResult<'generate-cutting-order', GenerateCuttingOrder>
   | UpdateStatementResult<'assist-offloading', Offloading>
-  | UpdateStatementResult<'affect-cutting-line', AffectCuttingLine>;
+  | UpdateStatementResult<'affect-cutting-line', AffectCuttingLine>
+  | UpdateStatementResult<'validate-marker-width', MaterialValidation>;
 // end::action[]
 
 enableMapSet();
