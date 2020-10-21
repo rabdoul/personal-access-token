@@ -33,16 +33,30 @@ const isMaxNumberOfOrdersValid = (maxNumberOfOrders?: number) => {
   return maxNumberOfOrders !== undefined && maxNumberOfOrders > 0;
 };
 
+const isAllBatchGenerationCriterionTypeValid = (criterions: Criteria[]) => {
+  const found = criterions.find(criteria => criteria.batchGenerationCriterionType === undefined);
+  return found === undefined;
+};
+
+const isComponentMaterialUsageValid = (materialUsage?: string) => {
+  return materialUsage !== undefined && materialUsage !== '';
+};
+
+const isAllComponentMaterialUsagesValid = (criterions: Criteria[]) => {
+  const found = criterions.find(criteria => criteria.batchGenerationCriterionType === 0 && !isComponentMaterialUsageValid(criteria.componentMaterialUsage));
+  return found === undefined;
+};
+
 const isCriterionsValid = (criterions?: Criteria[]) => {
   if (!criterions) {
     return true;
   } else {
-    return true;
+    return isAllBatchGenerationCriterionTypeValid(criterions) && isAllComponentMaterialUsagesValid(criterions);
   }
 };
 
 const validateStatementResult = (result: Partial<GenerateBatch>) => {
-  return isMaxNumberOfOrdersValid(result.maxNumberOfOrders) && result.batchGenerationType !== undefined && isCriterionsValid(result.criterions);
+  return isMaxNumberOfOrdersValid(result.maxNumberOfOrders) && !!result.batchGenerationType && isCriterionsValid(result.criterions);
 };
 
 const GenerateBatchRule = () => {
@@ -224,6 +238,8 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
               disabled={disabled}
               width={200}
               data-xlabel="materialUsage"
+              error={!isComponentMaterialUsageValid(criteria.componentMaterialUsage)}
+              icon={MANDATORY_FIELD_ERROR}
             />
           </FormLine>
         </>
