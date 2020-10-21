@@ -61,7 +61,6 @@ const AffectCuttingLineResultForm: React.FC<StatementResultFormProps<AffectCutti
         <DropDownSearch
           data-xlabel="production-line"
           data-xvalue={statementResult.lineId ?? 'none'}
-          id={`production-line-${statementIndex}`}
           listItems={productionLines}
           value={statementResult.lineId}
           onChange={handleCuttingLineChange}
