@@ -56,7 +56,14 @@ const isCriterionsValid = (criterions?: Criteria[]) => {
 };
 
 const validateStatementResult = (result: Partial<GenerateBatch>) => {
-  return isMaxNumberOfOrdersValid(result.maxNumberOfOrders) && !!result.batchGenerationType && isCriterionsValid(result.criterions);
+  switch (result.batchGenerationType) {
+    case 0:
+      return isMaxNumberOfOrdersValid(result.maxNumberOfOrders);
+    case 1:
+      return isMaxNumberOfOrdersValid(result.maxNumberOfOrders) && isCriterionsValid(result.criterions);
+    default:
+      return false;
+  }
 };
 
 const GenerateBatchRule = () => {
@@ -124,7 +131,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           numberMaxDigits={0}
           min={0}
           data-xlabel="maxPOPerBatch"
-          error={!isMaxNumberOfOrdersValid(statementResult.maxNumberOfOrders)}
+          error={!isMaxNumberOfOrdersValid(statementResult.maxNumberOfOrders) && statementResult.useMaxNumberOfOrder!}
           icon={MANDATORY_FIELD_ERROR}
         />
       </FormLine>
