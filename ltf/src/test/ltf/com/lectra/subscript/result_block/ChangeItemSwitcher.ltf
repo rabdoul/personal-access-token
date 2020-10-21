@@ -1,0 +1,19 @@
+SCRIPT_DESCRIPTION
+Change the active part of an item switcher
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> text display on item switcher
+    parameter1 -> data-testid of the checkbox
+	parameter2 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Change item switcher ${parameter1} of block result ${parameter2} to value ${parameter0}
+
+	click -> text = ${parameter0} -> ul [ data-testid = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ ${parameter0} , ${parameter1} , ${parameter2} ] -> 
