@@ -4,19 +4,7 @@ import { withHelpTooltip } from '../../base/Help';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
 
-export const Form = styled.form`
-  span {
-    font-weight: lighter;
-    font-size: 14px;
-  }
-
-  [data-testId='CheckboxComponent'] {
-    height: 14px;
-    width: 14px;
-  }
-`;
-
-export const Result = styled.div`
+export const Form = styled.div`
   span {
     font-weight: lighter;
     font-size: 14px;
@@ -43,9 +31,12 @@ export const FormLine = withHelpTooltip(styled.div`
 export const BlockContent = styled.div`
   align-items: center;
   display: flex;
-  gap: 10px;
   margin: 10px 0 10px 10px;
   width: 100%;
+
+  & > div {
+    margin-right: 10px;
+  }
 `;
 
 export const BlockActions = styled.div`
@@ -74,6 +65,11 @@ export const StyledSelect = styled(Select)`
 
 export const StyledSmallSelect = styled(Select)`
   .KUISelect__control {
+    min-width: 50px !important;
+    width: 50px !important;
+  }
+
+  .KUISelect.error__control {
     min-width: 50px !important;
     width: 50px !important;
   }
@@ -197,4 +193,15 @@ export const FormLabel = styled.div`
 export const CriteriaLabel = styled.div`
   margin-right: 10px;
   width: 170px;
+`;
+
+export const InputNumberWithError = styled(Input)<{ error: boolean }>`
+  input {
+    padding-left: 0;
+    padding-right: ${props => (props.error ? '22px' : '10px')} !important;
+  }
+`;
+
+export const SelectWithError = styled(Select)<{ error: boolean }>`
+  max-width: ${props => props.width}px !important;
 `;

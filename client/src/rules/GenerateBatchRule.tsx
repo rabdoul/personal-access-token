@@ -11,7 +11,7 @@ import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Result, StyledSmallSelect } from './common/styles';
+import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Form, StyledSmallSelect, InputNumberWithError, SelectWithError } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 
@@ -33,8 +33,16 @@ const isMaxNumberOfOrdersValid = (maxNumberOfOrders?: number) => {
   return maxNumberOfOrders !== undefined && maxNumberOfOrders > 0;
 };
 
+const isCriterionsValid = (criterions?: Criteria[]) => {
+  if (!criterions) {
+    return true;
+  } else {
+    return true;
+  }
+};
+
 const validateStatementResult = (result: Partial<GenerateBatch>) => {
-  return isMaxNumberOfOrdersValid(result.maxNumberOfOrders);
+  return isMaxNumberOfOrdersValid(result.maxNumberOfOrders) && result.batchGenerationType !== undefined && isCriterionsValid(result.criterions);
 };
 
 const GenerateBatchRule = () => {
@@ -79,7 +87,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
   ];
 
   return (
-    <Result>
+    <Form onSubmit={e => e.preventDefault()}>
       <FormLine style={{ marginBottom: '10px' }}>
         <FormLabel>
           <CheckBox
@@ -93,7 +101,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
             label={formatMessage({ id: 'rule.generate.batch.enable.max.po.batch' })}
           />
         </FormLabel>
-        <Input
+        <InputNumberWithError
           onBlur={evt => updateGenerateBatch('maxNumberOfOrders', parseInt(evt.target.value))}
           value={statementResult.maxNumberOfOrders}
           type="number"
@@ -115,6 +123,8 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           width={50}
           disabled={disabled}
           value={`${statementResult.batchGenerationType}`}
+          error={statementResult.batchGenerationType === undefined}
+          icon={MANDATORY_FIELD_ERROR}
         />
       </FormLine>
       {statementResult.criterions &&
@@ -130,7 +140,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
             />
           );
         })}
-    </Result>
+    </Form>
   );
 };
 
@@ -158,13 +168,15 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
     <CriterionsContainer data-xrow={criteriaIndex} data-xlabel="criterions">
       <FormLine style={{ marginBottom: '10px' }}>
         <CriteriaLabel>{formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}</CriteriaLabel>
-        <Select
+        <SelectWithError
           data-xlabel="criteria"
           listItems={criteriaItems}
           onChange={item => updateCriteria('batchGenerationCriterionType', parseInt(item.value))}
           disabled={disabled}
           value={`${criteria.batchGenerationCriterionType}`}
           width={120}
+          error={criteria.batchGenerationCriterionType === undefined}
+          icon={MANDATORY_FIELD_ERROR}
         />
         <ButtonGroup>
           <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })}>
