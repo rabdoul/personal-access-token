@@ -79,7 +79,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTO ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Equals , MTO ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
@@ -107,19 +107,19 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Marker&space;length , Is&space;greater&space;than , azs85 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Marker&space;length , Above , azs85 ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Material&space;type , Is&space;different&space;from , Plaid ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Material&space;type , Different , Plaid ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-1 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-2 , Supplier , Is&space;equal&space;to , Textile-producer-INC ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-2 , Supplier , Equals , Textile-producer-INC ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-2 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 1-3 , Recut , Is&space;equal&space;to , True ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 1-3 , Recut , Equals , True ] -> 
 
 	callScript -> subscript.result_block.FillInput -> [ 95 , efficiency-upper-bound , 1 ] -> 
 
@@ -131,17 +131,17 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker , false ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTC/MTM ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Equals , MTC/MTM ] -> 
 
 	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Material&space;nature , Contains , Linen ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Marker&space;length , Is&space;greater&space;than , 85 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Marker&space;length , Above , 85 ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Material&space;type , Is&space;different&space;from , Plaid ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Material&space;type , Different , Plaid ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-2 , Supplier , Is&space;equal&space;to , Textile-producer-INC ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-2 , Supplier , Equals , Textile-producer-INC ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 1-3 , Recut , Is&space;equal&space;to , True ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-3 , Recut , Equals , True ] -> 
 
 	callScript -> subscript.result_block.CheckInputValue -> [ 22 , efficiency-lower-bound , 0 ] -> 
 

@@ -60,19 +60,19 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ after-nesting-roll-allocation ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Material/Roll&space;batch , Is&space;equal&space;to , Batch ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Material/Roll&space;batch , Equals , Batch ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Cutting&space;Family , Is&space;equal&space;to , ICut ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Cutting&space;Family , Equals , ICut ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-1 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Is&space;different&space;from , iBird ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Different , iBird ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-2 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-3 , spread.plyCount , Is&space;lower&space;than , d5 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-3 , spread.plyCount , Below , d5 ] -> 
 
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
@@ -80,13 +80,13 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ after-nesting-roll-allocation , false ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Material/Roll&space;batch , Is&space;equal&space;to , Batch ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Material/Roll&space;batch , Equals , Batch ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Cutting&space;Family , Is&space;equal&space;to , ICut ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Cutting&space;Family , Equals , ICut ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Is&space;different&space;from , iBird ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Different , iBird ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-3 , spread.plyCount , Is&space;lower&space;than , 5 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-3 , spread.plyCount , Below , 5 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ rollAllocationRequired , 0 ] -> 
 

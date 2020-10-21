@@ -10,4 +10,4 @@ SCRIPT_PARAMETERS
 
 SCRIPT_START
 
-	check -> exists = true -> div [ text = ${parameter0} ] -> div [ data-xlabel = operator ]
+	check -> exists = true -> div [ data-testid = ${parameter0} ] -> div [ data-xlabel = operator ]

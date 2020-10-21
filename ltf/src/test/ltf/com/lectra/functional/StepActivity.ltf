@@ -51,25 +51,25 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ associate-cutting-activities ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTO ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Equals , MTO ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Material&space;type , Is&space;equal&space;to , Motif ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Material&space;type , Equals , Motif ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-1 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Is&space;equal&space;to , INest ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Equals , INest ] -> 
 
 	paragraph -> Add another conditional block
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 1-0 , Material&space;type&space;(cutting&space;order) , Is&space;equal&space;to , Placed&space;motif ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 1-0 , Material&space;type&space;(cutting&space;order) , Equals , Placed&space;motif ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Visible&space;weft&space;distortion , Is&space;equal&space;to , False ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Visible&space;weft&space;distortion , Equals , False ] -> 
 
 	callScript -> subscript.result_block.SetPickerValue -> [ activity2 , activity , 1 ] -> 
 
@@ -81,15 +81,15 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ associate-cutting-activities , false ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Is&space;equal&space;to , MTO ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Equals , MTO ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Material&space;type , Is&space;equal&space;to , Motif ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Material&space;type , Equals , Motif ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Is&space;equal&space;to , INest ]
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Equals , INest ]
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 1-0 , Material&space;type&space;(cutting&space;order) , Is&space;equal&space;to , Placed&space;motif ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-0 , Material&space;type&space;(cutting&space;order) , Equals , Placed&space;motif ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Visible&space;weft&space;distortion , Is&space;equal&space;to , False ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Visible&space;weft&space;distortion , Equals , False ] -> 
 
 	callScript -> subscript.result_block.CheckPickerValue -> [ activity2 , activity , 1 ] -> 
 

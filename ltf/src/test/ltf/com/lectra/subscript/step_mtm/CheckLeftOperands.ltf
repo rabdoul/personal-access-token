@@ -17,27 +17,27 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;order ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Priority ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;greater&space;than ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Above ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;lower&space;than ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Below ] -> 
 
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Sales&space;point ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
@@ -45,9 +45,9 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
@@ -55,9 +55,9 @@ SCRIPT_START
 
 	//callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	//callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
@@ -65,23 +65,23 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;category ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Offer ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
@@ -89,9 +89,9 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
@@ -99,9 +99,9 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
@@ -109,9 +109,9 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;equal&space;to ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Is&space;different&space;from ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
