@@ -79,11 +79,11 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , Process , Equals , MTO ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , process.type , Equals , MTO ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-1 , Material&space;nature , Contains , Linen ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , material.nature , Contains , Linen ] -> 
 
 	comment1 -> Remove the product category and check the activity is in error
 
@@ -107,19 +107,19 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Marker&space;length , Above , azs85 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , marker.length , Above , azs85 ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , Material&space;type , Different , Plaid ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , material.motif , Different , Plaid ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-1 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-2 , Supplier , Equals , Textile-producer-INC ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-2 , batch.supplier , Equals , Textile-producer-INC ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-2 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 1-3 , Recut , Equals , True ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 1-3 , cuttingorder.isrecut , Equals , True ] -> 
 
 	callScript -> subscript.result_block.FillInput -> [ 95 , efficiency-upper-bound , 1 ] -> 
 
@@ -131,17 +131,17 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker , false ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , Process , Equals , MTC/MTM ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , process.type , Equals , MTC/MTM ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Material&space;nature , Contains , Linen ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , material.nature , Contains , Linen ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Marker&space;length , Above , 85 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 85 ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , Material&space;type , Different , Plaid ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , material.motif , Different , Plaid ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-2 , Supplier , Equals , Textile-producer-INC ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-2 , batch.supplier , Equals , Textile-producer-INC ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 1-3 , Recut , Equals , True ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-3 , cuttingorder.isrecut , Equals , True ] -> 
 
 	callScript -> subscript.result_block.CheckInputValue -> [ 22 , efficiency-lower-bound , 0 ] -> 
 

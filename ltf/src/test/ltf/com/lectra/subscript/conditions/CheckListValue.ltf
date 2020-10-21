@@ -15,4 +15,4 @@ SCRIPT_PARAMETERS
 
 SCRIPT_START
 
-	check -> exists = true -> div [ text = ${parameter2} ] -> div [ data-xlabel = ${parameter1} ] -> div [ data-conditionblock-id = ${parameter0} ]
+	check -> exists = true -> div [ data-testid = ${parameter2} , data-xlabel = ${parameter1} ] -> div [ data-conditionblock-id = ${parameter0} ]
