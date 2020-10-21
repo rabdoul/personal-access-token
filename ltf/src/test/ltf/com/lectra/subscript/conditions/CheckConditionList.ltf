@@ -20,6 +20,6 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.CheckListValue -> [ ${parameter0} , left-operand , ${parameter1} ] -> 
 
-	callScript -> subscript.conditions.CheckListValue -> [ ${parameter0} , operator , ${parameter2} ] -> 
+	check -> exists = true -> div [ data-testid = ${parameter2} , data-xlabel = operator ] -> div [ data-conditionblock-id = ${parameter0} ]
 
 	callScript -> subscript.conditions.CheckListValue -> [ ${parameter0} , right-operand , ${parameter3} ] -> 

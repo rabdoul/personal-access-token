@@ -60,11 +60,11 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ publish ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Color , Is&space;equal&space;to , blue ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Color , Equals , blue ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-1 , Sequence&space;number , Is&space;greater&space;than , not2 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , Sequence&space;number , Above , not2 ] -> 
 
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
@@ -72,9 +72,9 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ publish , false ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Color , Is&space;equal&space;to , blue ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Color , Equals , blue ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Sequence&space;number , Is&space;greater&space;than , 2 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Sequence&space;number , Above , 2 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPublishing , 0 ] -> 
 
