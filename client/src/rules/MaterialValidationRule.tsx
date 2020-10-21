@@ -1,4 +1,6 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
+import Checkbox from '@lectra/checkbox';
 
 import useRule from './common/useRule';
 import { useUIDispatch, useUIState } from '../UIState';
@@ -6,9 +8,8 @@ import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
 import { Form, FormLine, StyledSelect } from './common/styles';
-import { useIntl } from 'react-intl';
 import useRuleValidator from './common/useRuleValidator';
-import Checkbox from '@lectra/checkbox';
+import { useHelpUrls } from '../base/Help';
 
 export interface MaterialValidation extends StatementResult {
   requestValidation: boolean;
@@ -37,6 +38,7 @@ const MaterialValidationRule = () => {
 const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialValidation>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
+  const urls = useHelpUrls('PP_VM_VALIDATION', 'PP_VM_AUTO_UPDATE', 'PP_VM_SKIIP_ROLL_VALIDATION');
 
   const requestValidationItems = [
     { label: formatMessage({ id: 'rule.material.validation.no.validation' }), value: 'no-validation' },
@@ -66,11 +68,11 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine>
+      <FormLine helpUrl={urls[0]}>
         <StyledSelect listItems={requestValidationItems} value={value} onChange={handleRequestValidationChange} width={600} disabled={disabled} />
       </FormLine>
       {statementResult.requestValidation && (
-        <FormLine>
+        <FormLine helpUrl={urls[1]}>
           <Checkbox
             label={formatMessage({ id: 'rule.material.validation.auto.update' })}
             checked={statementResult.updateMaterialBatch!}
@@ -82,7 +84,7 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
         </FormLine>
       )}
       {statementResult.updateMaterialBatch && (
-        <FormLine>
+        <FormLine helpUrl={urls[2]}>
           <Checkbox
             label={formatMessage({ id: 'rule.material.validation.do.not.ask.again' })}
             checked={statementResult.doNotAskAgain!}
