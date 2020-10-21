@@ -77,11 +77,11 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-mtm-product ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Priority , Above , 3 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , command.priority , Above , 3 ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , Product&space;category , Equals , Skirt ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , product.category , Equals , Skirt ] -> 
 
 	comment1 -> Remove the product category and check the activity is in error
 
@@ -97,7 +97,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Offer , Different , somthing_duh ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , product.offerReference , Different , somthing_duh ] -> 
 
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
@@ -105,11 +105,11 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-mtm-product , false ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Priority , Above , 3 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , command.priority , Above , 3 ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , Product&space;category , Equals , Coat ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , product.category , Equals , Coat ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Offer , Different , somthing_duh ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , product.offerReference , Different , somthing_duh ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ stopOnOutOfRangeWarning , 0 ] -> 
 

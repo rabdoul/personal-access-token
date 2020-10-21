@@ -22,6 +22,7 @@ import GenerateCuttingOrder from './rules/GenerateCuttingOrder';
 import GenerateSpreadingPlanRule from './rules/GenerateSpreadingPlanRule';
 import OffloadingRule from './rules/OffloadingRule';
 import AffectCuttingLineRule from './rules/AffectCuttingLineRule';
+import MaterialValidationRule from './rules/MaterialValidationRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -47,6 +48,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />
           <Route exact path="/affect-cutting-line" component={AffectCuttingLineRule} />
+          <Route exact path="/validate-marker-width" component={MaterialValidationRule} />
           <Route
             path="/:activityId"
             render={() => (

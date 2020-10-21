@@ -18,4 +18,4 @@ SCRIPT_START
 
 	click -> div [ text = ${parameter1} , class ≈ option ] -> div [ data-xlabel = right-operand ] -> div [ data-conditionblock-id = ${parameter0} ]
 
-	callScript -> subscript.conditions.CheckListValue -> [ ${parameter0} , right-operand , ${parameter1} ] -> 
+	check -> exists = true -> div [ text = ${parameter1} ] -> div [ data-xlabel = right-operand ] -> div [ data-conditionblock-id = ${parameter0} ]

@@ -15,13 +15,13 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ assist-offloading ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Process ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ process.type ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.reference ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
@@ -31,7 +31,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;family ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.family ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
@@ -41,11 +41,11 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Product&space;category ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.category ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Offer ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.offerReference ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
@@ -55,7 +55,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Material ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.reference ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
@@ -63,33 +63,13 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Material/Roll&space;batch ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.type ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Material&space;nature ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
-
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Nesting&space;Family ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
-
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Cutting&space;Family ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
-
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Color ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nature ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
@@ -97,7 +77,27 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ Roll&space;batch ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nestingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.cuttingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.color ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.reference ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 

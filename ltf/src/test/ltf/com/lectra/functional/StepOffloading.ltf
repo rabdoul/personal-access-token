@@ -57,21 +57,21 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ assist-offloading ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-0 , Product&space;family , Different , DadJeans ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , product.family , Different , DadJeans ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-1 , Material , Contains , stripe ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , material.reference , Contains , stripe ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-1 ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , Nesting&space;Family , Equals , INest ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , material.nestingFamily , Equals , INest ] -> 
 
 	paragraph -> Add another conditional block
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-0 , Roll&space;batch , Equals , pool-1 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , batch.reference , Equals , pool-1 ] -> 
 
 	callScript -> subscript.result_block.SetPickerValue -> [ MyBeautifulOffloadingRule , offloading-rule , 0 ] -> 
 
@@ -83,13 +83,13 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ assist-offloading , false ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , Product&space;family , Different , DadJeans ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , product.family , Different , DadJeans ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , Material , Contains , stripe ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , material.reference , Contains , stripe ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , Nesting&space;Family , Equals , INest ]
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , material.nestingFamily , Equals , INest ]
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , Roll&space;batch , Equals , pool-1 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , batch.reference , Equals , pool-1 ] -> 
 
 	callScript -> subscript.result_block.CheckPickerValue -> [ MyBeautifulOffloadingRule , offloading-rule , 0 ] -> 
 
