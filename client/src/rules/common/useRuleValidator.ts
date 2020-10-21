@@ -21,7 +21,11 @@ export default function useRuleValidator<T>(activityId?: ActivityId, rule?: Stat
   useEffect(() => {
     if (rule && activityId) {
       const isValid = validateRule(rule, validateStatementResult || defaultValidateStatement);
-      dispatch({ type: isValid ? 'VALIDATE_RULE' : 'INVALIDATE_RULE', activityId });
+      if (isValid) {
+        dispatch({ type: 'VALIDATE_RULE', activityId });
+      } else {
+        dispatch({ type: 'INVALIDATE_RULE', activityId });
+      }
     }
   }, [dispatch, rule, activityId, validateStatementResult]);
 }
