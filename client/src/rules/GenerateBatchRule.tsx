@@ -2,9 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
-import Select from '@lectra/select';
 import Icon from '@lectra/icon';
-import BasicButton from '@lectra/basicbutton';
 
 import { StatementResult } from '../model';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
@@ -14,6 +12,8 @@ import Rule, { StatementResultFormProps } from './common/Rule';
 import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Form, StyledSmallSelect, InputNumberWithError, SelectWithError } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import { ActionButton, useHelpUrls, withHelpTooltip } from '../base/Help';
+import styled from 'styled-components/macro';
 
 export type Criteria = Partial<{
   batchGenerationCriterionType: number;
@@ -88,6 +88,8 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
+  const urls = useHelpUrls('PP_GENERATE_BATCH_ORDERS_NUMBER_MAX', 'PP_GENERATE_BATCH_GROUP_BY_CRITERION');
+
   const updateGenerateBatch = (attribute: keyof GenerateBatch, value: any) => {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-batch', statementIndex, attribute, value });
   };
@@ -109,7 +111,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine style={{ marginBottom: '10px' }}>
+      <FormLine style={{ marginBottom: '10px' }} helpUrl={urls[0]}>
         <FormLabel>
           <CheckBox
             disabled={disabled}
@@ -135,7 +137,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           icon={MANDATORY_FIELD_ERROR}
         />
       </FormLine>
-      <FormLine>
+      <FormLine helpUrl={urls[1]}>
         <FormLabel>{formatMessage({ id: 'rule.generate.batch.group.orders.criteria' })}</FormLabel>
         <StyledSmallSelect
           data-xlabel="groupOrderCriteria"
@@ -175,6 +177,16 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
+  const urls = useHelpUrls(
+    'PP_GENERATE_BATCH_CRITERIA',
+    'PP_GENERATE_BATCH_THEN_CRITERIA',
+    'PP_GENERATE_BATCH_COMPONENT_CATEGORY',
+    'PP_GENERATE_BATCH_MATERIAL_USAGE',
+    'PP_GENERATE_BATCH_CONTRAST',
+    'PP_GENERATE_BATCH_ADD_CRITERIA',
+    'PP_GENERATE_BATCH_DELETE_CRITERIA'
+  );
+
   const criteriaItems = [
     { label: formatMessage({ id: 'common.criteria.material' }), value: '0' },
     { label: formatMessage({ id: 'common.criteria.delivery.date' }), value: '1' },
@@ -188,7 +200,9 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
   return (
     <CriterionsContainer data-xrow={criteriaIndex} data-xlabel="criterions">
       <FormLine style={{ marginBottom: '10px' }}>
-        <CriteriaLabel>{formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}</CriteriaLabel>
+        <CriteriaLabel helpUrl={urls[criteriaIndex === 0 ? 0 : 1]}>
+          {formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}
+        </CriteriaLabel>
         <SelectWithError
           data-xlabel="criteria"
           listItems={criteriaItems}
@@ -200,23 +214,24 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
           icon={MANDATORY_FIELD_ERROR}
         />
         <ButtonGroup>
-          <BasicButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })}>
+          <ActionButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })} helpUrl={urls[5]}>
             <Icon type="add" />
-          </BasicButton>
-          <BasicButton
+          </ActionButton>
+          <ActionButton
             disabled={disabled || criterionsLength === 1}
             toggled={false}
             type="white"
             onClick={() => dispatch({ type: 'DELETE_CRITERIA_GENERATE_BATCH', statementIndex, criteriaIndex })}
+            helpUrl={urls[6]}
           >
             <Icon type="delete" />
-          </BasicButton>
+          </ActionButton>
         </ButtonGroup>
       </FormLine>
       {criteria.batchGenerationCriterionType === 0 && (
         <>
           <FormLine style={{ marginBottom: '10px' }}>
-            <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.component.category' })}</CriteriaLabel>
+            <CriteriaLabel helpUrl={urls[2]}>{formatMessage({ id: 'rule.generate.batch.component.category' })}</CriteriaLabel>
             <Input
               onBlur={evt => updateCriteria('componentCategory', evt.target.value)}
               value={criteria.componentCategory}
@@ -225,7 +240,7 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
               width={200}
               data-xlabel="componentCategory"
             />
-            <div style={{ marginLeft: '20px' }}>
+            <ContrastCheckbox helpUrl={urls[4]}>
               <CheckBox
                 disabled={disabled}
                 checked={criteria.isContrast ? criteria.isContrast : false}
@@ -234,10 +249,10 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
                 tickSize={13}
                 label={formatMessage({ id: 'rule.generate.batch.contrast' })}
               />
-            </div>
+            </ContrastCheckbox>
           </FormLine>
           <FormLine>
-            <CriteriaLabel>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</CriteriaLabel>
+            <CriteriaLabel helpUrl={urls[3]}>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</CriteriaLabel>
             <Input
               onBlur={evt => updateCriteria('componentMaterialUsage', evt.target.value)}
               value={criteria.componentMaterialUsage}
@@ -256,3 +271,7 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
 };
 
 export default GenerateBatchRule;
+
+const ContrastCheckbox = withHelpTooltip(styled.div`
+  margin-left: 20px;
+`);

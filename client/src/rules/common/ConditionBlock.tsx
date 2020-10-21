@@ -1,5 +1,4 @@
 import React from 'react';
-import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
 import Input from '@lectra/input';
 import DropDownSearch from '@lectra/dropdownsearch';
@@ -11,7 +10,7 @@ import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
 import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
 import DropDownSearchRenderer from './DropDownSearchRenderer';
-import { useHelpUrls, withHelpTooltip } from '../../base/Help';
+import { ActionButton, useHelpUrls } from '../../base/Help';
 
 type Props = {
   statementIndex: number;
@@ -124,7 +123,5 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
     </BlockContainer>
   );
 };
-
-const ActionButton = withHelpTooltip(BasicButton);
 
 export default ConditionBlock;

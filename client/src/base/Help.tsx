@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useContext, useState } from 'react';
 import Tooltip from '@lectra/tooltip';
 import { fetchData } from 'raspberry-fetch';
+import BasicButton from '@lectra/basicbutton';
 
 import { AuthenticationContext } from './Authentication';
 import { UserPreferenceContext } from './UserPreference';
@@ -64,3 +65,5 @@ const StyledTooltip = styled(Tooltip)`
   max-width: 500px !important;
   width: 500px;
 `;
+
+export const ActionButton = withHelpTooltip(BasicButton);
