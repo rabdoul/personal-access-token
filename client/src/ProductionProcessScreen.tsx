@@ -21,6 +21,7 @@ import GenerateBatchRule from './rules/GenerateBatchRule';
 import GenerateCuttingOrder from './rules/GenerateCuttingOrder';
 import GenerateSpreadingPlanRule from './rules/GenerateSpreadingPlanRule';
 import OffloadingRule from './rules/OffloadingRule';
+import AffectCuttingLineRule from './rules/AffectCuttingLineRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -45,6 +46,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/generate-cutting-order" component={GenerateCuttingOrder} />
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />
+          <Route exact path="/affect-cutting-line" component={AffectCuttingLineRule} />
           <Route
             path="/:activityId"
             render={() => (
