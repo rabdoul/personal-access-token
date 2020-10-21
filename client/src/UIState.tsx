@@ -14,6 +14,7 @@ import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
 import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
 import { Offloading } from './rules/OffloadingRule';
 import { GenerateCuttingOrder } from './rules/GenerateCuttingOrder';
+import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -34,6 +35,7 @@ export type UIState = {
   'generate-cutting-order'?: ActivityRule<GenerateCuttingOrder>;
   'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
   'assist-offloading'?: ActivityRule<Offloading>;
+  'affect-cutting-line'?: ActivityRule<AffectCuttingLine>;
 };
 // end::uiState[]
 
@@ -60,8 +62,8 @@ export type Action =
   | { type: 'UPDATE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number; attribute: keyof Condition; value: any }
   | { type: 'DELETE_CONDITION'; activityId: ActivityId; statementIndex: number; conditionIndex: number }
   | { type: 'INIT_RULE'; activityId: ActivityId; rule: ActivityRule<StatementResult> }
-  | { type: 'VALIDATE_RULE'; activityId: ActivityId }
-  | { type: 'INVALIDATE_RULE'; activityId: ActivityId }
+  | { type: 'VALIDATE_RULE'; activityId: any }
+  | { type: 'INVALIDATE_RULE'; activityId: any }
   | { type: 'ADD_CRITERIA_GENERATE_BATCH'; statementIndex: number }
   | { type: 'DELETE_CRITERIA_GENERATE_BATCH'; statementIndex: number; criteriaIndex: number }
   | { type: 'REMOVE_ALL_CRITERIONS_GENERATE_BATCH'; statementIndex: number }
@@ -77,7 +79,8 @@ export type Action =
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>
   | UpdateStatementResult<'after-nesting-roll-allocation', RollAssignment>
   | UpdateStatementResult<'generate-cutting-order', GenerateCuttingOrder>
-  | UpdateStatementResult<'assist-offloading', Offloading>;
+  | UpdateStatementResult<'assist-offloading', Offloading>
+  | UpdateStatementResult<'affect-cutting-line', AffectCuttingLine>;
 // end::action[]
 
 enableMapSet();

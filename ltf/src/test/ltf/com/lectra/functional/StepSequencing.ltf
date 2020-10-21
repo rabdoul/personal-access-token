@@ -12,7 +12,7 @@ SANITYCHECK TESTS
 
 SCRIPT_START
 
-	chapter -> Step sequencing activity TEST -> Web production process -> 
+	chapter -> ***** Step sequencing TEST ***** -> Web production process -> 
 
 	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
 
