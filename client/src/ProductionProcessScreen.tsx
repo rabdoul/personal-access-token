@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Ribbon from '@lectra/embed-ribbon';
-import { Switch, Route } from 'react-router-dom';
+import { Flags } from '@lectra/ld-react-feature-flags';
 
 import { Help, HelpContext } from './base/Help';
 import ActivityList from './activities/ActivityList';
-import SequencingRule from './rules/SequencingRule';
 import StepDescription from './rules/common/StepDescription';
 import useRibbonConfig from './ribbon/useRibbonConfig';
 import useRibbonListener from './ribbon/useRibbonListener';
 import Notifier from './Notification';
+import SequencingRule from './rules/SequencingRule';
 import ValidateMTMProductRule from './rules/ValidateMTMProductRule';
 import AssociateCuttingRequirementsRule from './rules/AssociateCuttingRequirementsRule';
 import PublishRule from './rules/PublishRule';
@@ -18,10 +19,11 @@ import AssociateCuttingActivitiesRule from './rules/AssociateCuttingActivitiesRu
 import RollAssignmentRule from './rules/RollAssignmentRule';
 import GenerateSectionPlanRule from './rules/GenerateSectionPlanRule';
 import GenerateBatchRule from './rules/GenerateBatchRule';
-import GenerateCuttingOrder from './rules/GenerateCuttingOrder';
 import GenerateSpreadingPlanRule from './rules/GenerateSpreadingPlanRule';
 import OffloadingRule from './rules/OffloadingRule';
 import AffectCuttingLineRule from './rules/AffectCuttingLineRule';
+import GenerateCuttingOrderRule from './rules/GenerateCuttingOrderRule';
+import GenerateCuttingOrderODRule from './rules/GenerateCuttingOrderODRule';
 import MaterialValidationRule from './rules/MaterialValidationRule';
 
 const ProductionProcessScreen = () => {
@@ -44,7 +46,22 @@ const ProductionProcessScreen = () => {
           <Route exact path="/publish" component={PublishRule} />
           <Route exact path="/after-nesting-roll-allocation" component={RollAssignmentRule} />
           <Route exact path="/generate-section-plan" component={GenerateSectionPlanRule} />
-          <Route exact path="/generate-cutting-order" component={GenerateCuttingOrder} />
+          <Route
+            exact
+            path="/generate-cutting-order"
+            render={() => {
+              return (
+                <Flags
+                  flag="massprod_workflow_enabled"
+                  fallbackRender={() => {
+                    return <GenerateCuttingOrderRule />;
+                  }}
+                >
+                  <GenerateCuttingOrderODRule />
+                </Flags>
+              );
+            }}
+          />
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />
           <Route exact path="/affect-cutting-line" component={AffectCuttingLineRule} />

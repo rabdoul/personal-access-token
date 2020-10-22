@@ -55,8 +55,8 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
     { label: formatMessage({ id: 'rule.generate.section.plan.generation.manual' }), value: '1' }
   ];
   const groupDistributionItems = [
-    { title: formatMessage({ id: 'rule.generate.section.plan.distribution.balance' }), value: '0' },
-    { title: formatMessage({ id: 'rule.generate.section.plan.distribution.fill' }), value: '1' }
+    { title: formatMessage({ id: 'common.balance' }), value: '0' },
+    { title: formatMessage({ id: 'common.fill' }), value: '1' }
   ];
 
   return (
