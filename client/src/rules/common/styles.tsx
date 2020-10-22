@@ -14,6 +14,10 @@ export const Form = styled.div`
     height: 14px;
     width: 14px;
   }
+
+  & > div:not(:last-child) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const FormLine = withHelpTooltip(styled.div`
