@@ -172,7 +172,7 @@ export const EfficiencyImg = styled.div`
 `;
 
 export const CriterionsContainer = styled.div`
-  border: 1px solid #333;
+  border: 1px solid #ccc;
   margin-top: 15px;
   padding: 10px 20px;
 `;
@@ -192,7 +192,7 @@ export const FormLabel = styled.div`
 
 export const CriteriaLabel = withHelpTooltip(styled.div`
   margin-right: 10px;
-  width: 170px;
+  width: 180px;
 `);
 
 export const InputNumberWithError = styled(Input)<{ error: boolean }>`

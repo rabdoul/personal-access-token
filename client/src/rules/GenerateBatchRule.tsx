@@ -57,8 +57,12 @@ const isCriterionsValid = (criterions?: Criteria[]) => {
 
 const validateStatementResult = (result: Partial<GenerateBatch>) => {
   switch (result.batchGenerationType) {
-    case 0:
-      return isMaxNumberOfOrdersValid(result.maxNumberOfOrders);
+    case 0: {
+      if (result.useMaxNumberOfOrder) {
+        return isMaxNumberOfOrdersValid(result.maxNumberOfOrders);
+      }
+      return true;
+    }
     case 1:
       return isMaxNumberOfOrdersValid(result.maxNumberOfOrders) && isCriterionsValid(result.criterions);
     default:
