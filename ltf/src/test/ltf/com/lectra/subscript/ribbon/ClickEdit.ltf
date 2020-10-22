@@ -11,5 +11,3 @@ SCRIPT_START
 	waitDuring -> 1
 
 	click -> div [ data-xlabel = PP_EDIT ]
-
-	waitForObject -> 10 -> div [ data-xlabel = PP_EDIT ]
