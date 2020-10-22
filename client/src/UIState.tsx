@@ -13,7 +13,7 @@ import { GenerateSectionPlan } from './rules/GenerateSectionPlanRule';
 import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
 import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
 import { Offloading } from './rules/OffloadingRule';
-import { GenerateCuttingOrder } from './rules/GenerateCuttingOrder';
+import { GenerateCuttingOrder } from './rules/GenerateCuttingOrderRule';
 import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
 import { MaterialValidation } from './rules/MaterialValidationRule';
 
