@@ -1,0 +1,78 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step production line TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ affect-cutting-line , true ] -> 
+
+	comment1 -> select activity
+
+	callScript -> subscript.activity_list.SelectActivity -> [ affect-cutting-line ] ->
+
+	comment1 -> check initial state :picker empty
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ production-line , 0 ] ->
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] ->
+
+   	callScript -> subscript.result_block.SetPickerValue -> [ production-line-1 , production-line , 0 ] ->
+
+   	callScript -> subscript.activity_list.CheckActivityEditedState -> [ affect-cutting-line , true ] ->
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] ->
+
+   	callScript -> subscript.activity_list.CheckActivityEditedState -> [ affect-cutting-line , false ] ->
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ production-line , 0 ] ->
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ affect-cutting-line ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , material.isCharacterized , Equals , True ] ->
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , product.family , Equals , Shirt ] ->
+
+	callScript -> subscript.result_block.SetPickerValue -> [ production-line-1 , production-line , 1 ] ->
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ affect-cutting-line , false ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList ->  [ 0-0 , material.isCharacterized , Equals , True ] ->
+
+	callScript -> subscript.conditions.CheckCondition ->  [ 0-1 , product.family , Equals , Shirt ]->
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ production-line-1 , production-line , 1 ] ->
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ production-line , 0 ] ->
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
