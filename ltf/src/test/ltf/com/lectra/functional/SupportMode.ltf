@@ -76,7 +76,19 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
 
-   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] ->
+
+	paragraph -> Step Affect production line
+
+    callScript -> subscript.activity_list.SelectActivity -> [ affect-cutting-line ] ->
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] ->
+
+	callScript -> subscript.result_block.SetPickerValue -> [ production-line-1, production-line , 0 ] ->
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] ->
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] ->
 
 	paragraph -> Step Publishing
 
