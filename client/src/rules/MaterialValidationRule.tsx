@@ -63,7 +63,15 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <StyledSelect listItems={requestValidationItems} value={value} onChange={handleRequestValidationChange} width={600} disabled={disabled} helpUrl={urls[0]} />
+      <StyledSelect
+        data-xlabel="material-validation-option"
+        listItems={requestValidationItems}
+        value={value}
+        onChange={handleRequestValidationChange}
+        width={600}
+        disabled={disabled}
+        helpUrl={urls[0]}
+      />
       <br />
       {statementResult.requestValidation && (
         <Fragment>

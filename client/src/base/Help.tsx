@@ -69,6 +69,6 @@ const StyledTooltip = styled(Tooltip)`
 `;
 
 export const ButtonWithHelpTooltip = withHelpTooltip(BasicButton);
-export const LabelWithHelpTooltip = withHelpTooltip((props: any) => <label {...props} />);
+export const LabelWithHelpTooltip = withHelpTooltip((props: any) => <label {...props} data-xhelp="online-help" />);
 export const CheckBoxWithHelpTooltip = withHelpTooltip(CheckBox);
 export const SelectWithHelpTooltip = withHelpTooltip(Select);
