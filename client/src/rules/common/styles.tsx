@@ -18,6 +18,19 @@ export const Form = styled.div`
   }
 `;
 
+export const Line = styled.div`
+  align-items: center;
+  display: flex;
+
+  & > div:not(:first-child) {
+    margin-left: 20px;
+  }
+
+  & > div:first-child {
+    margin-right: 20px;
+  }
+`;
+
 export const BlockContent = styled.div`
   align-items: center;
   display: flex;
