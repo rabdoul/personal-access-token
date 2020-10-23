@@ -24,6 +24,9 @@ import { MaterialGroupsResource } from "./resources/MaterialGroupsResource";
 import { RequirementsResource } from "./resources/CutParametersResource";
 import { OffloadingRulesResource } from "./resources/OffloadingRulesResource";
 import { ProductionLinesResource } from "./resources/ProductionLinesResource";
+import { BlockingRulesResource } from "./resources/BlockingRulesResource";
+import { PositionningRulesResource } from "./resources/PositionningRulesResource";
+import { ProximityRulesResource } from "./resources/ProximityRulesResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -92,8 +95,11 @@ export class ExpressServer {
     authenticatedRouter.use(new ProductCategoriesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new MaterialGroupsResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new RequirementsResource(this.commandQueryExecutor).router);
-    authenticatedRouter.use(new OffloadingRulesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new ProductionLinesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new OffloadingRulesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new BlockingRulesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new PositionningRulesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new ProximityRulesResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }
 
