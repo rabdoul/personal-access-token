@@ -172,6 +172,11 @@ export const CriterionsContainer = styled.div`
   grid-gap: 10px 20px;
   grid-template-columns: max-content 1fr max-content;
   width: 100%;
+
+  [data-testId='CheckboxComponent'] {
+    height: 14px;
+    width: 14px;
+  }
 `;
 
 export const ButtonGroup = styled.div`
