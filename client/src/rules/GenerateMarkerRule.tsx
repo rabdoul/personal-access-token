@@ -4,10 +4,12 @@ import Input from '@lectra/input';
 import ItemsSwitcher from '@lectra/itemsswitcher';
 import Select from '@lectra/select';
 
-import { LabelWithHelpTooltip } from '../base/Help';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form, Line } from './common/styles';
+import { LabelWithHelpTooltip } from '../base/Help';
 import { StatementResult } from '../model';
+import DropDownSearchRenderer from './common/DropDownSearchRenderer';
+import DropDownSearch from '@lectra/dropdownsearch';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -34,7 +36,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
       <Form>
         <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.groups' })}</LabelWithHelpTooltip>
         <Line>
-          <Select data-xlabel="markerGroups" value={statementResult.groupsProcessing?.toString()} listItems={[]} onChange={() => {}} width={150} disabled={disabled} />
+          <Select data-xlabel="markerGroups" value={statementResult.groupsProcessing?.toString()} listItems={[]} onChange={() => {}} width={200} disabled={disabled} />
           {statementResult.groupsProcessing !== 1 && (
             <>
               <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
@@ -52,57 +54,89 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           )}
         </Line>
         <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.variant.direction' })}</LabelWithHelpTooltip>
-        <Select data-xlabel="variantDirection" value={statementResult.variantDirection?.toString()} listItems={[]} onChange={() => {}} width={150} disabled={disabled} />
+        <Select data-xlabel="variantDirection" value={statementResult.variantDirection?.toString()} listItems={[]} onChange={() => {}} width={200} disabled={disabled} />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.proximity' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
         <Line>
-          <Select
+          <DropDownSearch
             data-xlabel="proximityRulesIdPlain"
-            value={statementResult.proximityRulesIdPlain?.toString()}
+            data-xvalue={statementResult.proximityRulesIdPlain ? statementResult.proximityRulesIdPlain : 'none'}
             listItems={[]}
+            value={statementResult.proximityRulesIdPlain}
             onChange={() => {}}
-            width={150}
+            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
+            placeholder="Search"
+            width={200}
           />
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
-          <Select
+          <DropDownSearch
             data-xlabel="proximityRulesIdMotif"
-            value={statementResult.proximityRulesIdMotif?.toString()}
+            data-xvalue={statementResult.proximityRulesIdMotif ? statementResult.proximityRulesIdMotif : 'none'}
             listItems={[]}
+            value={statementResult.proximityRulesIdMotif}
             onChange={() => {}}
-            width={150}
+            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
+            placeholder="Search"
+            width={200}
           />
         </Line>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.blocking' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
         <Line>
-          <Select data-xlabel="blockingRuleIdPlain" value={statementResult.blockingRuleIdPlain?.toString()} listItems={[]} onChange={() => {}} width={150} disabled={disabled} />
+          <DropDownSearch
+            data-xlabel="blockingRuleIdPlain"
+            data-xvalue={statementResult.blockingRuleIdPlain ? statementResult.blockingRuleIdPlain : 'none'}
+            listItems={[]}
+            value={statementResult.blockingRuleIdPlain}
+            onChange={() => {}}
+            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            disabled={disabled}
+            placeholder="Search"
+            width={200}
+          />
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
-          <Select data-xlabel="blockingRuleIdMotif" value={statementResult.blockingRuleIdMotif?.toString()} listItems={[]} onChange={() => {}} width={150} disabled={disabled} />
+          <DropDownSearch
+            data-xlabel="blockingRuleIdMotif"
+            data-xvalue={statementResult.blockingRuleIdMotif ? statementResult.blockingRuleIdMotif : 'none'}
+            listItems={[]}
+            value={statementResult.blockingRuleIdMotif}
+            onChange={() => {}}
+            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            disabled={disabled}
+            placeholder="Search"
+            width={200}
+          />
         </Line>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.positioning' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
         <Line>
-          <Select
+          <DropDownSearch
             data-xlabel="zonePositioningRuleIdPlain"
-            value={statementResult.zonePositioningRuleIdPlain?.toString()}
+            data-xvalue={statementResult.zonePositioningRuleIdPlain ? statementResult.zonePositioningRuleIdPlain : 'none'}
             listItems={[]}
+            value={statementResult.zonePositioningRuleIdPlain}
             onChange={() => {}}
-            width={150}
+            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
+            placeholder="Search"
+            width={200}
           />
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
-          <Select
+          <DropDownSearch
             data-xlabel="zonePositioningRuleIdMotif"
-            value={statementResult.zonePositioningRuleIdMotif?.toString()}
+            data-xvalue={statementResult.zonePositioningRuleIdMotif ? statementResult.zonePositioningRuleIdMotif : 'none'}
             listItems={[]}
+            value={statementResult.zonePositioningRuleIdMotif}
             onChange={() => {}}
-            width={150}
+            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
+            placeholder="Search"
+            width={200}
           />
         </Line>
         <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.pre.nesting' })}</LabelWithHelpTooltip>
@@ -118,7 +152,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             disabled={disabled}
             options={{
               items: {
-                minWidth: 76
+                minWidth: 100
               }
             }}
           />
@@ -132,7 +166,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
                 type="text"
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}
-                width={150}
+                width={200}
               />
             </>
           )}
@@ -151,7 +185,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           disabled={disabled}
           options={{
             items: {
-              minWidth: 76
+              minWidth: 100
             }
           }}
         />
