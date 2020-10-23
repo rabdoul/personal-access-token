@@ -9,7 +9,6 @@ import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
 import { StatementResult } from '../model';
 
 export interface GenerateMarker extends StatementResult {
@@ -31,7 +30,7 @@ const GenerateMarkerRule: React.FC = () => {
   const generateMarker = useRule('generate-marker');
   const activityConfiguration = useActivityConfiguration('generate-marker');
   const { editMode } = useUIState();
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, generateMarker);
+
   if (generateMarker !== undefined && activityConfiguration !== undefined) {
     return (
       <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={generateMarker}>
