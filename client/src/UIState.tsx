@@ -16,6 +16,7 @@ import { Offloading } from './rules/OffloadingRule';
 import { GenerateCuttingOrder } from './rules/GenerateCuttingOrderRule';
 import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
 import { MaterialValidation } from './rules/MaterialValidationRule';
+import { GenerateMarker } from './rules/GenerateMarkerRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -30,6 +31,7 @@ export type UIState = {
   'associate-cutting-requirements'?: ActivityRule<AssociateCuttingRequirements>;
   publish?: ActivityRule<Publish>;
   'associate-cutting-activities'?: ActivityRule<AssociateCuttingActivities>;
+  'generate-marker'?: ActivityRule<GenerateMarker>;
   'validate-marker'?: ActivityRule<ValidateMarker>;
   'after-nesting-roll-allocation'?: ActivityRule<RollAssignment>;
   'generate-section-plan'?: ActivityRule<GenerateSectionPlan>;
@@ -76,6 +78,7 @@ export type Action =
   | UpdateStatementResult<'publish', Publish>
   | UpdateStatementResult<'generate-section-plan', GenerateSectionPlan>
   | UpdateStatementResult<'generate-spreading-plan', GenerateSpreadingPlan>
+  | UpdateStatementResult<'generate-marker', GenerateMarker>
   | UpdateStatementResult<'validate-marker', ValidateMarker>
   | UpdateStatementResult<'associate-cutting-requirements', AssociateCuttingRequirements>
   | UpdateStatementResult<'associate-cutting-activities', AssociateCuttingActivities>

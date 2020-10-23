@@ -25,6 +25,7 @@ import AffectCuttingLineRule from './rules/AffectCuttingLineRule';
 import GenerateCuttingOrderRule from './rules/GenerateCuttingOrderRule';
 import GenerateCuttingOrderODRule from './rules/GenerateCuttingOrderODRule';
 import MaterialValidationRule from './rules/MaterialValidationRule';
+import GenerateMarkerRule from './rules/GenerateMarkerRule';
 
 const ProductionProcessScreen = () => {
   useRibbonListener();
@@ -40,6 +41,7 @@ const ProductionProcessScreen = () => {
           <Route exact path="/setup-sequencing" component={SequencingRule} />
           <Route exact path="/validate-mtm-product" component={ValidateMTMProductRule} />
           <Route exact path="/generate-batch" component={GenerateBatchRule} />
+          <Route exact path="/generate-marker" component={GenerateMarkerRule} />
           <Route exact path="/validate-marker" component={ValidateMarkerRule} />
           <Route exact path="/associate-cutting-requirements" component={AssociateCuttingRequirementsRule} />
           <Route exact path="/associate-cutting-activities" component={AssociateCuttingActivitiesRule} />
