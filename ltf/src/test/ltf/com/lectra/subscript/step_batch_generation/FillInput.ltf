@@ -1,0 +1,18 @@
+SCRIPT_DESCRIPTION
+Enter text into result block input
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> text to enter into input
+    parameter1 -> data-xlabel of the checkbox
+    parameter2 -> data-xrow
+	parameter3 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Enter ${parameter0} into input ${parameter1} of criteria row ${parameter2} of block result ${parameter3}
+
+	enterText -> ${parameter0}$KEY_ENTER -> input [ data-xlabel = ${parameter1} ] -> div [ data-xrow = ${parameter2} ] -> div [ data-resultblock-id = ${parameter3} ]

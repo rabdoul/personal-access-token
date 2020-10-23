@@ -42,6 +42,20 @@ SCRIPT_START
 
    	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
+	paragraph -> Step Batch Generation
+
+    callScript -> subscript.activity_list.SelectActivity -> [ generate-batch ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+
+	callScript -> subscript.ribbon.CheckSaveDisabled -> [  ] -> 
+
+   	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
 	paragraph -> Step Marker Validation
 
     callScript -> subscript.activity_list.SelectActivity -> [ validate-marker ] -> 

@@ -31,7 +31,7 @@ SCRIPT_START
 
 	check -> exists = false -> div [ data-xlabel= doNotAskAgain ]
 
-	paragraph -> Check all options in conditional list of step MTM
+	paragraph -> Check all options in conditional list of step Material validation
 
 	callScript -> subscript.step_validate_material.CheckLeftOperands -> [  ] -> 
 
