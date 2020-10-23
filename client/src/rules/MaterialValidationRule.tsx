@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import Checkbox from '@lectra/checkbox';
 
 import useRule from './common/useRule';
 import { useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
-import { Form, FormLine, StyledSelect } from './common/styles';
+import { Form, StyledSelect } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
-import { useHelpUrls } from '../base/Help';
+import { CheckBoxWithHelpTooltip, useHelpUrls } from '../base/Help';
 
 export interface MaterialValidation extends StatementResult {
   requestValidation: boolean;
@@ -68,32 +67,32 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine helpUrl={urls[0]}>
-        <StyledSelect listItems={requestValidationItems} value={value} onChange={handleRequestValidationChange} width={600} disabled={disabled} />
-      </FormLine>
+      <StyledSelect listItems={requestValidationItems} value={value} onChange={handleRequestValidationChange} width={600} disabled={disabled} helpUrl={urls[0]} />
+      <br />
       {statementResult.requestValidation && (
-        <FormLine helpUrl={urls[1]}>
-          <Checkbox
+        <Fragment>
+          <CheckBoxWithHelpTooltip
             label={formatMessage({ id: 'rule.material.validation.auto.update' })}
             checked={statementResult.updateMaterialBatch!}
             onChange={value => dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker-width', statementIndex, attribute: 'updateMaterialBatch', value })}
             disabled={disabled}
             xlabel="updateMaterialBatch"
             tickSize={13}
+            helpUrl={urls[1]}
           />
-        </FormLine>
+          <br />
+        </Fragment>
       )}
       {statementResult.updateMaterialBatch && (
-        <FormLine helpUrl={urls[2]}>
-          <Checkbox
-            label={formatMessage({ id: 'rule.material.validation.do.not.ask.again' })}
-            checked={statementResult.doNotAskAgain!}
-            onChange={value => dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker-width', statementIndex, attribute: 'doNotAskAgain', value })}
-            disabled={disabled}
-            xlabel="doNotAskAgain"
-            tickSize={13}
-          />
-        </FormLine>
+        <CheckBoxWithHelpTooltip
+          label={formatMessage({ id: 'rule.material.validation.do.not.ask.again' })}
+          checked={statementResult.doNotAskAgain!}
+          onChange={value => dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker-width', statementIndex, attribute: 'doNotAskAgain', value })}
+          disabled={disabled}
+          xlabel="doNotAskAgain"
+          tickSize={13}
+          helpUrl={urls[2]}
+        />
       )}
     </Form>
   );

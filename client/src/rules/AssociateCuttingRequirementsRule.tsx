@@ -8,11 +8,11 @@ import { StatementResult } from '../model';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
-import { Form, FormLine } from './common/styles';
+import { Form } from './common/styles';
 import DropDownSearch from '@lectra/dropdownsearch';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import { useIntl } from 'react-intl';
-import { useHelpUrls } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import useRuleValidator from './common/useRuleValidator';
 
 export interface AssociateCuttingRequirements extends StatementResult {
@@ -56,20 +56,20 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
   }
   return (
     <Form>
-      <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`requirement-${statementIndex}`}>{formatMessage({ id: 'cutting.requirement' })}</label>
-        <DropDownSearch
-          data-xlabel="requirement"
-          data-xvalue={statementResult.requirementId ? statementResult.requirementId : 'none'}
-          listItems={requirements}
-          value={statementResult.requirementId}
-          onChange={handleRequierementChange}
-          customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
-          disabled={disabled}
-          placeholder="Search"
-          width={200}
-        />
-      </FormLine>
+      <LabelWithHelpTooltip htmlFor={`requirement-${statementIndex}`} helpUrl={urls[0]}>
+        {formatMessage({ id: 'cutting.requirement' })}
+      </LabelWithHelpTooltip>
+      <DropDownSearch
+        data-xlabel="requirement"
+        data-xvalue={statementResult.requirementId ? statementResult.requirementId : 'none'}
+        listItems={requirements}
+        value={statementResult.requirementId}
+        onChange={handleRequierementChange}
+        customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
+        disabled={disabled}
+        placeholder="Search"
+        width={200}
+      />
     </Form>
   );
 };

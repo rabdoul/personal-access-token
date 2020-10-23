@@ -10,7 +10,7 @@ import ConditionalInstruction from './ConditionalInstruction';
 import useConditionConfiguration from './useConditionConfiguration';
 import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
 import DropDownSearchRenderer from './DropDownSearchRenderer';
-import { ActionButton, useHelpUrls } from '../../base/Help';
+import { ButtonWithHelpTooltip, useHelpUrls } from '../../base/Help';
 
 type Props = {
   statementIndex: number;
@@ -107,17 +107,22 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           />
         )}
         <BlockActions>
-          <ActionButton
+          <ButtonWithHelpTooltip
             helpUrl={urls[0]}
             onClick={() => dispatch({ type: 'ADD_CONDITION', activityId, statementIndex, conditionIndex: conditionIndex + 1 })}
             disabled={disabled}
             type={'white'}
           >
             <Icon type="add" size={14} />
-          </ActionButton>
-          <ActionButton helpUrl={urls[1]} onClick={() => dispatch({ type: 'DELETE_CONDITION', activityId, statementIndex, conditionIndex })} disabled={disabled} type={'white'}>
+          </ButtonWithHelpTooltip>
+          <ButtonWithHelpTooltip
+            helpUrl={urls[1]}
+            onClick={() => dispatch({ type: 'DELETE_CONDITION', activityId, statementIndex, conditionIndex })}
+            disabled={disabled}
+            type={'white'}
+          >
             <Icon type="delete" size={14} />
-          </ActionButton>
+          </ButtonWithHelpTooltip>
         </BlockActions>
       </BlockContent>
     </BlockContainer>

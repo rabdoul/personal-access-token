@@ -1,15 +1,14 @@
 import React from 'react';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import CheckBox from '@lectra/checkbox';
+import { useIntl } from 'react-intl';
 
 import { StatementResult } from '../model';
 import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { useHelpUrls, withHelpTooltip } from '../base/Help';
+import { CheckBoxWithHelpTooltip, LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
-import { Form, FormLine } from './common/styles';
-import { useIntl } from 'react-intl';
+import { Form } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 
 export interface Publish extends StatementResult {
@@ -36,29 +35,23 @@ const PublishRule: React.FC = () => {
 const PublishForm: React.FC<StatementResultFormProps<Publish>> = ({ statementIndex, statementResult, disabled }) => {
   const dispatch = useUIDispatch();
   const { formatMessage } = useIntl();
+  const urls = useHelpUrls('PP_PUBLICATION_CUTTING_ORDERS', 'PP_PUBLICATION_PUBLISH_AUTOMATICALLY');
   const onChange = (value: any) => {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'publish', statementIndex: statementIndex, attribute: 'automaticallyPublish', value: value });
   };
 
-  const CheckBoxWithHelp = withHelpTooltip(CheckBox);
-  const CheckBoxLabel: React.FC<{}> = () => {
-    return <div style={{ margin: '0 20px 0 0px', alignSelf: 'start' }}>{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</div>;
-  };
-  const CheckBoxLabelWithHelp = withHelpTooltip(CheckBoxLabel);
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine style={{ paddingTop: '3px' }}>
-        <CheckBoxLabelWithHelp helpUrl={useHelpUrls('PP_PUBLICATION_CUTTING_ORDERS')[0]} />
-        <CheckBoxWithHelp
-          helpUrl={useHelpUrls('PP_PUBLICATION_PUBLISH_AUTOMATICALLY')[0]}
-          disabled={disabled}
-          label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
-          checked={statementResult.automaticallyPublish ?? false}
-          onChange={onChange}
-          xlabel="enableAutomaticPublishing"
-          tickSize={13}
-        />
-      </FormLine>
+      <LabelWithHelpTooltip helpUrl={urls[0]} />
+      <CheckBoxWithHelpTooltip
+        helpUrl={urls[1]}
+        disabled={disabled}
+        label={formatMessage({ id: 'rule.publish.enable.automatic.publishing' })}
+        checked={statementResult.automaticallyPublish ?? false}
+        onChange={onChange}
+        xlabel="enableAutomaticPublishing"
+        tickSize={13}
+      />
     </Form>
   );
 };

@@ -1,36 +1,22 @@
 import Icon from '@lectra/icon';
 import styled from 'styled-components/macro';
-import { withHelpTooltip } from '../../base/Help';
+import { SelectWithHelpTooltip, withHelpTooltip } from '../../base/Help';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
 
 export const Form = styled.div`
-  span {
-    font-weight: lighter;
-    font-size: 14px;
-  }
+  align-items: center;
+  display: grid;
+  font-weight: lighter;
+  grid-gap: 10px 20px;
+  grid-template-columns: max-content 1fr;
+  width: 100%;
 
   [data-testId='CheckboxComponent'] {
     height: 14px;
     width: 14px;
   }
-
-  & > div:not(:last-child) {
-    margin-bottom: 10px;
-  }
 `;
-
-export const FormLine = withHelpTooltip(styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  font-weight: lighter;
-  margin: 2px 0;
-
-  label {
-    margin-right: 20px;
-  }
-`);
 
 export const BlockContent = styled.div`
   align-items: center;
@@ -63,7 +49,7 @@ export const BlockContainer = styled.div<{ marginLeft?: string }>`
   width: fit-content;
 `;
 
-export const StyledSelect = styled(Select)`
+export const StyledSelect = styled(SelectWithHelpTooltip)`
   width: 200px !important;
 `;
 
@@ -126,7 +112,7 @@ export const IconDelete = styled(Icon)<{ disabled: boolean }>`
   }
 `;
 
-export const EfficiencyNumbersContainer = styled.div`
+export const MarkerEfficiencyContainer = styled.div`
   align-items: center;
   display: flex;
   height: 35px;
@@ -140,7 +126,7 @@ export const EfficiencyNumbersContainer = styled.div`
   }
 `;
 
-export const EfficiencyContainer = styled.div`
+export const MarkerEfficiencyLabelContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -148,7 +134,7 @@ export const EfficiencyContainer = styled.div`
   width: 280px;
 `;
 
-export const FromInput = styled(Input)<{ error: boolean }>`
+export const MinMarkerEfficiencyInput = styled(Input)<{ error: boolean }>`
   position: absolute;
   left: 40px;
 
@@ -158,7 +144,7 @@ export const FromInput = styled(Input)<{ error: boolean }>`
   }
 `;
 
-export const ToInput = styled(Input)<{ error: boolean }>`
+export const MaxMarkerEfficiencyInput = styled(Input)<{ error: boolean }>`
   position: absolute;
   right: 43px;
 
@@ -168,7 +154,7 @@ export const ToInput = styled(Input)<{ error: boolean }>`
   }
 `;
 
-export const EfficiencyImg = styled.div`
+export const MarkerEfficiencyGauge = styled.div`
   background-image: url('/assets/Gauge.png');
   background-repeat: no-repeat;
   height: 35px;
@@ -179,25 +165,19 @@ export const CriterionsContainer = styled.div`
   border: 1px solid #ccc;
   margin-top: 15px;
   padding: 10px 20px;
+
+  align-items: center;
+  display: grid;
+  font-weight: lighter;
+  grid-gap: 10px 20px;
+  grid-template-columns: max-content 1fr max-content;
+  width: 100%;
 `;
 
 export const ButtonGroup = styled.div`
   display: flex;
-  margin-left: 99px;
   gap: 10px;
 `;
-
-export const FormLabel = styled.div`
-  align-items: center;
-  display: flex;
-  margin-right: 10px;
-  width: 340px;
-`;
-
-export const CriteriaLabel = withHelpTooltip(styled.div`
-  margin-right: 10px;
-  width: 180px;
-`);
 
 export const InputNumberWithError = styled(Input)<{ error: boolean }>`
   input {

@@ -48,7 +48,7 @@
     "react-test-renderer": "16.13.1",
     "source-map-explorer": "2.5.0",
     "ts-jest": "^25.5.0",
-    "typescript": "~3.7.2"
+    "typescript": "~3.9.7"
   },
   "scripts": {
     "gen-i18n": "npx react-intl-properties --src ./i18n/properties --dest ./src/generated/i18n.json",

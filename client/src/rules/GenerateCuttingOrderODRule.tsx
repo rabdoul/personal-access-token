@@ -1,18 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-
+import Input from '@lectra/input';
 import Select from '@lectra/select';
+import ItemsSwitcher from '@lectra/itemsswitcher';
+
+import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { useUIState, useUIDispatch, ActivityId } from '../UIState';
-import { useHelpUrls } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { Form, FormLine } from './common/styles';
+import { Form } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 import { GenerateCuttingOrder } from './GenerateCuttingOrderRule';
-import ItemsSwitcher from '@lectra/itemsswitcher';
-import Input from '@lectra/input';
 import ErrorIcon from './common/ErrorIcon';
 
 const GenerateCuttingOrderODRule: React.FC = () => {
@@ -53,69 +53,61 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
 
   return (
     <Form>
-      <FormLine helpUrl={cuttingOrderModeHelpUrl[0]}>
-        <label>{formatMessage({ id: 'rule.generate.cutting.order.generation.mode' })}</label>
-        <Select
-          data-xlabel="cuttingOrderProductGroupingOD"
-          listItems={productGroupingListItems}
-          value={`${statementResult.productGrouping ?? 4}`}
-          onChange={({ value }) =>
-            dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'productGrouping', value: parseInt(value) })
-          }
-          width={350}
-          disabled={disabled}
-        />
-      </FormLine>
+      <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[0]}>{formatMessage({ id: 'rule.generate.cutting.order.generation.mode' })}</LabelWithHelpTooltip>
+      <Select
+        data-xlabel="cuttingOrderProductGroupingOD"
+        listItems={productGroupingListItems}
+        value={`${statementResult.productGrouping ?? 4}`}
+        onChange={({ value }) =>
+          dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'productGrouping', value: parseInt(value) })
+        }
+        width={350}
+        disabled={disabled}
+      />
       {statementResult.productGrouping !== 4 && statementResult.productGrouping !== undefined ? (
-        <>
-          <FormLine style={{ marginTop: '10px' }} helpUrl={cuttingOrderModeHelpUrl[1]}>
-            <label>{formatMessage({ id: 'rule.generate.cutting.order.combine' })}</label>
-            <ItemsSwitcher
-              data-xlabel="canCombineCuttingOrdersOD"
-              name="canCombineCuttingOrders"
-              items={[
-                { title: formatMessage({ id: 'common.yes' }), value: 'true' },
-                { title: formatMessage({ id: 'common.no' }), value: 'false' }
-              ]}
-              defaultValue={statementResult.canMixCommands?.toString() ?? 'false'}
-              onChange={({ value }) => {
-                dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'canMixCommands', value: value });
-              }}
-              disabled={disabled}
-            />
-          </FormLine>
-          <FormLine style={{ marginTop: '10px' }} helpUrl={cuttingOrderModeHelpUrl[2]}>
-            <label>{formatMessage({ id: 'rule.generate.cutting.order.max.number' })}</label>
-            <Input
-              data-xlabel="generateCuttingOrderMaxNumberOD"
-              onBlur={({ target: { value } }) => {
-                dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'maxNumberOfProducts', value: parseInt(value) });
-              }}
-              type="number"
-              value={statementResult.maxNumberOfProducts}
-              disabled={disabled}
-              min={1}
-              icon={<ErrorIcon errorKey="error.not.positive.field" />}
-              error={!isStrictlyPositive(statementResult.maxNumberOfProducts)}
-            />
-          </FormLine>
-          <FormLine style={{ marginTop: '10px' }} helpUrl={cuttingOrderModeHelpUrl[3]}>
-            <label>{formatMessage({ id: 'rule.generate.cutting.order.distribution' })}</label>
-            <ItemsSwitcher
-              data-xlabel="productDistributionOD"
-              name="productDistribution"
-              items={[
-                { title: formatMessage({ id: 'common.balance' }), value: '0' },
-                { title: formatMessage({ id: 'common.fill' }), value: '1' }
-              ]}
-              defaultValue={statementResult.groupDistribution?.toString() ?? '1'}
-              onChange={({ value }) => {
-                dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'groupDistribution', value: parseInt(value) });
-              }}
-              disabled={disabled}
-            />
-          </FormLine>
-        </>
+        <Fragment>
+          <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[1]}>{formatMessage({ id: 'rule.generate.cutting.order.combine' })}</LabelWithHelpTooltip>
+          <ItemsSwitcher
+            data-xlabel="canCombineCuttingOrdersOD"
+            name="canCombineCuttingOrders"
+            items={[
+              { title: formatMessage({ id: 'common.yes' }), value: 'true' },
+              { title: formatMessage({ id: 'common.no' }), value: 'false' }
+            ]}
+            defaultValue={statementResult.canMixCommands?.toString() ?? 'false'}
+            onChange={({ value }) => {
+              dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'canMixCommands', value: value });
+            }}
+            disabled={disabled}
+          />
+          <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[2]}>{formatMessage({ id: 'rule.generate.cutting.order.max.number' })}</LabelWithHelpTooltip>
+          <Input
+            data-xlabel="generateCuttingOrderMaxNumberOD"
+            onBlur={({ target: { value } }) => {
+              dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'maxNumberOfProducts', value: parseInt(value) });
+            }}
+            type="number"
+            value={statementResult.maxNumberOfProducts}
+            disabled={disabled}
+            min={1}
+            icon={<ErrorIcon errorKey="error.not.positive.field" />}
+            error={!isStrictlyPositive(statementResult.maxNumberOfProducts)}
+          />
+          <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[3]}>{formatMessage({ id: 'rule.generate.cutting.order.distribution' })}</LabelWithHelpTooltip>
+          <ItemsSwitcher
+            data-xlabel="productDistributionOD"
+            name="productDistribution"
+            items={[
+              { title: formatMessage({ id: 'common.balance' }), value: '0' },
+              { title: formatMessage({ id: 'common.fill' }), value: '1' }
+            ]}
+            defaultValue={statementResult.groupDistribution?.toString() ?? '1'}
+            onChange={({ value }) => {
+              dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'groupDistribution', value: parseInt(value) });
+            }}
+            disabled={disabled}
+          />
+        </Fragment>
       ) : null}
     </Form>
   );

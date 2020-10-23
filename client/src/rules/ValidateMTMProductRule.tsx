@@ -1,15 +1,14 @@
 import React from 'react';
-import CheckBox from '@lectra/checkbox';
 
 import useRule from './common/useRule';
 import { StatementResult } from '../model';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form, FormLine } from './common/styles';
+import { Form } from './common/styles';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
-import { useHelpUrls } from '../base/Help';
+import { CheckBoxWithHelpTooltip, useHelpUrls } from '../base/Help';
 
 export interface ValidateMTMProduct extends StatementResult {
   stopOnOutOfRangeWarning: boolean;
@@ -46,26 +45,25 @@ const ValidateMTMProductResultForm: React.FC<StatementResultFormProps<ValidateMT
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine helpUrl={urls[0]}>
-        <CheckBox
-          disabled={disabled}
-          label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
-          checked={statementResult.stopOnOutOfRangeWarning!}
-          onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
-          xlabel="stopOnOutOfRangeWarning"
-          tickSize={13}
-        />
-      </FormLine>
-      <FormLine helpUrl={urls[1]}>
-        <CheckBox
-          disabled={disabled}
-          label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}
-          checked={statementResult.stopOnIncorrectValueWarning!}
-          onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
-          xlabel="stopOnIncorrectValueWarning"
-          tickSize={13}
-        />
-      </FormLine>
+      <CheckBoxWithHelpTooltip
+        disabled={disabled}
+        label={formatMessage({ id: 'rule.validate.mtm.product.stop.out.of.range' })}
+        checked={statementResult.stopOnOutOfRangeWarning!}
+        onChange={value => updateValidateMTMProduct('stopOnOutOfRangeWarning', value)}
+        xlabel="stopOnOutOfRangeWarning"
+        tickSize={13}
+        helpUrl={urls[0]}
+      />
+      <br />
+      <CheckBoxWithHelpTooltip
+        disabled={disabled}
+        label={formatMessage({ id: 'rule.validate.mtm.product.stop.incorrect.value' })}
+        checked={statementResult.stopOnIncorrectValueWarning!}
+        onChange={value => updateValidateMTMProduct('stopOnIncorrectValueWarning', value)}
+        xlabel="stopOnIncorrectValueWarning"
+        tickSize={13}
+        helpUrl={urls[1]}
+      />
     </Form>
   );
 };

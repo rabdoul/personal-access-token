@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 
 import Select from '@lectra/select';
 import { useUIState, useUIDispatch, ActivityId } from '../UIState';
-import { useHelpUrls } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { Form, FormLine } from './common/styles';
+import { Form } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 import { StatementResult } from '../model';
 
@@ -55,22 +55,20 @@ const GenerateCuttingOrderForm: React.FC<StatementResultFormProps<GenerateCuttin
 
   return (
     <Form>
-      <FormLine helpUrl={cuttingOrderModeHelpUrl[0]}>
-        <label>{formatMessage({ id: 'rule.generate.cutting.order.generation.mode' })}</label>
-        <Select
-          data-xlabel="cuttingOrderProductGrouping"
-          listItems={productGroupingListItems}
-          value={`${statementResult.productGrouping ?? 4}`}
-          onChange={({ value }) =>
-            dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'productGrouping', value: parseInt(value) })
-          }
-          width={350}
-          disabled={disabled}
-        />
-      </FormLine>
+      <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[0]}>{formatMessage({ id: 'rule.generate.cutting.order.generation.mode' })}</LabelWithHelpTooltip>
+      <Select
+        data-xlabel="cuttingOrderProductGrouping"
+        listItems={productGroupingListItems}
+        value={`${statementResult.productGrouping ?? 4}`}
+        onChange={({ value }) =>
+          dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'productGrouping', value: parseInt(value) })
+        }
+        width={350}
+        disabled={disabled}
+      />
       {statementResult.productGrouping !== 4 && statementResult.productGrouping !== undefined ? (
-        <FormLine helpUrl={cuttingOrderModeHelpUrl[0]} style={{ marginTop: '10px' }}>
-          <label>{formatMessage({ id: 'rule.generate.cutting.order.material.grouping' })}</label>
+        <Fragment>
+          <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[0]}>{formatMessage({ id: 'rule.generate.cutting.order.material.grouping' })}</LabelWithHelpTooltip>
           <Select
             data-xlabel="cuttingOrderMaterialGrouping"
             listItems={materialGroupingListItems}
@@ -78,10 +76,10 @@ const GenerateCuttingOrderForm: React.FC<StatementResultFormProps<GenerateCuttin
             onChange={({ value }) =>
               dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'materialGrouping', value: parseInt(value) })
             }
-            width={300}
+            width={350}
             disabled={disabled}
           />
-        </FormLine>
+        </Fragment>
       ) : null}
     </Form>
   );

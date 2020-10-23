@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import useRule from './common/useRule';
 import { useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
-import { Form, FormLine, StyledSelect } from './common/styles';
+import { Form, StyledSelect } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import { LabelWithHelpTooltip } from '../base/Help';
 
 export interface GenerateSpreadingPlan extends StatementResult {
   spreadingPlanGeneration: number;
@@ -58,25 +59,23 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
     { label: formatMessage({ id: 'rule.generate.spreading.plan.split.maximize' }), value: '2' }
   ];
   return (
-    <Form onSubmit={e => e.preventDefault()}>
-      <FormLine>
-        <label>{formatMessage({ id: 'rule.generate.spreading.plan.generation.mode' })}</label>
-        <StyledSelect
-          data-xlabel="generation-mode"
-          listItems={generationModeItems}
-          value={statementResult.spreadingPlanGeneration?.toString()}
-          onChange={({ value }) =>
-            dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-spreading-plan', statementIndex, attribute: 'spreadingPlanGeneration', value: parseInt(value) })
-          }
-          width={200}
-          disabled={disabled}
-          error={!isPlanGenerationValid(statementResult)}
-          icon={MANDATORY_FIELD_ERROR}
-        />
-      </FormLine>
+    <Form>
+      <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.spreading.plan.generation.mode' })}</LabelWithHelpTooltip>
+      <StyledSelect
+        data-xlabel="generation-mode"
+        listItems={generationModeItems}
+        value={statementResult.spreadingPlanGeneration?.toString()}
+        onChange={({ value }) =>
+          dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-spreading-plan', statementIndex, attribute: 'spreadingPlanGeneration', value: parseInt(value) })
+        }
+        width={200}
+        disabled={disabled}
+        error={!isPlanGenerationValid(statementResult)}
+        icon={MANDATORY_FIELD_ERROR}
+      />
       {statementResult.spreadingPlanGeneration === 0 && (
-        <FormLine>
-          <label>{formatMessage({ id: 'rule.generate.spreading.plan.distribution.mode' })}</label>
+        <Fragment>
+          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.spreading.plan.distribution.mode' })}</LabelWithHelpTooltip>
           <StyledSelect
             data-xlabel="distribution-mode"
             listItems={distributionModeItems}
@@ -89,7 +88,7 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
             error={!isDistributionValid(statementResult)}
             icon={MANDATORY_FIELD_ERROR}
           />
-        </FormLine>
+        </Fragment>
       )}
     </Form>
   );

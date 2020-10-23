@@ -8,11 +8,11 @@ import { StatementResult } from '../model';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
-import { Form, FormLine } from './common/styles';
+import { Form } from './common/styles';
 import DropDownSearch from '@lectra/dropdownsearch';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import { useIntl } from 'react-intl';
-import { useHelpUrls } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import useRuleValidator from './common/useRuleValidator';
 
 export interface AffectCuttingLine extends StatementResult {
@@ -56,20 +56,18 @@ const AffectCuttingLineResultForm: React.FC<StatementResultFormProps<AffectCutti
   }
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine helpUrl={urls[0]}>
-        <label>{formatMessage({ id: 'rule.affect.cutting.line.production.line' })}</label>
-        <DropDownSearch
-          data-xlabel="production-line"
-          data-xvalue={statementResult.lineId ?? 'none'}
-          listItems={productionLines}
-          value={statementResult.lineId}
-          onChange={handleCuttingLineChange}
-          customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleCuttingLineChange()} />}
-          disabled={disabled}
-          placeholder="Search"
-          width={200}
-        />
-      </FormLine>
+      <LabelWithHelpTooltip helpUrl={urls[0]}>{formatMessage({ id: 'rule.affect.cutting.line.production.line' })}</LabelWithHelpTooltip>
+      <DropDownSearch
+        data-xlabel="production-line"
+        data-xvalue={statementResult.lineId ?? 'none'}
+        listItems={productionLines}
+        value={statementResult.lineId}
+        onChange={handleCuttingLineChange}
+        customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleCuttingLineChange()} />}
+        disabled={disabled}
+        placeholder="Search"
+        width={200}
+      />
     </Form>
   );
 };

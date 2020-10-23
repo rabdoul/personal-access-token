@@ -1,11 +1,13 @@
 import React, { ReactNode, useEffect, useContext, useState } from 'react';
 import Tooltip from '@lectra/tooltip';
-import { fetchData } from 'raspberry-fetch';
 import BasicButton from '@lectra/basicbutton';
+import CheckBox from '@lectra/checkbox';
+import { fetchData } from 'raspberry-fetch';
 
 import { AuthenticationContext } from './Authentication';
 import { UserPreferenceContext } from './UserPreference';
 import styled from 'styled-components';
+import Select from '@lectra/select';
 
 export type Help = {
   isActive: boolean;
@@ -66,4 +68,7 @@ const StyledTooltip = styled(Tooltip)`
   width: 500px;
 `;
 
-export const ActionButton = withHelpTooltip(BasicButton);
+export const ButtonWithHelpTooltip = withHelpTooltip(BasicButton);
+export const LabelWithHelpTooltip = withHelpTooltip((props: any) => <label {...props} />);
+export const CheckBoxWithHelpTooltip = withHelpTooltip(CheckBox);
+export const SelectWithHelpTooltip = withHelpTooltip(Select);

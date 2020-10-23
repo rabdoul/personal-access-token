@@ -1,18 +1,18 @@
 import React from 'react';
+import DropDownSearch from '@lectra/dropdownsearch';
+import { useQuery } from 'react-query';
+import { fetchData } from 'raspberry-fetch';
+import { useIntl } from 'react-intl';
 
 import useRule from './common/useRule';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
-import { useQuery } from 'react-query';
-import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
-import { Form, FormLine } from './common/styles';
-import DropDownSearch from '@lectra/dropdownsearch';
+import { Form } from './common/styles';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
-import { useIntl } from 'react-intl';
-import { useHelpUrls } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import ErrorIcon from './common/ErrorIcon';
 import useRuleValidator from './common/useRuleValidator';
 
@@ -62,22 +62,22 @@ const OffloadingResultForm: React.FC<StatementResultFormProps<Offloading>> = ({ 
   }
   return (
     <Form>
-      <FormLine helpUrl={urls[0]}>
-        <label htmlFor={`offloadingRule-${statementIndex}`}>{formatMessage({ id: 'step.offloading.rule' })}</label>
-        <DropDownSearch
-          data-xlabel="offloading-rule"
-          data-xvalue={statementResult.offloadingRuleId ? statementResult.offloadingRuleId : 'none'}
-          listItems={offloadingRules}
-          value={statementResult.offloadingRuleId}
-          onChange={handleOffloadingRuleChange}
-          customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleOffloadingRuleChange(undefined)} />}
-          disabled={disabled}
-          placeholder="Search"
-          width={200}
-          error={statementResult.offloadingRuleId === undefined}
-          icon={<ErrorIcon errorKey="error.mandatory.field" />}
-        />
-      </FormLine>
+      <LabelWithHelpTooltip helpUrl={urls[0]} htmlFor={`offloadingRule-${statementIndex}`}>
+        {formatMessage({ id: 'step.offloading.rule' })}
+      </LabelWithHelpTooltip>
+      <DropDownSearch
+        data-xlabel="offloading-rule"
+        data-xvalue={statementResult.offloadingRuleId ? statementResult.offloadingRuleId : 'none'}
+        listItems={offloadingRules}
+        value={statementResult.offloadingRuleId}
+        onChange={handleOffloadingRuleChange}
+        customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleOffloadingRuleChange(undefined)} />}
+        disabled={disabled}
+        placeholder="Search"
+        width={200}
+        error={statementResult.offloadingRuleId === undefined}
+        icon={<ErrorIcon errorKey="error.mandatory.field" />}
+      />
     </Form>
   );
 };

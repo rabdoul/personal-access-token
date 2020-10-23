@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 
 import { StatementResult } from '../model';
 import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form, FormLine } from './common/styles';
+import { Form } from './common/styles';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import useRuleValidator from './common/useRuleValidator';
 import ErrorIcon from './common/ErrorIcon';
-import { useHelpUrls } from '../base/Help';
+import { useHelpUrls, CheckBoxWithHelpTooltip, LabelWithHelpTooltip } from '../base/Help';
 
 export interface Sequencing extends StatementResult {
   splitList: boolean;
@@ -56,19 +55,21 @@ const SequencingResultForm: React.FC<StatementResultFormProps<Sequencing>> = ({ 
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <FormLine helpUrl={urls[0]}>
-        <CheckBox
-          disabled={disabled}
-          label={formatMessage({ id: 'rule.sequencing.split.selection' })}
-          checked={statementResult.splitList!}
-          onChange={value => updateSequencing('splitList', value)}
-          xlabel="splitList"
-          tickSize={13}
-        />
-      </FormLine>
+      <CheckBoxWithHelpTooltip
+        disabled={disabled}
+        label={formatMessage({ id: 'rule.sequencing.split.selection' })}
+        checked={statementResult.splitList!}
+        onChange={value => updateSequencing('splitList', value)}
+        xlabel="splitList"
+        tickSize={13}
+        helpUrl={urls[0]}
+      />
+      <br />
       {statementResult.splitList && (
-        <FormLine helpUrl={urls[1]}>
-          <label htmlFor="orders-number">{formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}</label>
+        <Fragment>
+          <LabelWithHelpTooltip helpUrl={urls[1]} htmlFor="orders-number">
+            {formatMessage({ id: 'rule.sequencing.number.orders.sub.selection' })}
+          </LabelWithHelpTooltip>
           <Input
             disabled={disabled}
             id="orders-number"
@@ -82,7 +83,7 @@ const SequencingResultForm: React.FC<StatementResultFormProps<Sequencing>> = ({ 
             min={0}
             onBlur={evt => updateSequencing('firstSubListSize', evt.target.value)}
           />
-        </FormLine>
+        </Fragment>
       )}
     </Form>
   );

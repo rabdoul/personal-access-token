@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import CheckBox from '@lectra/checkbox';
 import Input from '@lectra/input';
 import Icon from '@lectra/icon';
 
@@ -9,11 +8,10 @@ import { ActivityId, useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import { ButtonGroup, CriteriaLabel, CriterionsContainer, FormLabel, FormLine, Form, StyledSmallSelect, InputNumberWithError, SelectWithError } from './common/styles';
+import { ButtonGroup, CriterionsContainer, Form, StyledSmallSelect, InputNumberWithError, SelectWithError } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
-import { ActionButton, useHelpUrls, withHelpTooltip } from '../base/Help';
-import styled from 'styled-components/macro';
+import { useHelpUrls, ButtonWithHelpTooltip, LabelWithHelpTooltip, CheckBoxWithHelpTooltip } from '../base/Help';
 
 export type Criteria = Partial<{
   batchGenerationCriterionType: number;
@@ -114,20 +112,19 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
   ];
 
   return (
-    <Form onSubmit={e => e.preventDefault()}>
-      <FormLine style={{ marginBottom: '10px' }} helpUrl={urls[0]}>
-        <FormLabel>
-          <CheckBox
-            disabled={disabled}
-            checked={statementResult.useMaxNumberOfOrder ? statementResult.useMaxNumberOfOrder : false}
-            onChange={(value: any) => {
-              if (statementResult.batchGenerationType === 0) updateGenerateBatch('useMaxNumberOfOrder', value);
-            }}
-            xlabel="enableMaxPO"
-            tickSize={13}
-            label={formatMessage({ id: 'rule.generate.batch.enable.max.po.batch' })}
-          />
-        </FormLabel>
+    <div>
+      <Form onSubmit={e => e.preventDefault()}>
+        <CheckBoxWithHelpTooltip
+          disabled={disabled}
+          checked={statementResult.useMaxNumberOfOrder ? statementResult.useMaxNumberOfOrder : false}
+          onChange={(value: any) => {
+            if (statementResult.batchGenerationType === 0) updateGenerateBatch('useMaxNumberOfOrder', value);
+          }}
+          xlabel="enableMaxPO"
+          tickSize={13}
+          label={formatMessage({ id: 'rule.generate.batch.enable.max.po.batch' })}
+          helpUrl={urls[0]}
+        />
         <InputNumberWithError
           onBlur={evt => updateGenerateBatch('maxNumberOfOrders', parseInt(evt.target.value))}
           value={statementResult.maxNumberOfOrders}
@@ -140,9 +137,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           error={!isMaxNumberOfOrdersValid(statementResult.maxNumberOfOrders) && statementResult.useMaxNumberOfOrder!}
           icon={MANDATORY_FIELD_ERROR}
         />
-      </FormLine>
-      <FormLine helpUrl={urls[1]}>
-        <FormLabel>{formatMessage({ id: 'rule.generate.batch.group.orders.criteria' })}</FormLabel>
+        <LabelWithHelpTooltip helpUrl={urls[1]}>{formatMessage({ id: 'rule.generate.batch.group.orders.criteria' })}</LabelWithHelpTooltip>
         <StyledSmallSelect
           data-xlabel="groupOrderCriteria"
           listItems={groupOrdersPerCriteriaItems}
@@ -153,11 +148,11 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           error={statementResult.batchGenerationType === undefined}
           icon={MANDATORY_FIELD_ERROR}
         />
-      </FormLine>
+      </Form>
       {statementResult.criterions &&
         statementResult.criterions.map((criteria: Criteria, index: number) => {
           return (
-            <CriterionsBlock
+            <Criterions
               key={`criteria-${index}`}
               disabled={disabled}
               criteriaIndex={index}
@@ -167,17 +162,13 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
             />
           );
         })}
-    </Form>
+    </div>
   );
 };
 
-const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; criteria: Criteria; criterionsLength: number; statementIndex: number }> = ({
-  disabled,
-  criteriaIndex,
-  criteria,
-  criterionsLength,
-  statementIndex
-}) => {
+type CriterionsProps = { disabled: boolean; criteriaIndex: number; criteria: Criteria; criterionsLength: number; statementIndex: number };
+
+const Criterions: React.FC<CriterionsProps> = ({ disabled, criteriaIndex, criteria, criterionsLength, statementIndex }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
 
@@ -203,79 +194,68 @@ const CriterionsBlock: React.FC<{ disabled: boolean; criteriaIndex: number; crit
 
   return (
     <CriterionsContainer data-xrow={criteriaIndex} data-xlabel="criterions">
-      <FormLine style={{ marginBottom: '10px' }}>
-        <CriteriaLabel helpUrl={urls[criteriaIndex === 0 ? 0 : 1]}>
-          {formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}
-        </CriteriaLabel>
-        <SelectWithError
-          data-xlabel="criteria"
-          listItems={criteriaItems}
-          onChange={item => updateCriteria('batchGenerationCriterionType', parseInt(item.value))}
-          disabled={disabled}
-          value={`${criteria.batchGenerationCriterionType}`}
-          width={120}
-          error={criteria.batchGenerationCriterionType === undefined}
-          icon={MANDATORY_FIELD_ERROR}
-        />
-        <ButtonGroup>
-          <ActionButton disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })} helpUrl={urls[5]}>
-            <Icon type="add" />
-          </ActionButton>
-          <ActionButton
-            disabled={disabled || criterionsLength === 1}
-            toggled={false}
-            type="white"
-            onClick={() => dispatch({ type: 'DELETE_CRITERIA_GENERATE_BATCH', statementIndex, criteriaIndex })}
-            helpUrl={urls[6]}
-          >
-            <Icon type="delete" />
-          </ActionButton>
-        </ButtonGroup>
-      </FormLine>
+      <LabelWithHelpTooltip helpUrl={urls[criteriaIndex === 0 ? 0 : 1]}>
+        {formatMessage({ id: criteriaIndex === 0 ? 'rule.generate.batch.criteria' : 'rule.generate.batch.then.criteria' })}
+      </LabelWithHelpTooltip>
+      <SelectWithError
+        data-xlabel="criteria"
+        listItems={criteriaItems}
+        onChange={item => updateCriteria('batchGenerationCriterionType', parseInt(item.value))}
+        disabled={disabled}
+        value={`${criteria.batchGenerationCriterionType}`}
+        width={120}
+        error={criteria.batchGenerationCriterionType === undefined}
+        icon={MANDATORY_FIELD_ERROR}
+      />
+      <ButtonGroup>
+        <ButtonWithHelpTooltip disabled={disabled} toggled={false} type="white" onClick={() => dispatch({ type: 'ADD_CRITERIA_GENERATE_BATCH', statementIndex })} helpUrl={urls[5]}>
+          <Icon type="add" />
+        </ButtonWithHelpTooltip>
+        <ButtonWithHelpTooltip
+          disabled={disabled || criterionsLength === 1}
+          toggled={false}
+          type="white"
+          onClick={() => dispatch({ type: 'DELETE_CRITERIA_GENERATE_BATCH', statementIndex, criteriaIndex })}
+          helpUrl={urls[6]}
+        >
+          <Icon type="delete" />
+        </ButtonWithHelpTooltip>
+      </ButtonGroup>
       {criteria.batchGenerationCriterionType === 0 && (
-        <>
-          <FormLine style={{ marginBottom: '10px' }}>
-            <CriteriaLabel helpUrl={urls[2]}>{formatMessage({ id: 'rule.generate.batch.component.category' })}</CriteriaLabel>
-            <Input
-              onBlur={evt => updateCriteria('componentCategory', evt.target.value)}
-              value={criteria.componentCategory}
-              type="text"
-              disabled={disabled}
-              width={200}
-              data-xlabel="componentCategory"
-            />
-            <ContrastCheckbox helpUrl={urls[4]}>
-              <CheckBox
-                disabled={disabled}
-                checked={criteria.isContrast ? criteria.isContrast : false}
-                onChange={value => updateCriteria('isContrast', value)}
-                xlabel="withContrast"
-                tickSize={13}
-                label={formatMessage({ id: 'rule.generate.batch.contrast' })}
-              />
-            </ContrastCheckbox>
-          </FormLine>
-          <FormLine>
-            <CriteriaLabel helpUrl={urls[3]}>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</CriteriaLabel>
-            <Input
-              onBlur={evt => updateCriteria('componentMaterialUsage', evt.target.value)}
-              value={criteria.componentMaterialUsage}
-              type="text"
-              disabled={disabled}
-              width={200}
-              data-xlabel="materialUsage"
-              error={!isComponentMaterialUsageValid(criteria.componentMaterialUsage)}
-              icon={MANDATORY_FIELD_ERROR}
-            />
-          </FormLine>
-        </>
+        <Fragment>
+          <LabelWithHelpTooltip helpUrl={urls[2]}>{formatMessage({ id: 'rule.generate.batch.component.category' })}</LabelWithHelpTooltip>
+          <Input
+            onBlur={evt => updateCriteria('componentCategory', evt.target.value)}
+            value={criteria.componentCategory}
+            type="text"
+            disabled={disabled}
+            width={200}
+            data-xlabel="componentCategory"
+          />
+          <CheckBoxWithHelpTooltip
+            disabled={disabled}
+            checked={criteria.isContrast ? criteria.isContrast : false}
+            onChange={value => updateCriteria('isContrast', value)}
+            xlabel="withContrast"
+            tickSize={13}
+            label={formatMessage({ id: 'rule.generate.batch.contrast' })}
+            helpUrl={urls[4]}
+          />
+          <LabelWithHelpTooltip helpUrl={urls[3]}>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</LabelWithHelpTooltip>
+          <Input
+            onBlur={evt => updateCriteria('componentMaterialUsage', evt.target.value)}
+            value={criteria.componentMaterialUsage}
+            type="text"
+            disabled={disabled}
+            width={200}
+            data-xlabel="materialUsage"
+            error={!isComponentMaterialUsageValid(criteria.componentMaterialUsage)}
+            icon={MANDATORY_FIELD_ERROR}
+          />
+        </Fragment>
       )}
     </CriterionsContainer>
   );
 };
 
 export default GenerateBatchRule;
-
-const ContrastCheckbox = withHelpTooltip(styled.div`
-  margin-left: 20px;
-`);

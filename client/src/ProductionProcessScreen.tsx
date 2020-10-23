@@ -49,18 +49,11 @@ const ProductionProcessScreen = () => {
           <Route
             exact
             path="/generate-cutting-order"
-            render={() => {
-              return (
-                <Flags
-                  flag="massprod_workflow_enabled"
-                  fallbackRender={() => {
-                    return <GenerateCuttingOrderRule />;
-                  }}
-                >
-                  <GenerateCuttingOrderODRule />
-                </Flags>
-              );
-            }}
+            render={() => (
+              <Flags flag="massprod-workflow-enabled" fallbackRender={() => <GenerateCuttingOrderODRule />}>
+                <GenerateCuttingOrderRule />
+              </Flags>
+            )}
           />
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />

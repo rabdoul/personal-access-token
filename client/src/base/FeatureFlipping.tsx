@@ -33,9 +33,7 @@ const FeatureFlippingProvider = (props: { children: ReactNode }) => {
     <FlagsProvider user={{ key: sub, custom: { tenantId } }} clientkey={clientKey}>
       {props.children}
     </FlagsProvider>
-  ) : (
-    <></>
-  );
+  ) : null;
 };
 
 export default FeatureFlippingProvider;
