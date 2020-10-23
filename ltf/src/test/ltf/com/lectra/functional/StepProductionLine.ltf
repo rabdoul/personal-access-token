@@ -29,6 +29,10 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.CheckPickerEmpty -> [ production-line , 0 ] ->
 
+	paragraph -> Check all options in conditional list of step production line
+
+	callScript -> subscript.step_production_line.CheckLeftOperands -> [  ] -> 
+
 	paragraph -> Test edit mode and cancel
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] ->
