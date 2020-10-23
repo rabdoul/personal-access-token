@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import SpanTooltip from '@lectra/spantooltip';
 
 import { StatementResult } from '../model';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form, MarkerEfficiencyLabelContainer, MarkerEfficiencyGauge, MarkerEfficiencyContainer, MinMarkerEfficiencyInput, MaxMarkerEfficiencyInput } from './common/styles';
@@ -43,13 +43,7 @@ const ValidateMarkerRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('validate-marker');
   const activityConfiguration = useActivityConfiguration('validate-marker');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-
-  useRuleValidator(activityId, rule, validateStatementResult);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('validate-marker', rule, validateStatementResult);
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

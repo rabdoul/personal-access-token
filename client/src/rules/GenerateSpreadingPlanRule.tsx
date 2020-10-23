@@ -33,10 +33,6 @@ const GenerateSpreadingPlanRule = () => {
   const activityConfiguration = useActivityConfiguration('generate-spreading-plan');
   useRuleValidator('generate-spreading-plan', rule, validateStatementResult);
 
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
-
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
       {props => <GenerateSpreadingPlanResultForm {...props} />}

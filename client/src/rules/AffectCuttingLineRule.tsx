@@ -31,10 +31,6 @@ const AffectCuttingLineRule = () => {
   const activityConfiguration = useActivityConfiguration('affect-cutting-line');
   useRuleValidator('affect-cutting-line', rule);
 
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
-
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
       {props => <AffectCuttingLineResultForm {...props} />}

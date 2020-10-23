@@ -16,16 +16,12 @@ function validateStatementCondition(condition: Condition): boolean {
 
 const defaultValidateStatement = () => true;
 
-export default function useRuleValidator<T>(activityId?: ActivityId, rule?: Statement<T>[], validateStatementResult?: (result: Partial<T>) => boolean) {
+export default function useRuleValidator<T>(activityId: ActivityId, rule?: Statement<T>[], validateStatementResult?: (result: Partial<T>) => boolean) {
   const dispatch = useUIDispatch();
   useEffect(() => {
-    if (rule && activityId) {
+    if (rule) {
       const isValid = validateRule(rule, validateStatementResult || defaultValidateStatement);
-      if (isValid) {
-        dispatch({ type: 'VALIDATE_RULE', activityId });
-      } else {
-        dispatch({ type: 'INVALIDATE_RULE', activityId });
-      }
+      dispatch(isValid ? { type: 'VALIDATE_RULE', activityId } : { type: 'INVALIDATE_RULE', activityId });
     }
   }, [dispatch, rule, activityId, validateStatementResult]);
 }

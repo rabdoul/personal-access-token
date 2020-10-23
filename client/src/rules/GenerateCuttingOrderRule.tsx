@@ -3,9 +3,8 @@ import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 
 import Select from '@lectra/select';
-import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
@@ -20,20 +19,17 @@ export interface GenerateCuttingOrder extends StatementResult {
   groupDistribution: number; // TODO: to remove when GenerateCuttingOrderODRule removed
 }
 
-const GenerateCuttingOrderRule: React.FC = () => {
-  const generateCTO = useRule('generate-cutting-order');
-  const activityConfiguration = useActivityConfiguration('generate-cutting-order');
+const GenerateCuttingOrderRule = () => {
   const { editMode } = useUIState();
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, generateCTO);
-  if (generateCTO !== undefined && activityConfiguration !== undefined) {
-    return (
-      <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={generateCTO}>
-        {props => <GenerateCuttingOrderForm {...props} />}
-      </Rule>
-    );
-  } else {
-    return <StepDescription />;
-  }
+  const rule = useRule('generate-cutting-order');
+  const activityConfiguration = useActivityConfiguration('generate-cutting-order');
+  useRuleValidator('generate-cutting-order', rule);
+
+  return (
+    <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={rule}>
+      {props => <GenerateCuttingOrderForm {...props} />}
+    </Rule>
+  );
 };
 
 const GenerateCuttingOrderForm: React.FC<StatementResultFormProps<GenerateCuttingOrder>> = ({ statementResult, statementIndex, disabled }) => {

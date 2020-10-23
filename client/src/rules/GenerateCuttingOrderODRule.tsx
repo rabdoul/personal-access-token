@@ -1,13 +1,12 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
 import ItemsSwitcher from '@lectra/itemsswitcher';
 
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
@@ -15,25 +14,21 @@ import useRuleValidator from './common/useRuleValidator';
 import { GenerateCuttingOrder } from './GenerateCuttingOrderRule';
 import ErrorIcon from './common/ErrorIcon';
 
-const GenerateCuttingOrderODRule: React.FC = () => {
-  const generateCTO = useRule('generate-cutting-order');
-  const activityConfiguration = useActivityConfiguration('generate-cutting-order');
+const validateGenerateCuttingOrder = (generateCuttingOrder: Partial<GenerateCuttingOrder>) => {
+  return generateCuttingOrder.productGrouping === 4 || isStrictlyPositive(generateCuttingOrder.maxNumberOfProducts);
+};
+
+const GenerateCuttingOrderODRule = () => {
   const { editMode } = useUIState();
+  const rule = useRule('generate-cutting-order');
+  const activityConfiguration = useActivityConfiguration('generate-cutting-order');
+  useRuleValidator('generate-cutting-order', rule, validateGenerateCuttingOrder);
 
-  const validateGenerateCuttingOrder = (generateCuttingOrder: Partial<GenerateCuttingOrder>) => {
-    return generateCuttingOrder.productGrouping === 4 || isStrictlyPositive(generateCuttingOrder.maxNumberOfProducts);
-  };
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, generateCTO, useCallback(validateGenerateCuttingOrder, []));
-
-  if (generateCTO !== undefined && activityConfiguration !== undefined) {
-    return (
-      <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={generateCTO}>
-        {props => <GenerateCuttingOrderODForm {...props} />}
-      </Rule>
-    );
-  } else {
-    return <StepDescription />;
-  }
+  return (
+    <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={rule}>
+      {props => <GenerateCuttingOrderODForm {...props} />}
+    </Rule>
+  );
 };
 
 const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCuttingOrder>> = ({ statementResult, statementIndex, disabled }) => {

@@ -20,10 +20,6 @@ const RollAssignmentRule = () => {
   const activityConfiguration = useActivityConfiguration('after-nesting-roll-allocation');
   useRuleValidator('after-nesting-roll-allocation', rule);
 
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
-
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
       {props => <RollAssignmentResultForm {...props} />}

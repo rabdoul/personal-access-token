@@ -33,10 +33,6 @@ const GenerateSectionPlanRule = () => {
   const activityConfiguration = useActivityConfiguration('generate-section-plan');
   useRuleValidator('generate-section-plan', rule, validateStatementResult);
 
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
-
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
       {props => <GenerateSectionPlanResultForm {...props} />}

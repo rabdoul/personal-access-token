@@ -2,11 +2,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { StatementResult } from '../model';
-import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { CheckBoxWithHelpTooltip, LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import StepDescription from './common/StepDescription';
 import useRule from './common/useRule';
 import { Form } from './common/styles';
 import useRuleValidator from './common/useRuleValidator';
@@ -16,20 +15,16 @@ export interface Publish extends StatementResult {
 }
 
 const PublishRule: React.FC = () => {
-  const publish = useRule('publish');
+  const rule = useRule('publish');
   const { editMode } = useUIState();
   const activityConfiguration = useActivityConfiguration('publish');
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, publish);
+  useRuleValidator('publish', rule);
 
-  if (publish !== undefined && activityConfiguration !== undefined) {
-    return (
-      <Rule rule={publish} activityConfiguration={activityConfiguration} disabled={!editMode}>
-        {props => <PublishForm {...props} />}
-      </Rule>
-    );
-  } else {
-    return <StepDescription />;
-  }
+  return (
+    <Rule rule={rule} activityConfiguration={activityConfiguration} disabled={!editMode}>
+      {props => <PublishForm {...props} />}
+    </Rule>
+  );
 };
 
 const PublishForm: React.FC<StatementResultFormProps<Publish>> = ({ statementIndex, statementResult, disabled }) => {
