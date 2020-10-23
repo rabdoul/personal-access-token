@@ -1,16 +1,13 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import SpanTooltip from '@lectra/spantooltip';
+import { useIntl } from 'react-intl';
 
-import { StatementResult } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
-import useRule from './common/useRule';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form, MarkerEfficiencyLabelContainer, MarkerEfficiencyGauge, MarkerEfficiencyContainer, MinMarkerEfficiencyInput, MaxMarkerEfficiencyInput } from './common/styles';
-import Rule, { StatementResultFormProps } from './common/Rule';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
 import ErrorIcon from './common/ErrorIcon';
-import useRuleValidator from './common/useRuleValidator';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form, MarkerEfficiencyContainer, MarkerEfficiencyGauge, MarkerEfficiencyLabelContainer, MaxMarkerEfficiencyInput, MinMarkerEfficiencyInput } from './common/styles';
 
 export interface ValidateMarker extends StatementResult {
   efficiencyThresholdForManualValidation: number;
@@ -39,18 +36,11 @@ const isEfficiencyThresholdForAutomaticValidationValid = (validateMarker: Partia
   );
 };
 
-const ValidateMarkerRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('validate-marker');
-  const activityConfiguration = useActivityConfiguration('validate-marker');
-  useRuleValidator('validate-marker', rule, validateStatementResult);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <ValidateMarkerResultForm {...props} />}
-    </Rule>
-  );
-};
+const ValidateMarkerRule = () => (
+  <Rule activityId={'validate-marker'} validateStatementResult={validateStatementResult}>
+    {props => <ValidateMarkerResultForm {...props} />}
+  </Rule>
+);
 
 const ValidateMarkerResultForm: React.FC<StatementResultFormProps<ValidateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

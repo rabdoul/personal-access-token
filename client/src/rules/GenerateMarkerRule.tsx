@@ -1,15 +1,11 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-
 import Select from '@lectra/select';
-import { useUIState, ActivityId } from '../UIState';
+import { useIntl } from 'react-intl';
+
 import { LabelWithHelpTooltip } from '../base/Help';
-import StepDescription from './common/StepDescription';
-import useRule from './common/useRule';
+import { StatementResult } from '../model';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
-import { StatementResult } from '../model';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -26,21 +22,7 @@ export interface GenerateMarker extends StatementResult {
   useVariableSpacing: boolean;
 }
 
-const GenerateMarkerRule: React.FC = () => {
-  const generateMarker = useRule('generate-marker');
-  const activityConfiguration = useActivityConfiguration('generate-marker');
-  const { editMode } = useUIState();
-
-  if (generateMarker !== undefined && activityConfiguration !== undefined) {
-    return (
-      <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={generateMarker}>
-        {props => <GenerateMarkerForm {...props} />}
-      </Rule>
-    );
-  } else {
-    return <StepDescription />;
-  }
-};
+const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

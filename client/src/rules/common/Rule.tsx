@@ -1,12 +1,15 @@
 import React from 'react';
 
-import { ActivityConfiguration, ActivityRule, StatementResult } from '../../model';
-import StepDescription from './StepDescription';
+import useActivityConfiguration from '../../activities/useActivityConfiguration';
+import { Statement, StatementResult } from '../../model';
+import { ActivityId, useUIState } from '../../UIState';
 import ConditionBlock from './ConditionBlock';
-import ResultBlock from './ResultBlock';
 import DefaultConditionBlock from './DefaultConditionBlock';
-import { ActivityId } from '../../UIState';
+import ResultBlock from './ResultBlock';
+import StepDescription from './StepDescription';
 import { RuleContainer } from './styles';
+import useRule from './useRule';
+import useRuleValidator from './useRuleValidator';
 
 export type StatementResultFormProps<T extends StatementResult> = {
   statementIndex: number;
@@ -15,19 +18,23 @@ export type StatementResultFormProps<T extends StatementResult> = {
 };
 
 type Props<T extends StatementResult> = {
+  activityId: ActivityId;
+  validateStatementResult?: (result: Partial<T>) => boolean;
   children: (formProps: StatementResultFormProps<T>) => React.ReactNode;
-  activityConfiguration?: ActivityConfiguration;
-  rule?: ActivityRule<StatementResult>;
-  disabled: boolean;
 };
 
-const Rule = <T extends StatementResult>({ children, activityConfiguration, rule, disabled }: Props<T>) => {
+function Rule<T extends StatementResult>({ children, activityId, validateStatementResult }: Props<T>) {
+  const { editMode } = useUIState();
+  const rule = useRule(activityId);
+  const activityConfiguration = useActivityConfiguration(activityId);
+  useRuleValidator(activityId, rule, validateStatementResult);
+
   return (
     <RuleContainer>
       <StepDescription />
       {activityConfiguration &&
         rule &&
-        rule.map((statement, statementIndex) => {
+        rule.map((statement: Statement<T>, statementIndex: number) => {
           return (
             <div id={`statement-${statementIndex}`} key={statementIndex}>
               {statement.conditions.map((condition, conditionIndex) => (
@@ -38,24 +45,24 @@ const Rule = <T extends StatementResult>({ children, activityConfiguration, rule
                   condition={condition}
                   activityConfiguration={activityConfiguration}
                   conditionIndex={conditionIndex}
-                  disabled={disabled}
+                  disabled={!editMode}
                 />
               ))}
-              {rule.length !== 1 && statementIndex === rule?.length - 1 && <DefaultConditionBlock activityId={activityConfiguration.id as ActivityId} disabled={disabled} />}
+              {rule.length !== 1 && statementIndex === rule?.length - 1 && <DefaultConditionBlock activityId={activityId} disabled={!editMode} />}
               <ResultBlock
                 xid={statementIndex}
-                activityId={activityConfiguration.id as ActivityId}
+                activityId={activityId}
                 conditional={activityConfiguration.conditions.length > 0}
                 isDefault={rule.length === 1}
-                disabled={disabled}
+                disabled={!editMode}
               >
-                {children({ statementIndex, statementResult: statement.result!, disabled })}
+                {children({ statementIndex, statementResult: statement.result!, disabled: !editMode })}
               </ResultBlock>
             </div>
           );
         })}
     </RuleContainer>
   );
-};
+}
 
 export default Rule;

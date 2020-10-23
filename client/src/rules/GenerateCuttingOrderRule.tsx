@@ -1,15 +1,12 @@
 import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-
 import Select from '@lectra/select';
-import { useUIState, useUIDispatch } from '../UIState';
+import { useIntl } from 'react-intl';
+
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import useRule from './common/useRule';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
-import { StatementResult } from '../model';
 
 export interface GenerateCuttingOrder extends StatementResult {
   productGrouping: number;
@@ -19,18 +16,7 @@ export interface GenerateCuttingOrder extends StatementResult {
   groupDistribution: number; // TODO: to remove when GenerateCuttingOrderODRule removed
 }
 
-const GenerateCuttingOrderRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('generate-cutting-order');
-  const activityConfiguration = useActivityConfiguration('generate-cutting-order');
-  useRuleValidator('generate-cutting-order', rule);
-
-  return (
-    <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={rule}>
-      {props => <GenerateCuttingOrderForm {...props} />}
-    </Rule>
-  );
-};
+const GenerateCuttingOrderRule = () => <Rule activityId={'generate-cutting-order'}>{props => <GenerateCuttingOrderForm {...props} />}</Rule>;
 
 const GenerateCuttingOrderForm: React.FC<StatementResultFormProps<GenerateCuttingOrder>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
