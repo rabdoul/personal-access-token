@@ -1,19 +1,16 @@
 import React from 'react';
-
-import useRule from './common/useRule';
-import { useUIDispatch, useUIState } from '../UIState';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule, { StatementResultFormProps } from './common/Rule';
-import { StatementResult } from '../model';
-import { useQuery } from 'react-query';
-import { fetchData } from 'raspberry-fetch';
-import { useAccessToken } from '../base/Authentication';
-import { Form } from './common/styles';
 import DropDownSearch from '@lectra/dropdownsearch';
-import DropDownSearchRenderer from './common/DropDownSearchRenderer';
+import { fetchData } from 'raspberry-fetch';
 import { useIntl } from 'react-intl';
+import { useQuery } from 'react-query';
+
+import { useAccessToken } from '../base/Authentication';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import useRuleValidator from './common/useRuleValidator';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
+import DropDownSearchRenderer from './common/DropDownSearchRenderer';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form } from './common/styles';
 
 export interface AffectCuttingLine extends StatementResult {
   lineId?: string;
@@ -25,18 +22,7 @@ function useProductionLines() {
   return productionLines;
 }
 
-const AffectCuttingLineRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('affect-cutting-line');
-  const activityConfiguration = useActivityConfiguration('affect-cutting-line');
-  useRuleValidator('affect-cutting-line', rule);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <AffectCuttingLineResultForm {...props} />}
-    </Rule>
-  );
-};
+const AffectCuttingLineRule = () => <Rule activityId={'affect-cutting-line'}>{props => <AffectCuttingLineResultForm {...props} />}</Rule>;
 
 const AffectCuttingLineResultForm: React.FC<StatementResultFormProps<AffectCuttingLine>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

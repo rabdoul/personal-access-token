@@ -1,35 +1,25 @@
 import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
 import Input from '@lectra/input';
-import Select from '@lectra/select';
 import ItemsSwitcher from '@lectra/itemsswitcher';
+import Select from '@lectra/select';
+import { useIntl } from 'react-intl';
 
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { useUIState, useUIDispatch } from '../UIState';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import useRule from './common/useRule';
+import { useUIDispatch } from '../UIState';
+import ErrorIcon from './common/ErrorIcon';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
 import { GenerateCuttingOrder } from './GenerateCuttingOrderRule';
-import ErrorIcon from './common/ErrorIcon';
 
 const validateGenerateCuttingOrder = (generateCuttingOrder: Partial<GenerateCuttingOrder>) => {
   return generateCuttingOrder.productGrouping === 4 || isStrictlyPositive(generateCuttingOrder.maxNumberOfProducts);
 };
 
-const GenerateCuttingOrderODRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('generate-cutting-order');
-  const activityConfiguration = useActivityConfiguration('generate-cutting-order');
-  useRuleValidator('generate-cutting-order', rule, validateGenerateCuttingOrder);
-
-  return (
-    <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={rule}>
-      {props => <GenerateCuttingOrderODForm {...props} />}
-    </Rule>
-  );
-};
+const GenerateCuttingOrderODRule = () => (
+  <Rule activityId={'generate-cutting-order'} validateStatementResult={validateGenerateCuttingOrder}>
+    {props => <GenerateCuttingOrderODForm {...props} />}
+  </Rule>
+);
 
 const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCuttingOrder>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

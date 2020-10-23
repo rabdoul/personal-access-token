@@ -3,12 +3,9 @@ import { useIntl } from 'react-intl';
 import Input from '@lectra/input';
 
 import { StatementResult } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
-import useRule from './common/useRule';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
+import { useUIDispatch } from '../UIState';
 import { Form } from './common/styles';
 import Rule, { StatementResultFormProps } from './common/Rule';
-import useRuleValidator from './common/useRuleValidator';
 import ErrorIcon from './common/ErrorIcon';
 import { useHelpUrls, CheckBoxWithHelpTooltip, LabelWithHelpTooltip } from '../base/Help';
 
@@ -25,18 +22,11 @@ const validateStatementResult = (result: Partial<Sequencing>) => {
   return isFirstSubListSizeValid(result.firstSubListSize);
 };
 
-const SequencingRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('setup-sequencing');
-  const activityConfiguration = useActivityConfiguration('setup-sequencing');
-  useRuleValidator('setup-sequencing', rule, validateStatementResult);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <SequencingResultForm {...props} />}
-    </Rule>
-  );
-};
+const SequencingRule = () => (
+  <Rule activityId={'setup-sequencing'} validateStatementResult={validateStatementResult}>
+    {props => <SequencingResultForm {...props} />}
+  </Rule>
+);
 
 const SequencingResultForm: React.FC<StatementResultFormProps<Sequencing>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

@@ -10,7 +10,7 @@ import useRule from '../useRule';
 jest.mock('react-query');
 
 const MockedProviders = ({ uiStateContext, children }: { uiStateContext: any; children: any }) => (
-  <AuthenticationContext.Provider value={{ accessToken: () => 'token', idToken: () => '', user: () => ({}) }}>
+  <AuthenticationContext.Provider value={{ accessToken: () => 'token', idToken: () => '', user: () => ({}), isSupportMode: () => false }}>
     <UIStateContext.Provider value={uiStateContext}>{children}</UIStateContext.Provider>
   </AuthenticationContext.Provider>
 );

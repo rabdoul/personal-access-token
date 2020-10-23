@@ -1,14 +1,12 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import useRule from './common/useRule';
-import { useUIDispatch, useUIState } from '../UIState';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule, { StatementResultFormProps } from './common/Rule';
-import { StatementResult } from '../model';
-import { Form, StyledSelect } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
-import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+
 import { LabelWithHelpTooltip } from '../base/Help';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
+import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form, StyledSelect } from './common/styles';
 
 export interface GenerateSpreadingPlan extends StatementResult {
   spreadingPlanGeneration: number;
@@ -27,18 +25,11 @@ const validateStatementResult = (result: Partial<GenerateSpreadingPlan>) => {
   return isPlanGenerationValid(result) && isDistributionValid(result);
 };
 
-const GenerateSpreadingPlanRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('generate-spreading-plan');
-  const activityConfiguration = useActivityConfiguration('generate-spreading-plan');
-  useRuleValidator('generate-spreading-plan', rule, validateStatementResult);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <GenerateSpreadingPlanResultForm {...props} />}
-    </Rule>
-  );
-};
+const GenerateSpreadingPlanRule = () => (
+  <Rule activityId={'generate-spreading-plan'} validateStatementResult={validateStatementResult}>
+    {props => <GenerateSpreadingPlanResultForm {...props} />}
+  </Rule>
+);
 
 const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<GenerateSpreadingPlan>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

@@ -1,16 +1,13 @@
 import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import ItemsSwitcher from '@lectra/itemsswitcher';
 import Input from '@lectra/input';
+import ItemsSwitcher from '@lectra/itemsswitcher';
+import { useIntl } from 'react-intl';
 
-import useRule from './common/useRule';
-import { useUIDispatch, useUIState } from '../UIState';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
-import { Form, StyledSelect } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
+import { useUIDispatch } from '../UIState';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form, StyledSelect } from './common/styles';
 
 export interface GenerateSectionPlan extends StatementResult {
   sectionPlanGeneration: number;
@@ -27,18 +24,11 @@ const validateStatementResult = (result: Partial<GenerateSectionPlan>) => {
   return isMaxNumberOfProductsValid(result);
 };
 
-const GenerateSectionPlanRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('generate-section-plan');
-  const activityConfiguration = useActivityConfiguration('generate-section-plan');
-  useRuleValidator('generate-section-plan', rule, validateStatementResult);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <GenerateSectionPlanResultForm {...props} />}
-    </Rule>
-  );
-};
+const GenerateSectionPlanRule = () => (
+  <Rule activityId={'generate-section-plan'} validateStatementResult={validateStatementResult}>
+    {props => <GenerateSectionPlanResultForm {...props} />}
+  </Rule>
+);
 
 const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateSectionPlan>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

@@ -1,19 +1,16 @@
 import React from 'react';
-
-import useRule from './common/useRule';
-import { useUIDispatch, useUIState } from '../UIState';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule, { StatementResultFormProps } from './common/Rule';
-import { StatementResult } from '../model';
-import { useQuery } from 'react-query';
-import { fetchData } from 'raspberry-fetch';
-import { useAccessToken } from '../base/Authentication';
-import { Form } from './common/styles';
 import DropDownSearch from '@lectra/dropdownsearch';
-import DropDownSearchRenderer from './common/DropDownSearchRenderer';
+import { fetchData } from 'raspberry-fetch';
 import { useIntl } from 'react-intl';
+import { useQuery } from 'react-query';
+
+import { useAccessToken } from '../base/Authentication';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
-import useRuleValidator from './common/useRuleValidator';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
+import DropDownSearchRenderer from './common/DropDownSearchRenderer';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form } from './common/styles';
 
 export interface AssociateCuttingRequirements extends StatementResult {
   requirementId?: string;
@@ -25,18 +22,7 @@ function useRequirements() {
   return requirements;
 }
 
-const AssociateCuttingRequirementsRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('associate-cutting-requirements');
-  const activityConfiguration = useActivityConfiguration('associate-cutting-requirements');
-  useRuleValidator('associate-cutting-requirements', rule);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <AssociateCuttingRequirementsResultForm {...props} />}
-    </Rule>
-  );
-};
+const AssociateCuttingRequirementsRule = () => <Rule activityId={'associate-cutting-requirements'}>{props => <AssociateCuttingRequirementsResultForm {...props} />}</Rule>;
 
 const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<AssociateCuttingRequirements>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
