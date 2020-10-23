@@ -10,6 +10,7 @@ import { LabelWithHelpTooltip } from '../base/Help';
 import { StatementResult } from '../model';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import DropDownSearch from '@lectra/dropdownsearch';
+import { useUIDispatch } from '../UIState';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -30,13 +31,37 @@ const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
+  const dispatch = useUIDispatch();
+
+  const updateStatementResult = (attribute: keyof GenerateMarker, value: any) => {
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute, value });
+  };
+
+  const groupsProcessingItems = [
+    { label: formatMessage({ id: 'rule.generate.marker.ignore' }), value: '1' },
+    { label: formatMessage({ id: 'rule.generate.marker.spaceout' }), value: '2' },
+    { label: formatMessage({ id: 'rule.generate.marker.interlock' }), value: '3' }
+  ];
+
+  const variantDirectionItems = [
+    { label: formatMessage({ id: 'rule.generate.marker.normal.direction' }), value: '0' },
+    { label: formatMessage({ id: 'rule.generate.marker.occurrences' }), value: '1' },
+    { label: formatMessage({ id: 'rule.generate.marker.sizes' }), value: '2' }
+  ];
 
   return (
     <div style={{ fontWeight: 'lighter' }}>
       <Form>
         <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.groups' })}</LabelWithHelpTooltip>
         <Line>
-          <Select data-xlabel="markerGroups" value={statementResult.groupsProcessing?.toString()} listItems={[]} onChange={() => {}} width={200} disabled={disabled} />
+          <Select
+            data-xlabel="markerGroups"
+            value={statementResult.groupsProcessing?.toString()}
+            listItems={groupsProcessingItems}
+            onChange={item => updateStatementResult('groupsProcessing', parseInt(item.value))}
+            width={200}
+            disabled={disabled}
+          />
           {statementResult.groupsProcessing !== 1 && (
             <>
               <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
@@ -54,7 +79,14 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           )}
         </Line>
         <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.variant.direction' })}</LabelWithHelpTooltip>
-        <Select data-xlabel="variantDirection" value={statementResult.variantDirection?.toString()} listItems={[]} onChange={() => {}} width={200} disabled={disabled} />
+        <Select
+          data-xlabel="variantDirection"
+          value={statementResult.variantDirection?.toString()}
+          listItems={variantDirectionItems}
+          onChange={item => updateStatementResult('variantDirection', parseInt(item.value))}
+          width={200}
+          disabled={disabled}
+        />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.proximity' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
@@ -64,7 +96,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             data-xvalue={statementResult.proximityRulesIdPlain ? statementResult.proximityRulesIdPlain : 'none'}
             listItems={[]}
             value={statementResult.proximityRulesIdPlain}
-            onChange={() => {}}
+            onChange={item => updateStatementResult('proximityRulesIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
             placeholder="Search"
@@ -76,7 +108,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             data-xvalue={statementResult.proximityRulesIdMotif ? statementResult.proximityRulesIdMotif : 'none'}
             listItems={[]}
             value={statementResult.proximityRulesIdMotif}
-            onChange={() => {}}
+            onChange={item => updateStatementResult('proximityRulesIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
             placeholder="Search"
@@ -92,7 +124,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             data-xvalue={statementResult.blockingRuleIdPlain ? statementResult.blockingRuleIdPlain : 'none'}
             listItems={[]}
             value={statementResult.blockingRuleIdPlain}
-            onChange={() => {}}
+            onChange={item => updateStatementResult('blockingRuleIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
             placeholder="Search"
@@ -104,7 +136,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             data-xvalue={statementResult.blockingRuleIdMotif ? statementResult.blockingRuleIdMotif : 'none'}
             listItems={[]}
             value={statementResult.blockingRuleIdMotif}
-            onChange={() => {}}
+            onChange={item => updateStatementResult('blockingRuleIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
             placeholder="Search"
@@ -120,7 +152,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             data-xvalue={statementResult.zonePositioningRuleIdPlain ? statementResult.zonePositioningRuleIdPlain : 'none'}
             listItems={[]}
             value={statementResult.zonePositioningRuleIdPlain}
-            onChange={() => {}}
+            onChange={item => updateStatementResult('zonePositioningRuleIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
             placeholder="Search"
@@ -132,7 +164,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             data-xvalue={statementResult.zonePositioningRuleIdMotif ? statementResult.zonePositioningRuleIdMotif : 'none'}
             listItems={[]}
             value={statementResult.zonePositioningRuleIdMotif}
-            onChange={() => {}}
+            onChange={item => updateStatementResult('zonePositioningRuleIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
             disabled={disabled}
             placeholder="Search"
@@ -148,7 +180,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               { title: formatMessage({ id: 'common.no' }), value: 'false' }
             ]}
             defaultValue={statementResult.usePreNesting?.toString() ?? 'false'}
-            onChange={() => {}}
+            onChange={({ value }) => updateStatementResult('usePreNesting', value === 'true')}
             disabled={disabled}
             options={{
               items: {
@@ -181,7 +213,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             { title: formatMessage({ id: 'common.no' }), value: 'false' }
           ]}
           defaultValue={statementResult.useVariableSpacing?.toString() ?? 'false'}
-          onChange={() => {}}
+          onChange={({ value }) => updateStatementResult('useVariableSpacing', value === 'true')}
           disabled={disabled}
           options={{
             items: {
