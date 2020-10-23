@@ -61,6 +61,12 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [  ]
 
+	paragraph -> Step Affect production line
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ affect-cutting-line ] ->
+
+	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [  ]
+
 	paragraph -> Step publishing
 
 	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ publish ] ->
