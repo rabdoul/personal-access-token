@@ -97,10 +97,6 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.CheckPickerValue -> [ Default-OffloadingRules , offloading-rule , 2 ] -> 
 
-	paragraph -> Test online help
-
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ assist-offloading , offloading-rule ] -> 
-
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !

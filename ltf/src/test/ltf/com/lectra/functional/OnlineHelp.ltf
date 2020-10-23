@@ -1,0 +1,76 @@
+SCRIPT_DESCRIPTION
+Test dedicated to online help display in cutting room production process
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Online help TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Step Sequencing
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ setup-sequencing ] ->
+
+	callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ splitList ] -> 
+
+	paragraph -> Step MTM
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ validate-mtm-product ] ->
+
+    callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ stopOnOutOfRangeWarning ] -> 
+
+	paragraph -> Step Material validation
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ validate-marker-width ] ->
+
+    callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ updateMaterialBatch ] -> 
+
+	paragraph -> Step Marker validation
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ validate-marker ] ->
+    
+   	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [  ]
+
+	paragraph -> Step Roll assignment
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ after-nesting-roll-allocation ] ->
+    
+	callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ rollAllocationRequired ] ->
+  
+  	paragraph -> Step Requirement
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ associate-cutting-requirements ] ->
+    
+	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [  ]
+
+	paragraph -> Step Activity
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ associate-cutting-activities ] ->
+
+	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [  ]
+
+	paragraph -> Step publishing
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ publish ] ->
+
+    callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ enableAutomaticPublishing ] -> 
+
+	paragraph -> Step offloading
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ assist-offloading ] ->
+
+    callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [  ]
+
+	channel -> close -> prodprocess

@@ -97,10 +97,6 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.CheckPickerEmpty -> [ activity , 0 ] -> 
 
-	paragraph -> Test online help
-
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ associate-cutting-activities , activity ] -> 
-
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !

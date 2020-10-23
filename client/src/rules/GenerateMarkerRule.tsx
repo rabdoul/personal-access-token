@@ -4,11 +4,7 @@ import Input from '@lectra/input';
 import ItemsSwitcher from '@lectra/itemsswitcher';
 import Select from '@lectra/select';
 
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { useUIState } from '../UIState';
 import { LabelWithHelpTooltip } from '../base/Help';
-import StepDescription from './common/StepDescription';
-import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form, Line } from './common/styles';
 import { StatementResult } from '../model';
@@ -28,21 +24,7 @@ export interface GenerateMarker extends StatementResult {
   useVariableSpacing: boolean;
 }
 
-const GenerateMarkerRule: React.FC = () => {
-  const generateMarker = useRule('generate-marker');
-  const activityConfiguration = useActivityConfiguration('generate-marker');
-  const { editMode } = useUIState();
-
-  if (generateMarker !== undefined && activityConfiguration !== undefined) {
-    return (
-      <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={generateMarker}>
-        {props => <GenerateMarkerForm {...props} />}
-      </Rule>
-    );
-  } else {
-    return <StepDescription />;
-  }
-};
+const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

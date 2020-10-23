@@ -1,17 +1,14 @@
 import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import Input from '@lectra/input';
 import Icon from '@lectra/icon';
+import Input from '@lectra/input';
+import { useIntl } from 'react-intl';
 
+import { ButtonWithHelpTooltip, CheckBoxWithHelpTooltip, LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import { StatementResult } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
-import useRule from './common/useRule';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule, { StatementResultFormProps } from './common/Rule';
-import { ButtonGroup, CriterionsContainer, Form, StyledSmallSelect, InputNumberWithError, SelectWithError } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
+import { useUIDispatch } from '../UIState';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
-import { useHelpUrls, ButtonWithHelpTooltip, LabelWithHelpTooltip, CheckBoxWithHelpTooltip } from '../base/Help';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { ButtonGroup, CriterionsContainer, Form, InputNumberWithError, SelectWithError, StyledSmallSelect } from './common/styles';
 
 export type Criteria = Partial<{
   batchGenerationCriterionType: number;
@@ -68,18 +65,11 @@ const validateStatementResult = (result: Partial<GenerateBatch>) => {
   }
 };
 
-const GenerateBatchRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('generate-batch');
-  const activityConfiguration = useActivityConfiguration('generate-batch');
-  useRuleValidator('generate-batch', rule, validateStatementResult);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <GenerateBatchResultForm {...props} />}
-    </Rule>
-  );
-};
+const GenerateBatchRule = () => (
+  <Rule activityId={'generate-batch'} validateStatementResult={validateStatementResult}>
+    {props => <GenerateBatchResultForm {...props} />}
+  </Rule>
+);
 
 const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();

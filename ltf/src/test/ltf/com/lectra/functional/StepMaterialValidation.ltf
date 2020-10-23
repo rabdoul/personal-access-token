@@ -1,0 +1,138 @@
+SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step material validation TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ validate-marker-width , true ] -> 
+
+	comment1 -> Initial state : the list display request validation and the checkbox is not checked
+
+	callScript -> subscript.activity_list.SelectActivity -> [ validate-marker-width ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ request-validation , material-validation-option , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ updateMaterialBatch , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel= doNotAskAgain ]
+
+	paragraph -> Check all options in conditional list of step MTM
+
+	callScript -> subscript.step_validate_material.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ no-validation , material-validation-option , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker-width , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ request-validation , material-validation-option , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ updateMaterialBatch , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = doNotAskAgain ]
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker-width , false ] -> 
+
+	paragraph -> Test that an error is issued when upper-bound is lower than lower bound
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ no-validation , material-validation-option , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = updateMaterialBatch ]
+
+	check -> exists = false -> div [ data-xlabel = doNotAskAgain ]
+
+	callScript -> subscript.result_block.ChangeListValue -> [ roll-pre-assignment , material-validation-option , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = updateMaterialBatch ]
+
+	check -> exists = false -> div [ data-xlabel = doNotAskAgain ]
+
+	callScript -> subscript.result_block.ChangeListValue -> [ request-validation , material-validation-option , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = doNotAskAgain ]
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ updateMaterialBatch , 0 ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ doNotAskAgain , 0 ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ updateMaterialBatch , 0 ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ doNotAskAgain , 0 ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker-width ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , material.cuttingFamily , Equals , ICut ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , material.reference , Contains , Cotton ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ roll-pre-assignment , material-validation-option , 0 ] -> 
+
+	paragraph -> Add another conditional block
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , batch.reference , Equals , cotton-supply ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 1-1 , material.motif , Equals , Motif ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ validate-marker-width , false ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , material.cuttingFamily , Equals , ICut ] ->
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , material.reference , Contains , Cotton ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , batch.reference , Equals , cotton-supply ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , material.motif , Equals , Motif ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ roll-pre-assignment , material-validation-option , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ no-validation , material-validation-option , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ request-validation , material-validation-option , 2 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ updateMaterialBatch , 2 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ doNotAskAgain , 2 ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

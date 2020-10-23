@@ -1,14 +1,11 @@
 import React from 'react';
-
-import useRule from './common/useRule';
-import { StatementResult } from '../model';
-import { useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { Form } from './common/styles';
-import Rule, { StatementResultFormProps } from './common/Rule';
-import useRuleValidator from './common/useRuleValidator';
+
 import { CheckBoxWithHelpTooltip, useHelpUrls } from '../base/Help';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form } from './common/styles';
 
 export interface ValidateMTMProduct extends StatementResult {
   stopOnOutOfRangeWarning: boolean;
@@ -16,16 +13,7 @@ export interface ValidateMTMProduct extends StatementResult {
 }
 
 const ValidateMTMProductRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('validate-mtm-product');
-  const activityConfiguration = useActivityConfiguration('validate-mtm-product');
-  useRuleValidator('validate-mtm-product', rule);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <ValidateMTMProductResultForm {...props} />}
-    </Rule>
-  );
+  return <Rule activityId={'validate-mtm-product'}>{props => <ValidateMTMProductResultForm {...props} />}</Rule>;
 };
 
 const ValidateMTMProductResultForm: React.FC<StatementResultFormProps<ValidateMTMProduct>> = ({ statementResult, statementIndex, disabled }) => {

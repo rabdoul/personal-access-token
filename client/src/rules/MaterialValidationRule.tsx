@@ -1,14 +1,11 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 
-import useRule from './common/useRule';
-import { useUIDispatch, useUIState } from '../UIState';
-import useActivityConfiguration from '../activities/useActivityConfiguration';
-import Rule, { StatementResultFormProps } from './common/Rule';
-import { StatementResult } from '../model';
-import { Form, StyledSelect } from './common/styles';
-import useRuleValidator from './common/useRuleValidator';
 import { CheckBoxWithHelpTooltip, useHelpUrls } from '../base/Help';
+import { StatementResult } from '../model';
+import { useUIDispatch } from '../UIState';
+import Rule, { StatementResultFormProps } from './common/Rule';
+import { Form, StyledSelect } from './common/styles';
 
 export interface MaterialValidation extends StatementResult {
   requestValidation: boolean;
@@ -17,18 +14,7 @@ export interface MaterialValidation extends StatementResult {
   requestPreRollAllocation: boolean;
 }
 
-const MaterialValidationRule = () => {
-  const { editMode } = useUIState();
-  const rule = useRule('validate-marker-width');
-  const activityConfiguration = useActivityConfiguration('validate-marker-width');
-  useRuleValidator('validate-marker-width', rule);
-
-  return (
-    <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
-      {props => <ValidateMaterialResultForm {...props} />}
-    </Rule>
-  );
-};
+const MaterialValidationRule = () => <Rule activityId={'validate-marker-width'}>{props => <ValidateMaterialResultForm {...props} />}</Rule>;
 
 const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialValidation>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
@@ -63,7 +49,15 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <StyledSelect listItems={requestValidationItems} value={value} onChange={handleRequestValidationChange} width={600} disabled={disabled} helpUrl={urls[0]} />
+      <StyledSelect
+        data-xlabel="material-validation-option"
+        listItems={requestValidationItems}
+        value={value}
+        onChange={handleRequestValidationChange}
+        width={600}
+        disabled={disabled}
+        helpUrl={urls[0]}
+      />
       <br />
       {statementResult.requestValidation && (
         <Fragment>

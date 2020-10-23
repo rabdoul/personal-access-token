@@ -155,10 +155,6 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.CheckInputValue -> [ 88 , efficiency-upper-bound , 2 ] -> 
 
-	paragraph -> Test online help
-
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ validate-marker , marker-validblock ] -> 
-
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !
