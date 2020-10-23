@@ -1,0 +1,80 @@
+﻿SCRIPT_DESCRIPTION
+Check all options of left operands for step validate marker conditions
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+
+SCRIPT_START
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ validate-marker-width ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ process.type ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.reference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.motif ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nestingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.cuttingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.type ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nature ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.reference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.supplier ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 

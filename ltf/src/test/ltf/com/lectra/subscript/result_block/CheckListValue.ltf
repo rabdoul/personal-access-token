@@ -1,0 +1,20 @@
+SCRIPT_DESCRIPTION
+Check the current value of a select list
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> data-testid of the list value
+	parameter1 -> data-xlabel of the list
+	parameter2 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Check list ${parameter1} of block result ${parameter2} has value ${parameter0}
+
+	check -> exists = true -> div [ data-testid = ${parameter0} , data-xlabel = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]

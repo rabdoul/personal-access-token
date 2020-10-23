@@ -1,0 +1,38 @@
+
+SCRIPT_DESCRIPTION
+Check if activity is edited or not
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> Activity name
+
+SCRIPT_START
+
+	comment1 -> Enable help, hover to activity list
+
+	callScript -> subscript.activity_list.SelectActivity -> [ ${parameter0} ] ->
+
+	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] ->
+
+	hover -> a [ data-xname = ${parameter0} ]
+
+	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
+
+	hover -> div [ data-xlabel = help-icon ]
+
+	waitDuring -> 1
+
+	check -> exists = false -> div [ class = tippy-content , data-state = visible ]
+
+	comment1 -> Disable help, hover to activity list
+
+	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] ->
+
+	hover -> a [ data-xname = ${parameter0} ]
+
+	check -> exists = false -> div [ class = tippy-content , data-state = visible ]

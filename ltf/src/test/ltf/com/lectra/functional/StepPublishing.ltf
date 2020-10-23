@@ -80,10 +80,6 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableAutomaticPublishing , 1 ] -> 
 
-	paragraph -> Test online help
-
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ publish , enableAutomaticPublishing ] -> 
-
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !

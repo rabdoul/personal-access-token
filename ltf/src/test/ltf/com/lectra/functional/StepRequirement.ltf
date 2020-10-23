@@ -89,10 +89,6 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.CheckPickerEmpty -> [ requirement , 0 ] -> 
 
-	paragraph -> Test online help
-
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ associate-cutting-requirements , requirement ] -> 
-
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !

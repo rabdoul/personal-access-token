@@ -1,0 +1,32 @@
+
+SCRIPT_DESCRIPTION
+Check if activity is edited or not
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_START
+
+	comment1 -> Enable help, hover to a label with online help, chick help is displayed
+
+	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] ->
+
+	hover -> label [ data-xhelp = online-help ] -> div [ data-resultblock-id = 0 ]
+
+	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
+
+	hover -> div [ data-xlabel = help-icon ]
+
+	waitDuring -> 1
+
+	check -> exists = false -> div [ class = tippy-content , data-state = visible ]
+
+	comment1 -> Disable help, hover to label, check there is no online help popup
+
+	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] ->
+
+	hover -> label [ data-xhelp = online-help ] -> div [ data-resultblock-id = 0 ]
+
+	check -> exists = false -> div [ class = tippy-content , data-state = visible ]

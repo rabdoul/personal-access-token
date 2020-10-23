@@ -94,7 +94,9 @@ SCRIPT_START
 
 	paragraph -> Test online help
 
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ setup-sequencing , splitList ] -> 
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ setup-sequencing ] ->
+
+	callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ splitList ] -> 
 
 	channel -> close -> prodprocess
 

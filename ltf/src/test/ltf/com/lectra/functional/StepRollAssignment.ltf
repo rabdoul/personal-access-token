@@ -92,10 +92,6 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ rollAllocationRequired , 1 ] -> 
 
-	paragraph -> Test online help
-
-	callScript -> subscript.ribbon.CheckOnlineHelp -> [ after-nesting-roll-allocation , rollAllocationRequired ] -> 
-
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !
