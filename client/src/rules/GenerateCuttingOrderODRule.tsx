@@ -5,7 +5,7 @@ import Select from '@lectra/select';
 import ItemsSwitcher from '@lectra/itemsswitcher';
 
 import useActivityConfiguration from '../activities/useActivityConfiguration';
-import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
@@ -19,14 +19,10 @@ const validateGenerateCuttingOrder = (generateCuttingOrder: Partial<GenerateCutt
 };
 
 const GenerateCuttingOrderODRule = () => {
+  const { editMode } = useUIState();
   const rule = useRule('generate-cutting-order');
   const activityConfiguration = useActivityConfiguration('generate-cutting-order');
-  const { editMode } = useUIState();
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, rule, validateGenerateCuttingOrder);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('generate-cutting-order', rule, validateGenerateCuttingOrder);
 
   return (
     <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={rule}>

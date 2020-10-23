@@ -23,10 +23,6 @@ const MaterialValidationRule = () => {
   const activityConfiguration = useActivityConfiguration('validate-marker-width');
   useRuleValidator('validate-marker-width', rule);
 
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
-
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>
       {props => <ValidateMaterialResultForm {...props} />}

@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 
 import Select from '@lectra/select';
-import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import useRule from './common/useRule';
 import Rule, { StatementResultFormProps } from './common/Rule';
@@ -20,14 +20,10 @@ export interface GenerateCuttingOrder extends StatementResult {
 }
 
 const GenerateCuttingOrderRule = () => {
+  const { editMode } = useUIState();
   const rule = useRule('generate-cutting-order');
   const activityConfiguration = useActivityConfiguration('generate-cutting-order');
-  const { editMode } = useUIState();
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, rule);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('generate-cutting-order', rule);
 
   return (
     <Rule disabled={!editMode} activityConfiguration={activityConfiguration} rule={rule}>

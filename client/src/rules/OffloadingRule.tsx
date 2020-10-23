@@ -5,7 +5,7 @@ import { fetchData } from 'raspberry-fetch';
 import { useIntl } from 'react-intl';
 
 import useRule from './common/useRule';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { StatementResult } from '../model';
@@ -34,12 +34,7 @@ const OffloadingRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('assist-offloading');
   const activityConfiguration = useActivityConfiguration('assist-offloading');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(activityId, rule, validateStatementResult);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('assist-offloading', rule, validateStatementResult);
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

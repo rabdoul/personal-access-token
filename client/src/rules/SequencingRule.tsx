@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import Input from '@lectra/input';
 
 import { StatementResult } from '../model';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form } from './common/styles';
@@ -29,12 +29,7 @@ const SequencingRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('setup-sequencing');
   const activityConfiguration = useActivityConfiguration('setup-sequencing');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(activityId, rule, validateStatementResult);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('setup-sequencing', rule, validateStatementResult);
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

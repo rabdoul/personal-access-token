@@ -4,7 +4,7 @@ import Input from '@lectra/input';
 import Icon from '@lectra/icon';
 
 import { StatementResult } from '../model';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import useRule from './common/useRule';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
@@ -72,12 +72,7 @@ const GenerateBatchRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('generate-batch');
   const activityConfiguration = useActivityConfiguration('generate-batch');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(activityId, rule, validateStatementResult);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('generate-batch', rule, validateStatementResult);
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

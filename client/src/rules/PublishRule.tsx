@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { StatementResult } from '../model';
-import { useUIState, useUIDispatch, ActivityId } from '../UIState';
+import { useUIState, useUIDispatch } from '../UIState';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { CheckBoxWithHelpTooltip, LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
@@ -18,11 +18,7 @@ const PublishRule: React.FC = () => {
   const rule = useRule('publish');
   const { editMode } = useUIState();
   const activityConfiguration = useActivityConfiguration('publish');
-  useRuleValidator(activityConfiguration?.id as ActivityId | undefined, rule);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('publish', rule);
 
   return (
     <Rule rule={rule} activityConfiguration={activityConfiguration} disabled={!editMode}>

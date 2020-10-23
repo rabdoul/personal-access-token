@@ -2,7 +2,7 @@ import React from 'react';
 
 import useRule from './common/useRule';
 import { StatementResult } from '../model';
-import { ActivityId, useUIDispatch, useUIState } from '../UIState';
+import { useUIDispatch, useUIState } from '../UIState';
 import { useIntl } from 'react-intl';
 import useActivityConfiguration from '../activities/useActivityConfiguration';
 import { Form } from './common/styles';
@@ -19,12 +19,7 @@ const ValidateMTMProductRule = () => {
   const { editMode } = useUIState();
   const rule = useRule('validate-mtm-product');
   const activityConfiguration = useActivityConfiguration('validate-mtm-product');
-  const activityId = activityConfiguration?.id as ActivityId | undefined;
-  useRuleValidator(activityId, rule);
-
-  if (!rule || !activityConfiguration) {
-    return null;
-  }
+  useRuleValidator('validate-mtm-product', rule);
 
   return (
     <Rule activityConfiguration={activityConfiguration} rule={rule} disabled={!editMode}>

@@ -15,38 +15,45 @@ export type StatementResultFormProps<T extends StatementResult> = {
 };
 
 type Props<T extends StatementResult> = {
-  activityConfiguration: ActivityConfiguration;
-  disabled: boolean;
-  rule: ActivityRule<StatementResult>;
   children: (formProps: StatementResultFormProps<T>) => React.ReactNode;
+  activityConfiguration?: ActivityConfiguration;
+  rule?: ActivityRule<StatementResult>;
+  disabled: boolean;
 };
 
 const Rule = <T extends StatementResult>({ children, activityConfiguration, rule, disabled }: Props<T>) => {
-  const activityId = activityConfiguration.id as ActivityId;
   return (
     <RuleContainer>
       <StepDescription />
-      {rule.map((statement, statementIndex) => {
-        return (
-          <div id={`statement-${statementIndex}`} key={statementIndex}>
-            {statement.conditions.map((condition, conditionIndex) => (
-              <ConditionBlock
-                xid={`${statementIndex}-${conditionIndex}`}
-                key={`${statementIndex}-${conditionIndex}`}
-                statementIndex={statementIndex}
-                condition={condition}
-                activityConfiguration={activityConfiguration}
-                conditionIndex={conditionIndex}
+      {activityConfiguration &&
+        rule &&
+        rule.map((statement, statementIndex) => {
+          return (
+            <div id={`statement-${statementIndex}`} key={statementIndex}>
+              {statement.conditions.map((condition, conditionIndex) => (
+                <ConditionBlock
+                  xid={`${statementIndex}-${conditionIndex}`}
+                  key={`${statementIndex}-${conditionIndex}`}
+                  statementIndex={statementIndex}
+                  condition={condition}
+                  activityConfiguration={activityConfiguration}
+                  conditionIndex={conditionIndex}
+                  disabled={disabled}
+                />
+              ))}
+              {rule.length !== 1 && statementIndex === rule?.length - 1 && <DefaultConditionBlock activityId={activityConfiguration.id as ActivityId} disabled={disabled} />}
+              <ResultBlock
+                xid={statementIndex}
+                activityId={activityConfiguration.id as ActivityId}
+                conditional={activityConfiguration.conditions.length > 0}
+                isDefault={rule.length === 1}
                 disabled={disabled}
-              />
-            ))}
-            {rule.length !== 1 && statementIndex === rule?.length - 1 && <DefaultConditionBlock activityId={activityId} disabled={disabled} />}
-            <ResultBlock xid={statementIndex} activityId={activityId} conditional={activityConfiguration.conditions.length > 0} isDefault={rule.length === 1} disabled={disabled}>
-              {children({ statementIndex, statementResult: statement.result!, disabled })}
-            </ResultBlock>
-          </div>
-        );
-      })}
+              >
+                {children({ statementIndex, statementResult: statement.result!, disabled })}
+              </ResultBlock>
+            </div>
+          );
+        })}
     </RuleContainer>
   );
 };
