@@ -13,7 +13,7 @@ export class ProximityRulesResource {
         const response = await this.commandQueryExecutor.executeQuery('cutadmin', { type: 'proximity-rules.query.list', parameters: {} });
         if (response.type === QueryResponseType.QUERY_SUCCESS) {
             res.send((response.data as any[]).map((it => {
-                const isMotifRule = it.MaterialProximityRules.some((mpr: any) => mpr.MaterialType < 8);
+                const isMotifRule = it.materialProximityRules.some((mpr: any) => mpr.materialType < 8);
                 return { value: it.proximityRulesId, label: it.name, isMotifRule };
             })));
         } else {

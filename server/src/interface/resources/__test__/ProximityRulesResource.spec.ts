@@ -26,12 +26,12 @@ describe('ProximityRulesResource', () => {
             [{
                 proximityRulesId: "5bb626d24e8eb45bd4067f47",
                 name: "Plain material proximity rule",
-                MaterialProximityRules: [{ MaterialType: 8 }]
+                materialProximityRules: [{ materialType: 8 }]
             },
             {
                 proximityRulesId: "56983145268eb45bd4067f47",
                 name: "Motif material proximity rule",
-                MaterialProximityRules: [{ MaterialType: 4 }]
+                materialProximityRules: [{ materialType: 4 }]
             }]
         ).build();
 

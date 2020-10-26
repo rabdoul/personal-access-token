@@ -11,6 +11,9 @@ import { StatementResult } from '../model';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import DropDownSearch from '@lectra/dropdownsearch';
 import { useUIDispatch } from '../UIState';
+import { useQuery } from 'react-query';
+import { fetchData } from 'raspberry-fetch';
+import { useAccessToken } from '../base/Authentication';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -27,11 +30,33 @@ export interface GenerateMarker extends StatementResult {
   useVariableSpacing: boolean;
 }
 
+function useProximityRules() {
+  const token = useAccessToken();
+  const { data: proximityRules } = useQuery('proximity-rules', () => fetchData(token, 'proximity-rules'));
+  return proximityRules;
+}
+
+function useBlockingRules() {
+  const token = useAccessToken();
+  const { data: blockingRules } = useQuery('blocking-rules', () => fetchData(token, 'blocking-rules'));
+  return blockingRules;
+}
+
+function usePositionningRules() {
+  const token = useAccessToken();
+  const { data: positionningRules } = useQuery('positionning-rules', () => fetchData(token, 'positionning-rules'));
+  return positionningRules;
+}
+
 const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
+
+  const proximityRules = useProximityRules();
+  const blockingRules = useBlockingRules();
+  const positionningRules = usePositionningRules();
 
   const updateStatementResult = (attribute: keyof GenerateMarker, value: any) => {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute, value });

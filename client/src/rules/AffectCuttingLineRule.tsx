@@ -33,9 +33,11 @@ const AffectCuttingLineResultForm: React.FC<StatementResultFormProps<AffectCutti
   function handleCuttingLineChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'affect-cutting-line', statementIndex, attribute: 'lineId', value: item?.value });
   }
+
   if (!productionLines) {
     return null;
   }
+
   return (
     <Form onSubmit={e => e.preventDefault()}>
       <LabelWithHelpTooltip helpUrl={urls[0]}>{formatMessage({ id: 'rule.affect.cutting.line.production.line' })}</LabelWithHelpTooltip>
