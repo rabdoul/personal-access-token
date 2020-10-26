@@ -14,6 +14,7 @@ import { useUIDispatch } from '../UIState';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
+import ErrorIcon, { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -48,7 +49,28 @@ function usePositioningRules() {
   return positioningRules;
 }
 
-const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
+const validateStatementResult = (result: Partial<GenerateMarker>) => {
+  if (result.groupsProcessing !== undefined && result.variantDirection !== undefined) {
+    if (result.groupsProcessing === 1) {
+      if (result.usePreNesting) {
+        return result.preNestedAnalyticCodes!.length > 0;
+      }
+      return true;
+    } else {
+      if (result.usePreNesting) {
+        return result.preNestedAnalyticCodes!.length > 0 && result.processingValue! >= 0 && result.processingValue !== undefined;
+      }
+      return result.processingValue! >= 0 && result.processingValue !== undefined;
+    }
+  }
+  return false;
+};
+
+const GenerateMarkerRule: React.FC = () => (
+  <Rule activityId={'generate-marker'} validateStatementResult={validateStatementResult}>
+    {props => <GenerateMarkerForm {...props} />}
+  </Rule>
+);
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
@@ -86,6 +108,8 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             onChange={item => updateStatementResult('groupsProcessing', parseInt(item.value))}
             width={200}
             disabled={disabled}
+            error={statementResult.groupsProcessing === undefined}
+            icon={MANDATORY_FIELD_ERROR}
           />
           {statementResult.groupsProcessing !== 1 && statementResult.groupsProcessing && (
             <>
@@ -93,12 +117,14 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <Input
                 data-xlabel="distance"
                 name="distance"
-                onBlur={({ target: { value } }) => {}}
+                onBlur={({ target: { value } }) => updateStatementResult('processingValue', parseInt(value))}
                 type="number"
                 min={0}
                 value={statementResult.processingValue}
                 disabled={disabled}
                 width={60}
+                error={!(statementResult.processingValue! >= 0 && statementResult.processingValue !== undefined)}
+                icon={<ErrorIcon errorKey="rule.generate.marker.value.must.be.greater" />}
               />
             </>
           )}
@@ -111,6 +137,8 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           onChange={item => updateStatementResult('variantDirection', parseInt(item.value))}
           width={200}
           disabled={disabled}
+          error={statementResult.variantDirection === undefined}
+          icon={MANDATORY_FIELD_ERROR}
         />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.proximity' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
@@ -227,11 +255,13 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <Input
                 data-xlabel="analyticalCodes"
                 name="analyticalCodes"
-                onBlur={({ target: { value } }) => updateStatementResult('preNestedAnalyticCodes', value.split(/[ ,]+/))}
+                onBlur={({ target: { value } }) => updateStatementResult('preNestedAnalyticCodes', value !== '' ? value.split(/[ ,]+/) : [])}
                 type="text"
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}
                 width={200}
+                error={statementResult.preNestedAnalyticCodes?.length === 0}
+                icon={MANDATORY_FIELD_ERROR}
               />
             </>
           )}
