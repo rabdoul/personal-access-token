@@ -1,4 +1,3 @@
-import 'jest';
 import { computeNotifierEnv } from '../Notification';
 import { NotifierEnv } from 'cutting-room-notifier-client';
 

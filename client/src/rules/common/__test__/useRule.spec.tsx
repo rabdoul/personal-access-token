@@ -36,9 +36,6 @@ describe('useRule', () => {
     mocked(useQuery).mockReturnValue({ data: { id: 'setup-sequencing' }, isSuccess: true } as QueryResult<any, any>);
 
     let state: any = { editMode: true, editedRules: new Set() };
-    const init = (data: any) => {
-      state = { ...state, 'setup-sequencing': data };
-    };
     const { result } = renderHook(() => useRule('setup-sequencing'), {
       wrapper: ({ children }) => (
         <MockedProviders

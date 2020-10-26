@@ -1,4 +1,3 @@
-import 'jest';
 import { reducer, UIState } from '../UIState';
 
 describe('UIState', () => {
