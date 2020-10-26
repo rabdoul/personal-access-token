@@ -1,0 +1,17 @@
+SCRIPT_DESCRIPTION
+Check criteria to group product orders by
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-resultblock-id
+    parameter1 -> data-xrow
+    parameter2 -> criteria testid (0: material, 1: Delivery date, 2: Order date)
+
+SCRIPT_START
+
+	comment1 -> Check criteria ${parameter2} is selected for line ${parameter1} of result block ${parameter0}
+
+   	check -> exists = true -> div [ data-testid = ${parameter2} , data-xlabel = criteria ] -> div [ data-xrow = ${parameter1} ] div [ data-resultblock-id = ${parameter0} ]

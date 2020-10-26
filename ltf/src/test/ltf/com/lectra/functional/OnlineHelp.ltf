@@ -31,6 +31,12 @@ SCRIPT_START
 
     callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ stopOnOutOfRangeWarning ] -> 
 
+	paragraph -> Step Batch generation
+
+	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ generate-batch ] ->
+
+    callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ enableMaxPO ] -> 
+
 	paragraph -> Step Material validation
 
 	callScript -> subscript.ribbon.CheckRuleOnlineHelp -> [ validate-marker-width ] ->
