@@ -67,7 +67,7 @@ describe('useConditionConfiguration', () => {
       wrapper: ({ children }) => <MockedProviders unitSystem={'metric'}>{children}</MockedProviders>
     });
 
-    expect(result.current.unit).toEqual({ decimalScale: 3, unit: 'm' });
+    expect(result.current.unitConfig).toEqual({ decimalScale: 3, unit: 'm' });
   });
 
   it('should return a condition configuration with unit in imperial', () => {
@@ -92,6 +92,6 @@ describe('useConditionConfiguration', () => {
       wrapper: ({ children }) => <MockedProviders unitSystem={'imperial'}>{children}</MockedProviders>
     });
 
-    expect(result.current.unit).toEqual({ decimalScale: 3, unit: 'yd' });
+    expect(result.current.unitConfig).toEqual({ decimalScale: 3, unit: 'yd' });
   });
 });

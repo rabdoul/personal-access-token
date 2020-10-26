@@ -77,6 +77,6 @@ export default function useConditionConfiguration(condition: Condition, activity
       : undefined;
   const type = computeConditionValueType(conditionDefinition);
   const listItems = useListItems(conditionDefinition);
-  const unit = conditionDefinition?.valueUnit?.[unitSystem];
-  return { multipleOperatorItems, references, operators, type, listItems, unit };
+  const unitConfig = conditionDefinition?.valueUnit?.[unitSystem];
+  return { multipleOperatorItems, references, operators, type, listItems, unitConfig };
 }

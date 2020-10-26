@@ -76,16 +76,20 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           icon={MANDATORY_FIELD_ERROR}
         />
         {(conditionConfiguration.type === 'number' || conditionConfiguration.type === 'text') && (
-          <Input
-            data-xlabel="right-operand"
-            type={conditionConfiguration.type}
-            value={condition.value}
-            onBlur={handleConditionInputValueChange}
-            width={200}
-            disabled={disabled}
-            error={!condition.value}
-            icon={MANDATORY_FIELD_ERROR}
-          />
+          <>
+            <Input
+              data-xlabel="right-operand"
+              type={conditionConfiguration.type}
+              value={condition.value}
+              onBlur={handleConditionInputValueChange}
+              width={200}
+              disabled={disabled}
+              error={!condition.value}
+              icon={MANDATORY_FIELD_ERROR}
+              numberMaxDigits={conditionConfiguration.unitConfig?.decimalScale}
+            />
+            {conditionConfiguration.unitConfig && conditionConfiguration.unitConfig.unit}
+          </>
         )}
         {conditionConfiguration.type === 'list' && (
           <DropDownSearch
