@@ -25,7 +25,7 @@ import { RequirementsResource } from "./resources/CutParametersResource";
 import { OffloadingRulesResource } from "./resources/OffloadingRulesResource";
 import { ProductionLinesResource } from "./resources/ProductionLinesResource";
 import { BlockingRulesResource } from "./resources/BlockingRulesResource";
-import { PositionningRulesResource } from "./resources/PositionningRulesResource";
+import { PositioningRulesResource } from "./resources/PositioningRulesResource";
 import { ProximityRulesResource } from "./resources/ProximityRulesResource";
 
 const fallback = require("express-history-api-fallback");
@@ -98,7 +98,7 @@ export class ExpressServer {
     authenticatedRouter.use(new ProductionLinesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new OffloadingRulesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new BlockingRulesResource(this.commandQueryExecutor).router);
-    authenticatedRouter.use(new PositionningRulesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new PositioningRulesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new ProximityRulesResource(this.commandQueryExecutor).router);
     return authenticatedRouter;
   }

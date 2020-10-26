@@ -1,12 +1,12 @@
 import express = require('express');
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 
-export class PositionningRulesResource {
+export class PositioningRulesResource {
 
     readonly router = express.Router();
 
     constructor(private readonly commandQueryExecutor: CommandQueryExecutor) {
-        this.router.get('/api/positionning-rules', this.get.bind(this))
+        this.router.get('/api/positioning-rules', this.get.bind(this))
     }
 
     async get(_: express.Request, res: express.Response) {
@@ -14,7 +14,7 @@ export class PositionningRulesResource {
         if (response.type === QueryResponseType.QUERY_SUCCESS) {
             res.send((response.data as { zonePositioningRuleId: string, reference: string }[]).map((it => ({ value: it.zonePositioningRuleId, label: it.reference }))));
         } else {
-            res.status(500).send(`Unexpected error when retrieving positionning rules : ${response.data}`);
+            res.status(500).send(`Unexpected error when retrieving positioning rules : ${response.data}`);
         }
     }
 

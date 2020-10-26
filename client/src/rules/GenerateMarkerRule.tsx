@@ -42,10 +42,10 @@ function useBlockingRules(): { label: string; value: string; isMotifRule: boolea
   return blockingRules;
 }
 
-function usePositionningRules() {
+function usePositioningRules() {
   const token = useAccessToken();
-  const { data: positionningRules } = useQuery('positionning-rules', () => fetchData(token, 'positionning-rules'));
-  return positionningRules;
+  const { data: positioningRules } = useQuery('positioning-rules', () => fetchData(token, 'positioning-rules'));
+  return positioningRules;
 }
 
 const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
@@ -56,7 +56,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
 
   const proximityRules = useProximityRules() || [];
   const blockingRules = useBlockingRules() || [];
-  const positionningRules = usePositionningRules() || [];
+  const positioningRules = usePositioningRules() || [];
 
   const updateStatementResult = (attribute: keyof GenerateMarker, value: any) => {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute, value });
@@ -92,7 +92,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             width={200}
             disabled={disabled}
           />
-          {statementResult.groupsProcessing !== 1 && (
+          {statementResult.groupsProcessing !== 1 && statementResult.groupsProcessing && (
             <>
               <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
               <Input
@@ -180,7 +180,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="zonePositioningRuleIdPlain"
             data-xvalue={statementResult.zonePositioningRuleIdPlain ? statementResult.zonePositioningRuleIdPlain : 'none'}
-            listItems={positionningRules}
+            listItems={positioningRules}
             value={statementResult.zonePositioningRuleIdPlain}
             onChange={item => updateStatementResult('zonePositioningRuleIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -192,7 +192,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="zonePositioningRuleIdMotif"
             data-xvalue={statementResult.zonePositioningRuleIdMotif ? statementResult.zonePositioningRuleIdMotif : 'none'}
-            listItems={positionningRules}
+            listItems={positioningRules}
             value={statementResult.zonePositioningRuleIdMotif}
             onChange={item => updateStatementResult('zonePositioningRuleIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
