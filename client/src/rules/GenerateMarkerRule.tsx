@@ -6,7 +6,7 @@ import Select from '@lectra/select';
 
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form, Line } from './common/styles';
-import { LabelWithHelpTooltip } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import { StatementResult } from '../model';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import DropDownSearch from '@lectra/dropdownsearch';
@@ -75,6 +75,20 @@ const GenerateMarkerRule: React.FC = () => (
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
+  const urls = useHelpUrls(
+    'PP_GENERATE_MARKER_GROUPS',
+    'PP_GENERATE_MARKER_DISTANCE',
+    'PP_GENERATE_MARKER_VARIANT_DIRECTION',
+    'PP_GENERATE_MARKER_PROXIMITY',
+    'PP_GENERATE_MARKER_PROXIMITY_MOTIF',
+    'PP_GENERATE_MARKER_BLOCKING',
+    'PP_GENERATE_MARKER_BLOCKING_MOTIF',
+    'PP_GENERATE_MARKER_POSITIONING',
+    'PP_GENERATE_MARKER_POSITIONING_MOTIF',
+    'PP_GENERATE_MARKER_PRE_NESTING',
+    'PP_GENERATE_MARKER_PRE_NESTING_CODES',
+    'PP_GENERATE_MARKER_GAP_MOTIF_STEP'
+  );
 
   const proximityRules = useProximityRules() || [];
   const blockingRules = useBlockingRules() || [];
