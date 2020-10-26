@@ -25,14 +25,23 @@ describe('ProximityRulesResource', () => {
             { type: 'proximity-rules.query.list', parameters: {} },
             [{
                 proximityRulesId: "5bb626d24e8eb45bd4067f47",
-                name: "Default proximity rule"
+                name: "Plain material proximity rule",
+                MaterialProximityRules: [{ MaterialType: 8 }]
+            },
+            {
+                proximityRulesId: "56983145268eb45bd4067f47",
+                name: "Motif material proximity rule",
+                MaterialProximityRules: [{ MaterialType: 4 }]
             }]
         ).build();
 
         await new ProximityRulesResource(executor).get(req, res);
 
         expect(res.statusCode).toEqual(200);
-        expect(res._getData()).toEqual([{ value: "5bb626d24e8eb45bd4067f47", label: "Default proximity rule", isMotifRule: false }]);
+        expect(res._getData()).toEqual([
+            { value: "5bb626d24e8eb45bd4067f47", label: "Plain material proximity rule", isMotifRule: false },
+            { value: "56983145268eb45bd4067f47", label: "Motif material proximity rule", isMotifRule: true },
+        ]);
     });
 
 
