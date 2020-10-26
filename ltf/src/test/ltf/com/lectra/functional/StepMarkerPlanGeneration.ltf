@@ -1,0 +1,134 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step marker plan generation TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Initial state : section plan generation mode is automatic, without limit
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ generate-section-plan , true ] -> 
+
+	callScript -> subscript.activity_list.SelectActivity -> [ generate-section-plan ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	check -> exists = false -> input [ data-xlabel = maxNumberOfProducts ]
+
+	check -> exists = false -> ul [ data-testid = groupDistribution ]
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , canLimitMarkerByProductNumber , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step marker plan generation
+
+	callScript -> subscript.step_marker_plan_generation.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-section-plan , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , canLimitMarkerByProductNumber , 0 ] -> 
+
+	check -> exists = false -> input [ data-xlabel = maxNumberOfProducts ]
+
+	check -> exists = false -> ul [ data-testid = groupDistribution ]
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-section-plan , false ] -> 
+
+	paragraph -> Test result block
+
+	comment1 -> When limit on product orders number is asked, the input maxNumberOfProduct and itemSwitcher groupDistribution are displayed
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeItemSwitcher -> [ Yes , canLimitMarkerByProductNumber , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxNumberOfProducts , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ a , maxNumberOfProducts , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-section-plan ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 16 , maxNumberOfProducts , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ Balance , groupDistribution , 0 ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	comment1 -> When generation mode is set to manual, only generation mode list remains
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , generation-mode , 0 ] -> 
+
+	check -> exists = false -> ul [ data-testid = canLimitMarkerByProductNumber ]
+
+	check -> exists = false -> input [ data-xlabel = maxNumberOfProducts ]
+
+	check -> exists = false -> ul [ data-testid = groupDistribution ]
+
+	paragraph -> Add conditional tree and save
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeItemSwitcher -> [ Yes , canLimitMarkerByProductNumber , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ u22 , maxNumberOfProducts , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeItemSwitcher -> [ Fill , groupDistribution , 0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , command.reference , Equals , Higher-Order ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , material.spreadingFamily , Equals , ISpread ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check values after saving
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , command.reference , Equals , Higher-Order ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , material.spreadingFamily , Equals , ISpread ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ Yes , canLimitMarkerByProductNumber , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ Fill , groupDistribution , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 22 , maxNumberOfProducts , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , generation-mode , 1 ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
