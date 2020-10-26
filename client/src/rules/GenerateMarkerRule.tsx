@@ -63,7 +63,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
   };
 
   const updateAnalyticalCodes = (codes: string) => {
-    const newCodes = codes.split(' ');
+    const newCodes = codes.split(/[ ,]+/);
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute: 'preNestedAnalyticCodes', value: newCodes });
   };
 
@@ -127,7 +127,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             listItems={proximityRules.filter(it => !it.isMotifRule)}
             value={statementResult.proximityRulesIdPlain}
             onChange={item => updateStatementResult('proximityRulesIdPlain', item.value)}
-            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            customRenderSelection={(item: any) => (
+              <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('proximityRulesIdPlain', undefined)} />
+            )}
             disabled={disabled}
             placeholder="Search"
             width={200}
@@ -139,7 +141,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             listItems={proximityRules.filter(it => it.isMotifRule)}
             value={statementResult.proximityRulesIdMotif}
             onChange={item => updateStatementResult('proximityRulesIdMotif', item.value)}
-            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            customRenderSelection={(item: any) => (
+              <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('proximityRulesIdMotif', undefined)} />
+            )}
             disabled={disabled}
             placeholder="Search"
             width={200}
@@ -155,7 +159,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             listItems={blockingRules.filter(it => !it.isMotifRule)}
             value={statementResult.blockingRuleIdPlain}
             onChange={item => updateStatementResult('blockingRuleIdPlain', item.value)}
-            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            customRenderSelection={(item: any) => (
+              <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('blockingRuleIdPlain', undefined)} />
+            )}
             disabled={disabled}
             placeholder="Search"
             width={200}
@@ -167,7 +173,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             listItems={blockingRules.filter(it => it.isMotifRule)}
             value={statementResult.blockingRuleIdMotif}
             onChange={item => updateStatementResult('blockingRuleIdMotif', item.value)}
-            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            customRenderSelection={(item: any) => (
+              <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('blockingRuleIdMotif', undefined)} />
+            )}
             disabled={disabled}
             placeholder="Search"
             width={200}
@@ -183,7 +191,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             listItems={positioningRules}
             value={statementResult.zonePositioningRuleIdPlain}
             onChange={item => updateStatementResult('zonePositioningRuleIdPlain', item.value)}
-            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            customRenderSelection={(item: any) => (
+              <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('zonePositioningRuleIdPlain', undefined)} />
+            )}
             disabled={disabled}
             placeholder="Search"
             width={200}
@@ -195,7 +205,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             listItems={positioningRules}
             value={statementResult.zonePositioningRuleIdMotif}
             onChange={item => updateStatementResult('zonePositioningRuleIdMotif', item.value)}
-            customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
+            customRenderSelection={(item: any) => (
+              <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('zonePositioningRuleIdMotif', undefined)} />
+            )}
             disabled={disabled}
             placeholder="Search"
             width={200}
