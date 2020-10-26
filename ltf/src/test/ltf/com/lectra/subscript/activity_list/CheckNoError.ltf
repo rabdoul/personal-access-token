@@ -1,0 +1,11 @@
+SCRIPT_DESCRIPTION
+Check ther is no error icon displayed
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_START
+
+	check -> exists = false -> div [ data-testid = icon-error ]

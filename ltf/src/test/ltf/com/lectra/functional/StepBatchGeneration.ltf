@@ -1,0 +1,96 @@
+SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step material validation TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Initial state : no max product orders per batch, no group criteria
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ generate-batch , true ] -> 
+
+	callScript -> subscript.activity_list.SelectActivity -> [ generate-batch ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] ->
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] ->
+
+	check -> exists = false -> div [ data-xlabel = criterions ]
+
+	paragraph -> Check all options in conditional list of step Material validation
+
+	callScript -> subscript.step_batch_generation.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-batch , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] ->
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] ->
+
+	check -> exists = false -> div [ data-xlabel = criterions ]
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-batch , false ] -> 
+
+	paragraph -> Test result block
+
+	comment1 -> When checkbox enableMaxPO is checked, input maxPOPerBatch must have positive value
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-batch ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	comment1 -> When criteria option is set to yes, the checbox is filled and criteria must be filled
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , groupOrderCriteria , 0 ] ->
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-batch ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

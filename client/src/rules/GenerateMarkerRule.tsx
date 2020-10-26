@@ -11,6 +11,9 @@ import { StatementResult } from '../model';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import DropDownSearch from '@lectra/dropdownsearch';
 import { useUIDispatch } from '../UIState';
+import { useQuery } from 'react-query';
+import { fetchData } from 'raspberry-fetch';
+import { useAccessToken } from '../base/Authentication';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -27,11 +30,33 @@ export interface GenerateMarker extends StatementResult {
   useVariableSpacing: boolean;
 }
 
+function useProximityRules(): { label: string; value: string; isMotifRule: boolean }[] {
+  const token = useAccessToken();
+  const { data: proximityRules } = useQuery('proximity-rules', () => fetchData(token, 'proximity-rules'));
+  return proximityRules;
+}
+
+function useBlockingRules(): { label: string; value: string; isMotifRule: boolean }[] {
+  const token = useAccessToken();
+  const { data: blockingRules } = useQuery('blocking-rules', () => fetchData(token, 'blocking-rules'));
+  return blockingRules;
+}
+
+function usePositionningRules() {
+  const token = useAccessToken();
+  const { data: positionningRules } = useQuery('positionning-rules', () => fetchData(token, 'positionning-rules'));
+  return positionningRules;
+}
+
 const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
+
+  const proximityRules = useProximityRules() || [];
+  const blockingRules = useBlockingRules() || [];
+  const positionningRules = usePositionningRules() || [];
 
   const updateStatementResult = (attribute: keyof GenerateMarker, value: any) => {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute, value });
@@ -99,7 +124,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="proximityRulesIdPlain"
             data-xvalue={statementResult.proximityRulesIdPlain ? statementResult.proximityRulesIdPlain : 'none'}
-            listItems={[]}
+            listItems={proximityRules.filter(it => !it.isMotifRule)}
             value={statementResult.proximityRulesIdPlain}
             onChange={item => updateStatementResult('proximityRulesIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -111,7 +136,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="proximityRulesIdMotif"
             data-xvalue={statementResult.proximityRulesIdMotif ? statementResult.proximityRulesIdMotif : 'none'}
-            listItems={[]}
+            listItems={proximityRules.filter(it => it.isMotifRule)}
             value={statementResult.proximityRulesIdMotif}
             onChange={item => updateStatementResult('proximityRulesIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -127,7 +152,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="blockingRuleIdPlain"
             data-xvalue={statementResult.blockingRuleIdPlain ? statementResult.blockingRuleIdPlain : 'none'}
-            listItems={[]}
+            listItems={blockingRules.filter(it => !it.isMotifRule)}
             value={statementResult.blockingRuleIdPlain}
             onChange={item => updateStatementResult('blockingRuleIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -139,7 +164,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="blockingRuleIdMotif"
             data-xvalue={statementResult.blockingRuleIdMotif ? statementResult.blockingRuleIdMotif : 'none'}
-            listItems={[]}
+            listItems={blockingRules.filter(it => it.isMotifRule)}
             value={statementResult.blockingRuleIdMotif}
             onChange={item => updateStatementResult('blockingRuleIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -155,7 +180,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="zonePositioningRuleIdPlain"
             data-xvalue={statementResult.zonePositioningRuleIdPlain ? statementResult.zonePositioningRuleIdPlain : 'none'}
-            listItems={[]}
+            listItems={positionningRules}
             value={statementResult.zonePositioningRuleIdPlain}
             onChange={item => updateStatementResult('zonePositioningRuleIdPlain', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -167,7 +192,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           <DropDownSearch
             data-xlabel="zonePositioningRuleIdMotif"
             data-xvalue={statementResult.zonePositioningRuleIdMotif ? statementResult.zonePositioningRuleIdMotif : 'none'}
-            listItems={[]}
+            listItems={positionningRules}
             value={statementResult.zonePositioningRuleIdMotif}
             onChange={item => updateStatementResult('zonePositioningRuleIdMotif', item.value)}
             customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => {}} />}
@@ -187,11 +212,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             defaultValue={statementResult.usePreNesting?.toString() ?? 'false'}
             onChange={({ value }) => updateStatementResult('usePreNesting', value === 'true')}
             disabled={disabled}
-            options={{
-              items: {
-                minWidth: 100
-              }
-            }}
+            options={{ items: { minWidth: 100 } }}
           />
           {statementResult.usePreNesting && (
             <>
@@ -220,11 +241,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           defaultValue={statementResult.useVariableSpacing?.toString() ?? 'false'}
           onChange={({ value }) => updateStatementResult('useVariableSpacing', value === 'true')}
           disabled={disabled}
-          options={{
-            items: {
-              minWidth: 100
-            }
-          }}
+          options={{ items: { minWidth: 100 } }}
         />
       </Line>
     </div>

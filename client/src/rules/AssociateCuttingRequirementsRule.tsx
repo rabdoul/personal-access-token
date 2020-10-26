@@ -27,15 +27,13 @@ const AssociateCuttingRequirementsRule = () => <Rule activityId={'associate-cutt
 const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<AssociateCuttingRequirements>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
-  const requirements = useRequirements();
+  const requirements = useRequirements() || [];
   const urls = useHelpUrls('PP_CUTTING_REQUIREMENT');
 
   function handleRequierementChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-requirements', statementIndex, attribute: 'requirementId', value: item?.value });
   }
-  if (!requirements) {
-    return null;
-  }
+
   return (
     <Form>
       <LabelWithHelpTooltip htmlFor={`requirement-${statementIndex}`} helpUrl={urls[0]}>

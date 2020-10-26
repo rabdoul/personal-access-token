@@ -1,0 +1,16 @@
+SCRIPT_DESCRIPTION
+Click the + icon of designated criteria in batch generation result block
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-resultblock-id
+    parameter1 -> data-xrow
+
+SCRIPT_START
+
+	comment1 -> Click the + icon on criteria ${parameter1} of result block ${parameter0}
+
+    click -> div [ data-testid = icon-add ] -> div [ data-xrow = ${parameter1} ] div [ data-resultblock-id = ${parameter0} ]

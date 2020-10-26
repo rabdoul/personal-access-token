@@ -36,15 +36,13 @@ const OffloadingRule = () => (
 const OffloadingResultForm: React.FC<StatementResultFormProps<Offloading>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
-  const offloadingRules = useOffloadingRules();
+  const offloadingRules = useOffloadingRules() || [];
   const urls = useHelpUrls('PP_ASSIST-OFFLOADING');
 
   function handleOffloadingRuleChange(item?: { value: string }) {
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'assist-offloading', statementIndex, attribute: 'offloadingRuleId', value: item?.value });
   }
-  if (!offloadingRules) {
-    return null;
-  }
+
   return (
     <Form>
       <LabelWithHelpTooltip helpUrl={urls[0]} htmlFor={`offloadingRule-${statementIndex}`}>

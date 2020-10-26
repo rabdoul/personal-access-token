@@ -1,0 +1,18 @@
+SCRIPT_DESCRIPTION
+Check the checkbox with contrast is not checked
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-resultblock-id
+    parameter1 -> data-xrow
+
+SCRIPT_START
+
+	comment1 -> Check checkbox with contrast is not selected for criteria line ${parameter1} of result block ${parameter0}
+
+	check -> exists = true -> div [ data-xlabel = withContrast ] -> div [ data-xrow = ${parameter1} ] -> div [ data-resultblock-id = ${parameter1} ]
+
+	check -> exists = false -> svg [  =  ] -> div [ data-xrow = ${parameter1} ] -> div [ data-resultblock-id = ${parameter1} ]
