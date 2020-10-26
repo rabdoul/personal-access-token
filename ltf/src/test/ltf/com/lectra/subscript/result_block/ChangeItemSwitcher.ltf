@@ -14,6 +14,6 @@ SCRIPT_START
 
 	comment1 -> Change item switcher ${parameter1} of block result ${parameter2} to value ${parameter0}
 
-	click -> text = ${parameter0} -> ul [ data-testid = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
+	click -> li [ text = ${parameter0} ] -> ul [ data-testid = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
 
 	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ ${parameter0} , ${parameter1} , ${parameter2} ] -> 
