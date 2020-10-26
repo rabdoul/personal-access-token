@@ -1,8 +1,11 @@
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 Click the + icon of result block, when there is no conditional logic yet
 
 SCRIPT_AUTHOR
 r.bancal
+
+SCRIPT_GROUPS
+
 
 SCRIPT_START
 
@@ -10,10 +13,10 @@ SCRIPT_START
 
 	check -> exists = false -> div [ data-conditionblock-id = 0-0 ]
 
-   	check -> exists = false -> div [ data-conditionblock-id = else ]
+	check -> exists = false -> div [ data-conditionblock-id = else ]
 
-    click -> div [ data-testid = icon-add ] -> div [ data-resultblock-id = 0 ]
+	click -> div [ data-testid = icon-add ] -> div [ class ≈ BlockActions ] -> div [ data-resultblock-id = 0 ]
 
 	check -> exists = true -> div [ data-conditionblock-id = 0-0 ]
 
-   	check -> exists = true -> div [ data-conditionblock-id = else ]
+	check -> exists = true -> div [ data-conditionblock-id = else ]

@@ -1,4 +1,4 @@
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 
 
 SCRIPT_AUTHOR
@@ -27,9 +27,9 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
 
-	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] ->
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] -> 
 
-	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] ->
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] -> 
 
 	check -> exists = false -> div [ data-xlabel = criterions ]
 
@@ -43,7 +43,7 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.ClickCheckbox -> [ enableMaxPO , 0 ] -> 
 
-	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-batch , true ] -> 
 
@@ -51,9 +51,9 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
 
-	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] ->
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] -> 
 
-	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] ->
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] -> 
 
 	check -> exists = false -> div [ data-xlabel = criterions ]
 
@@ -69,7 +69,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-batch ] -> 
 
-	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
 
@@ -81,15 +81,131 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
 
-	callScript -> subscript.result_block.ChangeListValue -> [ 1 , groupOrderCriteria , 0 ] ->
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , groupOrderCriteria , 0 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableMaxPO , 0 ] -> 
 
-	callScript -> subscript.result_block.FillInput -> [ 1 , maxPOPerBatch , 0 ] ->
+	callScript -> subscript.result_block.FillInput -> [ 17 , maxPOPerBatch , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-batch ] -> 
 
-	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+	comment1 -> Criteria 0 (Material) shows two inputs and one checkbox ; material usage input is mandatory
+
+	callScript -> subscript.step_batch_generation.UseCriteria -> [ 0 , 0 , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-batch ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckWithoutContrast -> [ 0 ] -> 
+
+	check -> exists = true -> input [ data-xlabel = componentCategory ]
+
+	check -> exists = true -> input [ data-xlabel = materialUsage ]
+
+	comment1 -> Put text in material usage input and check there is no more error
+
+	callScript -> subscript.step_batch_generation.FillInput -> [ usage , materialUsage , 0 , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	comment1 -> Add criteria (1) delivery date ; no inputs neither checkbox are shown
+
+	callScript -> subscript.step_batch_generation.AddCriteria -> [ 0 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.UseCriteria -> [ 1 , 1 , 0 ] -> 
+
+	check -> exists = false -> input [ data-xlabel = componentCategory ] -> div [ data-xrow = 1 ]
+
+	check -> exists = false -> input [ data-xlabel = materialUsage ] -> div [ data-xrow = 1 ]
+
+	check -> exists = false -> div [ data-xlabel = withContrast ] -> div [ data-xrow = 1 ]
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	comment1 -> Add criteria (2) order date ; no inputs neither checkbox are shown
+
+	callScript -> subscript.step_batch_generation.AddCriteria -> [ 1 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.UseCriteria -> [ 2 , 2 , 0 ] -> 
+
+	check -> exists = false -> input [ data-xlabel = componentCategory ] -> div [ data-xrow = 1 ]
+
+	check -> exists = false -> input [ data-xlabel = materialUsage ] -> div [ data-xrow = 1 ]
+
+	check -> exists = false -> div [ data-xlabel = withContrast ] -> div [ data-xrow = 1 ]
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	comment1 -> Remove criteria by delivery date
+
+	callScript -> subscript.step_batch_generation.RemoveCriteria -> [ 1 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckCriteria -> [ 2 , 1 , 0 ] -> 
+
+	comment1 -> Add two more criterias
+
+	callScript -> subscript.step_batch_generation.AddCriteria -> [ 1 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.UseCriteria -> [ 1 , 2 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.AddCriteria -> [ 2 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.UseCriteria -> [ 0 , 3 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.FillInput -> [ other-usage , materialUsage , 3 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.FillInput -> [ ties , componentCategory , 3 , 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.ClickWithContrast -> [ 3 , 0 ] -> 
+	
+	paragraph -> Add conditional tree and save
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 0 , groupOrderCriteria , 0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , command.salespoint , Contains , Paris ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , product.category , Equals , Coat ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+	
+	paragraph -> Check values after saving
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , command.salespoint , Contains , Paris ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , product.category , Equals , Coat ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableMaxPO , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0 , maxPOPerBatch , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , groupOrderCriteria , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableMaxPO , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 17 , maxPOPerBatch , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , groupOrderCriteria , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckCriteria -> [ 0 , 0 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckWithoutContrast -> [ 0 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckInputValue -> [ usage , materialUsage , 0 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckCriteria -> [ 2 , 1 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckCriteria -> [ 1 , 2 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckCriteria -> [ 0 , 3 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckInputValue -> [ ties , componentCategory , 3 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckInputValue -> [ other-usage , materialUsage , 3 , 1 ] -> 
+
+	callScript -> subscript.step_batch_generation.CheckWithContrast -> [ 3 ] -> 
 
 	channel -> close -> prodprocess
 

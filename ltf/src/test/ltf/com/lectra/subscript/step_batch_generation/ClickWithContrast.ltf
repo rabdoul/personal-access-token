@@ -6,11 +6,11 @@ r.bancal
 
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-resultblock-id
-    parameter1 -> data-xrow
+    parameter0 -> data-xrow
+    parameter1 -> data-resultblock-id
 
 SCRIPT_START
 
-	comment1 -> Click checkbox with contrast of criteria line ${parameter1} of result block ${parameter0}
+	comment1 -> Click checkbox with contrast of criteria line ${parameter0} of result block ${parameter1}
 
-	click -> div [ data-xlabel = withContrast ] -> div [ data-xrow = ${parameter1} ] -> div [ data-resultblock-id = ${parameter1} ]
+	click -> div [ data-xlabel = withContrast ] -> div [ data-xrow = ${parameter0} ] -> div [ data-resultblock-id = ${parameter1} ]
