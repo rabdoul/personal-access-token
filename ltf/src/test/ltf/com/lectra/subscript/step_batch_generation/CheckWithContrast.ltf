@@ -6,11 +6,10 @@ r.bancal
 
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-resultblock-id
-    parameter1 -> data-xrow
+    parameter0 -> data-xrow
 
 SCRIPT_START
 
-	comment1 -> Check checkbox with contrast is selected for criteria line ${parameter1} of result block ${parameter0}
+	comment1 -> Check checkbox with contrast is selected for criteria line ${parameter0}
 
-	check -> exists = true -> svg [  =  ] -> div [ data-xrow = ${parameter1} ] -> div [ data-resultblock-id = ${parameter1} ]
+	check -> exists = true -> svg [  =  ] -> div [ data-xrow = ${parameter0} ]

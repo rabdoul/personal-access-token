@@ -6,12 +6,12 @@ r.bancal
 
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-resultblock-id
+    parameter0 -> criteria testid (0: material, 1: Delivery date, 2: Order date)
     parameter1 -> data-xrow
-    parameter2 -> criteria testid (0: material, 1: Delivery date, 2: Order date)
+    parameter2 -> data-resultblock-id
 
 SCRIPT_START
 
-	comment1 -> Check criteria ${parameter2} is selected for line ${parameter1} of result block ${parameter0}
+	comment1 -> Check criteria ${parameter0} is selected for line ${parameter1} of result block ${parameter2}
 
-   	check -> exists = true -> div [ data-testid = ${parameter2} , data-xlabel = criteria ] -> div [ data-xrow = ${parameter1} ] div [ data-resultblock-id = ${parameter0} ]
+   	check -> exists = true -> div [ data-testid = ${parameter0} , data-xlabel = criteria ] -> div [ data-xrow = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]
