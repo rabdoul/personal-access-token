@@ -6,7 +6,7 @@ import Select from '@lectra/select';
 
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form, Line } from './common/styles';
-import { LabelWithHelpTooltip } from '../base/Help';
+import { LabelWithHelpTooltip, useHelpUrls } from '../base/Help';
 import { StatementResult } from '../model';
 import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 import DropDownSearch from '@lectra/dropdownsearch';
@@ -14,6 +14,7 @@ import { useUIDispatch } from '../UIState';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
+import ErrorIcon, { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -48,11 +49,46 @@ function usePositioningRules() {
   return positioningRules;
 }
 
-const GenerateMarkerRule: React.FC = () => <Rule activityId={'generate-marker'}>{props => <GenerateMarkerForm {...props} />}</Rule>;
+const validateStatementResult = (result: Partial<GenerateMarker>) => {
+  if (result.groupsProcessing !== undefined && result.variantDirection !== undefined) {
+    if (result.groupsProcessing === 1) {
+      if (result.usePreNesting) {
+        return result.preNestedAnalyticCodes!.length > 0;
+      }
+      return true;
+    } else {
+      if (result.usePreNesting) {
+        return result.preNestedAnalyticCodes!.length > 0 && result.processingValue! >= 0 && result.processingValue !== undefined;
+      }
+      return result.processingValue! >= 0 && result.processingValue !== undefined;
+    }
+  }
+  return false;
+};
+
+const GenerateMarkerRule: React.FC = () => (
+  <Rule activityId={'generate-marker'} validateStatementResult={validateStatementResult}>
+    {props => <GenerateMarkerForm {...props} />}
+  </Rule>
+);
 
 const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = ({ statementResult, statementIndex, disabled }) => {
   const { formatMessage } = useIntl();
   const dispatch = useUIDispatch();
+  const urls = useHelpUrls(
+    'PP_GENERATE_MARKER_GROUPS',
+    'PP_GENERATE_MARKER_DISTANCE',
+    'PP_GENERATE_MARKER_VARIANT_DIRECTION',
+    'PP_GENERATE_MARKER_PROXIMITY',
+    'PP_GENERATE_MARKER_PROXIMITY_MOTIF',
+    'PP_GENERATE_MARKER_BLOCKING',
+    'PP_GENERATE_MARKER_BLOCKING_MOTIF',
+    'PP_GENERATE_MARKER_POSITIONING',
+    'PP_GENERATE_MARKER_POSITIONING_MOTIF',
+    'PP_GENERATE_MARKER_PRE_NESTING',
+    'PP_GENERATE_MARKER_PRE_NESTING_CODES',
+    'PP_GENERATE_MARKER_GAP_MOTIF_STEP'
+  );
 
   const proximityRules = useProximityRules() || [];
   const blockingRules = useBlockingRules() || [];
@@ -77,7 +113,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
   return (
     <div style={{ fontWeight: 'lighter' }}>
       <Form>
-        <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.groups' })}</LabelWithHelpTooltip>
+        <LabelWithHelpTooltip helpUrl={urls[0]}>{formatMessage({ id: 'rule.generate.marker.groups' })}</LabelWithHelpTooltip>
         <Line>
           <Select
             data-xlabel="markerGroups"
@@ -86,24 +122,28 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             onChange={item => updateStatementResult('groupsProcessing', parseInt(item.value))}
             width={200}
             disabled={disabled}
+            error={statementResult.groupsProcessing === undefined}
+            icon={MANDATORY_FIELD_ERROR}
           />
           {statementResult.groupsProcessing !== 1 && statementResult.groupsProcessing && (
             <>
-              <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
+              <LabelWithHelpTooltip helpUrl={urls[1]}>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
               <Input
                 data-xlabel="distance"
                 name="distance"
-                onBlur={({ target: { value } }) => {}}
+                onBlur={({ target: { value } }) => updateStatementResult('processingValue', parseInt(value))}
                 type="number"
                 min={0}
                 value={statementResult.processingValue}
                 disabled={disabled}
                 width={60}
+                error={!(statementResult.processingValue! >= 0 && statementResult.processingValue !== undefined)}
+                icon={<ErrorIcon errorKey="rule.generate.marker.value.must.be.greater" />}
               />
             </>
           )}
         </Line>
-        <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.variant.direction' })}</LabelWithHelpTooltip>
+        <LabelWithHelpTooltip helpUrl={urls[2]}>{formatMessage({ id: 'rule.generate.marker.variant.direction' })}</LabelWithHelpTooltip>
         <Select
           data-xlabel="variantDirection"
           value={statementResult.variantDirection?.toString()}
@@ -111,9 +151,12 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           onChange={item => updateStatementResult('variantDirection', parseInt(item.value))}
           width={200}
           disabled={disabled}
+          error={statementResult.variantDirection === undefined}
+          icon={MANDATORY_FIELD_ERROR}
         />
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.proximity' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
+          <LabelWithHelpTooltip helpUrl={urls[3]}>{formatMessage({ id: 'rule.generate.marker.proximity' })}</LabelWithHelpTooltip>:{' '}
+          {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
         <Line>
           <DropDownSearch
@@ -129,7 +172,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             placeholder="Search"
             width={200}
           />
-          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
+          <LabelWithHelpTooltip helpUrl={urls[4]}>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
           <DropDownSearch
             data-xlabel="proximityRulesIdMotif"
             data-xvalue={statementResult.proximityRulesIdMotif ? statementResult.proximityRulesIdMotif : 'none'}
@@ -145,7 +188,8 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           />
         </Line>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.blocking' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
+          <LabelWithHelpTooltip helpUrl={urls[5]}>{formatMessage({ id: 'rule.generate.marker.blocking' })}</LabelWithHelpTooltip>:{' '}
+          {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
         <Line>
           <DropDownSearch
@@ -161,7 +205,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             placeholder="Search"
             width={200}
           />
-          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
+          <LabelWithHelpTooltip helpUrl={urls[6]}>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
           <DropDownSearch
             data-xlabel="blockingRuleIdMotif"
             data-xvalue={statementResult.blockingRuleIdMotif ? statementResult.blockingRuleIdMotif : 'none'}
@@ -177,7 +221,8 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           />
         </Line>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.positioning' })}</LabelWithHelpTooltip>: {formatMessage({ id: 'rule.generate.marker.plain.material' })}
+          <LabelWithHelpTooltip helpUrl={urls[7]}>{formatMessage({ id: 'rule.generate.marker.positioning' })}</LabelWithHelpTooltip>:{' '}
+          {formatMessage({ id: 'rule.generate.marker.plain.material' })}
         </div>
         <Line>
           <DropDownSearch
@@ -193,7 +238,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             placeholder="Search"
             width={200}
           />
-          <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
+          <LabelWithHelpTooltip helpUrl={urls[8]}>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
           <DropDownSearch
             data-xlabel="zonePositioningRuleIdMotif"
             data-xvalue={statementResult.zonePositioningRuleIdMotif ? statementResult.zonePositioningRuleIdMotif : 'none'}
@@ -208,7 +253,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             width={200}
           />
         </Line>
-        <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.pre.nesting' })}</LabelWithHelpTooltip>
+        <LabelWithHelpTooltip helpUrl={urls[9]}>{formatMessage({ id: 'rule.generate.marker.pre.nesting' })}</LabelWithHelpTooltip>
         <Line>
           <ItemsSwitcher
             name="preNesting"
@@ -223,22 +268,24 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           />
           {statementResult.usePreNesting && (
             <>
-              <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.analytical.codes' })}</LabelWithHelpTooltip>
+              <LabelWithHelpTooltip helpUrl={urls[10]}>{formatMessage({ id: 'rule.generate.marker.analytical.codes' })}</LabelWithHelpTooltip>
               <Input
                 data-xlabel="analyticalCodes"
                 name="analyticalCodes"
-                onBlur={({ target: { value } }) => updateStatementResult('preNestedAnalyticCodes', value.split(/[ ,]+/))}
+                onBlur={({ target: { value } }) => updateStatementResult('preNestedAnalyticCodes', value !== '' ? value.split(/[ ,]+/) : [])}
                 type="text"
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}
                 width={200}
+                error={statementResult.preNestedAnalyticCodes?.length === 0}
+                icon={MANDATORY_FIELD_ERROR}
               />
             </>
           )}
         </Line>
       </Form>
       <Line style={{ marginTop: '10px' }}>
-        <LabelWithHelpTooltip>{formatMessage({ id: 'rule.generate.marker.gap.pieces' })}</LabelWithHelpTooltip>
+        <LabelWithHelpTooltip helpUrl={urls[11]}>{formatMessage({ id: 'rule.generate.marker.gap.pieces' })}</LabelWithHelpTooltip>
         <ItemsSwitcher
           name="variableSpacing"
           items={[

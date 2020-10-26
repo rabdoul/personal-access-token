@@ -185,4 +185,63 @@ describe('ActivitiesResource', () => {
         });
     });
 
+    it('GET activity with marker.length condition should return value with unit Meter/Yard with 3 decimals', async () => {
+        const req = mockHttpRequest('/api/activities/validate-marker', { id: 'validate-marker' });
+        const [res, errorHandler] = mockHttpResponse();
+
+        const executor = CommandQueryExecutorMockBuilder.newMock().withQuerySuccess(
+            'cutadmin',
+            { type: 'production-rules-configuration.query.get', parameters: {} },
+            {
+                activities: [{
+                    "reference":"Validate marker",
+                    "eligibleProcess":[
+                        1,
+                        2,
+                        3
+                    ],
+                    "order":9,
+                    "enabled":true,
+                    "eligibleConditions":[
+                        {
+                            "eligibleProcess":[
+                                1,
+                                2,
+                                3
+                            ],
+                            "leftOperand":"marker.length",
+                            "eligibleListOperator":[
+                                0
+                            ],
+                            "eligibleOperator":[
+                                0,
+                                1,
+                                2,
+                                3
+                            ],
+                            "conditionType":1,
+                            "predefinedRightOperand":[
+
+                            ],
+                            "rightOperandBindingSource":0,
+                            "unitType":1
+                        }
+                    ],
+                    "activityParameters":{
+                        "name":"Validate marker",
+                        "activityParametersType":6
+                    }
+                }]
+            }
+        ).build();
+
+        await new ActivitiesResource(executor).activityConfiguration(req, res, errorHandler);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._getData().conditions[0].valueUnit).toEqual({
+            metric: { decimalScale: 3, unit: 'm' },
+            imperial: { decimalScale: 3, unit: 'yd' }
+        });
+    });
+
 });
