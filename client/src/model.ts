@@ -8,6 +8,7 @@ export type ConditionDefinition = {
   valueType: ValueType;
   valueSource: ValueSource;
   predefinedValueSource: string[];
+  valueUnit?: ValueUnit;
 };
 
 type ListOperator = 'None' | 'AtLeastOne';
@@ -17,6 +18,8 @@ export type Operator = 'Equals' | 'Above' | 'Below' | 'Different' | 'Contains' |
 export type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerList';
 
 export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory' | 'SpreadingGroup';
+
+export type ValueUnit = { metric: { decimalScale: number; unit: string }; imperial: { decimalScale: number; unit: string } };
 
 export interface StatementResult {}
 

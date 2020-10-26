@@ -3,6 +3,7 @@ import { Condition, ActivityConfiguration, ConditionDefinition } from '../../mod
 import { useAccessToken } from '../../base/Authentication';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
+import { useUnitSystem } from '../../base/UserPreference';
 
 function computeConditionValueType(conditionDefinition?: ConditionDefinition) {
   if (!conditionDefinition) {
@@ -66,6 +67,7 @@ function useListItems(conditionDefinition?: ConditionDefinition) {
 
 export default function useConditionConfiguration(condition: Condition, activityConfiguration: ActivityConfiguration) {
   const { formatMessage } = useIntl();
+  const unitSystem = useUnitSystem();
   const references = activityConfiguration.conditions.map(it => ({ label: formatMessage({ id: it.reference }), value: it.reference }));
   const conditionDefinition = activityConfiguration.conditions.find(it => it.reference === condition.reference);
   const operators = conditionDefinition?.operators.map(it => ({ label: formatMessage({ id: `operator.${it.toLowerCase()}` }), value: it })) || [];
@@ -75,5 +77,6 @@ export default function useConditionConfiguration(condition: Condition, activity
       : undefined;
   const type = computeConditionValueType(conditionDefinition);
   const listItems = useListItems(conditionDefinition);
-  return { multipleOperatorItems, references, operators, type, listItems };
+  const unit = conditionDefinition?.valueUnit?.[unitSystem];
+  return { multipleOperatorItems, references, operators, type, listItems, unit };
 }
