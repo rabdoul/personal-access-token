@@ -219,7 +219,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             defaultValue={statementResult.usePreNesting?.toString() ?? 'false'}
             onChange={({ value }) => updateStatementResult('usePreNesting', value === 'true')}
             disabled={disabled}
-            options={{ items: { minWidth: 100 } }}
+            options={{ items: { minWidth: 20 } }}
           />
           {statementResult.usePreNesting && (
             <>
@@ -248,7 +248,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           defaultValue={statementResult.useVariableSpacing?.toString() ?? 'false'}
           onChange={({ value }) => updateStatementResult('useVariableSpacing', value === 'true')}
           disabled={disabled}
-          options={{ items: { minWidth: 100 } }}
+          options={{ items: { minWidth: 20 } }}
         />
       </Line>
     </div>
