@@ -37,6 +37,11 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute, value });
   };
 
+  const updateAnalyticalCodes = (codes: string) => {
+    const newCodes = codes.split(' ');
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-marker', statementIndex, attribute: 'preNestedAnalyticCodes', value: newCodes });
+  };
+
   const groupsProcessingItems = [
     { label: formatMessage({ id: 'rule.generate.marker.ignore' }), value: '1' },
     { label: formatMessage({ id: 'rule.generate.marker.spaceout' }), value: '2' },
@@ -194,7 +199,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <Input
                 data-xlabel="analyticalCodes"
                 name="analyticalCodes"
-                onBlur={({ target: { value } }) => {}}
+                onBlur={({ target: { value } }) => updateAnalyticalCodes(value)}
                 type="text"
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}
