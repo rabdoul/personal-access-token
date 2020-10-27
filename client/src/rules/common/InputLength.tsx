@@ -15,8 +15,11 @@ type InputLengthProps = {
   errorKey?: string;
 };
 
+export const isValueInError = (value?: number | string, min?: number): boolean => value === undefined || value === '' || value < min!!;
+
 const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width, xlabel, min, errorKey = 'error.field.mandatory' }) => {
   const value = valueInMeter ? convertFromMeter(valueInMeter, targetUnit).toFixed(decimalScale) : valueInMeter;
+
   return (
     <>
       <Input
@@ -26,12 +29,12 @@ const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, dis
         onBlur={evt => onValueUpdate(evt.target.value ? convertToMeter(parseFloat(evt.target.value), targetUnit) : undefined)}
         width={width}
         disabled={disabled}
-        error={!value}
+        error={isValueInError(value, min)}
         icon={<ErrorIcon errorKey={errorKey} />}
         numberMaxDigits={decimalScale}
         min={min}
       />
-      {targetUnit}
+      <div style={{ marginLeft: '5px' }}>{targetUnit}</div>
     </>
   );
 };
