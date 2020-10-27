@@ -54,11 +54,15 @@ const validateStatementResult = (result: Partial<GenerateMarker>) => {
     if (result.groupsProcessing === 1) {
       if (result.usePreNesting && result.preNestedAnalyticCodes) {
         return result.preNestedAnalyticCodes.length > 0;
+      } else if (result.usePreNesting && !result.preNestedAnalyticCodes) {
+        return false;
       }
       return true;
     } else {
       if (result.usePreNesting && result.preNestedAnalyticCodes) {
         return result.preNestedAnalyticCodes.length > 0 && result.processingValue! >= 0 && result.processingValue !== undefined;
+      } else if (result.usePreNesting && !result.preNestedAnalyticCodes) {
+        return false;
       }
       return result.processingValue! >= 0 && result.processingValue !== undefined;
     }
@@ -277,7 +281,10 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}
                 width={200}
-                error={statementResult.usePreNesting && statementResult.preNestedAnalyticCodes && statementResult.preNestedAnalyticCodes.length === 0}
+                error={
+                  (statementResult.usePreNesting && statementResult.preNestedAnalyticCodes && statementResult.preNestedAnalyticCodes.length === 0) ||
+                  (statementResult.usePreNesting && !statementResult.preNestedAnalyticCodes)
+                }
                 icon={MANDATORY_FIELD_ERROR}
               />
             </>
