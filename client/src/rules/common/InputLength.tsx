@@ -10,13 +10,15 @@ type InputLengthProps = {
   decimalScale: number;
   onValueUpdate: (valueInMeter?: number) => void;
   width: number;
+  xlabel: string;
 };
 
-const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width }) => {
+const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width, xlabel }) => {
   return (
     <>
       <Input
         type="number"
+        data-xlabel={xlabel}
         value={valueInMeter}
         onBlur={evt => onValueUpdate(evt.target.value ? parseFloat(evt.target.value) : undefined)}
         width={width}
