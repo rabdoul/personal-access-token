@@ -15,6 +15,8 @@ import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
 import ErrorIcon, { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import InputLength from './common/InputLength';
+import useValueUnit from './common/useValueUnit';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -114,6 +116,8 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
     { label: formatMessage({ id: 'rule.generate.marker.sizes' }), value: '2' }
   ];
 
+  const distanceValueUnit = useValueUnit('GroupsProcessing');
+
   return (
     <div style={{ fontWeight: 'lighter' }}>
       <Form>
@@ -132,17 +136,16 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
           {statementResult.groupsProcessing !== 1 && statementResult.groupsProcessing && (
             <>
               <LabelWithHelpTooltip helpUrl={urls[1]}>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
-              <Input
-                data-xlabel="distance"
-                name="distance"
-                onBlur={({ target: { value } }) => updateStatementResult('processingValue', parseInt(value))}
-                type="number"
-                min={0}
-                value={statementResult.processingValue}
+              <InputLength
+                targetUnit={distanceValueUnit.unit}
                 disabled={disabled}
+                decimalScale={distanceValueUnit.decimalScale}
+                onValueUpdate={value => updateStatementResult('processingValue', value)}
                 width={60}
-                error={!(statementResult.processingValue! >= 0 && statementResult.processingValue !== undefined)}
-                icon={<ErrorIcon errorKey="rule.generate.marker.value.must.be.greater" />}
+                xlabel="distance"
+                valueInMeter={statementResult.processingValue}
+                errorKey="rule.generate.marker.value.must.be.greater"
+                min={0}
               />
             </>
           )}

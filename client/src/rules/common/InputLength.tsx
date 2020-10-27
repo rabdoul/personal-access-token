@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from '@lectra/input';
 
-import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
+import ErrorIcon from './ErrorIcon';
 
 type InputLengthProps = {
   valueInMeter?: number;
@@ -11,9 +11,11 @@ type InputLengthProps = {
   onValueUpdate: (valueInMeter?: number) => void;
   width: number;
   xlabel: string;
+  min?: number;
+  errorKey?: string;
 };
 
-const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width, xlabel }) => {
+const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width, xlabel, min, errorKey = 'error.field.mandatory' }) => {
   const value = valueInMeter ? convertFromMeter(valueInMeter, targetUnit).toFixed(decimalScale) : valueInMeter;
   return (
     <>
@@ -25,8 +27,9 @@ const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, dis
         width={width}
         disabled={disabled}
         error={!value}
-        icon={MANDATORY_FIELD_ERROR}
+        icon={<ErrorIcon errorKey={errorKey} />}
         numberMaxDigits={decimalScale}
+        min={min}
       />
       {targetUnit}
     </>
