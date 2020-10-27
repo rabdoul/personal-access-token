@@ -20,8 +20,12 @@ function isMaxNumberOfProductsValid(result: Partial<GenerateSectionPlan>) {
   return result.sectionPlanGeneration === 0 && result.canLimitMarkerByProductNumber ? result.maxNumberOfProducts !== undefined : true;
 }
 
+function isPlanGenerationValid(result: Partial<GenerateSectionPlan>) {
+  return result.sectionPlanGeneration !== undefined;
+}
+
 const validateStatementResult = (result: Partial<GenerateSectionPlan>) => {
-  return isMaxNumberOfProductsValid(result);
+  return isPlanGenerationValid(result) && isMaxNumberOfProductsValid(result);
 };
 
 const GenerateSectionPlanRule = () => (
@@ -58,6 +62,8 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
         }
         width={200}
         disabled={disabled}
+        error={!isPlanGenerationValid(statementResult)}
+        icon={MANDATORY_FIELD_ERROR}
       />
       {isAutomaticGeneration && (
         <Fragment>
