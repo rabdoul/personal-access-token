@@ -261,7 +261,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               { title: formatMessage({ id: 'common.yes' }), value: 'true' },
               { title: formatMessage({ id: 'common.no' }), value: 'false' }
             ]}
-            defaultValue={statementResult.usePreNesting?.toString() ?? 'false'}
+            defaultValue={statementResult.usePreNesting ? statementResult.usePreNesting.toString() : 'false'}
             onChange={({ value }) => updateStatementResult('usePreNesting', value === 'true')}
             disabled={disabled}
             options={{ items: { minWidth: 20 } }}
@@ -277,7 +277,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}
                 width={200}
-                error={statementResult.preNestedAnalyticCodes?.length === 0}
+                error={statementResult.usePreNesting && statementResult.preNestedAnalyticCodes && statementResult.preNestedAnalyticCodes.length === 0}
                 icon={MANDATORY_FIELD_ERROR}
               />
             </>
