@@ -5,7 +5,7 @@ import { AuthenticationContext } from '../../../base/Authentication';
 import { UserPreferenceContext } from '../../../base/UserPreference';
 import { renderHook } from '@testing-library/react-hooks';
 import useConditionConfiguration from '../useConditionConfiguration';
-import { ActivityConfiguration, Condition, ValueUnit } from '../../../model';
+import { ActivityConfiguration, Condition } from '../../../model';
 import { mocked } from 'ts-jest/utils';
 import { QueryResult, useQuery } from 'react-query';
 
