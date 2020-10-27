@@ -11,6 +11,7 @@ import useConditionConfiguration from './useConditionConfiguration';
 import { MANDATORY_FIELD_ERROR } from './ErrorIcon';
 import DropDownSearchRenderer from './DropDownSearchRenderer';
 import { ButtonWithHelpTooltip, useHelpUrls } from '../../base/Help';
+import InputLength from './InputLength';
 
 type Props = {
   statementIndex: number;
@@ -75,21 +76,28 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
           error={!condition.operator}
           icon={MANDATORY_FIELD_ERROR}
         />
-        {(conditionConfiguration.type === 'number' || conditionConfiguration.type === 'text') && (
-          <>
-            <Input
-              data-xlabel="right-operand"
-              type={conditionConfiguration.type}
-              value={condition.value}
-              onBlur={handleConditionInputValueChange}
-              width={200}
-              disabled={disabled}
-              error={!condition.value}
-              icon={MANDATORY_FIELD_ERROR}
-              numberMaxDigits={conditionConfiguration.unitConfig?.decimalScale}
-            />
-            {conditionConfiguration.unitConfig && conditionConfiguration.unitConfig.unit}
-          </>
+        {((conditionConfiguration.type === 'number' && !conditionConfiguration.unitConfig) || conditionConfiguration.type === 'text') && (
+          <Input
+            data-xlabel="right-operand"
+            type={conditionConfiguration.type}
+            value={condition.value}
+            onBlur={handleConditionInputValueChange}
+            width={200}
+            disabled={disabled}
+            error={!condition.value}
+            icon={MANDATORY_FIELD_ERROR}
+          />
+        )}
+        {conditionConfiguration.type === 'number' && conditionConfiguration.unitConfig && (
+          <InputLength
+            data-xlabel="right-operand"
+            valueInMeter={condition.value}
+            onValueUpdate={value => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value })}
+            width={200}
+            targetUnit={conditionConfiguration.unitConfig.unit}
+            decimalScale={conditionConfiguration.unitConfig.decimalScale}
+            disabled={disabled}
+          />
         )}
         {conditionConfiguration.type === 'list' && (
           <DropDownSearch
