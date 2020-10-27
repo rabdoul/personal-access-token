@@ -52,13 +52,13 @@ function usePositioningRules() {
 const validateStatementResult = (result: Partial<GenerateMarker>) => {
   if (result.groupsProcessing !== undefined && result.variantDirection !== undefined) {
     if (result.groupsProcessing === 1) {
-      if (result.usePreNesting) {
-        return result.preNestedAnalyticCodes!.length > 0;
+      if (result.usePreNesting && result.preNestedAnalyticCodes) {
+        return result.preNestedAnalyticCodes.length > 0;
       }
       return true;
     } else {
-      if (result.usePreNesting) {
-        return result.preNestedAnalyticCodes!.length > 0 && result.processingValue! >= 0 && result.processingValue !== undefined;
+      if (result.usePreNesting && result.preNestedAnalyticCodes) {
+        return result.preNestedAnalyticCodes.length > 0 && result.processingValue! >= 0 && result.processingValue !== undefined;
       }
       return result.processingValue! >= 0 && result.processingValue !== undefined;
     }
