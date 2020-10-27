@@ -19,7 +19,9 @@ export type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerL
 
 export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory' | 'SpreadingGroup';
 
-export type ValueUnit = { metric: { decimalScale: number; unit: string }; imperial: { decimalScale: number; unit: string } };
+export type UnitConfig = { decimalScale: number; unit: string };
+
+export type ValueUnit = { metric: UnitConfig; imperial: UnitConfig };
 
 export interface StatementResult {}
 

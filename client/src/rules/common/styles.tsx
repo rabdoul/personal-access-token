@@ -37,7 +37,7 @@ export const BlockContent = styled.div`
   margin: 10px 0 10px 10px;
   width: 100%;
 
-  & > div {
+  & > div:not(:last-child) {
     margin-right: 10px;
   }
 `;

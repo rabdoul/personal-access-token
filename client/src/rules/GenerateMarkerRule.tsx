@@ -14,9 +14,9 @@ import { useUIDispatch } from '../UIState';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useAccessToken } from '../base/Authentication';
-import ErrorIcon, { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
+import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 import InputLength from './common/InputLength';
-import useValueUnit from './common/useValueUnit';
+import useUnitConfig from './common/useUnitConfig';
 
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
@@ -116,7 +116,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
     { label: formatMessage({ id: 'rule.generate.marker.sizes' }), value: '2' }
   ];
 
-  const distanceValueUnit = useValueUnit('GroupsProcessing');
+  const distanceUnitConfig = useUnitConfig('GroupsProcessing');
 
   return (
     <div style={{ fontWeight: 'lighter' }}>
@@ -137,9 +137,9 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             <>
               <LabelWithHelpTooltip helpUrl={urls[1]}>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
               <InputLength
-                targetUnit={distanceValueUnit.unit}
+                targetUnit={distanceUnitConfig.unit}
                 disabled={disabled}
-                decimalScale={distanceValueUnit.decimalScale}
+                decimalScale={distanceUnitConfig.decimalScale}
                 onValueUpdate={value => updateStatementResult('processingValue', value)}
                 width={60}
                 xlabel="distance"
