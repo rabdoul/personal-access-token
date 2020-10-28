@@ -3,7 +3,7 @@ import express = require('express');
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
-import {ListOperator, Operator, ValueSource, ValueType, ValueUnit, VALUE_UNIT_MAPPING} from '../../application/model';
+import {ListOperator, Operator, UnitType, ValueSource, ValueType, valueUnitFromUnitType} from '../../application/model';
 
 type GetActivitiesQueryResponse = { activities: Activity[] }
 
@@ -61,7 +61,7 @@ export class ActivitiesResource {
             operators: condition.eligibleOperator.map((o: number) => Operator[o]),
             valueType: ValueType[condition.conditionType],
             valueSource: ValueSource[condition.rightOperandBindingSource],
-            valueUnit: VALUE_UNIT_MAPPING[condition.unitType],
+            valueUnit: valueUnitFromUnitType(UnitType[condition.unitType]),
             predefinedValueSource: condition.predefinedRightOperand
         };
     }
