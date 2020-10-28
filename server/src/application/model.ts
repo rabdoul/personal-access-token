@@ -30,9 +30,20 @@ export enum UnitType {
 
 export function valueUnitFromUnitType(unitType: string): ValueUnit | undefined {
     switch (unitType) {
-        case 'MarkerLength' : return {
-            metric: { decimalScale: 3, unit: 'm' },
-            imperial: { decimalScale: 3, unit: 'yd' }
+        case 'BatchLength' :
+        case 'MarkerLength': return {
+            metric: { unit: 'm', decimalScale: 3 },
+            imperial: { unit: 'yd', decimalScale: 3 }
+        }
+        case 'BatchWidth':
+        case 'MaterialWidth':
+        case 'MarkerWidth': return {
+            metric: { unit: 'cm', decimalScale: 1 },
+            imperial: { unit: 'in', decimalScale: 2 }
+        }
+        case 'BatchSelvage': return {
+            metric: { unit: 'mm', decimalScale: 0 },
+            imperial: { unit: 'in', decimalScale: 2 }
         }
     }
 
