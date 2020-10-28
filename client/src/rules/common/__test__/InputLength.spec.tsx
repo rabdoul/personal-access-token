@@ -1,7 +1,6 @@
 import { isValueInError } from '../InputLength';
 
 describe('isValueInError', () => {
-  type Case = { value?: number | string; min?: number; expected: boolean };
   const cases = [
     { value: undefined, min: 10, expected: true },
     { value: '', min: 10, expected: true },

@@ -91,7 +91,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
         {conditionConfiguration.type === 'number' && conditionConfiguration.unitConfig && (
           <InputLength
             xlabel="right-operand"
-            valueInMeter={condition.value}
+            valueInMeter={parseFloat(condition.value)}
             onValueUpdate={value => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value })}
             width={200}
             targetUnit={conditionConfiguration.unitConfig.unit}
