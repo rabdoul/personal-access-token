@@ -30,9 +30,10 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
     'PP_GENERATE_CUTTING_ORDERS_NUMBER_MAX',
     'PP_GENERATE_CUTTING_ORDERS_DISTRIBUTION'
   );
+  const COMBINE_PRODUCT_ORDER_VALUE = 2;
   const productGroupingListItems = [
     { value: '0', label: formatMessage({ id: 'rule.generate.cutting.order.one.per.product' }) },
-    { value: '2', label: formatMessage({ id: 'rule.generate.cutting.order.combine' }) },
+    { value: COMBINE_PRODUCT_ORDER_VALUE.toString(), label: formatMessage({ id: 'rule.generate.cutting.order.combine' }) },
     { value: '4', label: formatMessage({ id: 'rule.generate.cutting.order.not.generate' }) }
   ];
 
@@ -49,7 +50,7 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
         width={350}
         disabled={disabled}
       />
-      {statementResult.productGrouping !== 4 && statementResult.productGrouping !== undefined ? (
+      {statementResult.productGrouping === COMBINE_PRODUCT_ORDER_VALUE && statementResult.productGrouping !== undefined ? (
         <Fragment>
           <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[1]}>{formatMessage({ id: 'rule.generate.cutting.order.combine' })}</LabelWithHelpTooltip>
           <ItemsSwitcher
@@ -99,6 +100,10 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
 };
 
 export default GenerateCuttingOrderODRule;
+
+function newFunction() {
+  return '';
+}
 
 function isStrictlyPositive(number: number | undefined): boolean {
   return number !== undefined && number > 0;
