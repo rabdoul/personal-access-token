@@ -21,9 +21,19 @@ export type ConditionDefinition = {
     valueSource: ValueSource;
 };
 
-export const VALUE_UNIT_MAPPING : Record<number, ValueUnit|undefined> = {
-    1: { // MarkerLengthUnit
-        metric: {decimalScale: 3, unit: 'm'},
-        imperial: {decimalScale: 3, unit: 'yd'}
+/**
+ * https://gitlab.lectra.com/CuttingRoom/CutPreparation.Applications/-/blob/master/Foundation.DataModel/ProductionRules/Configuration/ConditionConfiguration.cs#L97
+ */
+export enum UnitType {
+    None, MarkerLength, MarkerWidth, BatchWidth, BatchLength, BatchSelvage, MaterialWidth, MaterialThickness, SpacingConstraint, BlockingConstraint, GroupsProcessing, MotifOffSet, MotifStep, NotchProtection, DaoLibMeasure, AreaDensityUnit
+}
+
+export function valueUnitFromUnitType(unitType: string): ValueUnit | undefined {
+    switch (unitType) {
+        case 'MarkerLength' : return {
+            metric: { decimalScale: 3, unit: 'm' },
+            imperial: { decimalScale: 3, unit: 'yd' }
+        }
     }
+
 }
