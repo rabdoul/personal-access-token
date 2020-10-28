@@ -3,7 +3,7 @@ import express = require('express');
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
-import {ListOperator, Operator, ValueSource, ValueType, ValueUnit} from './model';
+import {ListOperator, Operator, ValueSource, ValueType, ValueUnit, VALUE_UNIT_MAPPING} from '../../application/model';
 
 type GetActivitiesQueryResponse = { activities: Activity[] }
 
@@ -75,9 +75,3 @@ export class ActivitiesResource {
     }
 }
 
-const VALUE_UNIT_MAPPING : Record<number, ValueUnit|undefined> = {
-    1: { // MarkerLengthUnit
-        metric: {decimalScale: 3, unit: 'm'},
-        imperial: {decimalScale: 3, unit: 'yd'}
-    }
-}

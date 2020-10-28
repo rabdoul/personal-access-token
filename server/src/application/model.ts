@@ -20,3 +20,10 @@ export type ConditionDefinition = {
     valueUnit?: ValueUnit;
     valueSource: ValueSource;
 };
+
+export const VALUE_UNIT_MAPPING : Record<number, ValueUnit|undefined> = {
+    1: { // MarkerLengthUnit
+        metric: {decimalScale: 3, unit: 'm'},
+        imperial: {decimalScale: 3, unit: 'yd'}
+    }
+}

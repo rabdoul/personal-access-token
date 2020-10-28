@@ -2,7 +2,7 @@ import express = require("express");
 import { CommandQueryExecutor, CommandResponseType, QueryResponseType } from "../../application/CommandQueryExecutor";
 import { disableForSupport } from "../disableForSupport";
 import { activityReferenceFromId } from "./ActivitiesMapping";
-import { ListOperator, Operator, Statement } from "./model";
+import { ListOperator, Operator, Statement } from "../../application/model";
 
 type PatchOperation = { op: "replace" | "add" | "remove"; path: string; value: Statement[] };
 
