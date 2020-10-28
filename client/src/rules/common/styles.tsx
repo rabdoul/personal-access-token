@@ -194,7 +194,10 @@ export const CriterionsContainer = styled.div`
 
 export const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
+
+  & > button:not(:first-child) {
+    margin-left: 10px;
+  }
 `;
 
 export const InputNumberWithError = styled(Input)<{ error: boolean }>`
