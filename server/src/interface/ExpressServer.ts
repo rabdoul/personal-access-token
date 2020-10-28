@@ -27,6 +27,7 @@ import { ProductionLinesResource } from "./resources/ProductionLinesResource";
 import { BlockingRulesResource } from "./resources/BlockingRulesResource";
 import { PositioningRulesResource } from "./resources/PositioningRulesResource";
 import { ProximityRulesResource } from "./resources/ProximityRulesResource";
+import { ValueUnitsResource } from "./resources/ValueUnitsResource";
 
 const fallback = require("express-history-api-fallback");
 const expressPino = require("express-pino-logger")({ logger: LOGGER });
@@ -100,6 +101,7 @@ export class ExpressServer {
     authenticatedRouter.use(new BlockingRulesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new PositioningRulesResource(this.commandQueryExecutor).router);
     authenticatedRouter.use(new ProximityRulesResource(this.commandQueryExecutor).router);
+    authenticatedRouter.use(new ValueUnitsResource().router);
     return authenticatedRouter;
   }
 
