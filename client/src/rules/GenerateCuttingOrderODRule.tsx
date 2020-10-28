@@ -11,8 +11,10 @@ import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
 import { GenerateCuttingOrder } from './GenerateCuttingOrderRule';
 
+const COMBINE_PRODUCT_ORDER_VALUE = 2;
+
 const validateGenerateCuttingOrder = (generateCuttingOrder: Partial<GenerateCuttingOrder>) => {
-  return generateCuttingOrder.productGrouping === 4 || isStrictlyPositive(generateCuttingOrder.maxNumberOfProducts);
+  return generateCuttingOrder.productGrouping !== COMBINE_PRODUCT_ORDER_VALUE || isStrictlyPositive(generateCuttingOrder.maxNumberOfProducts);
 };
 
 const GenerateCuttingOrderODRule = () => (
@@ -30,7 +32,6 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
     'PP_GENERATE_CUTTING_ORDERS_NUMBER_MAX',
     'PP_GENERATE_CUTTING_ORDERS_DISTRIBUTION'
   );
-  const COMBINE_PRODUCT_ORDER_VALUE = 2;
   const productGroupingListItems = [
     { value: '0', label: formatMessage({ id: 'rule.generate.cutting.order.one.per.product' }) },
     { value: COMBINE_PRODUCT_ORDER_VALUE.toString(), label: formatMessage({ id: 'rule.generate.cutting.order.combine' }) },
@@ -100,10 +101,6 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
 };
 
 export default GenerateCuttingOrderODRule;
-
-function newFunction() {
-  return '';
-}
 
 function isStrictlyPositive(number: number | undefined): boolean {
   return number !== undefined && number > 0;
