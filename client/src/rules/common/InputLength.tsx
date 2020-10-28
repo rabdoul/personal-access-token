@@ -18,14 +18,14 @@ type InputLengthProps = {
 export const isValueInError = (value?: number | string, min?: number): boolean => value === undefined || value === '' || value < min!!;
 
 const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width, xlabel, min, errorKey = 'error.field.mandatory' }) => {
-  const value = valueInMeter ? convertFromMeter(valueInMeter, targetUnit).toFixed(decimalScale) : valueInMeter;
+  const value = valueInMeter !== undefined ? convertFromMeter(valueInMeter, targetUnit) : valueInMeter;
 
   return (
     <>
       <Input
         type="number"
         data-xlabel={xlabel}
-        value={value}
+        value={value?.toFixed(decimalScale)}
         onBlur={evt => onValueUpdate(evt.target.value ? convertToMeter(parseFloat(evt.target.value), targetUnit) : undefined)}
         width={width}
         disabled={disabled}
