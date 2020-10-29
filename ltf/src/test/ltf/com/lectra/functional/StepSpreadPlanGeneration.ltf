@@ -1,0 +1,94 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step spread plan generation TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Initial state : spread plan generation mode is automatic, with distribution mode maximising spread height
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ generate-spreading-plan , true ] -> 
+
+	callScript -> subscript.activity_list.SelectActivity -> [ generate-spreading-plan ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 2 , distribution-mode , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step marker plan generation
+
+	callScript -> subscript.step_spread_plan_generation.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-spreading-plan , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 2 , distribution-mode , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-spreading-plan , false ] -> 
+
+	paragraph -> Test result block
+
+	comment1 -> When generation mode is set to manual, the distribution mode list is not displayed
+	
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , generation-mode , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = distribution-mode ]
+
+	paragraph -> Add conditional tree and save
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , distribution-mode , 0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , command.priority , Below , 42 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , material.cuttingFamily , Equals , ICut ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check values after saving
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , command.priority , Below , 42 ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , material.cuttingFamily , Equals , ICut ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , generation-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , distribution-mode , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , generation-mode , 1 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = distribution-mode ] -> div [ data-resultblock-id = 1 ]
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

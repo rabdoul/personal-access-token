@@ -1,0 +1,142 @@
+﻿SCRIPT_DESCRIPTION
+Check all options of left operands and associated operator for step spread plan generation
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+
+SCRIPT_START
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-spreading-plan ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ process.type ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ command.reference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ command.factory ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ command.priority ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Above ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Below ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ command.salespoint ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.reference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.family ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.category ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.offerReference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.reference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.supplier ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.reference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.motif ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nature ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nestingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.cuttingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.spreadingFamily ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
