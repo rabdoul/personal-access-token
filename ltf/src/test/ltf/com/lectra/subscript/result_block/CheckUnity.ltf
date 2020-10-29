@@ -1,0 +1,19 @@
+
+SCRIPT_DESCRIPTION
+Check the unity displayed in a result block 
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> unit displayed (m, yd)
+    parameter1 -> data-resultblock-id
+
+SCRIPT_START
+
+	comment1 -> Check the unit displayed on result block ${parameter1} is ${parameter0}
+
+ 	check -> text = ${parameter0} -> div [ data-xlabel = unit ] ->  div [ data-resultblock-id = ${parameter1} ]

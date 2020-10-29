@@ -1,0 +1,203 @@
+﻿SCRIPT_DESCRIPTION
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step marker generation TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Initial state : ignore marker groups, normal variant direction, rule pickers empty, no inputs
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ generate-marker , true ] -> 
+
+	callScript -> subscript.activity_list.SelectActivity -> [ generate-marker ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , markerGroups , 0 ] -> 
+
+	check -> exists = false -> input [ data-xlabel = distance ]
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , variantDirection , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ proximityRulesIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ proximityRulesIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ blockingRuleIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ blockingRuleIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ zonePositioningRuleIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ zonePositioningRuleIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , preNesting , 0 ] -> 
+
+	check -> exists = false -> input [ data-xlabel = analyticalCodes ]
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , variableSpacing , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step marker plan generation
+
+	callScript -> subscript.step_marker_generation.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 2 , markerGroups , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-marker , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , markerGroups , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-marker , false ] -> 
+
+	paragraph -> Test result block
+
+	comment1 -> When marker groups is set to Space out or Interlock, non nullable numerical input is shown 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 2 , markerGroups , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0.0 , distance , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 3 , markerGroups , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0.0 , distance , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckUnity -> [ cm , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ a , distance , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-marker ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ 1.6 , distance , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	comment1 -> When requesting interactive pre-nesting, analyticalCodes input is shown empty in error
+
+	callScript -> subscript.result_block.ChangeItemSwitcher -> [ Yes , preNesting , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-marker ] -> 
+
+	callScript -> subscript.result_block.FillInput -> [ cody , analyticalCodes , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	paragraph -> Fill the form : rule pickers and item switcher
+
+	callScript -> subscript.result_block.ChangeItemSwitcher -> [ Yes , variableSpacing , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ Afar , proximityRulesIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ Abroad , proximityRulesIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ ForestRule , blockingRuleIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ Blocking中EveryDay , blockingRuleIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ FrontEnd , zonePositioningRuleIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ Quarterback , zonePositioningRuleIdMotif , 0 ] -> 
+
+	paragraph -> Add conditional tree and save
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , cuttingorder.isrecut , Equals , True ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , command.reference , Different , ReferTest ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-marker ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , markerGroups , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 2 , variantDirection , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check values after saving
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , cuttingorder.isrecut , Equals , True ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , command.reference , Different , ReferTest ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , markerGroups , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 2 , variantDirection , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ proximityRulesIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ proximityRulesIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ blockingRuleIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ blockingRuleIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ zonePositioningRuleIdPlain , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ zonePositioningRuleIdMotif , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , preNesting , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , variableSpacing , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 3 , markerGroups , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , variantDirection , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ Afar , proximityRulesIdPlain , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ Abroad , proximityRulesIdMotif , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ ForestRule , blockingRuleIdPlain , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ Blocking中EveryDay , blockingRuleIdMotif , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ FrontEnd , zonePositioningRuleIdPlain , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ Quarterback , zonePositioningRuleIdMotif , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ Yes , preNesting , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ Yes , variableSpacing , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 1.6 , distance , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckUnity -> [ cm , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckInputValue -> [ cody , analyticalCodes , 1 ] -> 
+
+	paragraph -> Check result block unit in imperial
+
+	goToUrl -> https://cutting-room-production-process.dev.mylectra.com/generate-marker?unit-system=imperial
+
+	callScript -> subscript.result_block.CheckInputValue -> [ 0.63 , distance , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckUnity -> [ in , 1 ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

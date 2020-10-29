@@ -1,6 +1,6 @@
 
 SCRIPT_DESCRIPTION
-Check if activity is edited or not
+Enable online help and hover to a rule and its result block to show the help tooltip
 
 SCRIPT_AUTHOR
 r.bancal
@@ -9,15 +9,18 @@ SCRIPT_GROUPS
 
 SCRIPT_PARAMETERS
 
-    parameter0 -> data-xlabel of form content to hover to
+    parameter0 -> Activity name
+    parameter1 -> data-xlabel of form content to hover to
 
 SCRIPT_START
 
-	comment1 -> Enable help, hover to a label with online help, chick help is displayed
+	comment1 -> Enable help, hover to activity list and result block
+
+	callScript -> subscript.activity_list.SelectActivity -> [ ${parameter0} ] ->
 
 	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] ->
 
-	hover -> div [ data-xlabel = ${parameter0} ] -> div [ data-resultblock-id = 0 ]
+	hover -> a [ data-xname = ${parameter0} ]
 
 	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
 
@@ -27,10 +30,21 @@ SCRIPT_START
 
 	check -> exists = false -> div [ class = tippy-content , data-state = visible ]
 
-	comment1 -> Disable help, hover to label, check there is no online help popup
+	hover -> div [ data-xlabel = ${parameter1} ] -> div [ data-resultblock-id = 0 ]
+
+	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
+
+	hover -> div [ data-xlabel = help-icon ]
+
+	waitDuring -> 1
+
+	check -> exists = false -> div [ class = tippy-content , data-state = visible ]
+
+	comment1 -> Disable help, online help is not displayed
 
 	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] ->
 
-	hover -> div [ data-xlabel = ${parameter0} ] -> div [ data-resultblock-id = 0 ]
+	hover -> a [ data-xname = ${parameter0} ]
 
 	check -> exists = false -> div [ class = tippy-content , data-state = visible ]
+
