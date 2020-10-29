@@ -13,7 +13,6 @@ SCRIPT_PARAMETERS
     parameter2 -> Operator
     parameter3 -> Right operand
 
-
 SCRIPT_START
 
 	comment1 -> Check conditional block ${parameter0} has condition [ ${parameter1} ${parameter2} ${parameter3} ] 

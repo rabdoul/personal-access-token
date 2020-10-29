@@ -1,0 +1,19 @@
+
+SCRIPT_DESCRIPTION
+Check if activity is selected or not
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> data-conditionblock-id
+    parameter1 -> unit displayed (m, yd)
+
+SCRIPT_START
+
+	comment1 -> Check the unit displayed on condition block ${parameter0} is ${parameter1}
+
+ 	check -> text = ${parameter1} -> div [ data-xlabel = unit ] ->  div [ data-conditionblock-id = ${parameter0} ]

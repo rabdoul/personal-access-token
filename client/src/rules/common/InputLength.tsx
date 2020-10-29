@@ -34,7 +34,9 @@ const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, dis
         numberMaxDigits={decimalScale}
         min={min}
       />
-      <div style={{ marginLeft: '5px' }}>{targetUnit}</div>
+      <div data-xlabel="unit" style={{ marginLeft: '5px' }}>
+        {targetUnit}
+      </div>
     </>
   );
 };

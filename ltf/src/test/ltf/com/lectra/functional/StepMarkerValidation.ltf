@@ -107,7 +107,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 1-0 , marker.length , Above , azs85 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , marker.length , Above , azs1.256 ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 1-0 ] -> 
 
@@ -135,7 +135,9 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , material.nature , Contains , Linen ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 85 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 1&comma;256 ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckUnity -> [ 1-0 , m ] -> 
 
 	callScript -> subscript.conditions.CheckConditionList -> [ 1-1 , material.motif , Different , Plaid ] -> 
 
@@ -154,6 +156,16 @@ SCRIPT_START
 	callScript -> subscript.result_block.CheckInputValue -> [ 95 , efficiency-upper-bound , 1 ] -> 
 
 	callScript -> subscript.result_block.CheckInputValue -> [ 88 , efficiency-upper-bound , 2 ] -> 
+
+	paragraph -> Check unit conversion from meter to yard
+
+	goToUrl -> https://cutting-room-production-process.dev.mylectra.com/validate-marker?unit-system=imperial
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 1&comma;374 ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckUnity -> [ 1-0 , yd ] -> 
 
 	channel -> close -> prodprocess
 
