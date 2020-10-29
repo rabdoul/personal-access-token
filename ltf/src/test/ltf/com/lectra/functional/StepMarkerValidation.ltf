@@ -135,7 +135,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , material.nature , Contains , Linen ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 1&comma;256 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 1.256 ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckUnity -> [ 1-0 , m ] -> 
 
@@ -163,7 +163,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 1&comma;374 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , marker.length , Above , 1.374 ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckUnity -> [ 1-0 , yd ] -> 
 

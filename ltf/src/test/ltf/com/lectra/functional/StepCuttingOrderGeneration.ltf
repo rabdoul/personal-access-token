@@ -1,0 +1,108 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step cutting order generation generation TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ ltf-production-rules@framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Initial state : one cutting order per product and per material
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ generate-cutting-order , true ] -> 
+
+	callScript -> subscript.activity_list.SelectActivity -> [ generate-cutting-order ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , cuttingOrderProductGrouping , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , cuttingOrderMaterialGrouping , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step marker plan generation
+
+	callScript -> subscript.step_cutting_order_generation.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 4 , cuttingOrderProductGrouping , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-cutting-order , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , cuttingOrderProductGrouping , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , cuttingOrderMaterialGrouping , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ generate-cutting-order , false ] -> 
+
+	paragraph -> Test result block
+
+	comment1 -> When generation mode is disabled, generation per material option list is not shown
+	
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 4 , cuttingOrderProductGrouping , 0 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = cuttingOrderMaterialGrouping ]
+
+	paragraph -> Add conditional tree and save
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 5 , cuttingOrderProductGrouping , 0 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , cuttingOrderMaterialGrouping , 0 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 6 , cuttingOrderProductGrouping , 1 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 0 , cuttingOrderMaterialGrouping , 1 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , command.priority , Below , 42 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , material.nature , Equals , metallic ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , product.category , Equals , Other ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check values after saving
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , command.priority , Below , 42 ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , product.category , Equals , Other ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , material.nature , Equals , metallic ] ->
+
+	callScript -> subscript.result_block.CheckListValue -> [ 5 , cuttingOrderProductGrouping , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , cuttingOrderMaterialGrouping , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 6 , cuttingOrderProductGrouping , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , cuttingOrderMaterialGrouping , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 4 , cuttingOrderProductGrouping , 2 ] -> 
+
+	check -> exists = false -> div [ data-xlabel = cuttingOrderMaterialGrouping ] -> div [ data-resultblock-id = 2 ]
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
