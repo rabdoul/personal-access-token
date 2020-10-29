@@ -1,9 +1,10 @@
 import express = require('express');
+import { UnitType, unitConfig, valueOfUnitType } from 'cutting-room-units';
 
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
-import {ListOperator, Operator, UnitType, ValueSource, ValueType, valueUnitFromUnitType} from '../../application/model';
+import { ListOperator, Operator, ValueSource, ValueType } from '../../application/model';
 
 type GetActivitiesQueryResponse = { activities: Activity[] }
 
@@ -61,7 +62,7 @@ export class ActivitiesResource {
             operators: condition.eligibleOperator.map((o: number) => Operator[o]),
             valueType: ValueType[condition.conditionType],
             valueSource: ValueSource[condition.rightOperandBindingSource],
-            valueUnit: valueUnitFromUnitType(UnitType[condition.unitType]),
+            valueUnit: unitConfig(valueOfUnitType(UnitType[condition.unitType])),
             predefinedValueSource: condition.predefinedRightOperand
         };
     }
