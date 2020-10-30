@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import Input from '@lectra/input';
 import ItemsSwitcher from '@lectra/itemsswitcher';
 import Select from '@lectra/select';
+import { UnitType } from 'cutting-room-units';
 
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form, Line } from './common/styles';
@@ -116,7 +117,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
     { label: formatMessage({ id: 'rule.generate.marker.sizes' }), value: '2' }
   ];
 
-  const distanceUnitConfig = useUnitConfig('GroupsProcessing');
+  const distanceUnitConfig = useUnitConfig(UnitType.GroupsProcessing);
 
   return (
     <div style={{ fontWeight: 'lighter' }}>
@@ -137,15 +138,14 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
             <>
               <LabelWithHelpTooltip helpUrl={urls[1]}>{formatMessage({ id: 'rule.generate.marker.distance' })}</LabelWithHelpTooltip>
               <InputLength
-                targetUnit={distanceUnitConfig.unit}
+                targetUnit={distanceUnitConfig}
                 disabled={disabled}
-                decimalScale={distanceUnitConfig.decimalScale}
                 onValueUpdate={value => updateStatementResult('processingValue', value)}
                 width={60}
                 xlabel="distance"
                 valueInMeter={statementResult.processingValue}
                 errorKey="rule.generate.marker.value.must.be.greater"
-                min={0}
+                minInMeter={0}
               />
             </>
           )}
