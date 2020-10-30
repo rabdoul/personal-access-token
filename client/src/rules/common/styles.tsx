@@ -1,6 +1,6 @@
 import Icon from '@lectra/icon';
 import styled from 'styled-components/macro';
-import { SelectWithHelpTooltip, withHelpTooltip } from '../../base/Help';
+import { CheckBoxWithHelpTooltip, SelectWithHelpTooltip, withHelpTooltip } from '../../base/Help';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
 
@@ -15,6 +15,10 @@ export const Form = styled.div`
   [data-testId='CheckboxComponent'] {
     height: 14px;
     width: 14px;
+  }
+
+  & > div {
+    margin-bottom: 0;
   }
 `;
 
