@@ -1,6 +1,6 @@
 import Icon from '@lectra/icon';
 import styled from 'styled-components/macro';
-import { CheckBoxWithHelpTooltip, SelectWithHelpTooltip, withHelpTooltip } from '../../base/Help';
+import { SelectWithHelpTooltip, withHelpTooltip } from '../../base/Help';
 import Input from '@lectra/input';
 import Select from '@lectra/select';
 

@@ -33,7 +33,7 @@ const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, dis
         error={isValueInError(valueInMeter, minInMeter)}
         icon={<ErrorIcon errorKey={errorKey} />}
         numberMaxDigits={measure?.unitConfig.decimalScale}
-        min={minInMeter != undefined ? new Measure(minInMeter, meterConfig).convertTo(targetUnit).value : undefined}
+        min={minInMeter !== undefined ? new Measure(minInMeter, meterConfig).convertTo(targetUnit).value : undefined}
       />
       <div data-xlabel="unit" style={{ marginLeft: '5px' }}>
         {targetUnit.unit}

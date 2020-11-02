@@ -76,7 +76,9 @@ export default function useConditionConfiguration(condition: Condition, activity
       ? conditionDefinition.multipleOperators.map(it => ({ label: formatMessage({ id: `operator.${it.toLowerCase()}` }), value: it }))
       : undefined;
   const type = computeConditionValueType(conditionDefinition);
-  const listItems = useListItems(conditionDefinition);
+  const listItems = useListItems(conditionDefinition).sort((a: { label: string; value: string }, b: { label: string; value: string }) => {
+    return a.label.localeCompare(b.label);
+  });
   const unitConfig = conditionDefinition?.valueUnit?.[unitSystem];
   return { multipleOperatorItems, references, operators, type, listItems, unitConfig };
 }
