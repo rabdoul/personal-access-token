@@ -187,9 +187,9 @@ const Criterions: React.FC<CriterionsProps> = ({ disabled, criteriaIndex, criter
         listItems={criteriaItems}
         onChange={item => updateCriteria('batchGenerationCriterionType', parseInt(item.value))}
         disabled={disabled}
-        value={`${criteria.batchGenerationCriterionType}`}
+        value={`${criteria.batchGenerationCriterionType ?? 0}`}
         width={120}
-        error={criteria.batchGenerationCriterionType === undefined}
+        error={false}
         icon={MANDATORY_FIELD_ERROR}
       />
       <ButtonGroup>
