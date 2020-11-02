@@ -1,3 +1,5 @@
+import { UnitConfig } from 'cutting-room-units';
+
 export type Activity = { id: string; order: number; enabled: boolean };
 export type ActivityConfiguration = { id: string; conditions: ConditionDefinition[] };
 
@@ -18,8 +20,6 @@ export type Operator = 'Equals' | 'Above' | 'Below' | 'Different' | 'Contains' |
 export type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerList';
 
 export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory' | 'SpreadingGroup';
-
-export type UnitConfig = { decimalScale: number; unit: string };
 
 export type ValueUnit = { metric: UnitConfig; imperial: UnitConfig };
 

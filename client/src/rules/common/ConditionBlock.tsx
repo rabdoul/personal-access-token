@@ -94,8 +94,7 @@ const ConditionBlock: React.FC<Props> = ({ statementIndex, condition, conditionI
             valueInMeter={parseFloat(condition.value)}
             onValueUpdate={value => dispatch({ type: 'UPDATE_CONDITION', activityId, statementIndex, conditionIndex, attribute: 'value', value })}
             width={200}
-            targetUnit={conditionConfiguration.unitConfig.unit}
-            decimalScale={conditionConfiguration.unitConfig.decimalScale}
+            targetUnit={conditionConfiguration.unitConfig}
             disabled={disabled}
           />
         )}

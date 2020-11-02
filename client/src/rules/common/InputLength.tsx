@@ -1,74 +1,45 @@
 import React from 'react';
 import Input from '@lectra/input';
+import { Measure, UnitConfig } from 'cutting-room-units';
 
 import ErrorIcon from './ErrorIcon';
 
 type InputLengthProps = {
   valueInMeter?: number;
-  targetUnit: string;
+  targetUnit: UnitConfig;
   disabled: boolean;
-  decimalScale: number;
   onValueUpdate: (valueInMeter?: number) => void;
   width: number;
   xlabel: string;
-  min?: number;
+  minInMeter?: number;
   errorKey?: string;
 };
 
 export const isValueInError = (value?: number | string, min?: number): boolean => value === undefined || value === '' || value < min!!;
 
-const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, decimalScale, onValueUpdate, width, xlabel, min, errorKey = 'error.field.mandatory' }) => {
-  const value = valueInMeter !== undefined ? convertFromMeter(valueInMeter, targetUnit) : valueInMeter;
+const InputLength: React.FC<InputLengthProps> = ({ valueInMeter, targetUnit, disabled, onValueUpdate, width, xlabel, minInMeter, errorKey = 'error.field.mandatory' }) => {
+  const meterConfig: UnitConfig = { unit: 'm', decimalScale: targetUnit.decimalScale };
+  const measure: Measure | undefined = valueInMeter !== undefined ? new Measure(valueInMeter, meterConfig).convertTo(targetUnit) : undefined;
 
   return (
     <>
       <Input
         type="number"
         data-xlabel={xlabel}
-        value={value?.toFixed(decimalScale)}
-        onBlur={evt => onValueUpdate(evt.target.value ? convertToMeter(parseFloat(evt.target.value), targetUnit) : undefined)}
+        value={measure?.toString()}
+        onBlur={evt => onValueUpdate(evt.target.value ? new Measure(parseFloat(evt.target.value), targetUnit).convertTo(meterConfig).value : undefined)}
         width={width}
         disabled={disabled}
-        error={isValueInError(value, min)}
+        error={isValueInError(valueInMeter, minInMeter)}
         icon={<ErrorIcon errorKey={errorKey} />}
-        numberMaxDigits={decimalScale}
-        min={min}
+        numberMaxDigits={measure?.unitConfig.decimalScale}
+        min={minInMeter != undefined ? new Measure(minInMeter, meterConfig).convertTo(targetUnit).value : undefined}
       />
       <div data-xlabel="unit" style={{ marginLeft: '5px' }}>
-        {targetUnit}
+        {targetUnit.unit}
       </div>
     </>
   );
-};
-
-const METER_TO_CENTIMETER_COEFF = 100;
-const METER_TO_INCH_COEFF = 39.37007874;
-const METER_TO_YARD_COEFF = 1.0936132983377;
-
-const convertFromMeter = (value: number, unit: string): number => {
-  switch (unit) {
-    case 'cm':
-      return value * METER_TO_CENTIMETER_COEFF;
-    case 'yd':
-      return value * METER_TO_YARD_COEFF;
-    case 'in':
-      return value * METER_TO_INCH_COEFF;
-    default:
-      return value;
-  }
-};
-
-const convertToMeter = (value: number, unit: string) => {
-  switch (unit) {
-    case 'cm':
-      return value / METER_TO_CENTIMETER_COEFF;
-    case 'yd':
-      return value / METER_TO_YARD_COEFF;
-    case 'in':
-      return value / METER_TO_INCH_COEFF;
-    default:
-      return value;
-  }
 };
 
 export default InputLength;
