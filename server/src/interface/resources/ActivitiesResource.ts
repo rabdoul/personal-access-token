@@ -1,5 +1,5 @@
 import express = require('express');
-import { UnitType, unitConfig, valueOfUnitType } from 'cutting-room-units';
+import { UnitType, getUnitConfig, valueOfUnitType } from 'cutting-room-units';
 
 import { currentPrincipal } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
@@ -56,13 +56,18 @@ export class ActivitiesResource {
     }
 
     private toConditionDefinition(condition: any) {
+        const unitType = valueOfUnitType(UnitType[condition.unitType])
         return {
             reference: condition.leftOperand,
             multipleOperators: condition.eligibleListOperator.map((lo: number) => ListOperator[lo]),
             operators: condition.eligibleOperator.map((o: number) => Operator[o]),
             valueType: ValueType[condition.conditionType],
             valueSource: ValueSource[condition.rightOperandBindingSource],
-            valueUnit: unitConfig(valueOfUnitType(UnitType[condition.unitType])),
+            valueUnit: unitType != UnitType.None
+                ? {
+                    metric: getUnitConfig(unitType, 'metric'),
+                    imperial: getUnitConfig(unitType, 'imperial')
+                } : undefined,
             predefinedValueSource: condition.predefinedRightOperand
         };
     }

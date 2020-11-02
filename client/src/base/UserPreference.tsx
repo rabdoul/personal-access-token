@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext, ReactNode } from 'react';
 import querystring from 'query-string';
 import LectraLocale from 'lectra-locale';
+import { UnitSystem } from 'cutting-room-units';
 
 import { AuthenticationContext } from './Authentication';
 
 interface UserPreference {
   lectraLocale: LectraLocale;
-  unitSystem: 'metric' | `imperial`;
+  unitSystem: UnitSystem;
 }
 
 const DEFAULT_USER_PREFERENCE: UserPreference = { lectraLocale: new LectraLocale(), unitSystem: 'metric' };

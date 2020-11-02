@@ -1,11 +1,11 @@
-import { UnitConfig, unitConfig, UnitType } from 'cutting-room-units';
+import { UnitConfig, getUnitConfig, UnitType } from 'cutting-room-units';
 import { useUnitSystem } from '../../base/UserPreference';
 
 export default function useUnitConfig(unitType: UnitType): UnitConfig {
   const unitSystem = useUnitSystem();
-  const config = unitConfig(unitType);
+  const config = getUnitConfig(unitType, unitSystem);
   if (config) {
-    return unitSystem === 'metric' ? config.metric : config.imperial;
+    return config;
   }
   throw new Error(`No unit defined for ${unitType}`);
 }
