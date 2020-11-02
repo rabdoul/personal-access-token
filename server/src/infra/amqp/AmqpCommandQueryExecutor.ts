@@ -47,11 +47,12 @@ export class AmqpCommandQueryExecutor implements CommandQueryExecutor {
   }
 
   private async sendAndReceive(exchange: string, routingKey: string, payload: object): Promise<Message | undefined> {
+    const authorization = currentPrincipalOrNull()?.authorizations.find(authoization => ["OD", "MTM", "MTC", "MTO"].includes(authoization.offer));
     return this.amqpClient.sendAndReceive(exchange, routingKey, Buffer.from(JSON.stringify(payload)), 'application/json', {
       tenant_id: currentPrincipalOrNull()?.tenantId,
       api_version: "4.0",
-      usage_offer: "OD",
-      market: "FA"
+      usage_offer: authorization?.offer,
+      market: authorization?.market
     })
   }
 }
