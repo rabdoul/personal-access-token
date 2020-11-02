@@ -17,6 +17,7 @@ import { GenerateCuttingOrder } from './rules/GenerateCuttingOrderRule';
 import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
 import { MaterialValidation } from './rules/MaterialValidationRule';
 import { GenerateMarker } from './rules/GenerateMarkerRule';
+import { Plot } from './rules/PlotRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -40,6 +41,7 @@ export type UIState = {
   'assist-offloading'?: ActivityRule<Offloading>;
   'affect-cutting-line'?: ActivityRule<AffectCuttingLine>;
   'validate-marker-width'?: ActivityRule<MaterialValidation>;
+  plot?: ActivityRule<Plot>;
 };
 // end::uiState[]
 
@@ -86,7 +88,8 @@ export type Action =
   | UpdateStatementResult<'generate-cutting-order', GenerateCuttingOrder>
   | UpdateStatementResult<'assist-offloading', Offloading>
   | UpdateStatementResult<'affect-cutting-line', AffectCuttingLine>
-  | UpdateStatementResult<'validate-marker-width', MaterialValidation>;
+  | UpdateStatementResult<'validate-marker-width', MaterialValidation>
+  | UpdateStatementResult<'plot', Plot>;
 // end::action[]
 
 enableMapSet();
