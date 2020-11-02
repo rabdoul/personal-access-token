@@ -23,7 +23,7 @@ const PublishForm: React.FC<StatementResultFormProps<Publish>> = ({ statementInd
 
   return (
     <Form onSubmit={e => e.preventDefault()}>
-      <LabelWithHelpTooltip helpUrl={urls[0]} />
+      <LabelWithHelpTooltip helpUrl={urls[0]}>{formatMessage({ id: 'rule.publish.publish.cutting.job' })}</LabelWithHelpTooltip>
       <CheckBoxWithHelpTooltip
         helpUrl={urls[1]}
         disabled={disabled}
