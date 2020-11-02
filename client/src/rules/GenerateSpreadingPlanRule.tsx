@@ -42,7 +42,7 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
 
   const distributionModeItems = [
     { label: formatMessage({ id: 'rule.generate.spreading.plan.no.split' }), value: '0' },
-    { label: formatMessage({ id: 'rule.generate.spreading.plan.split.equivalent' }), value: '1' },
+    { label: formatMessage({ id: 'rule.generate.spreading.plan.no.split.equivalent' }), value: '1' },
     { label: formatMessage({ id: 'rule.generate.spreading.plan.split.maximize' }), value: '2' }
   ];
   return (
@@ -70,7 +70,7 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
             onChange={({ value }) =>
               dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-spreading-plan', statementIndex, attribute: 'spreadingPlanDistribution', value: parseInt(value) })
             }
-            width={200}
+            width={340}
             disabled={disabled}
             error={!isDistributionValid(statementResult)}
             icon={MANDATORY_FIELD_ERROR}
