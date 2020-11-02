@@ -16,7 +16,7 @@ const FlippedActivityItem: React.FC<Props> = props => {
     <Flags
       flag="massprod-workflow-enabled"
       fallbackRender={() => {
-        return !['generate-section-plan', 'generate-spreading-plan'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
+        return !['generate-section-plan', 'generate-spreading-plan', 'plot'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
       }}
     >
       <ActivityItem {...props} />

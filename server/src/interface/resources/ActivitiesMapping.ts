@@ -16,7 +16,8 @@ const ACTIVITIES_MAPPING: Record<string, string> = {
     "Associate cutting activities": "associate-cutting-activities",
     "Affect cutting line": "affect-cutting-line",
     "Publish": "publish",
-    "Assist offloading": "assist-offloading"
+    "Assist offloading": "assist-offloading",
+    "Plot": "plot"
 }
 // end::mapping[]
 
