@@ -12,11 +12,17 @@ import ActivityIndicator from './ActivityIndicator';
 type Props = { activity: Activity; first: boolean; last: boolean; edited: boolean; invalid: boolean };
 
 const FlippedActivityItem: React.FC<Props> = props => {
+  const disableMassProdActivities = (activity: Activity) => {
+    return {
+      ...activity,
+      enabled: ['generate-section-plan', 'generate-spreading-plan'].includes(activity.id) ? false : activity.enabled
+    };
+  };
   return (
     <Flags
       flag="massprod-workflow-enabled"
       fallbackRender={() => {
-        return !['generate-section-plan', 'generate-spreading-plan', 'plot'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
+        return !['plot'].includes(props.activity.id) ? <ActivityItem {...{ ...props, activity: disableMassProdActivities(props.activity) }} /> : null;
       }}
     >
       <ActivityItem {...props} />
