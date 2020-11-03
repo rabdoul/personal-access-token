@@ -60,7 +60,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ after-nesting-roll-allocation ] -> 
 
-	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , material.type , Equals , Batch ] -> 
+	callScript -> subscript.conditions.FillConditionList -> [ 0-0 , material.type , Equals , Roll&space;batch ] -> 
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
 
@@ -80,7 +80,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityEditedState -> [ after-nesting-roll-allocation , false ] -> 
 
-	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , material.type , Equals , Batch ] -> 
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , material.type , Equals , Roll&space;batch ] -> 
 
 	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , material.cuttingFamily , Equals , ICut ] -> 
 
