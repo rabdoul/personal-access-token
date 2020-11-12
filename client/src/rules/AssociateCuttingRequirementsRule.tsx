@@ -47,7 +47,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
         onChange={handleRequierementChange}
         customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
         disabled={disabled}
-        placeholder="Search"
+        placeholder={formatMessage({ id: 'common.search' })}
         width={200}
       />
     </Form>

@@ -19,7 +19,7 @@ const FlippedActivityItem: React.FC<Props> = props => {
         return !['generate-section-plan', 'generate-spreading-plan', 'plot'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
       }}
     >
-      <ActivityItem {...props} />
+      <ActivityItem {...{ ...props, activity: { ...props.activity, enabled: props.activity.enabled && props.activity.id !== 'affect-cutting-line' } }} />
     </Flags>
   );
 };
