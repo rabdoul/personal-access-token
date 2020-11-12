@@ -176,7 +176,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('proximityRulesIdPlain', undefined)} />
             )}
             disabled={disabled}
-            placeholder="Search"
+            placeholder={formatMessage({ id: 'common.search' })}
             width={200}
           />
           <LabelWithHelpTooltip helpUrl={urls[4]}>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
@@ -190,7 +190,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('proximityRulesIdMotif', undefined)} />
             )}
             disabled={disabled}
-            placeholder="Search"
+            placeholder={formatMessage({ id: 'common.search' })}
             width={200}
           />
         </Line>
@@ -209,7 +209,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('blockingRuleIdPlain', undefined)} />
             )}
             disabled={disabled}
-            placeholder="Search"
+            placeholder={formatMessage({ id: 'common.search' })}
             width={200}
           />
           <LabelWithHelpTooltip helpUrl={urls[6]}>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
@@ -223,7 +223,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('blockingRuleIdMotif', undefined)} />
             )}
             disabled={disabled}
-            placeholder="Search"
+            placeholder={formatMessage({ id: 'common.search' })}
             width={200}
           />
         </Line>
@@ -242,7 +242,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('zonePositioningRuleIdPlain', undefined)} />
             )}
             disabled={disabled}
-            placeholder="Search"
+            placeholder={formatMessage({ id: 'common.search' })}
             width={200}
           />
           <LabelWithHelpTooltip helpUrl={urls[8]}>{formatMessage({ id: 'rule.generate.marker.motif.material' })}</LabelWithHelpTooltip>
@@ -256,7 +256,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('zonePositioningRuleIdMotif', undefined)} />
             )}
             disabled={disabled}
-            placeholder="Search"
+            placeholder={formatMessage({ id: 'common.search' })}
             width={200}
           />
         </Line>
