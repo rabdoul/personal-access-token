@@ -1,0 +1,72 @@
+SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** On demand user TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ production-rules-ondemand@ltf-framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ production-rules-ondemand@ltf-framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+    paragraph -> Check differences in rule existence
+
+	comment1 -> Check Marker plan generation step does not exist
+
+	check -> exists = false -> a [ data-xname = generate-section-plan ]
+
+   	comment1 -> Check Spread plan generation step does not exist
+
+	check -> exists = false -> a [ data-xname = generate-spreading-plan ]
+
+   	comment1 -> Check Plot step does not exist
+
+   	check -> exists = false -> a [ data-xname = plot ]
+
+    paragraph -> Check differences in rule conditions
+
+	comment1 -> In step Marker Generation, condition on Spread Family is not displayed
+
+	callScript -> subscript.activity_list.SelectActivity -> [ generate-marker ] ->
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.conditions.UnfoldList -> [ 0-0 , left-operand ] -> 
+
+	check -> exists = false -> div [ data-testid = material.spreadingFamily ] 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] ->
+
+	comment1 -> In step Roll Assignment, condition on Spread Ply Count is not displayed
+
+	callScript -> subscript.activity_list.SelectActivity -> [ after-nesting-roll-allocation ] ->
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.conditions.UnfoldList -> [ 0-0 , left-operand ] -> 
+
+	check -> exists = false -> div [ data-testid = spread.plyCount ] 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] ->
+
+    paragraph -> Test online help on production line step
+
+	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [ affect-cutting-line ] ->
+
+	channel -> close -> prodprocess
+    
+	comment1 -> Test sucess !

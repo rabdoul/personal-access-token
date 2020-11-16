@@ -61,10 +61,6 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [ associate-cutting-activities ] ->
 
-	paragraph -> Step Affect production line
-
-	//callScript -> subscript.ribbon.CheckOnlineHelpLabel -> [ affect-cutting-line ] ->
-
 	paragraph -> Step publishing
 
     callScript -> subscript.ribbon.CheckOnlineHelpDiv -> [ publish , enableAutomaticPublishing ] -> 
