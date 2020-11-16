@@ -53,13 +53,13 @@ function useListItems(conditionDefinition?: ConditionDefinition) {
 
   switch (conditionDefinition?.valueSource) {
     case 'ProductCategory':
-      return productCategoryItems;
+      return productCategoryItems || [];
     case 'NestingGroup':
-      return nestingGroupItems;
+      return nestingGroupItems || [];
     case 'CuttingGroup':
-      return cuttingGroupItems;
+      return cuttingGroupItems || [];
     case 'SpreadingGroup':
-      return spreadingGroupItems;
+      return spreadingGroupItems || [];
     default:
       return conditionDefinition?.valueType === 'Bool' ? booleanItems : predifinedItems;
   }

@@ -16,23 +16,12 @@ export const Form = styled.div`
     height: 14px;
     width: 14px;
   }
-
-  & > div {
-    margin-bottom: 0;
-  }
 `;
 
 export const Line = styled.div`
   align-items: center;
   display: flex;
-
-  & > div:not(:first-child) {
-    margin-left: 20px;
-  }
-
-  & > div:first-child {
-    margin-right: 20px;
-  }
+  gap: 20px;
 `;
 
 export const BlockContent = styled.div`
@@ -40,10 +29,7 @@ export const BlockContent = styled.div`
   display: flex;
   margin: 10px 0 10px 10px;
   width: 100%;
-
-  & > div:not(:last-child) {
-    margin-right: 10px;
-  }
+  gap: 10px;
 `;
 
 export const BlockActions = styled.div`
@@ -198,10 +184,7 @@ export const CriterionsContainer = styled.div`
 
 export const ButtonGroup = styled.div`
   display: flex;
-
-  & > button:not(:first-child) {
-    margin-left: 10px;
-  }
+  gap: 10px;
 `;
 
 export const InputNumberWithError = styled(Input)<{ error: boolean }>`

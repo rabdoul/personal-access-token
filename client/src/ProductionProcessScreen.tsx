@@ -21,6 +21,7 @@ import GenerateSectionPlanRule from './rules/GenerateSectionPlanRule';
 import GenerateBatchRule from './rules/GenerateBatchRule';
 import GenerateSpreadingPlanRule from './rules/GenerateSpreadingPlanRule';
 import OffloadingRule from './rules/OffloadingRule';
+import AffectCuttingLineODRule from './rules/AffectCuttingLineODRule';
 import AffectCuttingLineRule from './rules/AffectCuttingLineRule';
 import GenerateCuttingOrderRule from './rules/GenerateCuttingOrderRule';
 import GenerateCuttingOrderODRule from './rules/GenerateCuttingOrderODRule';
@@ -49,28 +50,25 @@ const ProductionProcessScreen = () => {
           <Route exact path="/publish" component={PublishRule} />
           <Route exact path="/after-nesting-roll-allocation" component={RollAssignmentRule} />
           <Route exact path="/generate-section-plan" component={GenerateSectionPlanRule} />
-          <Route
-            exact
-            path="/generate-cutting-order"
-            render={() => (
-              <Flags flag="massprod-workflow-enabled" fallbackRender={() => <GenerateCuttingOrderODRule />}>
-                <GenerateCuttingOrderRule />
-              </Flags>
-            )}
-          />
+          <Route exact path="/generate-cutting-order">
+            <Flags flag="massprod-workflow-enabled" fallbackRender={() => <GenerateCuttingOrderODRule />}>
+              <GenerateCuttingOrderRule />
+            </Flags>
+          </Route>
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />
-          <Route exact path="/affect-cutting-line" component={AffectCuttingLineRule} />
+          <Route exact path="/affect-cutting-line">
+            <Flags flag="massprod-workflow-enabled" fallbackRender={() => <AffectCuttingLineODRule />}>
+              <AffectCuttingLineRule />
+            </Flags>
+          </Route>
           <Route exact path="/validate-marker-width" component={MaterialValidationRule} />
           <Route exact path="/plot" component={PlotRule} />
-          <Route
-            path="/:activityId"
-            render={() => (
-              <div style={{ padding: '20px' }}>
-                <StepDescription />
-              </div>
-            )}
-          />
+          <Route path="/:activityId">
+            <div style={{ padding: '20px' }}>
+              <StepDescription />
+            </div>
+          </Route>
         </Switch>
       </Content>
     </Screen>
