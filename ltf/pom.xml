@@ -24,14 +24,12 @@
 
         <!-- Dependencies -->
         <lib.selenium-sdk-rc.version>1.0.0.823</lib.selenium-sdk-rc.version>
-        <lib.auth0-client.version>1.1</lib.auth0-client.version>
-        <lib.spock-client.version>0.1.2</lib.spock-client.version>
         <lib.http-request.version>6.0</lib.http-request.version>
-        <lib.jakarta.json.version>1.1.6</lib.jakarta.json.version>
+        <lib.jakarta.json.version>2.0.0</lib.jakarta.json.version>
 
         <!-- Plugins -->
         <plugin.maven-failsafe-plugin.version>2.15</plugin.maven-failsafe-plugin.version>
-        <plugin.maven-compiler-plugin.version>3.1</plugin.maven-compiler-plugin.version>
+        <plugin.maven-compiler-plugin.version>3.8.1</plugin.maven-compiler-plugin.version>
 
         <maven-failsafe-plugin.suiteXmlFile>testng-suite-all.xml</maven-failsafe-plugin.suiteXmlFile>
 
@@ -47,17 +45,6 @@
             <groupId>com.lectra.pdm</groupId>
             <artifactId>selenium-sdk</artifactId>
             <version>${lib.selenium-sdk-rc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.lectra.cloud.product</groupId>
-            <artifactId>spock-client</artifactId>
-            <version>${lib.spock-client.version}</version>
-            <classifier>all</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.lectra</groupId>
-            <artifactId>auth0-client</artifactId>
-            <version>${lib.auth0-client.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.kevinsawicki</groupId>

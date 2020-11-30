@@ -2,8 +2,8 @@ package scripts;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.lectra.test.LectraTestScript;
-import javax.json.Json;
-import javax.json.JsonReader;
+import jakarta.json.Json;
+import jakarta.json.JsonReader;
 import java.io.StringReader;
 
 public class ResetProductionRules extends LectraTestScript {
