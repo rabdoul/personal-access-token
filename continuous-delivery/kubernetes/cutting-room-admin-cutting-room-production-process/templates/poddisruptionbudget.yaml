@@ -3,7 +3,7 @@ kind: PodDisruptionBudget
 metadata:
   name: {{.Release.Name}}
 spec:
-  minAvailable: {{.Values.minAvailable}}
+  maxUnavailable: {{.Values.maxUnavailable}}
   selector:
     matchLabels:
       app: {{.Chart.Name}}
