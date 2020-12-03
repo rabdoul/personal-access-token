@@ -8,7 +8,7 @@ import { Form } from './common/styles';
 import { useUIDispatch } from '../UIState';
 
 export interface Plot extends StatementResult {
-  automaticallyPlot: boolean;
+  canPlot: boolean;
 }
 
 const PlotRule: React.FC = () => <Rule activityId={'plot'}>{props => <PlotForm {...props} />}</Rule>;
@@ -22,9 +22,9 @@ const PlotForm: React.FC<StatementResultFormProps<Plot>> = ({ statementIndex, st
       <Checkbox
         disabled={disabled}
         label={formatMessage({ id: 'rule.plot.enable.automatic.plotting' })}
-        checked={statementResult.automaticallyPlot ?? false}
+        checked={statementResult.canPlot ?? false}
         onChange={value => {
-          dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'plot', statementIndex: statementIndex, attribute: 'automaticallyPlot', value });
+          dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'plot', statementIndex: statementIndex, attribute: 'canPlot', value });
         }}
         xlabel="enableAutomaticPlot"
         tickSize={13}
