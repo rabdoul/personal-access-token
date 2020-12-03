@@ -2,7 +2,7 @@ maintainer: team-framboise
 dnsPrefix: cutting-room-production-process
 maxReplicas: 5
 minReplicas: 2
-minAvailable: 50%
+maxUnavailable: 1
 deploymentCpuUsageLimitRatio: 0.5
 replicas: 2
 requestsCpu: 0.06
