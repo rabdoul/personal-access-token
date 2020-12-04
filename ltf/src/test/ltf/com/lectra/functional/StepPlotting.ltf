@@ -1,0 +1,108 @@
+﻿SCRIPT_DESCRIPTION
+Test of step validate made to measure :
+-> Conditional blocks
+-> One checkbox (default unchecked)
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step plotting TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ plot , true ] -> 
+
+	comment1 -> Initial state : two checkboxes unclicked
+
+	callScript -> subscript.activity_list.SelectActivity -> [ plot ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPlot , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step plotting
+
+	callScript -> subscript.step_plotting.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableAutomaticPlot , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableAutomaticPlot , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ plot , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPlot , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ plot , false ] -> 
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableAutomaticPlot , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ plot , true ] -> 
+
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ plot ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , marker.length , Different , 1.57 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-1 , product.category , Equals , Other ] -> 
+
+	comment1 -> Remove the product category and check the activity is in error
+
+	callScript -> subscript.conditions.RemoveRightOperandList -> [ 0-1 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ plot ] -> 
+
+	callScript -> subscript.conditions.FillRightOperandList -> [ 0-1 , Jacket ] -> 
+
+	callScript -> subscript.result_block.ClickCheckbox -> [ enableAutomaticPlot , 0 ] -> 
+
+	paragraph -> Add another conditional block
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 1-0 , material.isCharacterized , Equals , True ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	paragraph -> Check state of activity after saving
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ plot , false ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , marker.length , Different , 1.570 ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckUnity -> [ 0-0 , m ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-1 , product.category , Equals , Jacket ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 1-0 , material.isCharacterized , Equals , True ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableAutomaticPlot , 0 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPlot , 1 ] -> 
+
+	callScript -> subscript.result_block.IsCheckboxFilled -> [ enableAutomaticPlot , 2 ] -> 
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !
