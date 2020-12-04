@@ -28,7 +28,7 @@
         <lib.jakarta.json.version>2.0.0</lib.jakarta.json.version>
 
         <!-- Plugins -->
-        <plugin.maven-failsafe-plugin.version>2.15</plugin.maven-failsafe-plugin.version>
+        <plugin.maven-failsafe-plugin.version>2.22.2</plugin.maven-failsafe-plugin.version>
         <plugin.maven-compiler-plugin.version>3.8.1</plugin.maven-compiler-plugin.version>
 
         <maven-failsafe-plugin.suiteXmlFile>testng-suite-all.xml</maven-failsafe-plugin.suiteXmlFile>
