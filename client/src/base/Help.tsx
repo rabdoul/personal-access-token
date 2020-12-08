@@ -55,7 +55,7 @@ export const withHelpTooltip = <P extends object>(Component: React.ComponentType
   }
 
   return (
-    <StyledTooltip placement="bottom-start" duration={800} interactive={true} content={<iframe id="frame" title="frame" src={helpUrl} frameBorder="0" />}>
+    <StyledTooltip placement="bottom-start" duration={800} tippyProps={{ interactive: true }} content={<iframe id="frame" title="frame" src={helpUrl} frameBorder="0" />}>
       <Component {...(props as P)} />
     </StyledTooltip>
   );

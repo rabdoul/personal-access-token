@@ -34,11 +34,11 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
     value = 'roll-pre-assignment';
   }
 
-  function handleRequestValidationChange(item: { value: string }) {
+  function handleRequestValidationChange(value: string) {
     let values = [false, false, false, false];
-    if (item.value === 'request-validation') {
+    if (value === 'request-validation') {
       values = [true, false, false, false];
-    } else if (item.value === 'roll-pre-assignment') {
+    } else if (value === 'roll-pre-assignment') {
       values = [false, false, false, true];
     }
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'validate-marker-width', statementIndex, attribute: 'requestValidation', value: values[0] });
@@ -53,7 +53,7 @@ const ValidateMaterialResultForm: React.FC<StatementResultFormProps<MaterialVali
         data-xlabel="material-validation-option"
         listItems={requestValidationItems}
         value={value}
-        onChange={handleRequestValidationChange}
+        onChange={({ value }) => handleRequestValidationChange(value)}
         width={600}
         disabled={disabled}
         helpUrl={urls[0]}
