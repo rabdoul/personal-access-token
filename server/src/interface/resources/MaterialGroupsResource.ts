@@ -1,6 +1,11 @@
 import express = require('express');
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 
+type ResponseData = {
+    reference: string,
+    [key: string]: string
+}
+
 export class MaterialGroupsResource {
 
     readonly router = express.Router();
@@ -26,7 +31,7 @@ export class MaterialGroupsResource {
     private async retrieveAndSend(groupName: string, res: express.Response) {
         const response = await this.commandQueryExecutor.executeQuery('material', { type: `${groupName}-group.query.list`, parameters: {} });
         if (response.type === QueryResponseType.QUERY_SUCCESS) {
-            res.send((response.data as { reference: string }[]).map((it => ({ value: it.reference, label: it.reference }))));
+            res.send((response.data as ResponseData[]).map((it => ({ value: it[`${groupName}GroupId`], label: it.reference }))));
         } else {
             res.status(500).send(`Unexpected error when retrieving ${groupName} groups : ${response.data}`);
         }
