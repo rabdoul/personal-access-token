@@ -1,7 +1,6 @@
 import express = require("express");
+import featurePolicy = require("feature-policy");
 import helmet = require("helmet");
-import frameguard = require("frameguard");
-import csp = require("helmet-csp");
 import * as path from "path";
 import bodyParser = require("body-parser");
 
@@ -54,10 +53,16 @@ export class ExpressServer {
 
   private setup() {
     this.app.use(helmet());
-    this.app.use(frameguard({ action: "deny" }));
-    this.app.use(csp({ directives: { frameAncestors: ["'none'"] } }));
+    this.app.use(helmet.frameguard({ action: "deny" }));
+    this.app.use(helmet.contentSecurityPolicy({ directives: { 
+      defaultSrc: ["'self'","'unsafe-eval'","'unsafe-inline'"], 
+      frameSrc: ["'self'","https://*.mylectra.com"],
+      connectSrc: ["'self'", "https://*.launchdarkly.com", "https://*.mylectra.com", "http://localhost"],
+      imgSrc : ["'self'", "data:"], 
+      fontSrc : ["'self'", "data:", "https://assets.mylectra.com"], 
+      frameAncestors: ["'none'"] } }));
     this.app.use(
-      helmet.featurePolicy({ features: { fullscreen: ["'self'"] } })
+      featurePolicy({ features: { fullscreen: ["'self'"] } })
     );
     this.app.use(helmet.referrerPolicy({ policy: "strict-origin" }));
 

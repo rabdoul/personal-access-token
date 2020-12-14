@@ -4,9 +4,9 @@ import { currentPrincipal } from '../application/Authentication'
 const SUPPORT_ACCOUNT_TYPE = "SUPPORT";
 
 export function disableForSupport() {
-    return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<express.RequestHandler>) {
+    return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
         const method = descriptor.value!;
-        descriptor.value = async function (req, res, next) {
+        descriptor.value = async function (req:express.Request, res=express.response, next:express.NextFunction) {
             const principal = currentPrincipal();
             if (principal.accountType === SUPPORT_ACCOUNT_TYPE) {
                 res.sendStatus(403);
