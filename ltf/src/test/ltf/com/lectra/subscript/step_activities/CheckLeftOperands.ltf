@@ -97,4 +97,14 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ spreader.plyCount ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Above ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Below ] -> 
+
 	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
