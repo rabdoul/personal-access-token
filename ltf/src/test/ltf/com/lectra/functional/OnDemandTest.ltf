@@ -59,7 +59,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.UnfoldList -> [ 0-0 , left-operand ] -> 
 
-	check -> exists = false -> div [ data-testid = spread.plyCount ] 
+	check -> exists = false -> div [ data-testid = spreader.plyCount ] 
 
 	callScript -> subscript.ribbon.ClickCancel -> [  ] ->
 

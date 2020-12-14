@@ -72,7 +72,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.AddCondition -> [ 0-2 ] -> 
 
-	callScript -> subscript.conditions.FillCondition -> [ 0-3 , spread.plyCount , Below , d5 ] -> 
+	callScript -> subscript.conditions.FillCondition -> [ 0-3 , spreader.plyCount , Below , d5 ] -> 
 
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
@@ -86,7 +86,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , material.nestingFamily , Different , iBird ] -> 
 
-	callScript -> subscript.conditions.CheckCondition -> [ 0-3 , spread.plyCount , Below , 5 ] -> 
+	callScript -> subscript.conditions.CheckCondition -> [ 0-3 , spreader.plyCount , Below , 5 ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ rollAllocationRequired , 0 ] -> 
 
