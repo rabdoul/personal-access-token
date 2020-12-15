@@ -1,5 +1,6 @@
 import express = require("express");
 import featurePolicy = require("feature-policy");
+import permissionsPolicy = require('permissions-policy');
 import helmet = require("helmet");
 import * as path from "path";
 import bodyParser = require("body-parser");
@@ -61,10 +62,10 @@ export class ExpressServer {
       imgSrc : ["'self'", "data:"], 
       fontSrc : ["'self'", "data:", "https://assets.mylectra.com"], 
       frameAncestors: ["'none'"] } }));
-    this.app.use(
-      featurePolicy({ features: { fullscreen: ["'self'"] } })
-    );
     this.app.use(helmet.referrerPolicy({ policy: "strict-origin" }));
+    /* https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/ */
+    this.app.use(featurePolicy({ features: { fullscreen: ["'self'"] } }));
+    this.app.use(permissionsPolicy({ features: { fullscreen: ['self'] } }));
 
     this.app.use(expressPino);
     this.app.use(bodyParser.json());

@@ -2,7 +2,11 @@ import pino = require('pino');
 
 const LOGGER = pino({
     base: null,
-    useLevelLabels: true,
+    formatters: {
+        level: (label) => {
+          return { level: label };
+        },
+    },
     timestamp: () => `,"time": "${new Date().toISOString()}"`
 })
 
