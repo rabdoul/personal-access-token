@@ -16,10 +16,10 @@ const FlippedActivityItem: React.FC<Props> = props => {
     <Flags
       flag="massprod-workflow-enabled"
       fallbackRender={() => {
-        return !['generate-section-plan', 'generate-spreading-plan', 'plot'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
+        return !['generate-section-plan', 'generate-spreading-plan', 'plot', 'assign-device'].includes(props.activity.id) ? <ActivityItem {...props} /> : null;
       }}
     >
-      <ActivityItem {...{ ...props, activity: { ...props.activity, enabled: props.activity.enabled && props.activity.id !== 'affect-cutting-line' } }} />
+      {!['affect-cutting-line'].includes(props.activity.id) ? <ActivityItem {...{ ...props, activity: { ...props.activity, enabled: props.activity.enabled } }} /> : null}
     </Flags>
   );
 };

@@ -5,7 +5,7 @@ import Select from '@lectra/select';
 import SpanTooltip from '@lectra/spantooltip';
 import { PopupFilters } from './DeviceAttribution';
 import { ClearFiltersContainer, Filter, Filters, FilterTitle } from './styles';
-import { CuttingRoom } from '../AffectCuttingLineRule';
+import { CuttingRoom } from '../AssignDeviceRule';
 
 type DeviceAttributionFiltersProps = { filters: PopupFilters; setFilters: Dispatch<PopupFilters>; cuttingRoom: CuttingRoom };
 

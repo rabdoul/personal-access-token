@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import uniqBy from 'lodash/unionBy';
 import Icon from '@lectra/icon';
 import SpanTooltip from '@lectra/spantooltip';
-import { CuttingRoom, DeviceItem } from '../AffectCuttingLineRule';
+import { CuttingRoom, DeviceItem } from '../AssignDeviceRule';
 import { Check, EmptyCheck, EmptyLabel, HorizontalZone, ItemContent, List, Lists, ListTitle, Message } from './styles';
 import { AttributionState, PopupFilters } from './DeviceAttribution';
 

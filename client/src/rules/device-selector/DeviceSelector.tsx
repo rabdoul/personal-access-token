@@ -5,10 +5,10 @@ import BasicButton from '@lectra/basicbutton';
 import Icon from '@lectra/icon';
 import { MANDATORY_FIELD_ERROR } from '../common/ErrorIcon';
 import DeviceAttribution from './DeviceAttribution';
-import { AffectCuttingLine, CuttingRoom } from '../AffectCuttingLineRule';
+import { AssignDevice, CuttingRoom } from '../AssignDeviceRule';
 import { DeviceButton, DeviceContainer, DeviceName } from './styles';
 
-type DeviceSelectorProps = { disabled: boolean; statementResult: Partial<AffectCuttingLine>; statementIndex: number; cuttingRoom: CuttingRoom };
+type DeviceSelectorProps = { disabled: boolean; statementResult: Partial<AssignDevice>; statementIndex: number; cuttingRoom: CuttingRoom };
 
 const DeviceSelector: React.FC<DeviceSelectorProps> = ({ disabled, statementResult, statementIndex, cuttingRoom }) => {
   const [open, setOpen] = useState(false);
