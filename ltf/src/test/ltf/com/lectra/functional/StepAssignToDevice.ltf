@@ -1,0 +1,88 @@
+﻿SCRIPT_DESCRIPTION
+
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+SANITYCHECK TESTS 
+
+SCRIPT_START
+
+	chapter -> ***** Step assign to device TEST ***** -> Web production process -> 
+
+	callScript -> scripts.ResetProductionRules -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
+
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+
+	callScript -> subscript.Login -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
+
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
+
+	paragraph -> Initial state : by default, there is no assignation to device
+
+	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ assign-device , true ] -> 
+
+	callScript -> subscript.activity_list.SelectActivity -> [ assign-device ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , assignationType , 0 ] -> 
+
+	paragraph -> Check all options in conditional list of step assign to device
+
+	callScript -> subscript.step_assign_device.CheckLeftOperands -> [  ] -> 
+
+	paragraph -> Test edit mode and cancel
+
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , assignationType , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ assignationType , true ] -> 
+
+	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , assignationType , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ assign-device , false ] -> 
+
+	paragraph -> Test result block
+
+	comment1 -> When generation mode is set to manual, the distribution mode list is not displayed
+	
+	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , assignationType , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ assign-device ] -> 
+
+	callScript -> subscript.result_block.CheckPickerEmpty -> [ backlog , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ Virga-Backlog , backlog , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
+
+	callScript -> subscript.result_block.SetPickerEmpty -> [ backlog , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ assign-device ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 2 , assignationType , 0 ] -> 
+
+	callScript -> subscript.activity_list.CheckActivityInError -> [ assign-device ] -> 
+
+	callScript -> subscript.step_assign_device.ClickSelectDeviceButton -> [  ] -> 
+
+	callScript -> subscript.step_assign_device.SelectAllocationFilters -> [ backlog , Vector-Backlog ] -> 
+
+	check -> exists = false -> div [ data-xname = Virgo ]
+
+	callScript -> subscript.step_assign_device.SelectAllocationFilters -> [ spreader-group , LectraSpreader ] -> 
+
+	check -> exists = false -> div [ data-xname = Brill ]
+
+	callScript -> subscript.step_assign_device.SelectAllocationFilters -> [ cutter-group , VirgaFashion ] -> 
+
+	check -> exists = false -> div [ data-xname = Vico ]
+
+	channel -> close -> prodprocess
+
+	comment1 -> Test sucess !

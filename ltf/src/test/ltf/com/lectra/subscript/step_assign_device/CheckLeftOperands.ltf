@@ -13,17 +13,15 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
 
-	callScript -> subscript.activity_list.CheckActivityInError -> [ after-nesting-roll-allocation ] -> 
+	callScript -> subscript.activity_list.CheckActivityInError -> [ assign-device ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.reference ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ process.type ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
-
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.reference ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.reference ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
@@ -45,19 +43,15 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nestingFamily ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.isCharacterized ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.cuttingFamily ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.reference ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
-
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
-
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ batch.supplier ] -> 
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
@@ -65,13 +59,33 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.motif ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.family ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ marker.length ] -> 
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.category ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ product.offerReference ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ command.priority ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckMultiOperator -> [  ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
@@ -81,9 +95,27 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Below ] -> 
 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.color ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
+
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ cuttingorder.isrecut ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ spread.length ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Above ] -> 
+
+	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Below ] -> 
 
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ spreader.plyCount ] -> 
 

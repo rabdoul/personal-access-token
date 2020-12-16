@@ -1,0 +1,15 @@
+SCRIPT_DESCRIPTION
+In advanced allocation popup, select a field in filter options
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> Device name
+
+SCRIPT_START
+
+    comment1 -> Allocate to ${parameter0}
+
+    click -> div [ data-xname = ${parameter0} ]

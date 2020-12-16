@@ -1,0 +1,9 @@
+SCRIPT_DESCRIPTION
+In assign device rule, click on the "assign to device" button of the result block
+ 
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+	click -> button [ data-xlabel = select-device ]

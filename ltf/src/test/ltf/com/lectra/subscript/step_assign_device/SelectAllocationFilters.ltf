@@ -1,0 +1,21 @@
+SCRIPT_DESCRIPTION
+In advanced allocation popup, select a field in filter options
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_GROUPS
+
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> Type of filter (backlog, spreader-group, cutter-group)
+	parameter1 -> Backlog or device group name
+
+SCRIPT_START
+
+	comment1 -> In ${parameter0} filter, select ${parameter1}
+
+	click -> div [ data-xlabel = ${parameter0}-filter ]
+
+	click -> div [ text = ${parameter1} ] -> div [ data-xlabel = ${parameter0}-filter ]
