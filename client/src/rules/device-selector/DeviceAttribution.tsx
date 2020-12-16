@@ -4,7 +4,7 @@ import BasicButton from '@lectra/basicbutton';
 import Popup from '@lectra/popup';
 
 import { ApplyButton, Content, PopupStyled } from './styles';
-import { CuttingRoom } from '../AffectCuttingLineRule';
+import { CuttingRoom } from '../AssignDeviceRule';
 import { useUIDispatch } from '../../UIState';
 import DeviceAttributionFilters from './DeviceAttributionFilters';
 import DeviceAttributionLists from './DeviceAttributionLists';
@@ -43,8 +43,8 @@ const DeviceAttribution: React.FC<DeviceAttributionProps> = ({ statementIndex, s
   const isApplyEnabled = attributionState.selectedCutter || attributionState.selectedSpreader;
 
   const applyHandler = () => {
-    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'affect-cutting-line', statementIndex, attribute: 'spreaderId', value: attributionState.selectedSpreader });
-    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'affect-cutting-line', statementIndex, attribute: 'cutterId', value: attributionState.selectedCutter });
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'assign-device', statementIndex, attribute: 'spreaderId', value: attributionState.selectedSpreader });
+    dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'assign-device', statementIndex, attribute: 'cutterId', value: attributionState.selectedCutter });
     closeHandler();
   };
 

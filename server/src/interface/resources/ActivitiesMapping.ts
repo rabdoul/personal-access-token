@@ -15,6 +15,7 @@ const ACTIVITIES_MAPPING: Record<string, string> = {
     "Associate cutting requirements": "associate-cutting-requirements",
     "Associate cutting activities": "associate-cutting-activities",
     "Affect cutting line": "affect-cutting-line",
+    "Assign device": "assign-device",
     "Publish": "publish",
     "Assist offloading": "assist-offloading",
     "Plot": "plot"

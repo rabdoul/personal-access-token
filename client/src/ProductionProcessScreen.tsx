@@ -21,8 +21,8 @@ import GenerateSectionPlanRule from './rules/GenerateSectionPlanRule';
 import GenerateBatchRule from './rules/GenerateBatchRule';
 import GenerateSpreadingPlanRule from './rules/GenerateSpreadingPlanRule';
 import OffloadingRule from './rules/OffloadingRule';
-import AffectCuttingLineODRule from './rules/AffectCuttingLineODRule';
 import AffectCuttingLineRule from './rules/AffectCuttingLineRule';
+import AssignDeviceRule from './rules/AssignDeviceRule';
 import GenerateCuttingOrderRule from './rules/GenerateCuttingOrderRule';
 import GenerateCuttingOrderODRule from './rules/GenerateCuttingOrderODRule';
 import MaterialValidationRule from './rules/MaterialValidationRule';
@@ -57,11 +57,8 @@ const ProductionProcessScreen = () => {
           </Route>
           <Route exact path="/generate-spreading-plan" component={GenerateSpreadingPlanRule} />
           <Route exact path="/assist-offloading" component={OffloadingRule} />
-          <Route exact path="/affect-cutting-line">
-            <Flags flag="massprod-workflow-enabled" fallbackRender={() => <AffectCuttingLineODRule />}>
-              <AffectCuttingLineRule />
-            </Flags>
-          </Route>
+          <Route exact path="/affect-cutting-line" component={AffectCuttingLineRule} />
+          <Route exact path="/assign-device" component={AssignDeviceRule} />
           <Route exact path="/validate-marker-width" component={MaterialValidationRule} />
           <Route exact path="/plot" component={PlotRule} />
           <Route path="/:activityId">

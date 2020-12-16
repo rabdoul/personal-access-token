@@ -14,10 +14,11 @@ import { GenerateSpreadingPlan } from './rules/GenerateSpreadingPlanRule';
 import { Criteria, GenerateBatch } from './rules/GenerateBatchRule';
 import { Offloading } from './rules/OffloadingRule';
 import { GenerateCuttingOrder } from './rules/GenerateCuttingOrderRule';
-import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
+import { AssignDevice } from './rules/AssignDeviceRule';
 import { MaterialValidation } from './rules/MaterialValidationRule';
 import { GenerateMarker } from './rules/GenerateMarkerRule';
 import { Plot } from './rules/PlotRule';
+import { AffectCuttingLine } from './rules/AffectCuttingLineRule';
 
 export type ActivityId = keyof Omit<UIState, 'editedRules' | 'editMode' | 'invalidRules'>;
 
@@ -40,6 +41,7 @@ export type UIState = {
   'generate-spreading-plan'?: ActivityRule<GenerateSpreadingPlan>;
   'assist-offloading'?: ActivityRule<Offloading>;
   'affect-cutting-line'?: ActivityRule<AffectCuttingLine>;
+  'assign-device'?: ActivityRule<AssignDevice>;
   'validate-marker-width'?: ActivityRule<MaterialValidation>;
   plot?: ActivityRule<Plot>;
 };
@@ -88,6 +90,7 @@ export type Action =
   | UpdateStatementResult<'generate-cutting-order', GenerateCuttingOrder>
   | UpdateStatementResult<'assist-offloading', Offloading>
   | UpdateStatementResult<'affect-cutting-line', AffectCuttingLine>
+  | UpdateStatementResult<'assign-device', AssignDevice>
   | UpdateStatementResult<'validate-marker-width', MaterialValidation>
   | UpdateStatementResult<'plot', Plot>;
 // end::action[]
