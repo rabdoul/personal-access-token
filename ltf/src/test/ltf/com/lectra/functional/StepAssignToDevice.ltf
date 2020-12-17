@@ -37,7 +37,7 @@ SCRIPT_START
 
 	callScript -> subscript.result_block.ChangeListValue -> [ 1 , assignationType , 0 ] -> 
 
-	callScript -> subscript.activity_list.CheckActivityEditedState -> [ assignationType , true ] -> 
+	callScript -> subscript.activity_list.CheckActivityEditedState -> [ assign-device , true ] -> 
 
 	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 

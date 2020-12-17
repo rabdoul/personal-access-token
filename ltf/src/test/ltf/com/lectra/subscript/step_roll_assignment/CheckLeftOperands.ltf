@@ -35,8 +35,6 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
-	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Different ] -> 
-
 	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.nature ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 

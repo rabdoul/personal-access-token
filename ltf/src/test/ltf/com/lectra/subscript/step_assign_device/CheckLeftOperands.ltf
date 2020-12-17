@@ -29,7 +29,7 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Contains ] -> 
 
-	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.type ] -> 
+	callScript -> subscript.conditions.operand_type.UnfoldOperators -> [ material.motif ] -> 
 
 	callScript -> subscript.conditions.operand_type.CheckOperator -> [ Equals ] -> 
 
