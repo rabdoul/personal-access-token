@@ -11,6 +11,7 @@ import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form, SelectWithError } from './common/styles';
 import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 import DeviceSelector from './device-selector/DeviceSelector';
+import DropDownSearchRenderer from './common/DropDownSearchRenderer';
 
 export interface AssignDevice extends StatementResult {
   assignationType?: number;
@@ -96,6 +97,7 @@ const AffectDeviceResultForm: React.FC<StatementResultFormProps<AssignDevice>> =
           onChange={item => {
             updateStatementResult('backlogId', item ? item.value : undefined);
           }}
+          customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => updateStatementResult('backlogId', undefined)} />}
           disabled={disabled}
           error={statementResult.assignationType === 1 && !statementResult.backlogId}
           icon={MANDATORY_FIELD_ERROR}
