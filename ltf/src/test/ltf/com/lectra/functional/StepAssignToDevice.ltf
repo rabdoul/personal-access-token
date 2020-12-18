@@ -48,7 +48,7 @@ SCRIPT_START
 	paragraph -> Test result block
 
 	comment1 -> When generation mode is set to manual, the distribution mode list is not displayed
-	
+
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
 	callScript -> subscript.result_block.ChangeListValue -> [ 1 , assignationType , 0 ] -> 

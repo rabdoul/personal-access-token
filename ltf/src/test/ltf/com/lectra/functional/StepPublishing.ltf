@@ -66,6 +66,18 @@ SCRIPT_START
 
 	callScript -> subscript.conditions.FillCondition -> [ 0-1 , command.sequencenumber , Above , not2 ] -> 
 
+	callScript -> subscript.conditions.AddCondition -> [ 0-1 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-2 , workorder.backlogId , Equals , Virga-Backlog ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-2 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-3 , workorder.cutterId , Equals , Virgo ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-3 ] -> 
+
+	callScript -> subscript.conditions.FillConditionList -> [ 0-4 , workorder.spreaderId , Different , Brill ] -> 
+
 	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
 
 	paragraph -> Check state of activity after saving
@@ -75,6 +87,12 @@ SCRIPT_START
 	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , material.color , Equals , blue ] -> 
 
 	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , command.sequencenumber , Above , 2 ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-2 , workorder.backlogId , Equals , Virga-Backlog ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-3 , workorder.cutterId , Equals , Virgo ] -> 
+
+	callScript -> subscript.conditions.CheckConditionList -> [ 0-4 , workorder.spreaderId , Different , Brill ] -> 
 
 	callScript -> subscript.result_block.IsCheckboxEmpty -> [ enableAutomaticPublishing , 0 ] -> 
 
