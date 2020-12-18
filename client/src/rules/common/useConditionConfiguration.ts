@@ -70,21 +70,21 @@ function useListItems(conditionDefinition?: ConditionDefinition) {
     case 'SpreadingGroup':
       return spreadingGroupItems || [];
     case 'Backlog':
-      return cuttingRoom.backlogs || [];
+      return cuttingRoom ? cuttingRoom.backlogs : [];
     case 'Cutter':
-      return (
-        uniqBy(
-          cuttingRoom.backlogs.flatMap(backlog => backlog.cutters),
-          'value'
-        ) || []
-      );
+      return cuttingRoom
+        ? uniqBy(
+            cuttingRoom.backlogs.flatMap(backlog => backlog.cutters),
+            'value'
+          )
+        : [];
     case 'Spreader':
-      return (
-        uniqBy(
-          cuttingRoom.backlogs.flatMap(backlog => backlog.spreaders),
-          'value'
-        ) || []
-      );
+      return cuttingRoom
+        ? uniqBy(
+            cuttingRoom.backlogs.flatMap(backlog => backlog.spreaders),
+            'value'
+          )
+        : [];
     default:
       return conditionDefinition?.valueType === 'Bool' ? booleanItems : predifinedItems;
   }
