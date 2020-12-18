@@ -19,7 +19,7 @@ export type Operator = 'Equals' | 'Above' | 'Below' | 'Different' | 'Contains' |
 
 export type ValueType = 'String' | 'Numeric' | 'Bool' | 'StringList' | 'IntegerList';
 
-export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory' | 'SpreadingGroup';
+export type ValueSource = 'None' | 'NestingGroup' | 'CuttingGroup' | 'ProductCategory' | 'SpreadingGroup' | 'Backlog' | 'Spreader' | 'Cutter';
 
 export type ValueUnit = { metric: UnitConfig; imperial: UnitConfig };
 
