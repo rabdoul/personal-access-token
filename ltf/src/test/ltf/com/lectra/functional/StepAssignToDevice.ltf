@@ -119,6 +119,46 @@ SCRIPT_START
 
 	callScript -> subscript.step_assign_device.CheckEquipment -> [ spreader , Brill , 0 ] -> 
 
+	paragraph -> Add conditional block with two conditions
+
+	callScript -> subscript.conditions.AddFirstCondition -> [  ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-0 , spread.length , Below , 1.524 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ 0-0 ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 0-1 , spreader.plyCount , Above , 7 ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , assignationType , 0 ] -> 
+
+	callScript -> subscript.result_block.SetPickerValue -> [ Virga-Backlog , backlog , 0 ] -> 
+
+	callScript -> subscript.conditions.AddCondition -> [ else ] -> 
+
+	callScript -> subscript.conditions.FillCondition -> [ 1-0 , material.color , Equals , brown ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 0 , assignationType , 1 ] -> 
+
+	callScript -> subscript.ribbon.ClickSave -> [  ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-0 , spread.length , Below , 1.524 ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , spreader.plyCount , Above , 7 ] -> 
+
+	callScript -> subscript.conditions.CheckCondition -> [ 1-0 , material.color , Equals , brown ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , assignationType , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckPickerValue -> [ Virga-Backlog , backlog , 0 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , assignationType , 1 ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 2 , assignationType , 2 ] -> 
+
+	callScript -> subscript.step_assign_device.CheckEquipment -> [ cutter , Vico , 2 ] -> 
+
+	callScript -> subscript.step_assign_device.CheckEquipment -> [ spreader , Brill , 2 ] -> 
+
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !
