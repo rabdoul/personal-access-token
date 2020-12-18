@@ -4,6 +4,8 @@ import { useAccessToken } from '../../base/Authentication';
 import { useQuery } from 'react-query';
 import { fetchData } from 'raspberry-fetch';
 import { useUnitSystem } from '../../base/UserPreference';
+import { uniqBy } from 'lodash';
+import { CuttingRoom } from '../AssignDeviceRule';
 
 function computeConditionValueType(conditionDefinition?: ConditionDefinition) {
   if (!conditionDefinition) {
@@ -38,9 +40,16 @@ function useSpreadingGroups() {
   return data;
 }
 
+function useCuttingRoom(): CuttingRoom {
+  const token = useAccessToken();
+  const { data: cuttingRoom } = useQuery('cutting-room', () => fetchData(token, 'cutting-room'));
+  return cuttingRoom;
+}
+
 function useListItems(conditionDefinition?: ConditionDefinition) {
   const { formatMessage } = useIntl();
 
+  const cuttingRoom = useCuttingRoom();
   const productCategoryItems = useProductCategories();
   const nestingGroupItems = useNestingGroups();
   const cuttingGroupItems = useCuttingGroups();
@@ -60,6 +69,22 @@ function useListItems(conditionDefinition?: ConditionDefinition) {
       return cuttingGroupItems || [];
     case 'SpreadingGroup':
       return spreadingGroupItems || [];
+    case 'Backlog':
+      return cuttingRoom.backlogs || [];
+    case 'Cutter':
+      return (
+        uniqBy(
+          cuttingRoom.backlogs.flatMap(backlog => backlog.cutters),
+          'value'
+        ) || []
+      );
+    case 'Spreader':
+      return (
+        uniqBy(
+          cuttingRoom.backlogs.flatMap(backlog => backlog.spreaders),
+          'value'
+        ) || []
+      );
     default:
       return conditionDefinition?.valueType === 'Bool' ? booleanItems : predifinedItems;
   }
