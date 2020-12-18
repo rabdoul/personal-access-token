@@ -30,13 +30,17 @@ const DeviceSelector: React.FC<DeviceSelectorProps> = ({ disabled, statementResu
             {spreaderName && (
               <>
                 <span>{formatMessage({ id: 'common.allocation.spreader' })}</span>
-                <DeviceName>{spreaderName}</DeviceName>
+                <DeviceName data-xdevice="spreader" data-xvalue={spreaderName}>
+                  {spreaderName}
+                </DeviceName>
               </>
             )}
             {cutterName && (
               <>
                 <span>{formatMessage({ id: 'common.allocation.cutter' })}</span>
-                <DeviceName>{cutterName}</DeviceName>
+                <DeviceName data-xdevice="cutter" data-xvalue={cutterName}>
+                  {cutterName}
+                </DeviceName>
               </>
             )}
           </DeviceContainer>

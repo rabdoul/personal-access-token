@@ -1,0 +1,9 @@
+SCRIPT_DESCRIPTION
+In advanced allocation popup, click the button to reset all filters
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_START
+
+	click -> button [ data-xlabel = clear-filters ]

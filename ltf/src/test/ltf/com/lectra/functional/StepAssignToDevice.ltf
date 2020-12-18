@@ -83,6 +83,42 @@ SCRIPT_START
 
 	check -> exists = false -> div [ data-xname = Vico ]
 
+	callScript -> subscript.step_assign_device.ClearAllocationFilters -> [  ] -> 
+
+	check -> exists = true -> div [ data-xname = Virgo ]
+
+	check -> exists = true -> div [ data-xname = Brill ]
+
+	check -> exists = true -> div [ data-xname = Vico ]
+
+	callScript -> subscript.step_assign_device.SelectDeviceToAllocate -> [ Vico ] -> 
+
+	callScript -> subscript.step_assign_device.ResumeAllocation -> [ cancel ] -> 
+
+	check -> exists = false -> span [ data-xdevice = spreader ]
+
+	check -> exists = false -> span [ data-xdevice = cutter ]
+
+	callScript -> subscript.step_assign_device.ClickSelectDeviceButton -> [  ] -> 
+
+	callScript -> subscript.step_assign_device.SelectDeviceToAllocate -> [ Virgo ] -> 
+
+	callScript -> subscript.step_assign_device.ResumeAllocation -> [ apply ] -> 
+
+	callScript -> subscript.step_assign_device.CheckEquipment -> [ cutter , Virgo , 0 ] -> 
+
+	callScript -> subscript.step_assign_device.ClickSelectDeviceButton -> [  ] -> 
+
+	callScript -> subscript.step_assign_device.SelectDeviceToAllocate -> [ Vico ] -> 
+
+	callScript -> subscript.step_assign_device.SelectDeviceToAllocate -> [ Brill ] -> 
+
+	callScript -> subscript.step_assign_device.ResumeAllocation -> [ apply ] -> 
+
+	callScript -> subscript.step_assign_device.CheckEquipment -> [ cutter , Vico , 0 ] -> 
+
+	callScript -> subscript.step_assign_device.CheckEquipment -> [ spreader , Brill , 0 ] -> 
+
 	channel -> close -> prodprocess
 
 	comment1 -> Test sucess !

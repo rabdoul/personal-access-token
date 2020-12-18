@@ -93,6 +93,7 @@ const AffectDeviceResultForm: React.FC<StatementResultFormProps<AssignDevice>> =
           data-xlabel="backlog"
           listItems={cuttingRoom ? cuttingRoom.backlogs : []}
           width={200}
+          data-xvalue={statementResult.backlogId ?? 'none'}
           value={statementResult.backlogId}
           onChange={item => {
             updateStatementResult('backlogId', item ? item.value : undefined);

@@ -1,0 +1,17 @@
+SCRIPT_DESCRIPTION
+Check a device is selected in device assignment rule
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+    parameter0 -> equipment type (cutter, spreader)
+    parameter1 -> equipment name
+	parameter2 -> data-resultblock-id (index of result block)
+
+SCRIPT_START
+
+	comment1 -> Check the ${parameter0} ${parameter1} is selected in block result ${parameter2}
+
+	check -> exists = true -> span [ data-xdevice = ${parameter0} , data-xvalue = ${parameter1} ] -> div [ data-resultblock-id = ${parameter2} ]

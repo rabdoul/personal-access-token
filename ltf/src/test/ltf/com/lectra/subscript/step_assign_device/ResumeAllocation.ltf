@@ -1,0 +1,13 @@
+SCRIPT_DESCRIPTION
+In advanced allocation popup, click on cancel or apply button
+
+SCRIPT_AUTHOR
+r.bancal
+
+SCRIPT_PARAMETERS
+
+	parameter0 -> apply or cancel
+
+SCRIPT_START
+
+	click -> button [ data-xlabel = ${parameter0} ]
