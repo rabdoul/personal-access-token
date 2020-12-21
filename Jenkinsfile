@@ -85,7 +85,7 @@ pipeline {
                         namespace : "${env.K8S_NAMESPACE}", 
                         dockerImageName : dockerAzureImageName, 
                         type : "WEBAPP",
-                        doHealthCheck : true,
+                        doHealthCheck : false,
                         dnsPrefix : "${env.DNS_PREFIX}",
                     )
                 }
@@ -128,7 +128,7 @@ pipeline {
                         namespace : "${env.K8S_NAMESPACE}", 
                         dockerImageName : dockerAzureImageName, 
                         type : "WEBAPP",
-                        doHealthCheck : true,
+                        doHealthCheck : false,
                         dnsPrefix : "${env.DNS_PREFIX}"
                     )
                 }
@@ -144,7 +144,7 @@ pipeline {
                         namespace : "${env.K8S_NAMESPACE}", 
                         dockerImageName : dockerAzureImageName, 
                         type : "WEBAPP",
-                        doHealthCheck : true,
+                        doHealthCheck : false,
                         dnsPrefix : "${env.DNS_PREFIX}",
                         k8sSecretFolder : "cutting-room-production-process"
                     )
