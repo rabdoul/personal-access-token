@@ -1,7 +1,11 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
-metadata:
+metadata:  
   name: {{.Release.Name}}
+  labels:
+    app: {{.Chart.Name}}
+    release: {{.Release.Name}}
+    maintainer: {{.Values.maintainer}}
 spec:
   maxUnavailable: {{.Values.maxUnavailable}}
   selector:

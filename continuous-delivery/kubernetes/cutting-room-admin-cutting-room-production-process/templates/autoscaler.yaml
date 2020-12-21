@@ -5,7 +5,6 @@ metadata:
   labels:
     app: {{.Chart.Name}}
     release: {{.Release.Name}}
-    env: {{.Values.Env}}
     maintainer: {{.Values.maintainer}}
 spec:
   maxReplicas: {{required "missing max Replica value" .Values.maxReplicas}}

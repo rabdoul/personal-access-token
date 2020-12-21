@@ -1,4 +1,4 @@
-maintainer: team-framboise
+maintainer: team-phenix
 dnsPrefix: cutting-room-production-process
 maxReplicas: 5
 minReplicas: 2
