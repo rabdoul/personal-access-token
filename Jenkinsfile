@@ -4,6 +4,7 @@ def dockerArtifactoryPush = env.BRANCH_NAME == "master"
 pipeline {
 
     environment {
+        COMPONENT_NAME = "cutting-room-production-process"
         PROJECT_NAME = "cutting-room-admin-cutting-room-production-process"
         DOCKER_IMAGE_NAME = "cutting-room-admin-cutting-room-production-process"
         K8S_NAMESPACE = "cutting-room-admin"
@@ -39,7 +40,7 @@ pipeline {
 
         stage("build") {
             steps {
-                jenkinsAlert(env.JOB_NAME, "build") {
+                jenkinsAlert(env.COMPONENT_NAME, "build") {
                     script {
                         dockerArtifactoryImageName = dockerBuild(
                             imageName : "${env.DOCKER_IMAGE_NAME}",
@@ -63,7 +64,7 @@ pipeline {
         stage("push-to-azure") {
             when { branch 'master' }
             steps {
-                jenkinsAlert(env.JOB_NAME, "build") {
+                jenkinsAlert(env.COMPONENT_NAME, "push-to-azure") {
                     script {
                         dockerAzureImageName = dockerTag (
                             srcFullImageName : dockerArtifactoryImageName,
@@ -79,7 +80,7 @@ pipeline {
         stage("deploy dev") {
             when { branch 'master' }
             steps {
-                jenkinsAlert(env.JOB_NAME, "build") {
+                jenkinsAlert(env.COMPONENT_NAME, "deploy dev") {
                     helmDeploy(
                         k8sEnv : K8sEnv.DEV,
                         namespace : "${env.K8S_NAMESPACE}", 
@@ -102,7 +103,7 @@ pipeline {
             }
             steps {
                 cleanWorkspace()
-                jenkinsAlert(env.JOB_NAME, "ui-tests") {
+                jenkinsAlert(env.COMPONENT_NAME, "ui-tests") {
                     unstash 'ltf'
                     withEnv(loadPropertiesFromFile("ltf/ltf.properties")) {
                         dir("ltf") {
@@ -122,7 +123,7 @@ pipeline {
         stage("deploy test") {
             when { branch 'master' }
             steps {
-                jenkinsAlert(env.JOB_NAME, "build") {
+                jenkinsAlert(env.COMPONENT_NAME, "deploy test") {
                     helmDeploy(
                         k8sEnv : K8sEnv.TEST,
                         namespace : "${env.K8S_NAMESPACE}", 
@@ -138,7 +139,7 @@ pipeline {
         stage("deploy prod") {
             when { branch 'master' }
             steps {
-                jenkinsAlert(env.JOB_NAME, "build") {
+                jenkinsAlert(env.COMPONENT_NAME, "deploy prod", SlackChannel.PROD) {
                     helmDeploy(
                         k8sEnv : K8sEnv.PROD,
                         namespace : "${env.K8S_NAMESPACE}", 
@@ -149,6 +150,7 @@ pipeline {
                         k8sSecretFolder : "cutting-room-production-process"
                     )
                 }
+                notifySuccess(env.COMPONENT_NAME, "deploy prod", SlackChannel.PROD)
             }
         }
 
