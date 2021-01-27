@@ -10,12 +10,12 @@ describe("Helps Resource", () => {
   beforeEach(() => {
     nock.cleanAll();
   });
-  it("GET should return 200 EN help by default", async () => {
+  it("GET should return 200 en-us help by default", async () => {
     nock("https://help.dev.mylectra.com")
       .get("/help/systemmanager/languages.json")
       .reply(
         200,
-        ["EN", "FR-BE"],
+        ["en-us", "fr-fr"],
         { "Access-Control-Allow-Origin": "*" } // Needed to avoid CORS error
       )
       .get("/help/systemmanager/alias.json")
@@ -36,18 +36,18 @@ describe("Helps Resource", () => {
     expect(res._getData()).toEqual(
       JSON.stringify({
         PARAMS_TAB:
-          "https://help.dev.mylectra.com/help/systemmanager/EN/Content/03-Parametres-Avances/00-Param-Avances.htm",
+          "https://help.dev.mylectra.com/help/systemmanager/en-us/Content/03-Parametres-Avances/00-Param-Avances.htm",
         PARAMS_DISPLAY:
-          "https://help.dev.mylectra.com/help/systemmanager/EN/Content/03-Parametres-Avances/01-Afficher.htm",
+          "https://help.dev.mylectra.com/help/systemmanager/en-us/Content/03-Parametres-Avances/01-Afficher.htm",
       })
     );
   });
-  it("GET should return 200 FR help", async () => {
+  it("GET should return 200 fr-fr help", async () => {
     nock("https://help.dev.mylectra.com")
       .get("/help/systemmanager/languages.json")
       .reply(
         200,
-        ["FR", "EN"],
+        ["fr-fr", "en-us"],
         { "Access-Control-Allow-Origin": "*" } // Needed to avoid CORS error
       )
       .get("/help/systemmanager/alias.json")
@@ -59,7 +59,7 @@ describe("Helps Resource", () => {
         },
         { "Access-Control-Allow-Origin": "*" } // Needed to avoid CORS error
       );
-    const req = mockHttpRequest("/api/help", {}, {}, { lang: "fr" });
+    const req = mockHttpRequest("/api/help", {}, {}, { lang: "fr-fr" });
     const [res, _] = mockHttpResponse();
 
     await new HelpResource().get(req, res);
@@ -68,18 +68,18 @@ describe("Helps Resource", () => {
     expect(res._getData()).toEqual(
       JSON.stringify({
         PARAMS_TAB:
-          "https://help.dev.mylectra.com/help/systemmanager/FR/Content/03-Parametres-Avances/00-Param-Avances.htm",
+          "https://help.dev.mylectra.com/help/systemmanager/fr-fr/Content/03-Parametres-Avances/00-Param-Avances.htm",
         PARAMS_DISPLAY:
-          "https://help.dev.mylectra.com/help/systemmanager/FR/Content/03-Parametres-Avances/01-Afficher.htm",
+          "https://help.dev.mylectra.com/help/systemmanager/fr-fr/Content/03-Parametres-Avances/01-Afficher.htm",
       })
     );
   });
-  it("GET should return 200 with EN if language does not exist", async () => {
+  it("GET should return 200 with en-us if language does not exist", async () => {
     nock("https://help.dev.mylectra.com")
       .get("/help/systemmanager/languages.json")
       .reply(
         200,
-        ["EN", "FR-BE"],
+        ["en-us", "fr-fr"],
         { "Access-Control-Allow-Origin": "*" } // Needed to avoid CORS error
       )
       .get("/help/systemmanager/alias.json")
@@ -100,9 +100,9 @@ describe("Helps Resource", () => {
     expect(res._getData()).toEqual(
       JSON.stringify({
         PARAMS_TAB:
-          "https://help.dev.mylectra.com/help/systemmanager/EN/Content/03-Parametres-Avances/00-Param-Avances.htm",
+          "https://help.dev.mylectra.com/help/systemmanager/en-us/Content/03-Parametres-Avances/00-Param-Avances.htm",
         PARAMS_DISPLAY:
-          "https://help.dev.mylectra.com/help/systemmanager/EN/Content/03-Parametres-Avances/01-Afficher.htm",
+          "https://help.dev.mylectra.com/help/systemmanager/en-us/Content/03-Parametres-Avances/01-Afficher.htm",
       })
     );
   });

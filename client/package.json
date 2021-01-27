@@ -23,7 +23,7 @@
     "cutting-room-units": "0.1.1",
     "immer": "8.0.0",
     "lectra-auth-js": "3.2.2",
-    "lectra-locale": "0.2.0",
+    "lectra-locale": "0.3.0",
     "lodash": "4.17.20",
     "query-string": "6.13.7",
     "raspberry-fetch": "0.0.1",

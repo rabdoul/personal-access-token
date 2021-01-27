@@ -21,13 +21,13 @@ export const HelpContext = React.createContext<Help>({
 
 const HelpProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const token = useContext(AuthenticationContext).accessToken();
-  const lectraLocale = useContext(UserPreferenceContext).lectraLocale;
+  const { locale } = useContext(UserPreferenceContext);
   const [aliases, setAliases] = useState<Record<string, string>>({});
   const [isActive, setActive] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchData(token, `help?lang=${lectraLocale.code.toUpperCase()}`).then(aliases => setAliases(aliases));
-  }, [token, lectraLocale]);
+    fetchData(token, `help?lang=${locale}`).then(aliases => setAliases(aliases));
+  }, [token, locale]);
 
   useEffect(() => {
     const helpActionListener = ((e: CustomEvent) => {

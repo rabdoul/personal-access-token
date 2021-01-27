@@ -6,11 +6,11 @@ import { UnitSystem } from 'cutting-room-units';
 import { AuthenticationContext } from './Authentication';
 
 interface UserPreference {
-  lectraLocale: LectraLocale;
+  locale: string;
   unitSystem: UnitSystem;
 }
 
-const DEFAULT_USER_PREFERENCE: UserPreference = { lectraLocale: new LectraLocale(), unitSystem: 'metric' };
+const DEFAULT_USER_PREFERENCE: UserPreference = { locale: 'en-us', unitSystem: 'metric' };
 const UserPreferenceContext = React.createContext<UserPreference>(DEFAULT_USER_PREFERENCE);
 
 const UserPreferenceProvider = (props: { children: ReactNode }) => {
@@ -18,21 +18,27 @@ const UserPreferenceProvider = (props: { children: ReactNode }) => {
   const [userPreference, setUserPreference] = useState<UserPreference>(DEFAULT_USER_PREFERENCE);
   const [provider, setProvider] = useState<string>('default');
 
-  const auth0Locale = authenticationContext.user()['https://metadata.lectra.com/user_metadata']?.locale || 'en';
-  const lectraLocaleCode = querystring.parse(window.location.search)['lectra-locale'] as string;
-  const unitSystemCode = querystring.parse(window.location.search)['unit-system'] as string;
+  const localeParam = querystring.parse(window.location.search)['locale'] as string;
+  const lectraLocaleCodeParam = querystring.parse(window.location.search)['lectra-locale'] as string;
+  const auth0Locale = authenticationContext.user()['https://metadata.lectra.com/user_metadata']?.locale || 'en-us';
+  const unitSystemCodeParam = querystring.parse(window.location.search)['unit-system'] as string;
 
   useEffect(() => {
-    if (lectraLocaleCode || unitSystemCode) {
-      const lectraLocale = lectraLocaleCode ? new LectraLocale(lectraLocaleCode) : LectraLocale.fromLocale(auth0Locale);
-      const unitSystem = unitSystemCode ? (unitSystemCode === 'imperial' ? 'imperial' : 'metric') : 'metric';
-      setUserPreference({ lectraLocale, unitSystem });
+    if (lectraLocaleCodeParam || localeParam || unitSystemCodeParam) {
+      let locale = 'en-us';
+      if (localeParam) {
+        locale = localeParam;
+      } else if (lectraLocaleCodeParam) {
+        locale = new LectraLocale(lectraLocaleCodeParam).toLocale();
+      }
+      const unitSystem = unitSystemCodeParam ? (unitSystemCodeParam === 'imperial' ? 'imperial' : 'metric') : 'metric';
+      setUserPreference({ locale: locale.toLocaleLowerCase(), unitSystem });
       setProvider('lectra');
     } else if (provider !== 'lectra') {
-      setUserPreference({ lectraLocale: LectraLocale.fromLocale(auth0Locale), unitSystem: 'metric' });
+      setUserPreference({ locale: auth0Locale.toLowerCase(), unitSystem: 'metric' });
       setProvider('auth0');
     }
-  }, [auth0Locale, lectraLocaleCode, provider, unitSystemCode]);
+  }, [auth0Locale, lectraLocaleCodeParam, localeParam, provider, unitSystemCodeParam]);
 
   return <UserPreferenceContext.Provider value={userPreference}>{props.children}</UserPreferenceContext.Provider>;
 };
