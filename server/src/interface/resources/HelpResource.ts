@@ -7,15 +7,15 @@ export default class HelpResource {
 
   private readonly helpUrl = process.env.HELP_URI;
 
-  private readonly defaultLanguage = "EN";
+  private readonly defaultLanguage = "en-us";
 
   constructor() {
     this.router.get("/api/help", this.get.bind(this));
   }
 
   async get(req: express.Request, res: express.Response) {
-    let uppercaseLanguage = req.query.lang !== undefined ? String(req.query.lang).toUpperCase().toString() : this.defaultLanguage
-    let language = await this.getLanguage(uppercaseLanguage);
+    let userLanguage = req.query.lang?.toString().toLowerCase() ?? this.defaultLanguage
+    let language = await this.getLanguage(userLanguage);
     await fetch(`${this.helpUrl}/alias.json`)
       .then((r: any) => r.json())
       .then((j: any) => {
@@ -24,11 +24,11 @@ export default class HelpResource {
       .catch((err: any) => LOGGER.error(err));
   }
 
-  private async getLanguage(queriedLanguage: string): Promise<string> {
+  private async getLanguage(userLanguage: string): Promise<string> {
     const languages = await fetch(`${this.helpUrl}/languages.json`)
       .then((r: any) => r.json())
       .catch((err: any) => LOGGER.error(err));
-    return languages.includes(queriedLanguage) ? queriedLanguage : this.defaultLanguage;
+    return languages.includes(userLanguage) ? userLanguage : this.defaultLanguage;
   }
 
   private toHelpResponse(data: any, language: string): string {
