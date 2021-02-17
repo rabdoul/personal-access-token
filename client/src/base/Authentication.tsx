@@ -1,6 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import LectraAuth from 'lectra-auth-js';
-import queryString from 'query-string';
 
 import LoadingScreen from './LoadingScreen';
 
@@ -73,10 +72,7 @@ export const AuthenticationContext = React.createContext<AuthContext>(UNAUTHENTI
 async function authenticate(authConfig: AuthConfig): Promise<AuthContext | undefined> {
   const authenticationService = new LectraAuth({ ...authConfig, callbackUrl: '/' });
   try {
-    const query = queryString.parse(window.location.hash);
-
-    const tokens: { idToken: string; accessToken: string } =
-      query.access_token && query.id_token ? { idToken: String(query.id_token), accessToken: String(query.access_token) } : await authenticationService.checkSSO();
+    const tokens: { idToken: string; accessToken: string } = await authenticationService.checkSSO();
 
     const user = authenticationService.decodeToken(tokens.idToken);
 
