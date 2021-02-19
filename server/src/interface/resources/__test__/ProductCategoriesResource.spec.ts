@@ -21,7 +21,7 @@ describe('ProductCategoriesResource', () => {
             'monetizationgrid',
             {
                 type: 'monetizationgrid.usages.query.by-service',
-                parameters: { serviceId: "OD", locale: "en" }
+                parameters: { serviceId: "OD", metricId: "POINT", locale: "en" }
             },
             { usages: [{ id: "shirt", localized: "Tops/Shirt" }] }
         ).build();
@@ -42,7 +42,7 @@ describe('ProductCategoriesResource', () => {
             'monetizationgrid',
             {
                 type: 'monetizationgrid.usages.query.by-service',
-                parameters: { serviceId: "OD", locale: "fr" }
+                parameters: { serviceId: "OD", metricId: "POINT", locale: "fr" }
             },
             { usages: [{ id: "shirt", localized: "Tops/Chemise" }] }
         ).build();
@@ -61,7 +61,7 @@ describe('ProductCategoriesResource', () => {
             'monetizationgrid',
             {
                 type: 'monetizationgrid.usages.query.by-service',
-                parameters: { serviceId: "OD", locale: "en" }
+                parameters: { serviceId: "OD", metricId: "POINT", locale: "en" }
             }
         ).build();
 
