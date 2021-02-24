@@ -78,7 +78,7 @@ const Screen = styled.div`
 
 const Content = styled.div`
   display: flex;
-  height: 100%;
+  height: ${window.CefSharp !== undefined ? '100%' : 'calc(100% - 98px)'};
 `;
 
 export default ProductionProcessScreen;

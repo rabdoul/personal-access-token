@@ -69,7 +69,7 @@ export const StyledSmallSelect = styled(Select)`
 `;
 
 export const RuleContainer = styled.div`
-  height: ${window.CefSharp !== undefined ? '100%' : 'calc(100% - 95px)'};
+  height: 100%;
   padding: 20px;
   width: calc(100% - 380px);
   overflow: auto;
