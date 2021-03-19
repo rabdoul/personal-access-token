@@ -34,6 +34,14 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
     dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'associate-cutting-requirements', statementIndex, attribute: 'requirementId', value: item?.value });
   }
 
+  function getValue(requirementId?: string, requirementsList?: any) {
+    if (requirementId && requirementsList) {
+      const found = requirementsList.find((req: any) => req.value === requirementId);
+      return found ? requirementId : undefined;
+    }
+    return undefined;
+  }
+
   return (
     <Form>
       <LabelWithHelpTooltip htmlFor={`requirement-${statementIndex}`} helpUrl={urls[0]}>
@@ -43,7 +51,7 @@ const AssociateCuttingRequirementsResultForm: React.FC<StatementResultFormProps<
         data-xlabel="requirement"
         data-xvalue={statementResult.requirementId ? statementResult.requirementId : 'none'}
         listItems={requirements}
-        value={statementResult.requirementId}
+        value={getValue(statementResult.requirementId, requirements)}
         onChange={handleRequierementChange}
         customRenderSelection={(item: any) => <DropDownSearchRenderer item={item} disabled={disabled} onDelete={() => handleRequierementChange(undefined)} />}
         disabled={disabled}
