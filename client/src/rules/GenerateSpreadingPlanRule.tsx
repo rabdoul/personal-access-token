@@ -41,8 +41,8 @@ const GenerateSpreadingPlanResultForm: React.FC<StatementResultFormProps<Generat
   ];
 
   const distributionModeItems = [
-    { label: formatMessage({ id: 'rule.generate.spreading.plan.no.split' }), value: '2' },
-    { label: formatMessage({ id: 'rule.generate.spreading.plan.split.maximize' }), value: '1' },
+    { label: formatMessage({ id: 'rule.generate.spreading.plan.no.split' }), value: '1' },
+    { label: formatMessage({ id: 'rule.generate.spreading.plan.split.maximize' }), value: '2' },
     { label: formatMessage({ id: 'rule.generate.spreading.plan.no.split.equivalent' }), value: '0' }
   ];
   return (
