@@ -92,7 +92,7 @@ const GenerateSectionPlanResultForm: React.FC<StatementResultFormProps<GenerateS
               <Input
                 data-xlabel="maxNumberOfProducts"
                 name="maxNumberOfProducts"
-                onBlur={({ target: { value } }) =>
+                onChange={({ target: { value } }) =>
                   dispatch({
                     type: 'UPDATE_STATEMENT_RESULT',
                     activityId: 'generate-section-plan',

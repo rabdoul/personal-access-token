@@ -60,7 +60,7 @@ const ValidateMarkerResultForm: React.FC<StatementResultFormProps<ValidateMarker
         <MarkerEfficiencyContainer>
           <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.from' })} />
           <MinMarkerEfficiencyInput
-            onBlur={evt => updateMarkerValidation('efficiencyThresholdForManualValidation', evt.target.value)}
+            onChange={evt => updateMarkerValidation('efficiencyThresholdForManualValidation', evt.target.value)}
             value={statementResult.efficiencyThresholdForManualValidation}
             type="number"
             disabled={disabled}
@@ -73,7 +73,7 @@ const ValidateMarkerResultForm: React.FC<StatementResultFormProps<ValidateMarker
           />
           <SpanTooltip text={formatMessage({ id: 'rule.validate.marker.to' })} />
           <MaxMarkerEfficiencyInput
-            onBlur={evt => updateMarkerValidation('efficiencyThresholdForAutomaticValidation', evt.target.value)}
+            onChange={evt => updateMarkerValidation('efficiencyThresholdForAutomaticValidation', evt.target.value)}
             value={statementResult.efficiencyThresholdForAutomaticValidation}
             type="number"
             disabled={disabled}

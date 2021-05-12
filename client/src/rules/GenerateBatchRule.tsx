@@ -111,7 +111,7 @@ const GenerateBatchResultForm: React.FC<StatementResultFormProps<GenerateBatch>>
           helpUrl={urls[0]}
         />
         <InputNumberWithError
-          onBlur={evt => updateGenerateBatch('maxNumberOfOrders', parseInt(evt.target.value))}
+          onChange={evt => updateGenerateBatch('maxNumberOfOrders', parseInt(evt.target.value))}
           value={statementResult.maxNumberOfOrders}
           type="number"
           disabled={disabled || !statementResult.useMaxNumberOfOrder}
@@ -210,7 +210,7 @@ const Criterions: React.FC<CriterionsProps> = ({ disabled, criteriaIndex, criter
         <Fragment>
           <LabelWithHelpTooltip helpUrl={urls[2]}>{formatMessage({ id: 'rule.generate.batch.component.category' })}</LabelWithHelpTooltip>
           <Input
-            onBlur={evt => updateCriteria('componentCategory', evt.target.value)}
+            onChange={evt => updateCriteria('componentCategory', evt.target.value)}
             value={criteria.componentCategory}
             type="text"
             disabled={disabled}
@@ -228,7 +228,7 @@ const Criterions: React.FC<CriterionsProps> = ({ disabled, criteriaIndex, criter
           />
           <LabelWithHelpTooltip helpUrl={urls[3]}>{formatMessage({ id: 'rule.generate.batch.material.usage' })}</LabelWithHelpTooltip>
           <Input
-            onBlur={evt => updateCriteria('componentMaterialUsage', evt.target.value)}
+            onChange={evt => updateCriteria('componentMaterialUsage', evt.target.value)}
             value={criteria.componentMaterialUsage}
             type="text"
             disabled={disabled}

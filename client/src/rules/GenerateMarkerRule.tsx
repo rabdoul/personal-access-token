@@ -279,7 +279,7 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
               <Input
                 data-xlabel="analyticalCodes"
                 name="analyticalCodes"
-                onBlur={({ target: { value } }) => updateStatementResult('preNestedAnalyticCodes', value !== '' ? value.split(/[ ,]+/) : [])}
+                onChange={({ target: { value } }) => updateStatementResult('preNestedAnalyticCodes', value !== '' ? value.split(/[ ,]+/) : [])}
                 type="text"
                 value={statementResult.preNestedAnalyticCodes ? statementResult.preNestedAnalyticCodes.join() : undefined}
                 disabled={disabled}

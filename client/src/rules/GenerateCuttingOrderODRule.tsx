@@ -70,7 +70,7 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
           <LabelWithHelpTooltip helpUrl={cuttingOrderModeHelpUrl[2]}>{formatMessage({ id: 'rule.generate.cutting.order.max.number' })}</LabelWithHelpTooltip>
           <Input
             data-xlabel="generateCuttingOrderMaxNumberOD"
-            onBlur={({ target: { value } }) => {
+            onChange={({ target: { value } }) => {
               dispatch({ type: 'UPDATE_STATEMENT_RESULT', activityId: 'generate-cutting-order', statementIndex, attribute: 'maxNumberOfProducts', value: parseInt(value) });
             }}
             type="number"

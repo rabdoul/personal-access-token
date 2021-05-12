@@ -66,7 +66,7 @@ const SequencingResultForm: React.FC<StatementResultFormProps<Sequencing>> = ({ 
             icon={<ErrorIcon errorKey="error.not.positive.field" />}
             width={50}
             min={0}
-            onBlur={evt => updateSequencing('firstSubListSize', evt.target.value)}
+            onChange={evt => updateSequencing('firstSubListSize', evt.target.value)}
           />
         </Fragment>
       )}
