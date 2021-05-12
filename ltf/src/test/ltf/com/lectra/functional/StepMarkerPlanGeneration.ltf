@@ -13,7 +13,7 @@ SCRIPT_START
 
 	callScript -> scripts.ResetProductionRules -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
 
-	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
 
@@ -69,7 +69,7 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
 
-	callScript -> subscript.result_block.FillInput -> [ a , maxNumberOfProducts , 0 ] -> 
+	callScript -> subscript.result_block.FillInput -> [ - , maxNumberOfProducts , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-section-plan ] -> 
 

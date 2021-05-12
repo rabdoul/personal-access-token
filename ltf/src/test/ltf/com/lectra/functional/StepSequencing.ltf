@@ -16,11 +16,11 @@ SCRIPT_START
 
 	callScript -> scripts.ResetProductionRules -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
 
-	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
 
-	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] ->
+	callScript -> subscript.activity_list.WaitForActivityListLoad -> [  ] -> 
 
 	paragraph -> Check initial state
 
@@ -56,7 +56,7 @@ SCRIPT_START
 
 	comment1 -> No condition tree for sequencing rule : the "+" button is not displayed
 
-	check -> exists = false ->  div [ data-testid = icon-add ]
+	check -> exists = false -> div [ data-testid = icon-add ]
 
 	callScript -> subscript.ribbon.ClickCancel -> [  ] -> 
 
@@ -82,7 +82,7 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
 
-	callScript -> subscript.result_block.FillInput -> [ a , orders-number , 0 ] -> 
+	callScript -> subscript.result_block.FillInput -> [ 0 , orders-number , 0 ] -> 
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ setup-sequencing ] -> 
 
