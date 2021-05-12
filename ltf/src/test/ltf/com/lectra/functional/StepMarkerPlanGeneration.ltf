@@ -69,11 +69,9 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckNoError -> [  ] -> 
 
-	callScript -> subscript.result_block.FillInput -> [ a , maxNumberOfProducts , 0 ] -> 
+	callScript -> subscript.result_block.FillInput -> [ aa , maxNumberOfProducts , 0 ] -> 
 
-	click -> a [ data-xname = generate-section-plan ]
-
-	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-section-plan ] -> 
+	//callScript -> subscript.activity_list.CheckActivityInError -> [ generate-section-plan ] -> 
 
 	callScript -> subscript.result_block.FillInput -> [ 16 , maxNumberOfProducts , 0 ] -> 
 
