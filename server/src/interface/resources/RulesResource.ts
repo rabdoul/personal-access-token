@@ -37,7 +37,7 @@ export class RulesResource {
         });
       res.send(rule);
     } else {
-      res.status(500).send(`Unexpected error when retrieving setup sequencing rule : ${response.data}`);
+      res.status(500).send(`Unexpected error when retrieving setup sequencing rule : ${JSON.stringify(response.data)}`);
     }
   }
 
