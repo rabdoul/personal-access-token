@@ -53,19 +53,9 @@ const LOCAL_AUTHENTICATION_CONTEXT = new AuthenticatedUserContext(process.env.RE
   sub: 'auth0|666',
   'https://metadata.lectra.com/app_metadata': {
     account_type: 'SUPPORT_OR_NOT',
-    authorizations: [{ offer: 'OD', market: 'FA' }],
     company: { id: '123456789_A' }
   }
 });
-
-function isGrantedAuthorisation(authorization: { offer: string }, index: number, array: { offer: string }[]) {
-  return ['OD', 'MTO', 'MTC', 'MTM'].includes(authorization.offer);
-}
-
-export function isGrantedUser(user: User) {
-  const userAuthorizations: { offer: string }[] = user['https://metadata.lectra.com/app_metadata'].authorizations;
-  return userAuthorizations.some(isGrantedAuthorisation);
-}
 
 export const AuthenticationContext = React.createContext<AuthContext>(UNAUTHENTICATED_USER_CONTEXT);
 
@@ -75,10 +65,6 @@ async function authenticate(authConfig: AuthConfig): Promise<AuthContext | undef
     const tokens: { idToken: string; accessToken: string } = await authenticationService.checkSSO();
 
     const user = authenticationService.decodeToken(tokens.idToken);
-
-    if (!isGrantedUser(user)) {
-      throw new Error('Access denied');
-    }
 
     return new AuthenticatedUserContext(tokens.accessToken, tokens.idToken, user);
   } catch (error) {
