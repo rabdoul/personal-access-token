@@ -25,7 +25,7 @@ export class AuthenticationMiddleware {
       try {
         const token = this.extractToken(authorizationHeader);
         const principal = await this.authenticate(token);
-        if (principal.authorizations.some(authorization => ['OD', 'MTO', 'MTC', 'MTM'].includes(authorization.offer))) {
+        if (principal.authorizations.some(authorization => ['OD', 'MTO', 'MTC', 'MTM','MP1_AU'].includes(authorization.offer))) {
           authNamespace.run(async () => {
             authNamespace.set('principal', principal);
             next();
