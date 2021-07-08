@@ -10,7 +10,7 @@ type GetActivitiesQueryResponse = { activities: Activity[] }
 
 export type Activity = { order: number, enabled: boolean, reference: string, eligibleProcess: number[], eligibleConditions: any[] }
 
-const PROCESS_BY_OFFER: Record<string, number> = { MTO: 1, MTC: 2, MTM: 3, OD: 4, MP1_AU: 5 };
+const PROCESS_BY_OFFER: Record<string, number> = { MTO: 1, MTC: 2, MTM: 3 };
 
 export class ActivitiesResource {
 
@@ -33,7 +33,7 @@ export class ActivitiesResource {
     static toActivities(response: GetActivitiesQueryResponse) {
         const offers = currentPrincipal().authorizations.map(it => it.offer);
 
-        const predicate = offers.includes('OD')
+        const predicate = offers.includes('OD') || offers.includes('MP1_AU')
             ? () => true
             : (activity: { eligibleProcess: number[] }) => offers.some(o => activity.eligibleProcess.includes(PROCESS_BY_OFFER[o]));
 
