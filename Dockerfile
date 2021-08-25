@@ -1,4 +1,4 @@
-FROM node:12-alpine as build-image
+FROM node:14-alpine as build-image
 ENV APP_DIR /usr/app
 
 # build client
@@ -24,7 +24,7 @@ LABEL image=test
 RUN cp -R ./reports ${APP_DIR}/reports
 
 # release
-FROM node:12-alpine
+FROM node:14-alpine
 RUN apk add --update --no-cache tini
 ENTRYPOINT ["/sbin/tini", "--"]
 ENV APP_DIR /usr/app
