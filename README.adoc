@@ -14,7 +14,7 @@ image::architecture.png[]
 
 == 🛠 How to build
 
-Pre-requisite:: Install Node `12` 
+Pre-requisite:: Install Node `14` 
 
 [TIP]
 ====
