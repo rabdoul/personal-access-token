@@ -1,5 +1,5 @@
 {
-  "name": "cutting-room-production-process",
+  "name": "cutting-room-production-process-server",
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
