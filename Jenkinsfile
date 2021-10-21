@@ -16,6 +16,10 @@ pipeline {
         booleanParam(name: 'RECORD_ANIMATION', defaultValue: false, description: 'Record video of tests (increases test duration !)')
     }
 
+    triggers {
+        cron(env.BRANCH_NAME == "master" ? "H 19 * * *" : "")
+    }
+
     agent {
         label 'docker&&linux'
     }
