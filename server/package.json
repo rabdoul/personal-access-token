@@ -25,7 +25,7 @@
     "fast-json-patch": "3.1.0",
     "feature-policy": "0.6.0",
     "helmet": "4.2.0",
-    "lectra-auth-nodejs": "0.2.0",
+    "lectra-auth-nodejs": "0.3.0",
     "lodash": "4.17.21",
     "node-fetch": "2.6.1",
     "permissions-policy": "0.3.0",

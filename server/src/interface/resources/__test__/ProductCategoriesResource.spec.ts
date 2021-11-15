@@ -10,7 +10,7 @@ jest.mock('../../../application/Authentication');
 describe('ProductCategoriesResource', () => {
 
     beforeEach(() => {
-        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', []))
+        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', [], []))
     })
 
     it('GET should return 200 if query success', async () => {
@@ -33,7 +33,7 @@ describe('ProductCategoriesResource', () => {
     });
 
     it('GET doit retourner 200 si la requete est en succes', async () => {
-        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'french-framboise@lectra.com', 'fr_fr', []))
+        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'french-framboise@lectra.com', 'fr_fr', [], []))
 
         const req = mockHttpRequest('/api/product-categories');
         const [res] = mockHttpResponse();

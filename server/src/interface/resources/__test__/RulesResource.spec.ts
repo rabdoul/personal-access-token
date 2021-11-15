@@ -7,7 +7,7 @@ const { currentPrincipal } = require("../../../application/Authentication");
 
 describe("RulesResource", () => {
   beforeEach(() => {
-    currentPrincipal.mockImplementation(() => new Principal("1123456789_A", "framboise@lectra.com", "en_EN", [], "SUPPORT_OR_NOT"));
+    currentPrincipal.mockImplementation(() => new Principal("1123456789_A", "framboise@lectra.com", "en_EN", [], [], "SUPPORT_OR_NOT"));
   });
 
   it("GET should return 500 if query failure", async () => {
@@ -105,7 +105,7 @@ describe("RulesResource", () => {
   it("PATCH should return 403 if support user", async () => {
     const req = mockHttpRequest("/api/rules", {}, []);
     const [res, errorHandler] = mockHttpResponse();
-    currentPrincipal.mockImplementation(() => new Principal("1123456789_A", "framboise@lectra.com", "en_EN", [], "SUPPORT"));
+    currentPrincipal.mockImplementation(() => new Principal("1123456789_A", "framboise@lectra.com", "en_EN", [], [], "SUPPORT"));
     await new RulesResource(CommandQueryExecutorMockBuilder.newMock().build()).patch(req, res, errorHandler);
     expect(res.statusCode).toEqual(403);
   });
