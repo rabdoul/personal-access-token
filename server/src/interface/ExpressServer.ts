@@ -112,7 +112,7 @@ export class ExpressServer {
   }
 
   private authenticationMiddleware() {
-    return new AuthenticationMiddleware(this.authentication).check;
+    return new AuthenticationMiddleware(this.authentication, this.commandQueryExecutor).check;
   }
 
   private unauthenticatedRouter() {

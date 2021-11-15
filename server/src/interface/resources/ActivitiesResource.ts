@@ -1,7 +1,7 @@
 import express = require('express');
 import { UnitType, getUnitConfig, valueOfUnitType } from 'cutting-room-units';
 
-import { currentPrincipal } from '../../application/Authentication';
+import { currentSubscriptions } from '../../application/Authentication';
 import { CommandQueryExecutor, QueryResponseType } from '../../application/CommandQueryExecutor';
 import { activityIdFromReference, activityReferenceFromId } from "./ActivitiesMapping";
 import { ListOperator, Operator, ValueSource, ValueType } from '../../application/model';
@@ -31,9 +31,8 @@ export class ActivitiesResource {
     }
 
     static toActivities(response: GetActivitiesQueryResponse) {
-        const offers = currentPrincipal().authorizations.map(it => it.offer);
-
-        const predicate = offers.includes('OD') || offers.includes('MP1_AU')
+        const offers = currentSubscriptions().map(it => it.offer);
+        const predicate = offers.some((o) => ['OD', 'MP1'].includes(o))
             ? () => true
             : (activity: { eligibleProcess: number[] }) => offers.some(o => activity.eligibleProcess.includes(PROCESS_BY_OFFER[o]));
 

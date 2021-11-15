@@ -61,9 +61,9 @@ export class CommandQueryExecutorMockBuilder {
     return this;
   }
 
-  withCommandSuccess(exchange: string, command: Command): CommandQueryExecutorMockBuilder {
+  withCommandSuccess(exchange: string, command: Command, data?: any): CommandQueryExecutorMockBuilder {
     const key = CommandQueryExecutorMock.responseKey(exchange, command);
-    this.clientMock.mockedCommandResponses.set(key, { type: CommandResponseType.COMMAND_SUCCESS });
+    this.clientMock.mockedCommandResponses.set(key, { type: CommandResponseType.COMMAND_SUCCESS, data });
     return this;
   }
 

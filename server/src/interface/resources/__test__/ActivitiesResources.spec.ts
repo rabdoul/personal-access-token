@@ -1,17 +1,16 @@
 import 'jest';
-import { Principal } from 'lectra-auth-nodejs';
 import { mockHttpRequest, mockHttpResponse, CommandQueryExecutorMockBuilder } from '../../../__test__/Mocks';
 import { ActivitiesResource } from '../ActivitiesResource';
 
 import { mocked } from 'ts-jest/utils';
-import { currentPrincipal } from '../../../application/Authentication';
+import { currentSubscriptions, Subscription } from '../../../application/Authentication';
 
 jest.mock('../../../application/Authentication');
 
 describe('ActivitiesResource', () => {
 
     beforeEach(() => {
-        mocked(currentPrincipal).mockImplementation(() => new Principal('sub|42', '123456789_A', 'en_EN', [{ offer: 'OD', market: 'FA' }]))
+        mocked(currentSubscriptions).mockImplementation(() => [{ offer: 'OD', market: 'FA' }] as Subscription[]);
     });
 
     it('GET activities should return 200 if query success', async () => {
@@ -32,7 +31,26 @@ describe('ActivitiesResource', () => {
         expect(res._getData()).toEqual([{ id: "setup-sequencing", order: 0, enabled: false }]);
     });
 
-    it('toActivities should return all activities when user is authorized for OD', async () => {
+    it('toActivities should return all activities when user has offer OD', async () => {
+        const activities = ActivitiesResource.toActivities({
+            activities: [
+                { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
+                { reference: "Analyse product order", order: 1, enabled: false, eligibleProcess: [2], eligibleConditions: [] },
+                { reference: "Validate MTM Product", order: 2, enabled: false, eligibleProcess: [3], eligibleConditions: [] },
+                { reference: "Generate batch", order: 3, enabled: false, eligibleProcess: [4], eligibleConditions: [] }
+            ]
+        });
+
+        expect(activities).toEqual([
+            { id: "setup-sequencing", order: 0, enabled: false },
+            { id: "analyse-product-order", order: 1, enabled: false },
+            { id: "validate-mtm-product", order: 2, enabled: false },
+            { id: "generate-batch", order: 3, enabled: false }
+        ]);
+    });
+
+    it('toActivities should return all activities when tenant has offer MP1', async () => {
+        mocked(currentSubscriptions).mockImplementation(() => [{ offer: 'MP1', market: '' }, { offer: 'MTO', market: '' }] as Subscription[]);
         const activities = ActivitiesResource.toActivities({
             activities: [
                 { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
@@ -51,7 +69,7 @@ describe('ActivitiesResource', () => {
     });
 
     it('toActivities should not return any activity when user is authorized for non handled offer', async () => {
-        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', [{ offer: 'C1', market: 'FA' }]))
+        mocked(currentSubscriptions).mockImplementation(() => [{ offer: 'C1', market: 'FA' }] as Subscription[]);
         const activities = ActivitiesResource.toActivities({
             activities: [
                 { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
@@ -65,7 +83,7 @@ describe('ActivitiesResource', () => {
     });
 
     it('toActivities should return activities of corresponding offers', async () => {
-        mocked(currentPrincipal).mockImplementation(() => new Principal('1123456789_A', 'framboise@lectra.com', 'en_EN', [{ offer: 'MTO', market: 'FA' }, { offer: 'MTC', market: 'FA' }]))
+        mocked(currentSubscriptions).mockImplementation(() => [{ offer: 'MTO', market: 'FA' }, { offer: 'MTC', market: 'FA' }] as Subscription[]);
         const activities = ActivitiesResource.toActivities({
             activities: [
                 { reference: "Setup sequencing", order: 0, enabled: false, eligibleProcess: [1], eligibleConditions: [] },
