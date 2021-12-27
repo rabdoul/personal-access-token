@@ -1,5 +1,7 @@
 def dockerArtifactoryTag = env.BRANCH_NAME == "master" ? "latest" : "${env.BRANCH_NAME}".replaceFirst(/^.*\//, "")
 def dockerArtifactoryPush = env.BRANCH_NAME == "master"
+String namespace = "cutting-room-admin";
+String lectraChartVersion = "1.0";
 
 pipeline {
 
@@ -7,7 +9,6 @@ pipeline {
         COMPONENT_NAME = "cutting-room-production-process"
         PROJECT_NAME = "cutting-room-admin-cutting-room-production-process"
         DOCKER_IMAGE_NAME = "cutting-room-admin-cutting-room-production-process"
-        K8S_NAMESPACE = "cutting-room-admin"
         DNS_PREFIX = "cutting-room-production-process"
     }
     
@@ -81,17 +82,38 @@ pipeline {
             }
         }
 
+        stage ("Dry Run Deploy DEV") {
+            when { not { anyOf { branch 'master' } } }
+            steps {
+                jenkinsAlert(env.PROJECT_NAME, "Dry run Deploy DEV") {
+                    helmV3Deploy(
+                        k8sEnv: K8sEnv.DEV_MAIN,
+                        namespace: namespace,
+                        dockerImageName: dockerArtifactoryImageName,
+                        lectraChartVersion: lectraChartVersion,
+                        projectName: "${env.PROJECT_NAME}",
+                        cName : "${env.DNS_PREFIX}",
+                        type : "WEBAPP",
+                        doHealthCheck : true,
+                        dryRun: true
+                    )
+                }
+            }
+        }
+
         stage("deploy dev") {
             when { branch 'master' }
             steps {
                 jenkinsAlert(env.COMPONENT_NAME, "deploy dev") {
-                    helmDeploy(
-                        k8sEnv : K8sEnv.DEV,
-                        namespace : "${env.K8S_NAMESPACE}", 
-                        dockerImageName : dockerAzureImageName, 
+                    helmV3Deploy(
+                        k8sEnv: K8sEnv.DEV_MAIN,
+                        namespace: namespace,
+                        dockerImageName: dockerAzureImageName,
+                        lectraChartVersion: lectraChartVersion,
+                        projectName: "${env.PROJECT_NAME}",
+                        cName : "${env.DNS_PREFIX}",
                         type : "WEBAPP",
-                        doHealthCheck : true,
-                        dnsPrefix : "${env.DNS_PREFIX}",
+                        doHealthCheck : true
                     )
                 }
             }
@@ -128,13 +150,15 @@ pipeline {
             when { branch 'master' }
             steps {
                 jenkinsAlert(env.COMPONENT_NAME, "deploy test") {
-                    helmDeploy(
-                        k8sEnv : K8sEnv.TEST,
-                        namespace : "${env.K8S_NAMESPACE}", 
-                        dockerImageName : dockerAzureImageName, 
+                    helmV3Deploy(
+                        k8sEnv: K8sEnv.TEST_MAIN,
+                        namespace: namespace,
+                        dockerImageName: dockerAzureImageName,
+                        lectraChartVersion: lectraChartVersion,
+                        projectName: "${env.PROJECT_NAME}",
+                        cName : "${env.DNS_PREFIX}",
                         type : "WEBAPP",
-                        doHealthCheck : true,
-                        dnsPrefix : "${env.DNS_PREFIX}"
+                        doHealthCheck : true
                     )
                 }
             }
@@ -144,20 +168,19 @@ pipeline {
             when { branch 'master' }
             steps {
                 jenkinsAlert(env.COMPONENT_NAME, "deploy prod", SlackChannel.PROD) {
-                    helmDeploy(
-                        k8sEnv : K8sEnv.PROD,
-                        namespace : "${env.K8S_NAMESPACE}", 
+                    helmV3Deploy(
+                        k8sEnv : K8sEnv.PROD_MAIN,
+                        namespace : namespace, 
                         dockerImageName : dockerAzureImageName, 
+                        cName : "${env.DNS_PREFIX}",
                         type : "WEBAPP",
                         doHealthCheck : true,
-                        dnsPrefix : "${env.DNS_PREFIX}",
-                        k8sSecretFolder : "cutting-room-production-process"
+                        k8sSecretFolder : "${env.COMPONENT_NAME}"
                     )
                 }
                 notifySuccess(env.COMPONENT_NAME, "deploy prod", SlackChannel.PROD)
             }
         }
-
     }
 
     post {
