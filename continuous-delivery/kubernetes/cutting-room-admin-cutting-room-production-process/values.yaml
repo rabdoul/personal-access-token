@@ -1,18 +1,378 @@
+# -- Mandatory inputs----------------------------------------------------------
+
 maintainer: team-phenix
-dnsPrefix: cutting-room-production-process
-maxReplicas: 5
-minReplicas: 2
-maxUnavailable: 1
-deploymentCpuUsageLimitRatio: 0.5
-replicas: 2
-requestsCpu: 0.06
-requestsMemory: 100Mi
-limitsMemory: 128Mi
-liveProbeInitialDelaySeconds: 60
-livePeriodSeconds: 10
-liveFailureThreshold: 20
-readyProbeInitialDelaySeconds: 60
-readyPeriodSeconds: 10
-readyFailureThreshold: 20
-readyProbeTimeoutSeconds: 5
-prometheusScrape: false
+
+# This is the DNS name that will be used in ingressRoutes : <CNAME>.PREFIX.ENV.mylectra.com
+# if empty, .Release.Name will be used
+dnsCname: "cutting-room-production-process"
+
+# This is the prefix that will be used in ingressRoutes : xxx.PREFIX.ENV.mylectra.com
+# example: cloudservices for a backend service or "" for a frontend
+dnsPrefix: ""
+
+# This is the DNS suffix that will be used in ingressRoutes : xxx.PREFIX.ENV.SUFFIX
+# if empty, equivalent to mylectra.com
+dnsSuffix: "mylectra.com"
+
+# -- Resources -----------------------------------------------------------------
+
+### change to true here for each resource you wish to deploy, and then configure 
+### the input values required for the resource in the corresponding section
+### /!\ deployment is mandatory, and is automatically deployed
+Resources:
+  service: true
+  horizontalPodAutoscaler: true
+  podDisruptionBudget: true
+  traefikIngressRoute: true
+  traefikMiddlewares: false
+  serviceAccount: false
+  helmHook: false
+
+# -- Labels --------------------------------------------------------------------
+
+### You can add additional labels here
+### Do not include these labels, they are automatically added with the following values:
+### app.kubernetes.io/name: {{ .Values.projectName }}   # replaces the old "app" label
+### app.kubernetes.io/instance: {{ .Release.Name }}     # replaces the old "release" label
+### maintainer: {{ .Values.maintainer }}
+#labels:
+
+### /!\ /!\ /!\ /!\
+### labelsSelector lets you define the list of labels used in .spec.selector.matchLabels
+### of deployments. It is important that those values match the values of the current
+### deployement in the case you are modifiying labels otherwise kubernetes won't be able
+### to superseed the current deployment correctly.
+### You should define it with labels which are never going to change.
+### If one day they change you should modify them after you rolled out the new labels.
+### by default, 'app.kubernetes.io/name' and 'app.kubernetes.io/instance' labels are automatically added to labelsSelector
+#labelsSelector:
+#  mycustomlabel: xxx
+
+# -- Configmaps ----------------------------------------------------------------
+
+### To add a configMap to your release, either fill in the 'configmaps' section below,
+### or use a dedicated values file in which you add the configmaps section
+### the corresponding configmaps name will be ".Release.Name"
+### The key 'GIT_COMMIT' will automatically be added in the data section of the configMap,
+### loaded from the 'metadata-values.yaml' file, which is automatically added to the release
+### by the helmV3Deploy() function
+#configmaps: {}
+
+### You can then add additional configmaps using the 'extraconfigmaps' section
+### Each configmap will be named using the following format : <.Release.Name>-<subkey>
+#extraconfigmaps:
+#  subkey1:
+#    myconfigmapkey: abcdef
+#  subkey2:
+#    myconfigmapkey: ghijkl
+
+
+# -- Secrets ----------------------------------------------------------------
+
+### To add a secret to your release, either fill in the 'secrets' section below,
+### or use a dedicated values file in which you add the secrets section
+### the corresponding secrets name will be ".Release.Name"
+#secrets: {}
+
+### You can then add additional secrets using the 'extrasecrets' section
+### Each secret will be named using the following format : <.Release.Name>-<subkey>
+#extrasecrets:
+#  subkey1:
+#    mysecret1: abcdef
+#  subkey2:
+#    mysecret2: ghijkl
+
+
+# -- Service -------------------------------------------------------------------
+
+service:
+  ports:
+  - name: "http"
+    port: 80          # this is the "public" port, that will be used by IngressRoutes
+    protocol: TCP
+    targetPort: 8080  # this is the container port
+
+
+# -- Deployment ---------------------------------------------------------------
+
+deployment:
+  revisionHistoryLimit: 1
+  
+  ### Replicas count will be ignored if you also deploy an HPA (https://github.com/kubernetes/kubernetes/issues/25238)
+  replicas: 2
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+
+#  podAnnotations:
+#    prometheus.io/scrape: "false"
+#    prometheus.io/path: "/metrics"
+#    prometheus.io/port: "9100"
+  
+  containers:
+  - imagePullPolicy: IfNotPresent
+
+    ### First container's image is forced to .Values.DockerImage, which is provided as input for HelmDeploy (dockerImageName)
+    #image: <DOCKER_IMAGE>
+
+    ### First container's name is forced to '.Release.Name' ; don't forget to give a different name for additional containers
+    # name: xxx
+
+    ### Listening ports on container
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+
+    ### args section
+    args: []
+
+    ### env section
+    env:  
+      - name: INSTANA_AGENT_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+
+    ### load env from configMap and/or secret
+    ### by default, both configMap and secret named '.Release.Name' are loaded
+    ### change here to override (for example, if you have multiple configmaps)
+    # envFrom:
+    # - configMapRef:
+    #     name: <RELEASE_NAME>
+    # - secretRef:
+    #     name: <RELEASE_NAME>
+
+    ### Resources section
+    resources:
+      limits:
+        cpu: "1"
+        memory: "128Mi"
+      requests:
+        cpu: "0.06"
+        memory: "100Mi"
+
+    ### Startup Probe:
+    ### - replaces both other Probes until startupProbe success. Then, Liveness and Readiness Probes are activated and replace the startupProbe. 
+    ###   When specifying a startupProbe, 'initialDelaySeconds' on Liveness and Readiness will be ignored.
+    ### - Only available on k8s 1.16 and higher ; if you specify one on older 1.13 clusters, it will be ignored.
+    startupProbe:
+      httpGet:
+        path: /ping
+        port: 8080
+      initialDelaySeconds: 60    # amount of time after which the probe is started after the container starts (default = 0)
+      periodSeconds: 10          # probe frequence
+      timeoutSeconds: 6          # probe timeout
+      failureThreshold: 20       # number of failures required for the probe to change to failed state (default = 3)
+
+    ### Liveness Probe: will restart the container when it fails
+    livenessProbe:
+      httpGet:
+        path: /ping
+        port: 8080
+      initialDelaySeconds: 60    # amount of time after which the probe is started after the container starts (default = 0)
+      periodSeconds: 10          # probe frequence
+      timeoutSeconds: 6          # probe timeout
+      failureThreshold: 20       # number of failures required for the probe to change to failed state (default = 3)
+
+    ### Readiness Probe: when it fails, will prevent the container from being addressed (on the network), by removing it from the services load balancers.
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 60    # amount of time after which the probe is started after the container starts (default = 0)
+      periodSeconds: 10          # probe frequence
+      timeoutSeconds: 5          # probe timeout
+      failureThreshold: 20       # number of failures required for the probe to change to failed state (default = 3)
+    
+    volumes: []
+    # - name: myapp-vol
+    #   mountPath: /etc/myapp
+    #   reference:
+    #     type: configMap               # configMap, secret or emptyDir
+    #     value: CUSTOM_NAME            # suffix of the configMap or secret (dont specify release-name in front of it) ; {} for emptyDir
+    #     subPaths:                     # if specifying subPaths, each item will be mounted in 'mountPath' as a file, instead of mounting the whole configMap (or secret) as a directory
+    #     - pushpin.conf
+
+    ### Lifecycle
+    lifecycle: {}
+
+# -- Services accounts ----------------------------------------------------
+
+### serviceAccounts are used if your app needs access to kubernetes resources by communicating with the Kubernetes API
+### If you need a serviceAccount, and are deploying on old k8s 1.13, you must explicitely configure imagePullSecrets:
+#serviceAccount:
+#  imagePullSecrets:
+#  - name: lectrarepoeuwinfra.azurecr.io
+
+# -- Horizontal Pod Autoscaler -------------------------------------------------
+
+### the values below uses the default CPU builtin metric, which is the ratio
+### between the cpu usage of the pods and the cpu request
+### In this case, when CPU usage reaches 110% of the configured CPU request, scaling will occur
+### 
+### to use a custom metric (defined in the prometheus adapter), you must also specify :
+### - the metric name
+### - an optional label selector, to filter a more specific metric
+
+horizontalPodAutoscaler:
+  metricType: cpu             # cpu or custom
+  minReplicas: 2
+  maxReplicas: 5
+  targetValue: 50
+  # custom:
+  #   metricName: cad2d_images_rmq_messages_pods_ratio
+  #   selector:
+  #     matchLabels:
+  #       queue: cad2d-getModelImages-request
+
+
+# -- Pod disruption budgets ----------------------------------------------------
+
+### PDB defines the minimum number of pods required for your application to work,
+### or the maximum number of pods that can be unavailable
+podDisruptionBudget:
+  ### choose either one of the followings
+  minAvailable: 50%
+  #maxUnavailable: 50%
+
+
+# -- Traefik -------------------------------------------------------------------
+
+traefikIngressRoute:
+  ### Uncomment the following section if you wish to override the default ingressRoute
+  ### or add more than 1 route (https://docs.traefik.io/routing/routers/#rule)
+  ### Default ingressRoute will match "Host(`<DNS_CNAME>.<DNS_PREFIX>.<ENV>.<DNS_SUFFIX>`)"
+  ### and redirect to the service's first port above
+
+  ### match_host: FQDN to match ; you can use the following variables that will be automatically replaced:
+  ###   - RELEASE_NAME
+  ###   - DNS_CNAME
+  ###   - DNS_PREFIX
+  ###   - ENV
+  ###   - DNS_SUFFIX
+  ###   Example: myproject.DNS_PREFIX.ENV.DNS_SUFFIX
+  ### match_path: enter an exact path to match - mutually exclusive with match_pathPrefix
+  ### match_pathPrefix : enter a path prefix to match - mutually exclusive with match_path
+  ### priority: route priority ; when not set, rule length is used as priority ; longest has higher priority
+  ### middlewares : you can add any additional middlewares here
+  ### - common middlewares defined by OPS team, in ingress namespace :
+  ###   + ip-whitelist-lectra : restrict access to the service from Lectra's known ip addresses only
+  ### - custom middlewares : see 'traefikMiddlewares' section below
+  # routes:
+  # - match_host: brownie.ENV.DNS_SUFFIX
+  #   match_path: "/metrics"
+  #   match_pathPrefix: ""
+  #   priority: 10
+  #   middlewares:
+  #   - name: ip-whitelist-lectra
+  #     namespace: ingress
+  #   service:
+  #     sticky_session:
+  #       cookie_name: "cookie"
+  #     port: 80
+  # - match_host: cheesecake.DNS_PREFIX.ENV.DNS_SUFFIX
+  #   match_pathPrefix: ""
+  #   service:
+  #     port: 80
+
+  ### /!\ the 'headers-hsts' middleware, which handles HSTS headers, is automatically added to all rules
+  
+traefikMiddlewares: []
+### name will always be prefixed by <RELEASE_NAME>
+# - name: rate-limit
+#   spec:
+#     # https://docs.traefik.io/middlewares/ratelimit/
+#     rateLimit:
+#     average: 10
+# - name: forward-auth
+#   spec:
+#     # https://docs.traefik.io/middlewares/forwardauth/
+#     forwardAuth:
+#       # This let's you authenticate your service against the Azure AD IdP.
+#       # If you want to use this, contact #team-ops.
+#       address: https://pomerium-forward-auth.infra.mylectra.com/?uri=https://<RELEASE_NAME>.dev.mylectra.com
+
+
+# -- Helm Hooks -------------------------------------------------------------------
+
+### helmHooks allows to execute a pod for a brief amount of time, during any step of the Helm deployment
+# helmHook:
+#   configmap:
+#     helm_hook: "pre-install,pre-upgrade"
+#     helm_hook_weight: "0"
+#     helm_hook_delete_policy: "before-hook-creation,hook-succeeded,hook-failed"
+#   secret:
+#     helm_hook: "pre-install,pre-upgrade"
+#     helm_hook_weight: "0"
+#     helm_hook_delete_policy: "before-hook-creation,hook-succeeded,hook-failed"
+#   job:
+#     helm_hook: "pre-install,pre-upgrade"
+#     helm_hook_weight: "1"
+#     helm_hook_delete_policy: "before-hook-creation,hook-succeeded,hook-failed"
+
+#     backoffLimit: 0
+#     image: "xxx/xxx:v0"
+#     imagePullPolicy: IfNotPresent
+
+#     ### args section
+#     args: []
+
+#     ### env section
+#     env: {}
+
+#     ### when set to 'true', will load env from configMap and/or secret named '.Release.Name-helmhookjob'
+#     envFrom:
+#       configmap: true
+#       secret: true
+
+#     ### pod resources
+#     resources:
+#       limits:
+#         cpu: "1"
+#         memory: "512Mi"
+#       requests:
+#         cpu: "60m"
+#         memory: "64Mi"
+
+### Fill in the following section (you can also use a separate values file) to add data
+### to the Helm Hook Configmap
+# helmhookconfigmaps:
+#   MYKEY1: blabla
+#   MYKEY2: bleble
+
+### Fill in the following section (you can also use a separate values file) to add data
+### to the Helm Hook secret
+# helmhooksecrets:
+#   MYKEY1: blabla
+#   MYKEY2: blebl
+
+
+# -- Outer inputs -------------------------------------------------------------
+
+# Env is automatically overloaded with --set option in deployV3.sh
+# Value : environment var 'DEPLOY_ENV', set using input 'k8sEnv' in helmV3Deploy
+# Used to set the FQDN in the default ingressRoute
+Env: "dev"
+
+# projectName is automatically overloaded with --set option in deployV3.sh
+# Value : environment var 'PROJECT_NAME', set using input 'projectName' in helmV3Deploy,
+#         or defaults to already existing environment var PROJECT_NAME
+# Used to set the value of the label 'app.kubernetes.io/name'  in all objects of the helm release
+projectName: "xxx"
+
+
+# DockerImage is automatically overloaded with --set option in deployV3.sh
+# Value : environment var 'DOCKER_IMAGE', set using input 'dockerImageName' in helmV3Deploy
+# Used as the first container's image in the Deployment
+DockerImage: "xxx"
+
+# kubeVersion is automatically overloaded with --set option in deployV3.sh
+# Value : environment var 'K8S_VERSION', set automatically from withKubeConfig()
+# Used for the following reasons :
+# - determine label keys (app & release on older k8s servers, or app.kubernetes.io/name and app.kubernetes.io/instance)
+# - determine apiVersion for some resources
+# - add imagePullSecrets only for older k8s servers (not necessary on AKS)
+kubeVersion: "1.19"
