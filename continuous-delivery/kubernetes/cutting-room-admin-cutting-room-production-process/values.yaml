@@ -107,10 +107,10 @@ deployment:
       maxSurge: 2
       maxUnavailable: 1
 
-#  podAnnotations:
-#    prometheus.io/scrape: "false"
-#    prometheus.io/path: "/metrics"
-#    prometheus.io/port: "9100"
+  podAnnotations:
+    prometheus.io/scrape: "false"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8080"
   
   containers:
   - imagePullPolicy: IfNotPresent
