@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         COMPONENT_NAME = "cutting-room-production-process"
-        PROJECT_NAME = "cutting-room-admin-cutting-room-production-process"
+        PROJECT_NAME = "cutting-room-production-process"
         DOCKER_IMAGE_NAME = "cutting-room-admin-cutting-room-production-process"
         DNS_PREFIX = "cutting-room-production-process"
     }
