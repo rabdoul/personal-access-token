@@ -14,7 +14,7 @@ jest.mock('react-query');
 const MockedProviders = ({ children, unitSystem }: { children: any; unitSystem: 'metric' | 'imperial' }) => (
   <AuthenticationContext.Provider value={{ accessToken: () => 'token', idToken: () => '', user: () => ({}), isSupportMode: () => false }}>
     <IntlProvider locale="en" messages={{}} onError={() => {}}>
-      <UserPreferenceContext.Provider value={{ lectraLocale: LectraLocale.fromLocale('en'), unitSystem }}>{children}</UserPreferenceContext.Provider>
+      <UserPreferenceContext.Provider value={{ locale: 'en-us', unitSystem }}>{children}</UserPreferenceContext.Provider>
     </IntlProvider>
   </AuthenticationContext.Provider>
 );

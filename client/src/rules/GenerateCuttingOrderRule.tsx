@@ -8,12 +8,20 @@ import { useUIDispatch } from '../UIState';
 import Rule, { StatementResultFormProps } from './common/Rule';
 import { Form } from './common/styles';
 
+export type DistributionPerGroup = {
+  enabled: boolean;
+  maxNumberPerGroup: number;
+  groupDistribution: number;
+};
+
 export interface GenerateCuttingOrder extends StatementResult {
   productGrouping: number;
   materialGrouping: number;
   canMixCommands: boolean; // TODO: to remove when GenerateCuttingOrderODRule removed
   maxNumberOfProducts: number; // TODO: to remove when GenerateCuttingOrderODRule removed
   groupDistribution: number; // TODO: to remove when GenerateCuttingOrderODRule removed
+  productDistributionPerCuttingOrder: DistributionPerGroup;
+  productDistributionPerNestingGroup: DistributionPerGroup;
 }
 
 const GenerateCuttingOrderRule = () => <Rule activityId={'generate-cutting-order'}>{props => <GenerateCuttingOrderForm {...props} />}</Rule>;

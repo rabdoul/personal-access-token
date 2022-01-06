@@ -8,7 +8,7 @@ import useValueUnit from '../useUnitConfig';
 
 const MockedProviders = ({ children, unitSystem }: { children: any; unitSystem: 'metric' | 'imperial' }) => (
   <AuthenticationContext.Provider value={{ accessToken: () => 'token', idToken: () => '', user: () => ({}), isSupportMode: () => false }}>
-    <UserPreferenceContext.Provider value={{ lectraLocale: LectraLocale.fromLocale('en'), unitSystem }}>{children}</UserPreferenceContext.Provider>
+    <UserPreferenceContext.Provider value={{ locale: 'en-us', unitSystem }}>{children}</UserPreferenceContext.Provider>
   </AuthenticationContext.Provider>
 );
 
