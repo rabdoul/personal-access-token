@@ -15,7 +15,7 @@ SCRIPT_START
 
 	check -> exists = false -> div [ data-conditionblock-id = else ]
 
-	click -> div [ data-testid = icon-add ] -> div [ class ≈ BlockActions ] -> div [ data-resultblock-id = 0 ]
+	click -> div [ data-testid = icon-add ] -> div [ data-resultblock-id = 0 ]
 
 	check -> exists = true -> div [ data-conditionblock-id = 0-0 ]
 
