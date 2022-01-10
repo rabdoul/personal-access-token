@@ -1,13 +1,16 @@
-SCRIPT_DESCRIPTION
+﻿SCRIPT_DESCRIPTION
 Enter text into result block input
 
 SCRIPT_AUTHOR
 r.bancal
 
+SCRIPT_GROUPS
+
+
 SCRIPT_PARAMETERS
 
-    parameter0 -> text to enter into input
-    parameter1 -> data-xlabel of the checkbox
+	parameter0 -> text to enter into input
+	parameter1 -> data-xlabel of the field
 	parameter2 -> data-resultblock-id (index of result block)
 
 SCRIPT_START
