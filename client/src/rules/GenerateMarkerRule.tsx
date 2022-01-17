@@ -19,6 +19,25 @@ import { MANDATORY_FIELD_ERROR } from './common/ErrorIcon';
 import InputLength from './common/InputLength';
 import useUnitConfig from './common/useUnitConfig';
 
+enum EShrinkageSource {
+  /// <summary>
+  /// Shrinkage from material or, if not defined or zero, from CAD.
+  /// </summary>
+  MaterialOrCad,
+  /// <summary>
+  /// Shrinkage from CAD.
+  /// </summary>
+  Cad,
+  /// <summary>
+  /// Shrinkage from Material.
+  /// </summary>
+  Material,
+  /// <summary>
+  /// Shrinkage from CAD and Material (sum of both values).
+  /// </summary>
+  MaterialAndCad
+}
+
 export interface GenerateMarker extends StatementResult {
   groupsProcessing: number;
   processingValue: number;
@@ -32,6 +51,7 @@ export interface GenerateMarker extends StatementResult {
   usePreNesting: boolean;
   preNestedAnalyticCodes: string[];
   useVariableSpacing: boolean;
+  shrinkageSource: EShrinkageSource;
 }
 
 function useProximityRules(): { label: string; value: string; isMotifRule: boolean }[] {
@@ -94,7 +114,8 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
     'PP_GENERATE_MARKER_POSITIONING_MOTIF',
     'PP_GENERATE_MARKER_PRE_NESTING',
     'PP_GENERATE_MARKER_PRE_NESTING_CODES',
-    'PP_GENERATE_MARKER_GAP_MOTIF_STEP'
+    'PP_GENERATE_MARKER_GAP_MOTIF_STEP',
+    'PP_GENERATE_MARKER_SHRINKAGE_SOURCE'
   );
 
   const proximityRules = useProximityRules() || [];
@@ -117,11 +138,29 @@ const GenerateMarkerForm: React.FC<StatementResultFormProps<GenerateMarker>> = (
     { label: formatMessage({ id: 'rule.generate.marker.sizes' }), value: '2' }
   ];
 
+  const shrinkageSourceItems = [
+    { label: formatMessage({ id: 'rule.generate.marker.shrinkage.source.material-or-cad' }), value: EShrinkageSource.MaterialOrCad.toString() },
+    { label: formatMessage({ id: 'rule.generate.marker.shrinkage.source.cad' }), value: EShrinkageSource.Cad.toString() },
+    { label: formatMessage({ id: 'rule.generate.marker.shrinkage.source.material' }), value: EShrinkageSource.Material.toString() },
+    { label: formatMessage({ id: 'rule.generate.marker.shrinkage.source.material-and-cad' }), value: EShrinkageSource.MaterialAndCad.toString() }
+  ];
+
   const distanceUnitConfig = useUnitConfig(UnitType.GroupsProcessing);
 
   return (
     <div style={{ fontWeight: 'lighter' }}>
       <Form>
+        <LabelWithHelpTooltip helpUrl={urls[12]}>{formatMessage({ id: 'rule.generate.marker.shrinkage' })}</LabelWithHelpTooltip>
+        <Select
+          data-xlabel="shrinkageSource"
+          value={statementResult.shrinkageSource?.toString()}
+          listItems={shrinkageSourceItems}
+          onChange={item => updateStatementResult('shrinkageSource', parseInt(item.value))}
+          width={200}
+          disabled={disabled}
+          error={statementResult.shrinkageSource === undefined}
+          icon={MANDATORY_FIELD_ERROR}
+        />
         <LabelWithHelpTooltip helpUrl={urls[0]}>{formatMessage({ id: 'rule.generate.marker.groups' })}</LabelWithHelpTooltip>
         <Line>
           <Select

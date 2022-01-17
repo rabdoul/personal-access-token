@@ -1,5 +1,6 @@
 ﻿SCRIPT_DESCRIPTION
 
+
 SCRIPT_AUTHOR
 r.bancal
 
@@ -12,7 +13,7 @@ SCRIPT_START
 
 	callScript -> scripts.ResetProductionRules -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
 
-	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"keepSizeAndPosition":false,"fullScreen":true,"protocol":"WEB"}}
+	channel -> start -> prodprocess -> https://cutting-room-production-process.dev.mylectra.com/ -> {"overspec":{"fullScreen":true,"keepSizeAndPosition":false,"protocol":"WEB"}}
 
 	callScript -> subscript.Login -> [ production-rules-massprod@ltf-framboise.com , !Lectra33! ] -> 
 
@@ -23,6 +24,8 @@ SCRIPT_START
 	callScript -> subscript.activity_list.CheckActivityEnabledState -> [ generate-marker , true ] -> 
 
 	callScript -> subscript.activity_list.SelectActivity -> [ generate-marker ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 0 , shrinkageSource , 0 ] -> 
 
 	callScript -> subscript.result_block.CheckListValue -> [ 1 , markerGroups , 0 ] -> 
 
@@ -68,9 +71,11 @@ SCRIPT_START
 
 	paragraph -> Test result block
 
-	comment1 -> When marker groups is set to Space out or Interlock, non nullable numerical input is shown 
+	comment1 -> When marker groups is set to Space out or Interlock, non nullable numerical input is shown
 
 	callScript -> subscript.ribbon.ClickEdit -> [  ] -> 
+
+	callScript -> subscript.result_block.ChangeListValue -> [ 3 , shrinkageSource , 0 ] -> 
 
 	callScript -> subscript.result_block.ChangeListValue -> [ 2 , markerGroups , 0 ] -> 
 
@@ -130,6 +135,8 @@ SCRIPT_START
 
 	callScript -> subscript.activity_list.CheckActivityInError -> [ generate-marker ] -> 
 
+	callScript -> subscript.result_block.ChangeListValue -> [ 1 , shrinkageSource , 0 ] -> 
+
 	callScript -> subscript.result_block.ChangeListValue -> [ 1 , markerGroups , 0 ] -> 
 
 	callScript -> subscript.result_block.ChangeListValue -> [ 2 , variantDirection , 0 ] -> 
@@ -143,6 +150,8 @@ SCRIPT_START
 	callScript -> subscript.conditions.CheckConditionList -> [ 0-0 , cuttingorder.isrecut , Equals , True ] -> 
 
 	callScript -> subscript.conditions.CheckCondition -> [ 0-1 , command.reference , Different , ReferTest ] -> 
+
+	callScript -> subscript.result_block.CheckListValue -> [ 1 , shrinkageSource , 0 ] -> 
 
 	callScript -> subscript.result_block.CheckListValue -> [ 1 , markerGroups , 0 ] -> 
 
@@ -163,8 +172,6 @@ SCRIPT_START
 	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , preNesting , 0 ] -> 
 
 	callScript -> subscript.result_block.CheckActiveItemSwitcher -> [ No , variableSpacing , 0 ] -> 
-
-	callScript -> subscript.result_block.CheckListValue -> [ 3 , markerGroups , 1 ] -> 
 
 	callScript -> subscript.result_block.CheckListValue -> [ 0 , variantDirection , 1 ] -> 
 
