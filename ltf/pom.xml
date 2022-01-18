@@ -23,7 +23,7 @@
         <project.excluded.group>TOREVIEW</project.excluded.group>
 
         <!-- Dependencies -->
-        <lib.selenium-sdk-rc.version>1.0.0.829</lib.selenium-sdk-rc.version>
+        <lib.selenium-sdk-rc.version>1.0.0.859</lib.selenium-sdk-rc.version>
         <lib.http-request.version>6.0</lib.http-request.version>
         <lib.jakarta.json.version>2.0.0</lib.jakarta.json.version>
 
