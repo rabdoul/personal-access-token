@@ -21,9 +21,9 @@ SCRIPT_START
 
 	hoverAndBlock -> a [ data-xname = ${parameter0} ]
 
-	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
+	//waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
 
-	hoverAndBlock -> div [ data-xlabel = help-icon ]
+	hoverAndBlock -> div [ data-xlabel = help-icon ] -> (10)
 
 	waitDuring -> 1
 
@@ -31,9 +31,9 @@ SCRIPT_START
 
 	hoverAndBlock -> label [ data-xhelp = online-help ] -> div [ data-resultblock-id = 0 ]
 
-	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
+	//waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
 
-	hoverAndBlock -> div [ data-xlabel = help-icon ]
+	hoverAndBlock -> div [ data-xlabel = help-icon ] -> (10)
 
 	waitDuring -> 1
 
