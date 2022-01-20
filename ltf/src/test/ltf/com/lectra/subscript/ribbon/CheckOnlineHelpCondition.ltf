@@ -13,11 +13,11 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] -> 
 
-	hover -> div [ aria-expanded = false , text = Default ]
+	hoverAndBlock -> div [ aria-expanded = false , text = Default ]
 
 	waitForObject -> 3 -> div [ class = tippy-content , data-state = visible ]
 
-	hover -> div [ data-xlabel = help-icon ]
+	hoverAndBlock -> div [ data-xlabel = help-icon ]
 
 	waitDuring -> 1
 
@@ -27,6 +27,6 @@ SCRIPT_START
 
 	callScript -> subscript.ribbon.ClickOnlineHelp -> [  ] -> 
 
-	hover -> div [ text = Default ]
+	hoverAndBlock -> div [ text = Default ]
 
 	check -> exists = false -> div [ class = tippy-content , data-state = visible ]
