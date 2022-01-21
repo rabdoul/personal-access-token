@@ -85,7 +85,7 @@ pipeline {
         stage ("Dry Run Deploy DEV") {
           //  when { not { anyOf { branch 'master' } } }
             steps {
-                jenkinsAlert(env.PROJECT_NAME, "Dry run Deploy DEV") {
+                jenkinsAlert(env.PROJECT_NAME, "Deploy DEV") {
                     helmV3Deploy(
                         k8sEnv: K8sEnv.DEV_MAIN,
                         namespace: namespace,
@@ -95,7 +95,7 @@ pipeline {
                         cName : "${env.DNS_PREFIX}",
                         type : "WEBAPP",
                         doHealthCheck : true,
-                        dryRun: true
+                        dryRun: false
                     )
                 }
             }
