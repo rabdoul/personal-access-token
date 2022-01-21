@@ -18,27 +18,28 @@ const UserPreferenceProvider = (props: { children: ReactNode }) => {
   const [userPreference, setUserPreference] = useState<UserPreference>(DEFAULT_USER_PREFERENCE);
   const [provider, setProvider] = useState<string>('default');
 
-  const localeParam = querystring.parse(window.location.search)['locale'] as string;
-  const lectraLocaleCodeParam = querystring.parse(window.location.search)['lectra-locale'] as string;
-  const auth0Locale = authenticationContext.user()['https://metadata.lectra.com/user_metadata']?.locale || 'en-us';
+  const auth0Locale = authenticationContext.user()['https://metadata.lectra.com/user_metadata']?.locale || 'en-US';
+  const lectraLocaleCode = querystring.parse(window.location.search)['lectra-locale'] as string;
+  const locale = querystring.parse(window.location.search)['locale'] as string;
   const unitSystemCodeParam = querystring.parse(window.location.search)['unit-system'] as string;
 
+  let usedLocale: string | undefined;
+  if (locale) {
+    usedLocale = locale;
+  } else if (lectraLocaleCode) {
+    usedLocale = LectraLocale.from(lectraLocaleCode).isoCode();
+  }
+
   useEffect(() => {
-    if (lectraLocaleCodeParam || localeParam || unitSystemCodeParam) {
-      let locale = 'en-us';
-      if (localeParam) {
-        locale = localeParam;
-      } else if (lectraLocaleCodeParam) {
-        locale = new LectraLocale(lectraLocaleCodeParam).toLocale();
-      }
+    if (usedLocale || unitSystemCodeParam) {
       const unitSystem = unitSystemCodeParam ? (unitSystemCodeParam === 'imperial' ? 'imperial' : 'metric') : 'metric';
-      setUserPreference({ locale: locale.toLocaleLowerCase(), unitSystem });
+      setUserPreference({ locale: usedLocale !== undefined ? usedLocale : '', unitSystem });
       setProvider('lectra');
     } else if (provider !== 'lectra') {
-      setUserPreference({ locale: auth0Locale.toLowerCase(), unitSystem: 'metric' });
+      setUserPreference({ locale: auth0Locale, unitSystem: 'metric' });
       setProvider('auth0');
     }
-  }, [auth0Locale, lectraLocaleCodeParam, localeParam, provider, unitSystemCodeParam]);
+  }, [auth0Locale, usedLocale, provider, unitSystemCodeParam]);
 
   return <UserPreferenceContext.Provider value={userPreference}>{props.children}</UserPreferenceContext.Provider>;
 };
