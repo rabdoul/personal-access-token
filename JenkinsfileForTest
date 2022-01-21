@@ -83,7 +83,7 @@ pipeline {
         }
 
         stage ("Dry Run Deploy DEV") {
-            when { not { anyOf { branch 'master' } } }
+          //  when { not { anyOf { branch 'master' } } }
             steps {
                 jenkinsAlert(env.PROJECT_NAME, "Dry run Deploy DEV") {
                     helmV3Deploy(
