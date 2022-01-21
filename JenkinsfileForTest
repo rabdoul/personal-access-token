@@ -65,6 +65,41 @@ pipeline {
                 }
             }
         }
+		
+		stage("push-to-azure") {
+            when { branch 'master' }
+            steps {
+                jenkinsAlert(env.COMPONENT_NAME, "push-to-azure") {
+                    script {
+                        dockerAzureImageName = dockerTag (
+                            srcFullImageName : dockerArtifactoryImageName,
+                            targetImageName : "${env.DOCKER_IMAGE_NAME}",
+                            version : "${env.BUILD_NUMBER}",
+                            registry : DockerEnvironment.AZURE_REGISTRY
+                        )
+                    }
+                }
+            }
+        }
+
+        stage ("Dry Run Deploy DEV") {
+            when { not { anyOf { branch 'master' } } }
+            steps {
+                jenkinsAlert(env.PROJECT_NAME, "Dry run Deploy DEV") {
+                    helmV3Deploy(
+                        k8sEnv: K8sEnv.DEV_MAIN,
+                        namespace: namespace,
+                        dockerImageName: dockerArtifactoryImageName,
+                        lectraChartVersion: lectraChartVersion,
+                        projectName: "${env.PROJECT_NAME}",
+                        cName : "${env.DNS_PREFIX}",
+                        type : "WEBAPP",
+                        doHealthCheck : true,
+                        dryRun: true
+                    )
+                }
+            }
+        }
 
        
 
