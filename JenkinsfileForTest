@@ -68,12 +68,6 @@ pipeline {
 
        
 
-    post {
-        success {
-            cleanWs()
-            postGitLabStatus("success")
-        }
-    }
 }
 
 }
