@@ -31,7 +31,7 @@ const validateGenerateCuttingOrder = (generateCuttingOrder: Partial<GenerateCutt
 function isProductDistributionPerCuttingOrderValid(generateCuttingOrder: Partial<GenerateCuttingOrder>): ValidationResult {
   if (!generateCuttingOrder.productDistributionPerCuttingOrder?.enabled) return { isValid: true };
 
-  if (!isStrictlyPositive(generateCuttingOrder.productDistributionPerCuttingOrder.maxNumberPerGroup))
+  if (!isStrictlyPositive(generateCuttingOrder.productDistributionPerCuttingOrder.maxNumberPerGroup!))
     return {
       isValid: false,
       error: 'error.not.positive.field'
@@ -43,7 +43,7 @@ function isProductDistributionPerCuttingOrderValid(generateCuttingOrder: Partial
 function isProductDistributionPerNestingGroupValid(generateCuttingOrder: Partial<GenerateCuttingOrder>): ValidationResult {
   if (!generateCuttingOrder.productDistributionPerNestingGroup?.enabled) return { isValid: true };
 
-  if (!isStrictlyPositive(generateCuttingOrder.productDistributionPerNestingGroup.maxNumberPerGroup))
+  if (!isStrictlyPositive(generateCuttingOrder.productDistributionPerNestingGroup.maxNumberPerGroup!))
     return {
       isValid: false,
       error: 'error.not.positive.field'
@@ -51,7 +51,7 @@ function isProductDistributionPerNestingGroupValid(generateCuttingOrder: Partial
 
   if (
     generateCuttingOrder.productDistributionPerCuttingOrder?.enabled &&
-    generateCuttingOrder.productDistributionPerNestingGroup.maxNumberPerGroup >= generateCuttingOrder.productDistributionPerCuttingOrder.maxNumberPerGroup
+    generateCuttingOrder.productDistributionPerNestingGroup.maxNumberPerGroup! >= generateCuttingOrder.productDistributionPerCuttingOrder.maxNumberPerGroup!
   )
     return { isValid: false, error: 'error.distribution.per.nesting-group.more.than.per.cutting-order' };
 
@@ -175,7 +175,7 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
               });
             }}
             type="number"
-            value={statementResult.productDistributionPerCuttingOrder?.maxNumberPerGroup}
+            value={statementResult.productDistributionPerCuttingOrder?.maxNumberPerGroup === null ? '' : statementResult.productDistributionPerCuttingOrder?.maxNumberPerGroup}
             disabled={disabled || (!statementResult.productDistributionPerCuttingOrder?.enabled ?? true)}
             min={1}
             icon={<ErrorIcon errorKey={productDistributionPerCuttingOrderValidationResult.error} />}
@@ -254,7 +254,7 @@ const GenerateCuttingOrderODForm: React.FC<StatementResultFormProps<GenerateCutt
               });
             }}
             type="number"
-            value={statementResult.productDistributionPerNestingGroup?.maxNumberPerGroup}
+            value={statementResult.productDistributionPerNestingGroup?.maxNumberPerGroup === null ? '' : statementResult.productDistributionPerNestingGroup?.maxNumberPerGroup}
             disabled={disabled || (!statementResult.productDistributionPerNestingGroup?.enabled ?? true)}
             min={1}
             icon={<ErrorIcon errorKey={productDistributionPerNestingGroupValidationResult.error} />}

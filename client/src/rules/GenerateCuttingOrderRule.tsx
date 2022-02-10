@@ -10,7 +10,7 @@ import { Form } from './common/styles';
 
 export type DistributionPerGroup = {
   enabled: boolean;
-  maxNumberPerGroup: number;
+  maxNumberPerGroup: number | null;
   groupDistribution: number;
 };
 
@@ -18,7 +18,7 @@ export interface GenerateCuttingOrder extends StatementResult {
   productGrouping: number;
   materialGrouping: number;
   canMixCommands: boolean; // TODO: to remove when GenerateCuttingOrderODRule removed
-  maxNumberOfProducts: number; // TODO: to remove when GenerateCuttingOrderODRule removed
+  maxNumberOfProducts: number | null; // TODO: to remove when GenerateCuttingOrderODRule removed
   groupDistribution: number; // TODO: to remove when GenerateCuttingOrderODRule removed
   productDistributionPerCuttingOrder: DistributionPerGroup;
   productDistributionPerNestingGroup: DistributionPerGroup;
